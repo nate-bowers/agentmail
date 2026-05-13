@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import {
   ArrowRight,
@@ -564,7 +565,18 @@ function Footer() {
 // Page
 // ─────────────────────────────────────────────────────────────
 
-export default function LandingPage() {
+export default function LandingPage({
+  searchParams,
+}: {
+  searchParams?: { error?: string; error_description?: string; error_code?: string };
+}) {
+  // Supabase sends OAuth errors to the Site URL (this page). Forward them to login.
+  if (searchParams?.error) {
+    const params = new URLSearchParams();
+    if (searchParams.error) params.set('error', searchParams.error);
+    if (searchParams.error_description) params.set('error_description', searchParams.error_description);
+    redirect(`/login?${params.toString()}`);
+  }
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#ededed] antialiased">
       {/* Keyframes — scoped to this page */}
