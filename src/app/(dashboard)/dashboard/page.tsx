@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 import { Button } from '@/components/ui/button';
 import PageShell from '@/components/layout/PageShell';
 import ModuleList from '@/components/dashboard/ModuleList';
+import OnboardingGate from '@/components/onboarding/OnboardingGate';
 import ResendButton from '@/components/dashboard/ResendButton';
 import TestSendButton from '@/components/dashboard/TestSendButton';
 import { getTotalPoints, FREE_TIER_POINTS, PRO_TIER_POINTS } from '@/lib/modules/points';
@@ -68,8 +69,12 @@ export default async function DashboardPage() {
   const atLimit = pointsUsed >= pointsLimit;
 
   return (
+    <>
+    {!p.has_onboarded && (
+      <OnboardingGate userId={user.id} />
+    )}
     <PageShell>
-      <div className="py-2 lg:grid lg:grid-cols-3 lg:gap-8">
+      <div className="py-2 lg:grid lg:grid-cols-3 lg:gap-8 lg:items-start">
         {/* Main content — 2 cols */}
         <div className="lg:col-span-2">
           <ModuleList
@@ -157,5 +162,6 @@ export default async function DashboardPage() {
         </div>
       </div>
     </PageShell>
+    </>
   );
 }

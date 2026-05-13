@@ -25,6 +25,10 @@ interface SportsResult { team: string; opponent: string; score: string; result: 
 interface WorkoutExercise { exercise: string; sets?: string; reps?: string; duration?: string; }
 interface CurrencyRate { target: string; rate: string; direction: 'up' | 'down' | 'flat'; change?: string; }
 interface PodcastData { showName: string; episodeTitle: string; length: string; guest?: string; description: string; url?: string; }
+interface RedditPost { subreddit: string; title: string; summary: string; upvotes: string; url: string; }
+interface AiTechStory { headline: string; source: string; summary: string; }
+interface LocalEvent { name: string; datetime: string; venue: string; description: string; price: string; url?: string; }
+interface WeekHistoryEvent { year: string; title: string; context: string; }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SectionData = { type: string; data: Record<string, any> };
@@ -291,6 +295,210 @@ function FactSection({ data, c }: { data: Record<string, unknown>; c: EmailTheme
   );
 }
 
+function RecipeSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
+  if (data?.error) return <SectionErrorFallback label="Recipe" c={c} />;
+  const { name, description, prepTime, cookTime, servings, ingredients, steps } = data as {
+    name: string; description: string; prepTime: string; cookTime: string; servings: string;
+    ingredients: string[]; steps: string[];
+  };
+  return (
+    <Section>
+      <Heading as="h2" style={headingStyle(c)}>👨‍🍳 Recipe of the Day</Heading>
+      <Text style={{ ...bodyStyle(c), fontSize: '18px', fontWeight: '600', margin: '0 0 4px' }}>{name}</Text>
+      <Text style={{ ...mutedStyle(c), fontStyle: 'italic', margin: '0 0 10px' }}>{description}</Text>
+      <Section style={{ margin: '0 0 12px' }}>
+        <span style={{ display: 'inline-block', backgroundColor: c.border, borderRadius: '999px', padding: '2px 10px', fontSize: '12px', color: c.muted, marginRight: '8px' }}>Prep: {prepTime}</span>
+        <span style={{ display: 'inline-block', backgroundColor: c.border, borderRadius: '999px', padding: '2px 10px', fontSize: '12px', color: c.muted, marginRight: '8px' }}>Cook: {cookTime}</span>
+        <span style={{ display: 'inline-block', backgroundColor: c.border, borderRadius: '999px', padding: '2px 10px', fontSize: '12px', color: c.muted }}>Serves: {servings}</span>
+      </Section>
+      <Text style={{ ...bodyStyle(c), fontWeight: '600', fontSize: '13px', letterSpacing: '0.08em', textTransform: 'uppercase', margin: '0 0 6px' }}>Ingredients</Text>
+      {ingredients.map((ing, i) => (
+        <Text key={i} style={{ ...bodyStyle(c), fontSize: '14px', margin: '0 0 3px', paddingLeft: '12px' }}>· {ing}</Text>
+      ))}
+      <Text style={{ ...bodyStyle(c), fontWeight: '600', fontSize: '13px', letterSpacing: '0.08em', textTransform: 'uppercase', margin: '12px 0 6px' }}>Steps</Text>
+      {steps.map((step, i) => (
+        <Text key={i} style={{ ...bodyStyle(c), fontSize: '14px', margin: '0 0 6px' }}>{i + 1}. {step}</Text>
+      ))}
+    </Section>
+  );
+}
+
+function BookSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
+  if (data?.error) return <SectionErrorFallback label="Book" c={c} />;
+  const { title, author, year, genre, pages, summary, perfectFor } = data as {
+    title: string; author: string; year: string; genre: string; pages: string; summary: string; perfectFor: string;
+  };
+  return (
+    <Section>
+      <Heading as="h2" style={headingStyle(c)}>📚 Book of the Day</Heading>
+      <Text style={{ ...mutedStyle(c), fontSize: '11px', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 4px' }}>Book of the Day</Text>
+      <Text style={{ ...bodyStyle(c), fontSize: '20px', fontWeight: '600', margin: '0 0 2px' }}>{title}</Text>
+      <Text style={{ ...mutedStyle(c), margin: '0 0 8px' }}>{author} · {year}</Text>
+      <Section style={{ margin: '0 0 12px' }}>
+        <span style={{ display: 'inline-block', backgroundColor: c.border, borderRadius: '999px', padding: '2px 10px', fontSize: '12px', color: c.muted, marginRight: '8px' }}>{genre}</span>
+        <span style={{ display: 'inline-block', backgroundColor: c.border, borderRadius: '999px', padding: '2px 10px', fontSize: '12px', color: c.muted }}>{pages} pages</span>
+      </Section>
+      <Text style={{ ...bodyStyle(c), margin: '0 0 8px' }}>{summary}</Text>
+      <Text style={{ ...mutedStyle(c), fontStyle: 'italic', margin: '0' }}>Perfect for: {perfectFor}</Text>
+    </Section>
+  );
+}
+
+function RedditSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
+  if (data?.error) return <SectionErrorFallback label="Reddit" c={c} />;
+  const posts = data.posts as RedditPost[];
+  return (
+    <Section>
+      <Heading as="h2" style={headingStyle(c)}>🟠 Reddit Digest</Heading>
+      {posts.map((post, i) => (
+        <Section key={i} style={{ marginBottom: '12px', paddingBottom: '12px', borderBottom: i < posts.length - 1 ? `1px solid ${c.border}` : 'none' }}>
+          <Text style={{ ...mutedStyle(c), color: c.accent, fontSize: '12px', margin: '0 0 2px' }}>r/{post.subreddit}</Text>
+          <Text style={{ ...bodyStyle(c), fontWeight: '500', margin: '0 0 3px' }}>{post.title}</Text>
+          <Text style={{ ...mutedStyle(c), margin: '0 0 4px' }}>{post.summary}</Text>
+          <Text style={{ ...mutedStyle(c), margin: '0' }}>
+            ▲ {post.upvotes}
+            {post.url && <> · <Link href={post.url} style={{ color: c.accent, fontSize: '13px' }}>View post →</Link></>}
+          </Text>
+        </Section>
+      ))}
+    </Section>
+  );
+}
+
+function HoroscopeSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
+  if (data?.error) return <SectionErrorFallback label="Horoscope" c={c} />;
+  const { sign, symbol, reading, focusForToday } = data as {
+    sign: string; symbol: string; reading: string; focusForToday: string;
+  };
+  return (
+    <Section>
+      <Heading as="h2" style={headingStyle(c)}>✨ Daily Horoscope</Heading>
+      <Text style={{ ...bodyStyle(c), fontSize: '20px', fontWeight: '600', textAlign: 'center', margin: '0 0 2px', textTransform: 'capitalize' }}>
+        {sign} {symbol}
+      </Text>
+      <Section style={{ borderLeft: `4px solid ${c.accent}`, paddingLeft: '12px', margin: '12px 0' }}>
+        <Text style={{ ...bodyStyle(c), fontStyle: 'italic', margin: '0 0 8px' }}>{reading}</Text>
+        <Text style={{ ...mutedStyle(c), fontSize: '11px', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '0 0 2px' }}>Focus for today</Text>
+        <Text style={{ ...bodyStyle(c), margin: '0' }}>{focusForToday}</Text>
+      </Section>
+    </Section>
+  );
+}
+
+function LanguageSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
+  if (data?.error) return <SectionErrorFallback label="Language Word" c={c} />;
+  const { language, word, romanization, partOfSpeech, translation, memoryTip, exampleOriginal, exampleTranslation } = data as {
+    language: string; word: string; romanization?: string; partOfSpeech: string; translation: string;
+    memoryTip: string; exampleOriginal: string; exampleTranslation: string;
+  };
+  return (
+    <Section>
+      <Heading as="h2" style={headingStyle(c)}>🌐 Language Word</Heading>
+      <Section style={{ margin: '0 0 4px' }}>
+        <span style={{ display: 'inline-block', backgroundColor: c.accent, color: '#fff', borderRadius: '999px', padding: '2px 10px', fontSize: '12px', fontWeight: '500' }}>{language}</span>
+      </Section>
+      <Text style={{ ...bodyStyle(c), fontSize: '32px', fontWeight: '700', margin: '8px 0 2px', lineHeight: '1.1' }}>{word}</Text>
+      {romanization && (
+        <Text style={{ ...mutedStyle(c), margin: '0 0 2px' }}>{romanization}</Text>
+      )}
+      <Text style={{ ...mutedStyle(c), fontStyle: 'italic', margin: '0 0 4px' }}>{partOfSpeech}</Text>
+      <Text style={{ ...bodyStyle(c), fontWeight: '500', margin: '0 0 10px' }}>{translation}</Text>
+      <Section style={{ backgroundColor: c.border, borderRadius: '6px', padding: '10px 14px', margin: '0 0 10px' }}>
+        <Text style={{ ...mutedStyle(c), margin: '0' }}>💡 {memoryTip}</Text>
+      </Section>
+      <Text style={{ ...bodyStyle(c), fontWeight: '600', margin: '0 0 2px' }}>{exampleOriginal}</Text>
+      <Text style={{ ...mutedStyle(c), margin: '0' }}>{exampleTranslation}</Text>
+    </Section>
+  );
+}
+
+function AffirmationSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
+  if (data?.error) return <SectionErrorFallback label="Affirmation" c={c} />;
+  const { text, focus } = data as { text: string; focus: string };
+  return (
+    <Section style={{ textAlign: 'center' }}>
+      <Heading as="h2" style={headingStyle(c)}>🤍 Daily Affirmation</Heading>
+      <Hr style={{ borderColor: c.border, margin: '8px 0' }} />
+      <Text style={{ ...bodyStyle(c), fontSize: '16px', fontStyle: 'italic', lineHeight: '1.7', margin: '12px 0' }}>{text}</Text>
+      <Hr style={{ borderColor: c.border, margin: '8px 0' }} />
+      <Text style={{ ...mutedStyle(c), fontSize: '11px', letterSpacing: '0.1em', textTransform: 'uppercase', margin: '8px 0 0' }}>{focus}</Text>
+    </Section>
+  );
+}
+
+function AiTechSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
+  if (data?.error) return <SectionErrorFallback label="AI & Tech" c={c} />;
+  const stories = data.stories as AiTechStory[];
+  return (
+    <Section>
+      <Heading as="h2" style={{ ...headingStyle(c), color: c.accent }}>🤖 AI & Tech</Heading>
+      {stories.map((story, i) => (
+        <Section key={i} style={{ marginBottom: '12px', paddingBottom: '12px', borderBottom: i < stories.length - 1 ? `1px solid ${c.border}` : 'none' }}>
+          <Text style={{ ...mutedStyle(c), fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 2px' }}>{story.source}</Text>
+          <Text style={{ ...bodyStyle(c), fontWeight: '600', margin: '0 0 3px' }}>{story.headline}</Text>
+          <Text style={{ ...mutedStyle(c), margin: '0' }}>{story.summary}</Text>
+        </Section>
+      ))}
+    </Section>
+  );
+}
+
+function LocalEventsSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
+  if (data?.error) return <SectionErrorFallback label="Local Events" c={c} />;
+  const { city, events } = data as { city: string; events: LocalEvent[] };
+  return (
+    <Section>
+      <Heading as="h2" style={headingStyle(c)}>📍 Local Events · {city}</Heading>
+      {events.map((ev, i) => (
+        <Section key={i} style={{ marginBottom: '14px', paddingBottom: '14px', borderBottom: i < events.length - 1 ? `1px solid ${c.border}` : 'none' }}>
+          <Text style={{ ...bodyStyle(c), fontWeight: '600', margin: '0 0 2px' }}>{ev.name}</Text>
+          <Text style={{ ...mutedStyle(c), margin: '0 0 4px' }}>{ev.datetime} · {ev.venue}</Text>
+          <Text style={{ ...bodyStyle(c), fontSize: '14px', margin: '0 0 4px' }}>{ev.description}</Text>
+          <Text style={{ ...mutedStyle(c), margin: '0' }}>
+            {ev.price}
+            {ev.url && <> · <Link href={ev.url} style={{ color: c.accent, fontSize: '13px' }}>Tickets →</Link></>}
+          </Text>
+        </Section>
+      ))}
+    </Section>
+  );
+}
+
+function WeekHistorySection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
+  if (data?.error) return <SectionErrorFallback label="This Week in History" c={c} />;
+  const events = data.events as WeekHistoryEvent[];
+  return (
+    <Section>
+      <Heading as="h2" style={headingStyle(c)}>🏛️ This Week in History</Heading>
+      {events.map((ev, i) => (
+        <Section key={i} style={{ marginBottom: i < events.length - 1 ? '20px' : '0', paddingBottom: i < events.length - 1 ? '20px' : '0', borderBottom: i < events.length - 1 ? `1px solid ${c.border}` : 'none' }}>
+          <Text style={{ ...bodyStyle(c), fontSize: '36px', fontWeight: '700', color: c.muted, margin: '0', lineHeight: '1', opacity: 0.4 }}>{ev.year}</Text>
+          <Text style={{ ...bodyStyle(c), fontWeight: '600', margin: '4px 0 6px' }}>{ev.title}</Text>
+          <Text style={{ ...bodyStyle(c), color: c.muted, margin: '0' }}>{ev.context}</Text>
+        </Section>
+      ))}
+    </Section>
+  );
+}
+
+function ChallengeSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
+  if (data?.error) return <SectionErrorFallback label="Daily Challenge" c={c} />;
+  const { type, title, description, whyItMatters } = data as {
+    type: string; title: string; description: string; whyItMatters: string;
+  };
+  return (
+    <Section>
+      <Heading as="h2" style={headingStyle(c)}>⚡ Daily Challenge</Heading>
+      <Section style={{ margin: '0 0 8px' }}>
+        <span style={{ display: 'inline-block', backgroundColor: c.accent, color: '#fff', borderRadius: '999px', padding: '2px 10px', fontSize: '12px', fontWeight: '500', textTransform: 'capitalize' }}>{type}</span>
+      </Section>
+      <Text style={{ ...bodyStyle(c), fontSize: '16px', fontWeight: '600', margin: '0 0 6px' }}>{title}</Text>
+      <Text style={{ ...bodyStyle(c), margin: '0 0 8px' }}>{description}</Text>
+      <Text style={{ ...mutedStyle(c), fontStyle: 'italic', margin: '0' }}>Why this matters: {whyItMatters}</Text>
+    </Section>
+  );
+}
+
 // ─────────────────────────────────────────────────────────────
 // Main component
 // ─────────────────────────────────────────────────────────────
@@ -360,6 +568,16 @@ export default function DailyBriefEmail({
               {section.type === 'currency' && <CurrencySection data={section.data} c={c} />}
               {section.type === 'podcast' && <PodcastSection data={section.data} c={c} />}
               {section.type === 'fact' && <FactSection data={section.data} c={c} />}
+              {section.type === 'recipe' && <RecipeSection data={section.data} c={c} />}
+              {section.type === 'book' && <BookSection data={section.data} c={c} />}
+              {section.type === 'reddit' && <RedditSection data={section.data} c={c} />}
+              {section.type === 'horoscope' && <HoroscopeSection data={section.data} c={c} />}
+              {section.type === 'language' && <LanguageSection data={section.data} c={c} />}
+              {section.type === 'affirmation' && <AffirmationSection data={section.data} c={c} />}
+              {section.type === 'ai_tech' && <AiTechSection data={section.data} c={c} />}
+              {section.type === 'local_events' && <LocalEventsSection data={section.data} c={c} />}
+              {section.type === 'week_history' && <WeekHistorySection data={section.data} c={c} />}
+              {section.type === 'challenge' && <ChallengeSection data={section.data} c={c} />}
               {i < sections.length - 1 && <Hr style={dividerStyle} />}
             </div>
           ))}

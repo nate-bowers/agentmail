@@ -1,7 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { buildSearchInstructions } from '@/lib/modules';
 import { getTheme } from '@/lib/email/themes';
-import type { ModuleRow, Profile } from '@/types';
+import type { ModuleSearchInstruction } from '@/types';
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -26,23 +25,78 @@ export type GeneratedSection =
   | { type: 'on_this_day'; data: { year: string; title: string; context: string } }
   | { type: 'currency'; data: { base: string; rates: { target: string; rate: string; direction: 'up' | 'down' | 'flat'; change?: string }[] } }
   | { type: 'podcast'; data: { showName: string; episodeTitle: string; length: string; guest?: string; description: string; url?: string } }
-  | { type: 'fact'; data: { fact: string; explanation: string; category: string } };
+  | { type: 'fact'; data: { fact: string; explanation: string; category: string } }
+  | { type: 'recipe'; data: { name: string; description: string; prepTime: string; cookTime: string; servings: string; ingredients: string[]; steps: string[] } }
+  | { type: 'book'; data: { title: string; author: string; year: string; genre: string; pages: string; summary: string; perfectFor: string } }
+  | { type: 'reddit'; data: { posts: { subreddit: string; title: string; summary: string; upvotes: string; url: string }[] } }
+  | { type: 'horoscope'; data: { sign: string; symbol: string; reading: string; focusForToday: string } }
+  | { type: 'language'; data: { language: string; word: string; romanization?: string; partOfSpeech: string; translation: string; memoryTip: string; exampleOriginal: string; exampleTranslation: string } }
+  | { type: 'affirmation'; data: { text: string; focus: string } }
+  | { type: 'ai_tech'; data: { stories: { headline: string; source: string; summary: string }[] } }
+  | { type: 'local_events'; data: { city: string; events: { name: string; datetime: string; venue: string; description: string; price: string; url?: string }[] } }
+  | { type: 'week_history'; data: { events: { year: string; title: string; context: string }[] } }
+  | { type: 'challenge'; data: { type: string; title: string; description: string; whyItMatters: string } };
+
+export interface GenerateResult {
+  intro: string;
+  sections: GeneratedSection[];
+  tokensUsed: number;
+}
 
 // ─────────────────────────────────────────────────────────────
 // JSON extraction — handles fences and stray text
 // ─────────────────────────────────────────────────────────────
 
 function extractJSON(raw: string): string {
-  const fenceMatch = raw.match(/```(?:json)?\s*([\s\S]+?)```/i);
-  if (fenceMatch) return fenceMatch[1].trim();
+  const cleaned = raw
+    .replace(/```json\s*/gi, '')
+    .replace(/```\s*/gi, '')
+    .trim();
 
-  const start = raw.indexOf('{');
-  const end = raw.lastIndexOf('}');
-  if (start !== -1 && end !== -1 && end > start) {
-    return raw.slice(start, end + 1);
+  const first = cleaned.indexOf('{');
+  const last = cleaned.lastIndexOf('}');
+
+  if (first === -1 || last === -1 || last <= first) {
+    console.error('[Generate] Could not find JSON in response:', cleaned);
+    throw new Error(`No valid JSON object found. Response started with: ${cleaned.slice(0, 100)}`);
   }
 
-  return raw.trim();
+  return cleaned.slice(first, last + 1);
+}
+
+// ─────────────────────────────────────────────────────────────
+// Schema description — only includes modules the user actually has
+// ─────────────────────────────────────────────────────────────
+
+const SCHEMA_MAP: Record<string, string> = {
+  weather: `weather: { "locations": [{ "name": string, "tempF": number, "condition": string, "humidity": string, "high": number, "low": number }] }`,
+  news: `news: { "articles": [{ "headline": string, "source": string, "summary": string }] }`,
+  quote: `quote: { "text": string, "author": string }`,
+  markets: `markets: { "symbols": [{ "symbol": string, "price": string, "change": string, "changePercent": string, "direction": "up"|"down" }] }`,
+  sports: `sports: { "results": [{ "team": string, "opponent": string, "score": string, "result": "win"|"loss"|"draw", "nextGame"?: string }], "standingsNote"?: string }`,
+  word_of_day: `word_of_day: { "word": string, "partOfSpeech": string, "definition": string, "etymology": string, "exampleSentence": string }`,
+  workout: `workout: { "intro": string, "warmup": [{ "exercise": string, "duration": string }], "circuit": [{ "exercise": string, "sets"?: string, "reps"?: string, "duration"?: string }], "cooldown": string }`,
+  mindfulness: `mindfulness: { "prompt": string, "style": string }`,
+  on_this_day: `on_this_day: { "year": string, "title": string, "context": string }`,
+  currency: `currency: { "base": string, "rates": [{ "target": string, "rate": string, "direction": "up"|"down"|"flat" }] }`,
+  podcast: `podcast: { "showName": string, "episodeTitle": string, "length": string, "guest"?: string, "description": string, "url"?: string }`,
+  fact: `fact: { "fact": string, "explanation": string, "category": string }`,
+  recipe: `recipe: { "name": string, "description": string, "prepTime": string, "cookTime": string, "servings": string, "ingredients": string[], "steps": string[] }`,
+  book: `book: { "title": string, "author": string, "year": string, "genre": string, "pages": string, "summary": string, "perfectFor": string }`,
+  reddit: `reddit: { "posts": [{ "subreddit": string, "title": string, "summary": string, "upvotes": string, "url": string }] }`,
+  horoscope: `horoscope: { "sign": string, "symbol": string, "reading": string, "focusForToday": string }`,
+  language: `language: { "language": string, "word": string, "romanization"?: string, "partOfSpeech": string, "translation": string, "memoryTip": string, "exampleOriginal": string, "exampleTranslation": string }`,
+  affirmation: `affirmation: { "text": string, "focus": string }`,
+  ai_tech: `ai_tech: { "stories": [{ "headline": string, "source": string, "summary": string }] }`,
+  local_events: `local_events: { "city": string, "events": [{ "name": string, "datetime": string, "venue": string, "description": string, "price": string, "url"?: string }] }`,
+  week_history: `week_history: { "events": [{ "year": string, "title": string, "context": string }] }`,
+  challenge: `challenge: { "type": string, "title": string, "description": string, "whyItMatters": string }`,
+};
+
+function buildSchemaDescription(instructions: ModuleSearchInstruction[]): string {
+  return instructions
+    .map((m) => SCHEMA_MAP[m.moduleType] ?? `${m.moduleType}: { "data": {} }`)
+    .join('\n');
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -50,102 +104,91 @@ function extractJSON(raw: string): string {
 // ─────────────────────────────────────────────────────────────
 
 function buildPrompt(
-  user: Pick<Profile, 'full_name' | 'email'>,
-  instructions: { moduleType: string; searchInstruction: string }[],
-  emailTheme: string
+  user: { full_name?: string | null; email: string; email_theme?: string },
+  instructions: ModuleSearchInstruction[],
 ): string {
   const firstName = (user.full_name ?? user.email).split(' ')[0];
-  const theme = getTheme(emailTheme);
+  const theme = getTheme(user.email_theme ?? 'light');
   const { verbosity, includeIntro, includeCommentary } = theme.prose;
 
   const instructionBlock = instructions
-    .map((inst, i) => `${i + 1}. [${inst.moduleType}] ${inst.searchInstruction}`)
-    .join('\n');
+    .map((inst, i) => `SECTION ${i + 1} (${inst.moduleType}):\n${inst.searchInstruction}`)
+    .join('\n\n');
 
   const sectionOrder = instructions.map((i) => i.moduleType).join(', ');
 
   const verbosityDirective =
     verbosity === 'short'
-      ? 'Be concise. Summaries should be 1 sentence max. Omit explanations unless essential.'
+      ? 'Be extremely concise. One sentence per news summary. Skip commentary.'
       : verbosity === 'long'
-        ? 'Be thorough. Include context, nuance, and additional detail in summaries. Write 3-4 sentences per item where appropriate.'
-        : 'Be balanced. 2 sentences per summary is ideal.';
+        ? 'Be thorough. 3-4 sentence summaries. Rich context. Full paragraph intro.'
+        : 'Be clear and moderately detailed. 2 sentence summaries. 2-3 sentence intro.';
 
   const introDirective = includeIntro
-    ? `After completing all searches, write a short personalized intro of 2–3 sentences addressed to ${firstName} by first name. The intro should briefly acknowledge the day ahead based on what you found in a warm, concise tone.`
+    ? `Write a warm, personalized 2-3 sentence intro addressing ${firstName} by first name. Reference something specific from today's content (a headline, the weather, the quote) to make it feel written, not templated. Do not start with "Good morning" — be more creative.`
     : `Set "intro" to an empty string "".`;
 
   const commentaryDirective = includeCommentary
-    ? 'Where relevant, add brief editorial commentary connecting data points (e.g. why a market move matters, how today\'s word relates to current events).'
+    ? 'Where relevant, add brief editorial commentary connecting data points.'
     : '';
 
-  return `You are generating a personalized daily email brief for ${firstName}.
+  const date = new Date().toLocaleDateString('en-US', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+  });
 
-Complete all of the following tasks by using your web search tool. Search for each item in turn and gather the results before writing your response.
+  return `CRITICAL INSTRUCTIONS:
+You must respond with ONLY a valid JSON object.
+Do not include any text before or after the JSON.
+Do not use markdown code fences or backticks.
+Do not include comments inside the JSON.
+Every section listed below must appear in the sections array.
+If you cannot find real data for a section, generate reasonable placeholder content — never omit a section.
 
-TASKS:
+USER CONTEXT:
+Name: ${firstName}
+Date: ${date}
+Prose style: ${verbosityDirective}${commentaryDirective ? `\n${commentaryDirective}` : ''}
+
+INSTRUCTIONS FOR EACH SECTION:
 ${instructionBlock}
 
+INTRO INSTRUCTION:
 ${introDirective}
 
-CRITICAL INSTRUCTIONS:
-1. Your entire response MUST be a single valid JSON object. No text before or after the JSON.
-2. Do NOT wrap your response in markdown code fences or backticks.
-3. Every required field in the schema must be present. Use "Unavailable" for string fields you cannot fill, 0 for missing numbers.
-4. Never omit a section that was requested — always include it even if data is limited.
-5. For "direction" fields: only use "up", "down", or "flat". Never use other values.
-6. For "result" fields in sports: only use "win", "loss", or "draw".
+SECTION DATA SHAPES (only include sections for: ${sectionOrder}):
+${buildSchemaDescription(instructions)}
 
-PROSE STYLE: ${verbosityDirective}${commentaryDirective ? `\n${commentaryDirective}` : ''}
-
-Respond ONLY with valid JSON following this exact shape (only include sections for the modules listed above):
+RESPOND WITH THIS EXACT JSON STRUCTURE:
 {
-  "intro": "<2-3 sentence personalized intro, or empty string>",
+  "intro": "string",
   "sections": [
-    { "type": "weather", "data": { "locations": [{ "name": "string", "tempF": 0, "condition": "string", "humidity": "string", "high": 0, "low": 0 }] } },
-    { "type": "news", "data": { "articles": [{ "headline": "string", "source": "string", "summary": "string" }] } },
-    { "type": "quote", "data": { "text": "string", "author": "string" } },
-    { "type": "markets", "data": { "symbols": [{ "symbol": "string", "price": "string", "change": "string", "changePercent": "string", "direction": "up" }] } },
-    { "type": "sports", "data": { "results": [{ "team": "string", "opponent": "string", "score": "string", "result": "win", "nextGame": "optional" }], "standingsNote": "optional" } },
-    { "type": "word_of_day", "data": { "word": "string", "partOfSpeech": "string", "definition": "string", "etymology": "string", "exampleSentence": "string" } },
-    { "type": "workout", "data": { "intro": "string", "warmup": [{ "exercise": "string", "duration": "string" }], "circuit": [{ "exercise": "string", "sets": "optional", "reps": "optional", "duration": "optional" }], "cooldown": "string" } },
-    { "type": "mindfulness", "data": { "prompt": "string", "style": "string" } },
-    { "type": "on_this_day", "data": { "year": "string", "title": "string", "context": "string" } },
-    { "type": "currency", "data": { "base": "string", "rates": [{ "target": "string", "rate": "string", "direction": "up", "change": "optional" }] } },
-    { "type": "podcast", "data": { "showName": "string", "episodeTitle": "string", "length": "string", "guest": "optional", "description": "string", "url": "optional" } },
-    { "type": "fact", "data": { "fact": "string", "explanation": "string", "category": "string" } }
+    ${instructions.map((m) => `{ "type": "${m.moduleType}", "data": { ... } }`).join(',\n    ')}
   ]
 }
 
-Only include sections for these modules: ${sectionOrder}. Sections must appear in that exact order.`;
+Sections must appear in this exact order: ${sectionOrder}.
+Use "Unavailable" for string fields you cannot fill, 0 for missing numbers.
+For "direction" fields use only "up", "down", or "flat".
+For sports "result" fields use only "win", "loss", or "draw".`;
 }
 
 // ─────────────────────────────────────────────────────────────
 // Main generation function
 // ─────────────────────────────────────────────────────────────
 
-export interface GenerateResult {
-  brief: GeneratedBrief;
-  inputTokens: number;
-  outputTokens: number;
-}
-
 export async function generateDailyBrief(
-  user: Pick<Profile, 'full_name' | 'email'>,
-  modules: ModuleRow[],
-  emailTheme = 'light'
+  user: { id?: string; email: string; full_name?: string | null; email_theme?: string },
+  moduleInstructions: ModuleSearchInstruction[],
 ): Promise<GenerateResult> {
-  const sorted = [...modules].sort((a, b) => a.display_order - b.display_order);
-  const instructions = buildSearchInstructions(sorted);
-
-  if (instructions.length === 0) {
-    throw new Error('[generate] No valid modules found — cannot generate brief.');
+  if (moduleInstructions.length === 0) {
+    throw new Error('[Generate] No module instructions provided — cannot generate brief.');
   }
 
-  const moduleList = instructions.map((i) => i.moduleType).join(', ');
-  console.log(`[generate] Starting for ${user.email} at ${new Date().toISOString()} | modules: ${moduleList} | theme: ${emailTheme}`);
+  const moduleList = moduleInstructions.map((i) => i.moduleType).join(', ');
+  console.log(`[Generate] Starting for ${user.email} | modules: ${moduleList} | theme: ${user.email_theme ?? 'light'}`);
 
-  const prompt = buildPrompt(user, instructions, emailTheme);
+  const prompt = buildPrompt(user, moduleInstructions);
+  console.log('[Generate] Prompt being sent to Claude (first 800 chars):', prompt.slice(0, 800));
 
   const response = await client.messages.create({
     model: 'claude-sonnet-4-6',
@@ -157,7 +200,8 @@ export async function generateDailyBrief(
 
   const inputTokens = response.usage?.input_tokens ?? 0;
   const outputTokens = response.usage?.output_tokens ?? 0;
-  console.log(`[generate] Done for ${user.email} | tokens: ${inputTokens} in / ${outputTokens} out`);
+  const tokensUsed = outputTokens;
+  console.log(`[Generate] Done for ${user.email} | tokens: ${inputTokens} in / ${outputTokens} out`);
 
   const rawText = response.content
     .filter((block): block is Anthropic.TextBlock => block.type === 'text')
@@ -165,19 +209,21 @@ export async function generateDailyBrief(
     .join('');
 
   if (!rawText) {
-    console.error('[generate] No text block in Claude response:', JSON.stringify(response.content));
-    throw new Error('[generate] Claude returned no text content.');
+    console.error('[Generate] No text blocks in response. Full response:', JSON.stringify(response.content, null, 2));
+    throw new Error('Claude returned no text content. Check tool use blocks.');
   }
+
+  console.log('[Generate] Raw Claude response (first 500 chars):', rawText.slice(0, 500));
 
   const cleaned = extractJSON(rawText);
 
-  let brief: GeneratedBrief;
+  let parsed: GeneratedBrief;
   try {
-    brief = JSON.parse(cleaned) as GeneratedBrief;
+    parsed = JSON.parse(cleaned) as GeneratedBrief;
   } catch {
-    console.error('[generate] Failed to parse Claude response as JSON:\n', rawText);
-    throw new Error('[generate] Claude response was not valid JSON. See server logs for the raw response.');
+    console.error('[Generate] Failed to parse Claude response as JSON:\n', rawText);
+    throw new Error('[Generate] Claude response was not valid JSON. See server logs for the raw response.');
   }
 
-  return { brief, inputTokens, outputTokens };
+  return { intro: parsed.intro, sections: parsed.sections, tokensUsed };
 }

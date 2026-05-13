@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { adminClient } from '@/lib/supabase/admin';
+import { buildSearchInstructions } from '@/lib/modules';
 import { generateDailyBrief } from '@/lib/email/generate';
 import { sendDailyBrief } from '@/lib/email/send';
 import type { ModuleRow, Profile } from '@/types';
@@ -62,11 +63,13 @@ export async function POST() {
       console.error('[test-send] Failed to update rate limit counter:', updateError.message);
     }
 
-    const p = profile as Pick<Profile, 'id' | 'email' | 'full_name' | 'timezone'>;
-
     const emailTheme = (profile as { email_theme?: string }).email_theme ?? 'light';
-    const { brief, inputTokens, outputTokens } = await generateDailyBrief(p, modules as ModuleRow[], emailTheme);
-    const result = await sendDailyBrief(p, brief, emailTheme, inputTokens + outputTokens);
+    const p = profile as Pick<Profile, 'id' | 'email' | 'full_name' | 'timezone'> & { email_theme: string };
+    p.email_theme = emailTheme;
+
+    const moduleInstructions = buildSearchInstructions(modules as ModuleRow[]);
+    const generated = await generateDailyBrief(p, moduleInstructions);
+    const result = await sendDailyBrief(p, generated);
 
     if (!result.success) {
       return NextResponse.json({ error: result.error }, { status: 500 });

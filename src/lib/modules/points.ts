@@ -11,6 +11,16 @@ export const MODULE_POINTS: Record<string, number> = {
   currency: 1,
   podcast: 1,
   fact: 1,
+  recipe: 1,
+  book: 1,
+  reddit: 1,
+  horoscope: 1,
+  language: 1,
+  affirmation: 1,
+  ai_tech: 2,
+  local_events: 1,
+  week_history: 1,
+  challenge: 1,
 };
 
 export const FREE_TIER_POINTS = 3;

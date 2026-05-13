@@ -4,6 +4,7 @@ import { useState } from 'react';
 import {
   Cloud, Newspaper, Quote, TrendingUp,
   Trophy, BookOpen, Dumbbell, Brain, Calendar, ArrowLeftRight, Headphones, Lightbulb,
+  ChefHat, BookMarked, MessageSquare, Stars, Languages, Heart, Cpu, MapPin, Landmark, Zap,
   HelpCircle, Check, type LucideIcon,
 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -25,11 +26,22 @@ import { OnThisDayForm } from '@/components/modules/forms/OnThisDayForm';
 import { CurrencyForm } from '@/components/modules/forms/CurrencyForm';
 import { PodcastForm } from '@/components/modules/forms/PodcastForm';
 import { FactForm } from '@/components/modules/forms/FactForm';
+import { RecipeForm } from '@/components/modules/forms/RecipeForm';
+import { BookForm } from '@/components/modules/forms/BookForm';
+import { RedditForm } from '@/components/modules/forms/RedditForm';
+import { HoroscopeForm } from '@/components/modules/forms/HoroscopeForm';
+import { LanguageForm } from '@/components/modules/forms/LanguageForm';
+import { AffirmationForm } from '@/components/modules/forms/AffirmationForm';
+import { AiTechForm } from '@/components/modules/forms/AiTechForm';
+import { LocalEventsForm } from '@/components/modules/forms/LocalEventsForm';
+import { WeekHistoryForm } from '@/components/modules/forms/WeekHistoryForm';
+import { ChallengeForm } from '@/components/modules/forms/ChallengeForm';
 import type { ModuleRow } from '@/types';
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Cloud, Newspaper, Quote, TrendingUp,
   Trophy, BookOpen, Dumbbell, Brain, Calendar, ArrowLeftRight, Headphones, Lightbulb,
+  ChefHat, BookMarked, MessageSquare, Stars, Languages, Heart, Cpu, MapPin, Landmark, Zap,
 };
 
 interface ModuleSheetProps {
@@ -126,7 +138,7 @@ export default function ModuleSheet({
 
   return (
     <Sheet open={open} onOpenChange={handleOpenChange}>
-      <SheetContent className="flex flex-col overflow-hidden">
+      <SheetContent className="flex flex-col overflow-hidden h-[100dvh] sm:h-auto">
         <SheetHeader>
           <SheetTitle>{isEditing ? `Edit ${selectedDef?.label ?? ''}` : 'Add a module'}</SheetTitle>
         </SheetHeader>
@@ -134,7 +146,7 @@ export default function ModuleSheet({
         <div className="flex-1 overflow-y-auto px-6 py-5 space-y-6">
           {/* Type picker */}
           {showPicker && (
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {orderedModules.map((def) => {
                 const Icon = ICON_MAP[def.icon] ?? HelpCircle;
                 const isSelected = selectedType === def.type;
@@ -221,6 +233,16 @@ export default function ModuleSheet({
               {selectedType === 'currency' && <CurrencyForm defaultValues={existingModule?.config ?? selectedDef.defaultConfig as Record<string, unknown>} onSubmit={handleFormSubmit} />}
               {selectedType === 'podcast' && <PodcastForm defaultValues={existingModule?.config ?? selectedDef.defaultConfig as Record<string, unknown>} onSubmit={handleFormSubmit} />}
               {selectedType === 'fact' && <FactForm defaultValues={existingModule?.config ?? selectedDef.defaultConfig as Record<string, unknown>} onSubmit={handleFormSubmit} />}
+              {selectedType === 'recipe' && <RecipeForm defaultValues={existingModule?.config ?? selectedDef.defaultConfig as Record<string, unknown>} onSubmit={handleFormSubmit} />}
+              {selectedType === 'book' && <BookForm defaultValues={existingModule?.config ?? selectedDef.defaultConfig as Record<string, unknown>} onSubmit={handleFormSubmit} />}
+              {selectedType === 'reddit' && <RedditForm defaultValues={existingModule?.config ?? selectedDef.defaultConfig as Record<string, unknown>} onSubmit={handleFormSubmit} />}
+              {selectedType === 'horoscope' && <HoroscopeForm defaultValues={existingModule?.config ?? selectedDef.defaultConfig as Record<string, unknown>} onSubmit={handleFormSubmit} />}
+              {selectedType === 'language' && <LanguageForm defaultValues={existingModule?.config ?? selectedDef.defaultConfig as Record<string, unknown>} onSubmit={handleFormSubmit} />}
+              {selectedType === 'affirmation' && <AffirmationForm defaultValues={existingModule?.config ?? selectedDef.defaultConfig as Record<string, unknown>} onSubmit={handleFormSubmit} />}
+              {selectedType === 'ai_tech' && <AiTechForm defaultValues={existingModule?.config ?? selectedDef.defaultConfig as Record<string, unknown>} onSubmit={handleFormSubmit} />}
+              {selectedType === 'local_events' && <LocalEventsForm defaultValues={existingModule?.config ?? selectedDef.defaultConfig as Record<string, unknown>} onSubmit={handleFormSubmit} />}
+              {selectedType === 'week_history' && <WeekHistoryForm defaultValues={existingModule?.config ?? selectedDef.defaultConfig as Record<string, unknown>} onSubmit={handleFormSubmit} />}
+              {selectedType === 'challenge' && <ChallengeForm defaultValues={existingModule?.config ?? selectedDef.defaultConfig as Record<string, unknown>} onSubmit={handleFormSubmit} />}
             </div>
           )}
         </div>
@@ -229,15 +251,15 @@ export default function ModuleSheet({
           {pointsError && (
             <p className="w-full text-sm text-red-500">{pointsError}</p>
           )}
-          <div className="flex w-full gap-2">
+          <div className="flex w-full flex-col gap-2 sm:flex-row">
             <SheetClose asChild>
-              <Button variant="ghost" className="flex-1">Cancel</Button>
+              <Button variant="ghost" className="flex-1 min-h-[44px]">Cancel</Button>
             </SheetClose>
             <Button
               form="config-form"
               type="submit"
               disabled={!selectedType || isLoading}
-              className="flex-1"
+              className="flex-1 min-h-[44px]"
             >
               {isLoading ? 'Saving…' : isEditing ? 'Save changes' : 'Add module'}
             </Button>

@@ -1,7 +1,9 @@
 import { MODULE_DISPLAY_ORDER } from '@/lib/modules';
+import { getModulePoints } from '@/lib/modules/points';
 
 export function getModuleRecommendations(
-  existingModules: { module_type: string }[],
+  existingModules: { module_type: string; config?: Record<string, unknown> }[],
+  remainingPoints?: number,
 ): string[] {
   const owned = new Set(existingModules.map((m) => m.module_type));
 
@@ -15,13 +17,29 @@ export function getModuleRecommendations(
   if (owned.has('news') && !owned.has('quote')) candidates.push('quote');
 
   if (owned.has('weather') && owned.has('news') && owned.has('quote')) {
-    for (const t of ['markets', 'sports', 'fact']) {
+    for (const t of ['markets', 'recipe', 'ai_tech']) {
       if (!owned.has(t)) candidates.push(t);
     }
   }
 
   if (owned.has('markets') && !owned.has('sports')) candidates.push('sports');
-  if (owned.has('markets') && !owned.has('on_this_day')) candidates.push('on_this_day');
+  if (owned.has('markets')) {
+    for (const t of ['reddit', 'book']) {
+      if (!owned.has(t)) candidates.push(t);
+    }
+  }
+
+  if (owned.has('sports')) {
+    for (const t of ['on_this_day', 'week_history']) {
+      if (!owned.has(t)) candidates.push(t);
+    }
+  }
+
+  if (owned.size >= 8) {
+    for (const t of ['challenge', 'affirmation', 'local_events']) {
+      if (!owned.has(t)) candidates.push(t);
+    }
+  }
 
   // Fill remaining from display order
   for (const type of MODULE_DISPLAY_ORDER) {
@@ -30,14 +48,17 @@ export function getModuleRecommendations(
     }
   }
 
-  // Deduplicate preserving order
+  // Deduplicate preserving order, filter by affordability
   const seen = new Set<string>();
   const result: string[] = [];
   for (const c of candidates) {
-    if (!seen.has(c) && !owned.has(c)) {
-      seen.add(c);
-      result.push(c);
+    if (seen.has(c) || owned.has(c)) continue;
+    seen.add(c);
+    if (remainingPoints !== undefined) {
+      const cost = getModulePoints(c, {});
+      if (cost > remainingPoints) continue;
     }
+    result.push(c);
     if (result.length >= 3) break;
   }
 

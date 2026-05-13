@@ -8,6 +8,7 @@ import {
 import {
   Cloud, Newspaper, Quote, TrendingUp, HelpCircle,
   Trophy, BookOpen, Dumbbell, Brain, Calendar, ArrowLeftRight, Headphones, Lightbulb,
+  ChefHat, BookMarked, MessageSquare, Stars, Languages, Heart, Cpu, MapPin, Landmark, Zap,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -31,6 +32,7 @@ import type { ModuleRow } from '@/types';
 const ICON_MAP: Record<string, LucideIcon> = {
   Cloud, Newspaper, Quote, TrendingUp,
   Trophy, BookOpen, Dumbbell, Brain, Calendar, ArrowLeftRight, Headphones, Lightbulb,
+  ChefHat, BookMarked, MessageSquare, Stars, Languages, Heart, Cpu, MapPin, Landmark, Zap,
 };
 
 // Modules that can be added immediately with default config (no required user input)
@@ -110,7 +112,7 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
 
   const [limitDialogOpen, setLimitDialogOpen] = useState(false);
 
-  const recommendations = getModuleRecommendations(modules);
+  const recommendations = getModuleRecommendations(modules, remaining);
   const showSuggestions = !isAtLimit && modules.length > 0;
 
   function openAdd() {
@@ -243,12 +245,12 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
             size="sm"
             variant={isAtLimit ? 'outline' : 'default'}
             onClick={openAdd}
-            className="gap-1.5"
+            className="gap-1.5 min-h-[44px] sm:min-h-0"
           >
             {isAtLimit ? (
-              <><Lock className="h-3.5 w-3.5" /> Add module</>
+              <><Lock className="h-3.5 w-3.5" /><span className="hidden sm:inline"> Add module</span></>
             ) : (
-              <><Plus className="h-3.5 w-3.5" /> Add module</>
+              <><Plus className="h-3.5 w-3.5" /><span className="hidden sm:inline"> Add module</span></>
             )}
           </Button>
         </div>
@@ -264,7 +266,7 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
             <p className="text-[10px] font-medium uppercase tracking-widest text-ink-muted">
               Suggested for you
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex gap-3 overflow-x-auto pb-1 no-scrollbar">
               {recommendations.map((type) => {
                 const def = MODULE_REGISTRY[type];
                 if (!def) return null;

@@ -14,6 +14,8 @@ const settingsSchema = z.object({
     .optional(),
   is_active: z.boolean().optional(),
   email_theme: z.string().min(1).max(20).optional(),
+  has_onboarded: z.boolean().optional(),
+  onboarding_step: z.number().int().min(0).max(10).optional(),
 });
 
 export async function PATCH(request: NextRequest) {

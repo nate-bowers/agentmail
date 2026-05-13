@@ -23,7 +23,7 @@ function MarketingNav({ transparent }: { transparent?: boolean }) {
           <Link
             href="/login"
             className={cn(
-              'text-sm transition-colors',
+              'hidden sm:block text-sm transition-colors',
               transparent ? 'text-white/70 hover:text-white' : 'text-ink-muted hover:text-ink'
             )}
           >

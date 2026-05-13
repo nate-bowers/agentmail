@@ -44,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body
-        className="font-[family-name:var(--font-inter)] antialiased animate-in fade-in duration-200"
+        className="font-[family-name:var(--font-inter)] antialiased animate-in fade-in duration-200 overflow-x-hidden"
         style={{ fontFeatureSettings: '"cv11", "ss01"' }}
       >
         {children}

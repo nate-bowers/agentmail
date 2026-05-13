@@ -15,3 +15,17 @@ export const adminClient = createClient(
     },
   }
 );
+
+// Factory function — use when you need a fresh client instance (e.g. pipeline.ts)
+export function createAdminClient() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+    }
+  );
+}

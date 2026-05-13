@@ -97,7 +97,7 @@ function Hero() {
 
         {/* Headline */}
         <h1
-          className="mb-6 text-6xl leading-[1.05] tracking-tight text-[#ededed] md:text-8xl"
+          className="mb-6 text-3xl leading-[1.05] tracking-tight text-[#ededed] sm:text-5xl md:text-8xl"
           style={{ fontFamily: 'Georgia, "Times New Roman", ui-serif, serif' }}
         >
           Your morning,

@@ -68,6 +68,8 @@ export interface Profile {
   stripe_customer_id: string | null;
   subscription_status: SubscriptionStatus;
   email_theme: string;
+  has_onboarded: boolean;
+  onboarding_step: number;
   created_at: string;
   updated_at: string;
 }
