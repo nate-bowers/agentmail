@@ -213,7 +213,7 @@ export async function generateDailyBrief(
   console.log('[Generate] Prompt being sent to Claude (first 800 chars):', prompt.slice(0, 800));
 
   const response = await client.messages.create({
-    model: 'claude-sonnet-4-6',
+    model: 'claude-haiku-4-5-20251001',
     max_tokens: 4096,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     tools: [{ type: 'web_search_20250305', name: 'web_search' }] as any,
