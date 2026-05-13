@@ -50,6 +50,7 @@ export interface ModuleSearchInstruction {
   moduleType: string;
   config: Record<string, unknown>;
   searchInstruction: string;
+  prefetchedData?: unknown; // Pre-fetched from external API — Claude skips search when set
 }
 
 // ─────────────────────────────────────────────────────────────

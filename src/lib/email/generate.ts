@@ -116,6 +116,7 @@ const NO_SEARCH_MODULES = new Set([
 function buildPrompt(
   user: { full_name?: string | null; email: string; email_theme?: string },
   instructions: ModuleSearchInstruction[],
+  prefetchedData: Record<string, unknown> = {},
 ): string {
   const firstName = (user.full_name ?? user.email).split(' ')[0];
   const theme = getTheme(user.email_theme ?? 'light');
@@ -123,6 +124,23 @@ function buildPrompt(
 
   const instructionBlock = instructions
     .map((inst, i) => {
+      const prefetched = prefetchedData[inst.moduleType];
+      if (prefetched !== undefined) {
+        // For on_this_day/week_history, raw Wikipedia events need Claude to pick & format.
+        // For weather/markets/currency, data is already in the final shape.
+        const isHistoryModule = inst.moduleType === 'on_this_day' || inst.moduleType === 'week_history';
+        if (isHistoryModule) {
+          return `SECTION ${i + 1} (${inst.moduleType}):
+⚠ DO NOT use web_search. Use these pre-fetched Wikipedia events for today's date.
+Pick the best match for the user's preferences (${inst.searchInstruction}).
+Events available:
+${JSON.stringify(prefetched)}`;
+        }
+        return `SECTION ${i + 1} (${inst.moduleType}):
+⚠ DATA PRE-FETCHED — DO NOT use web_search.
+Write this section using exactly this data (do not alter values):
+${JSON.stringify(prefetched)}`;
+      }
       const noSearch = NO_SEARCH_MODULES.has(inst.moduleType);
       const searchDirective = noSearch
         ? '⚠ DO NOT use web_search for this section. Generate entirely from your training knowledge.'
@@ -201,6 +219,7 @@ For sports "result" fields use only "win", "loss", or "draw".`;
 export async function generateDailyBrief(
   user: { id?: string; email: string; full_name?: string | null; email_theme?: string },
   moduleInstructions: ModuleSearchInstruction[],
+  prefetchedData: Record<string, unknown> = {},
 ): Promise<GenerateResult> {
   if (moduleInstructions.length === 0) {
     throw new Error('[Generate] No module instructions provided — cannot generate brief.');
@@ -209,7 +228,7 @@ export async function generateDailyBrief(
   const moduleList = moduleInstructions.map((i) => i.moduleType).join(', ');
   console.log(`[Generate] Starting for ${user.email} | modules: ${moduleList} | theme: ${user.email_theme ?? 'light'}`);
 
-  const prompt = buildPrompt(user, moduleInstructions);
+  const prompt = buildPrompt(user, moduleInstructions, prefetchedData);
   console.log('[Generate] Prompt being sent to Claude (first 800 chars):', prompt.slice(0, 800));
 
   const response = await client.messages.create({

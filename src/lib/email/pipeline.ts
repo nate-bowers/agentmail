@@ -2,6 +2,8 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { buildSearchInstructions } from '@/lib/modules';
 import { generateDailyBrief } from '@/lib/email/generate';
 import { sendDailyBrief } from '@/lib/email/send';
+import { prefetchModuleData } from '@/lib/email/prefetch';
+import { getDailyCache, setDailyCache } from '@/lib/email/dailycache';
 import type { ModuleRow } from '@/types';
 
 export interface PipelineResult {
@@ -11,6 +13,7 @@ export interface PipelineResult {
   detail?: string;
   tokensUsed?: number;
   emailId?: string;
+  prefetchedModules?: string[];
 }
 
 export async function runPipeline(user: {
@@ -52,22 +55,48 @@ export async function runPipeline(user: {
   let moduleInstructions;
   try {
     moduleInstructions = buildSearchInstructions(modules);
-    console.log('[Pipeline] Instructions built for:', moduleInstructions.map((m) => m.moduleType));
-
     if (moduleInstructions.length === 0) {
       return { success: false, stage: 'modules', error: 'No valid module configs after parsing' };
     }
+    console.log('[Pipeline] Instructions built for:', moduleInstructions.map((m) => m.moduleType));
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     console.error('[Pipeline] Instruction build failed:', err);
     return { success: false, stage: 'generate', error: message, detail: String(err) };
   }
 
+  // STAGE 2.5: Pre-fetch external API data + check shared cache
+  console.log('[Pipeline] Stage 2.5: Pre-fetching module data');
+  let prefetchedData: Record<string, unknown> = {};
+  try {
+    // Check if any modules have a cached ai_tech result
+    const aiTechInst = moduleInstructions.find((m) => m.moduleType === 'ai_tech');
+    if (aiTechInst) {
+      const subtopics = (aiTechInst.config.subtopics as string[] | undefined) ?? [];
+      const cacheKey = `ai_tech:${[...subtopics].sort().join(',')}`;
+      const cached = await getDailyCache(cacheKey);
+      if (cached) {
+        prefetchedData['ai_tech'] = cached;
+        console.log('[Pipeline] ai_tech served from shared cache');
+      }
+    }
+
+    // Pre-fetch weather/markets/currency/history via external APIs
+    const apiData = await prefetchModuleData(moduleInstructions);
+    prefetchedData = { ...prefetchedData, ...apiData };
+
+    const prefetchedModules = Object.keys(prefetchedData);
+    console.log('[Pipeline] Pre-fetched:', prefetchedModules.length > 0 ? prefetchedModules : 'none');
+  } catch (err) {
+    // Non-fatal: fall back to Claude search for all modules
+    console.error('[Pipeline] Prefetch failed (non-fatal, continuing):', err);
+  }
+
   // STAGE 3: Generate via Claude
   console.log('[Pipeline] Stage 3: Calling Claude API');
   let generated;
   try {
-    generated = await generateDailyBrief(user, moduleInstructions);
+    generated = await generateDailyBrief(user, moduleInstructions, prefetchedData);
     console.log('[Pipeline] Generation successful. Tokens used:', generated.tokensUsed);
     console.log('[Pipeline] Sections generated:', generated.sections?.map((s) => s.type));
   } catch (err: unknown) {
@@ -76,7 +105,21 @@ export async function runPipeline(user: {
     return { success: false, stage: 'generate', error: message, detail: String(err) };
   }
 
-  // STAGE 4: Send email (send.ts handles DB logging internally)
+  // Cache ai_tech result for subsequent users today (non-fatal)
+  try {
+    const aiTechSection = generated.sections.find((s) => s.type === 'ai_tech');
+    const aiTechInst = moduleInstructions.find((m) => m.moduleType === 'ai_tech');
+    if (aiTechSection && aiTechInst && !prefetchedData['ai_tech']) {
+      const subtopics = (aiTechInst.config.subtopics as string[] | undefined) ?? [];
+      const cacheKey = `ai_tech:${[...subtopics].sort().join(',')}`;
+      await setDailyCache(cacheKey, aiTechSection.data);
+      console.log('[Pipeline] ai_tech result cached for subsequent users');
+    }
+  } catch (err) {
+    console.error('[Pipeline] ai_tech cache write failed (non-fatal):', err);
+  }
+
+  // STAGE 4: Send email
   console.log('[Pipeline] Stage 4: Sending via Resend');
   let sendResult;
   try {
@@ -97,5 +140,6 @@ export async function runPipeline(user: {
     stage: 'complete',
     tokensUsed: generated.tokensUsed,
     emailId: sendResult.emailId,
+    prefetchedModules: Object.keys(prefetchedData),
   };
 }
