@@ -1,12 +1,12 @@
 import { z } from 'zod';
 import type { ModuleDefinition } from '@/types';
 
-const configSchema = z.object({
+export const configSchema = z.object({
   difficulty: z.enum(['everyday', 'advanced', 'obscure']),
   topic: z.string().max(80).optional(),
 });
 
-type WordConfig = z.infer<typeof configSchema>;
+export type WordConfig = z.infer<typeof configSchema>;
 
 export const wordModule: ModuleDefinition<typeof configSchema> = {
   type: 'word_of_day',

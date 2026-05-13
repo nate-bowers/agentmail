@@ -1,12 +1,12 @@
 import { z } from 'zod';
 import type { ModuleDefinition } from '@/types';
 
-const configSchema = z.object({
+export const configSchema = z.object({
   baseCurrency: z.string().length(3, 'Must be a 3-letter currency code'),
   targetCurrencies: z.array(z.string().length(3, 'Must be a 3-letter currency code')).min(1).max(5),
 });
 
-type CurrencyConfig = z.infer<typeof configSchema>;
+export type CurrencyConfig = z.infer<typeof configSchema>;
 
 export const currencyModule: ModuleDefinition<typeof configSchema> = {
   type: 'currency',

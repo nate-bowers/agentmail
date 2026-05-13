@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import type { ModuleDefinition } from '@/types';
 
-const configSchema = z.object({
+export const configSchema = z.object({
   fitnessLevel: z.enum(['beginner', 'intermediate', 'advanced']),
   equipment: z.enum(['none', 'minimal', 'full_gym']),
   duration: z.union([z.literal(15), z.literal(30), z.literal(45)]),
@@ -10,7 +10,7 @@ const configSchema = z.object({
   customRequest: z.string().max(150).optional(),
 });
 
-type WorkoutConfig = z.infer<typeof configSchema>;
+export type WorkoutConfig = z.infer<typeof configSchema>;
 
 const equipmentLabel: Record<string, string> = {
   none: 'no equipment (bodyweight only)',

@@ -1,12 +1,12 @@
 import { z } from 'zod';
 import type { ModuleDefinition } from '@/types';
 
-const configSchema = z.object({
+export const configSchema = z.object({
   category: z.enum(['any', 'science', 'politics', 'sports', 'arts', 'technology']),
   regionFocus: z.string().max(80).optional(),
 });
 
-type OnThisDayConfig = z.infer<typeof configSchema>;
+export type OnThisDayConfig = z.infer<typeof configSchema>;
 
 export const onThisDayModule: ModuleDefinition<typeof configSchema> = {
   type: 'on_this_day',

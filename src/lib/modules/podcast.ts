@@ -1,14 +1,14 @@
 import { z } from 'zod';
 import type { ModuleDefinition } from '@/types';
 
-const configSchema = z.object({
+export const configSchema = z.object({
   interests: z.array(z.string().max(40)).min(1, 'Add at least one interest').max(4),
   episodeLength: z.enum(['short', 'medium', 'long']),
   specificShow: z.string().max(100).optional(),
   avoidTopics: z.string().max(100).optional(),
 });
 
-type PodcastConfig = z.infer<typeof configSchema>;
+export type PodcastConfig = z.infer<typeof configSchema>;
 
 const lengthDescription: Record<string, string> = {
   short: 'short (under 20 minutes)',

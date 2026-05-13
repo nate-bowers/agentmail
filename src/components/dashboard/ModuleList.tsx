@@ -23,7 +23,8 @@ import {
 import ModuleSheet from './ModuleSheet';
 import PointsBar from './PointsBar';
 import { MODULE_REGISTRY } from '@/lib/modules';
-import { getModulePoints, FREE_TIER_POINTS, PRO_TIER_POINTS, getTotalPoints } from '@/lib/modules/points';
+import { getModulePoints } from '@/lib/modules/points';
+import { usePoints } from '@/hooks/usePoints';
 import { getModuleRecommendations } from '@/lib/dashboard/recommendations';
 import type { ModuleRow } from '@/types';
 
@@ -99,46 +100,40 @@ interface ModuleListProps {
 export default function ModuleList({ initialModules, subscriptionStatus }: ModuleListProps) {
   const [modules, setModules] = useState<ModuleRow[]>(initialModules);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [sheetMode, setSheetMode] = useState<'add' | 'edit'>('add');
   const [sheetInitialType, setSheetInitialType] = useState<string | null>(null);
-  const [editModule, setEditModule] = useState<Pick<ModuleRow, 'id' | 'module_type' | 'config'> | null>(null);
+  const [existingModule, setExistingModule] = useState<Pick<ModuleRow, 'id' | 'module_type' | 'config'> | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
 
   const isPro = subscriptionStatus === 'active';
-  const pointsUsed = getTotalPoints(modules);
-  const pointsLimit = isPro ? PRO_TIER_POINTS : FREE_TIER_POINTS;
-  const isAtLimit = pointsUsed >= pointsLimit;
+  const { used: pointsUsed, limit: pointsLimit, remaining, isAtLimit } = usePoints(modules, isPro);
+
+  const [limitDialogOpen, setLimitDialogOpen] = useState(false);
 
   const recommendations = getModuleRecommendations(modules);
-  const showSuggestions = !isAtLimit && (modules.length < 3 || !isAtLimit);
+  const showSuggestions = !isAtLimit && modules.length > 0;
 
   function openAdd() {
     if (isAtLimit) {
-      toast('No credits remaining', {
-        description: `You've used all ${pointsLimit} credits. Upgrade to Pro to add more modules.`,
-        action: {
-          label: 'Upgrade',
-          onClick: () => { window.location.href = '/dashboard/upgrade'; },
-        },
-      });
+      setLimitDialogOpen(true);
       return;
     }
-    setEditModule(null);
+    setExistingModule(null);
     setSheetInitialType(null);
+    setSheetMode('add');
     setSheetOpen(true);
   }
 
   function openEdit(module: ModuleRow) {
-    setEditModule({ id: module.id, module_type: module.module_type, config: module.config });
+    setExistingModule({ id: module.id, module_type: module.module_type, config: module.config });
     setSheetInitialType(null);
+    setSheetMode('edit');
     setSheetOpen(true);
   }
 
   async function handleQuickAdd(moduleType: string) {
     if (isAtLimit) {
-      toast('No credits remaining', {
-        description: `You've used all ${pointsLimit} credits. Upgrade to Pro to add more modules.`,
-        action: { label: 'Upgrade', onClick: () => { window.location.href = '/dashboard/upgrade'; } },
-      });
+      setLimitDialogOpen(true);
       return;
     }
 
@@ -170,8 +165,9 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
       }
     } else {
       // Open sheet pre-selected on this type
-      setEditModule(null);
+      setExistingModule(null);
       setSheetInitialType(moduleType);
+      setSheetMode('add');
       setSheetOpen(true);
     }
   }
@@ -274,19 +270,36 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
                 if (!def) return null;
                 const Icon = ICON_MAP[def.icon] ?? HelpCircle;
                 const pts = getModulePoints(type, def.defaultConfig as Record<string, unknown>);
+                const canAfford = pts <= remaining;
                 return (
                   <button
                     key={type}
                     type="button"
-                    onClick={() => handleQuickAdd(type)}
-                    className="group flex items-center gap-3 rounded-xl border border-surface-border bg-white px-4 py-3 text-left transition-all hover:border-brand-purple hover:bg-brand-purple-light"
+                    onClick={() => {
+                      if (!canAfford) {
+                        toast('Not enough credits', {
+                          description: `This module costs ${pts} credit${pts !== 1 ? 's' : ''} but you only have ${remaining} left.`,
+                          action: { label: 'Upgrade', onClick: () => { window.location.href = '/dashboard/upgrade'; } },
+                        });
+                        return;
+                      }
+                      handleQuickAdd(type);
+                    }}
+                    className={`group flex items-center gap-3 rounded-xl border px-4 py-3 text-left transition-all ${
+                      canAfford
+                        ? 'border-surface-border bg-white hover:border-brand-purple hover:bg-brand-purple-light'
+                        : 'border-surface-border bg-surface-secondary opacity-60 cursor-not-allowed'
+                    }`}
                   >
-                    <Icon className="h-4 w-4 shrink-0 text-brand-purple" />
+                    {canAfford
+                      ? <Icon className="h-4 w-4 shrink-0 text-brand-purple" />
+                      : <Lock className="h-4 w-4 shrink-0 text-ink-faint" />
+                    }
                     <div className="min-w-0">
                       <p className="text-sm font-medium text-ink leading-none">{def.label}</p>
                       <p className="mt-0.5 text-xs text-ink-muted">{pts} {pts === 1 ? 'pt' : 'pts'}</p>
                     </div>
-                    <Plus className="h-3.5 w-3.5 shrink-0 text-brand-purple opacity-70 group-hover:opacity-100" />
+                    {canAfford && <Plus className="h-3.5 w-3.5 shrink-0 text-brand-purple opacity-70 group-hover:opacity-100" />}
                   </button>
                 );
               })}
@@ -424,12 +437,34 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
         open={sheetOpen}
         onOpenChange={(open) => {
           setSheetOpen(open);
-          if (!open) setSheetInitialType(null);
+          if (!open) { setSheetInitialType(null); setExistingModule(null); }
         }}
-        editModule={editModule}
-        initialType={sheetInitialType}
-        onSaved={handleSaved}
+        mode={sheetMode}
+        existingModule={existingModule ?? undefined}
+        initialModuleType={sheetInitialType}
+        remainingPoints={remaining}
+        isPro={isPro}
+        onSuccess={handleSaved}
       />
+
+      {/* Credit limit dialog */}
+      <AlertDialog open={limitDialogOpen} onOpenChange={setLimitDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>You&rsquo;ve used all your credits</AlertDialogTitle>
+            <AlertDialogDescription>
+              You&rsquo;re using {pointsUsed} of {pointsLimit} credits. Upgrade to Brief Pro for 12
+              credits and access to all modules.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Maybe later</AlertDialogCancel>
+            <AlertDialogAction onClick={() => { window.location.href = '/dashboard/upgrade'; }}>
+              Upgrade to Pro
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Delete confirmation */}
       <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>

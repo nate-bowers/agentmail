@@ -98,9 +98,11 @@ export default async function PreviewPage({
   let errorMessage: string | null = null;
 
   try {
-    const brief = await generateDailyBrief(
+    const emailTheme = (p as { email_theme?: string }).email_theme ?? 'light';
+    const { brief } = await generateDailyBrief(
       { email: p.email, full_name: p.full_name },
-      enabledModules
+      enabledModules,
+      emailTheme
     );
 
     const dateLabel = format(new Date(), 'EEEE, MMMM d, yyyy');
@@ -109,8 +111,10 @@ export default async function PreviewPage({
       DailyBriefEmail({
         userName: p.full_name ?? p.email,
         date: dateLabel,
+        intro: brief.intro || undefined,
         sections: brief.sections,
         unsubscribeToken: 'preview',
+        theme: emailTheme,
       })
     );
   } catch (err) {

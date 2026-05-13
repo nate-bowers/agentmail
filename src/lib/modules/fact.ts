@@ -1,12 +1,12 @@
 import { z } from 'zod';
 import type { ModuleDefinition } from '@/types';
 
-const configSchema = z.object({
+export const configSchema = z.object({
   category: z.enum(['any', 'science', 'nature', 'history', 'technology', 'psychology']),
   customRequest: z.string().max(150).optional(),
 });
 
-type FactConfig = z.infer<typeof configSchema>;
+export type FactConfig = z.infer<typeof configSchema>;
 
 export const factModule: ModuleDefinition<typeof configSchema> = {
   type: 'fact',

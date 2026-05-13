@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
   try {
     const { data: users, error: usersError } = await adminClient
       .from('profiles')
-      .select('id, email, full_name, timezone, send_time')
+      .select('id, email, full_name, timezone, send_time, email_theme')
       .eq('is_active', true);
 
     if (usersError) throw usersError;
@@ -66,10 +66,7 @@ export async function GET(request: NextRequest) {
     // De-duplication window: skip users already sent a brief in the last hour
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
 
-    for (const user of users as Pick<
-      Profile,
-      'id' | 'email' | 'full_name' | 'timezone' | 'send_time'
-    >[]) {
+    for (const user of users as (Pick<Profile, 'id' | 'email' | 'full_name' | 'timezone' | 'send_time' | 'email_theme'> & { email_theme: string })[]) {
       try {
         // Check send_time in user's timezone
         if (!isSendTime(user.send_time, user.timezone)) {
@@ -103,8 +100,9 @@ export async function GET(request: NextRequest) {
         stats.attempted++;
 
         // Generate and send
-        const brief = await generateDailyBrief(user, modules as ModuleRow[]);
-        const result = await sendDailyBrief(user, brief);
+        const emailTheme = user.email_theme ?? 'light';
+        const { brief, inputTokens, outputTokens } = await generateDailyBrief(user, modules as ModuleRow[], emailTheme);
+        const result = await sendDailyBrief(user, brief, emailTheme, inputTokens + outputTokens);
 
         if (result.success) {
           stats.succeeded++;

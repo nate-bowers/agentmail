@@ -13,6 +13,7 @@ const settingsSchema = z.object({
     .transform((t) => `${t}:00`)
     .optional(),
   is_active: z.boolean().optional(),
+  email_theme: z.string().min(1).max(20).optional(),
 });
 
 export async function PATCH(request: NextRequest) {

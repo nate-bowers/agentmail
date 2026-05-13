@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import type { ModuleDefinition } from '@/types';
 
-const configSchema = z.object({
+export const configSchema = z.object({
   topics: z
     .array(z.string().min(1))
     .min(1, 'Add at least one topic')
@@ -12,7 +12,7 @@ const configSchema = z.object({
   excludeTopics: z.string().max(100).optional(),
 });
 
-type NewsConfig = z.infer<typeof configSchema>;
+export type NewsConfig = z.infer<typeof configSchema>;
 
 export const newsModule: ModuleDefinition<typeof configSchema> = {
   type: 'news',

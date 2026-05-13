@@ -10,10 +10,6 @@ import type { Profile } from '@/types';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-// ─────────────────────────────────────────────────────────────
-// Helpers
-// ─────────────────────────────────────────────────────────────
-
 function buildSubject(timezone: string): string {
   const now = toZonedTime(new Date(), timezone);
   return `Your Brief — ${format(now, 'EEEE, MMMM d')}`;
@@ -24,10 +20,6 @@ function buildDateLabel(timezone: string): string {
   return format(now, 'EEEE, MMMM d, yyyy');
 }
 
-// ─────────────────────────────────────────────────────────────
-// Send function
-// ─────────────────────────────────────────────────────────────
-
 export interface SendResult {
   success: boolean;
   error?: string;
@@ -35,7 +27,9 @@ export interface SendResult {
 
 export async function sendDailyBrief(
   user: Pick<Profile, 'id' | 'email' | 'full_name' | 'timezone'>,
-  generatedContent: GeneratedBrief
+  generatedContent: GeneratedBrief,
+  emailTheme = 'light',
+  tokenCount = 0
 ): Promise<SendResult> {
   const { id: userId, email, full_name, timezone } = user;
 
@@ -47,8 +41,10 @@ export async function sendDailyBrief(
     DailyBriefEmail({
       userName: full_name ?? email,
       date: dateLabel,
+      intro: generatedContent.intro || undefined,
       sections: generatedContent.sections,
       unsubscribeToken,
+      theme: emailTheme,
     })
   );
 
@@ -67,12 +63,12 @@ export async function sendDailyBrief(
     sendError = err instanceof Error ? err.message : String(err);
   }
 
-  // Always log the attempt — admin client bypasses RLS
   const { error: logError } = await adminClient.from('email_logs').insert({
     user_id: userId,
     status: sendError ? 'failed' : 'success',
     error_message: sendError ?? null,
     modules_included: generatedContent.sections.map((s) => s.type),
+    generation_tokens: tokenCount || null,
   });
 
   if (logError) {

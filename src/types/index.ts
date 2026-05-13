@@ -67,6 +67,7 @@ export interface Profile {
   is_active: boolean;
   stripe_customer_id: string | null;
   subscription_status: SubscriptionStatus;
+  email_theme: string;
   created_at: string;
   updated_at: string;
 }

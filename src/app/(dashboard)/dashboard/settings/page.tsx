@@ -15,7 +15,7 @@ export default async function SettingsPage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('full_name, timezone, send_time, subscription_status, is_active')
+    .select('full_name, timezone, send_time, subscription_status, is_active, email_theme')
     .eq('id', user.id)
     .single();
 
@@ -37,6 +37,7 @@ export default async function SettingsPage() {
             send_time: profile.send_time,
             subscription_status: profile.subscription_status,
             is_active: profile.is_active,
+            email_theme: profile.email_theme ?? 'light',
           }}
           email={user.email ?? ''}
         />

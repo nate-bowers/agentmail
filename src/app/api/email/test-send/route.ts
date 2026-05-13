@@ -16,7 +16,7 @@ export async function POST() {
     // Fetch profile with test send tracking columns
     const { data: profile } = await supabase
       .from('profiles')
-      .select('id, email, full_name, timezone, send_time, test_sends_today, test_sends_date')
+      .select('id, email, full_name, timezone, send_time, test_sends_today, test_sends_date, email_theme')
       .eq('id', user.id)
       .single();
 
@@ -64,8 +64,9 @@ export async function POST() {
 
     const p = profile as Pick<Profile, 'id' | 'email' | 'full_name' | 'timezone'>;
 
-    const brief = await generateDailyBrief(p, modules as ModuleRow[]);
-    const result = await sendDailyBrief(p, brief);
+    const emailTheme = (profile as { email_theme?: string }).email_theme ?? 'light';
+    const { brief, inputTokens, outputTokens } = await generateDailyBrief(p, modules as ModuleRow[], emailTheme);
+    const result = await sendDailyBrief(p, brief, emailTheme, inputTokens + outputTokens);
 
     if (!result.success) {
       return NextResponse.json({ error: result.error }, { status: 500 });

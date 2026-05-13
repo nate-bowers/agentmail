@@ -1,13 +1,13 @@
 import { z } from 'zod';
 import type { ModuleDefinition } from '@/types';
 
-const configSchema = z.object({
+export const configSchema = z.object({
   teams: z.array(z.string().max(50)).max(5).default([]),
   leagues: z.array(z.string()).min(1, 'Add at least one league').max(3),
   customRequest: z.string().max(200).optional(),
 });
 
-type SportsConfig = z.infer<typeof configSchema>;
+export type SportsConfig = z.infer<typeof configSchema>;
 
 export const sportsModule: ModuleDefinition<typeof configSchema> = {
   type: 'sports',
