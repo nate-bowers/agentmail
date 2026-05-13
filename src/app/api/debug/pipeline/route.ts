@@ -1,5 +1,7 @@
 // TODO: Remove this endpoint before public launch or add auth check
 
+export const dynamic = 'force-dynamic';
+
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { buildSearchInstructions } from '@/lib/modules';
