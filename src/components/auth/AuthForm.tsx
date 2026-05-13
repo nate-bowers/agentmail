@@ -29,6 +29,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<'google' | 'azure' | null>(null);
+  const [checkEmail, setCheckEmail] = useState(false);
 
   const isSignup = mode === 'signup';
   const anyLoading = loading || oauthLoading !== null;
@@ -40,12 +41,19 @@ export default function AuthForm({ mode }: AuthFormProps) {
 
     try {
       if (isSignup) {
-        const { error } = await supabase.auth.signUp({ email, password });
+        const { data, error } = await supabase.auth.signUp({ email, password });
         if (error) throw error;
+        if (!data.session) {
+          // Email confirmation is required — session won't exist until confirmed
+          setCheckEmail(true);
+          return;
+        }
+        router.refresh();
         router.push('/dashboard');
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
+        router.refresh();
         router.push('/dashboard');
       }
     } catch (err: unknown) {
@@ -71,6 +79,21 @@ export default function AuthForm({ mode }: AuthFormProps) {
       setOauthLoading(null);
     }
     // On success the browser navigates away — no need to reset state
+  }
+
+  if (checkEmail) {
+    return (
+      <div className="flex min-h-screen items-center justify-center px-4">
+        <Card className="w-full max-w-sm">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl">Check your email</CardTitle>
+            <CardDescription>
+              We sent a confirmation link to <strong>{email}</strong>. Click it to activate your account.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </div>
+    );
   }
 
   return (
