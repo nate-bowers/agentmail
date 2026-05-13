@@ -17,11 +17,12 @@ export interface SendResult {
 }
 
 export async function sendDailyBrief(
-  user: Pick<Profile, 'id' | 'email' | 'full_name' | 'timezone' | 'email_theme'>,
+  user: Pick<Profile, 'id' | 'email' | 'full_name' | 'timezone' | 'email_theme'> & { delivery_email?: string | null },
   generated: { intro?: string; sections: GeneratedSection[]; tokensUsed?: number },
 ): Promise<SendResult> {
   try {
-    const { id: userId, email, full_name, timezone, email_theme } = user;
+    const { id: userId, email, full_name, timezone, email_theme, delivery_email } = user;
+    const recipientEmail = delivery_email ?? email;
     const theme = email_theme ?? 'light';
 
     const zonedNow = toZonedTime(new Date(), timezone);
@@ -47,7 +48,7 @@ export async function sendDailyBrief(
 
     const { data, error } = await resend.emails.send({
       from: 'Daily Brief <brief@dailybriefmail.com>',
-      to: email,
+      to: recipientEmail,
       subject,
       html: renderedHTML,
     });

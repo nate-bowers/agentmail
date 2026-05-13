@@ -1,32 +1,40 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { AlertCircle, RefreshCw, Send } from 'lucide-react';
+import { AlertCircle, RefreshCw, Send, Zap, BookOpen } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import { EMAIL_THEMES } from '@/lib/email/themes';
 import { MODULE_REGISTRY } from '@/lib/modules';
 import { getModulePoints } from '@/lib/modules/points';
+import type { GeneratedSection } from '@/lib/email/generate';
 import type { ModuleRow } from '@/types';
 
+// ─────────────────────────────────────────────────────────────
+// Constants
+// ─────────────────────────────────────────────────────────────
+
 const LOADING_MESSAGES = [
-  'Checking today\'s weather...',
+  "Checking today's weather...",
   'Scanning the news...',
   'Finding your quote...',
   'Assembling your brief...',
   'Almost ready...',
 ];
 
-const THEME_LIST = [
-  { id: 'light', bg: '#f9fafb', accent: '#7c3aed' },
-  { id: 'dark', bg: '#0f0f0f', accent: '#a78bfa' },
-  { id: 'pink', bg: '#fdf2f8', accent: '#db2777' },
-  { id: 'succinct', bg: '#f9fafb', accent: '#7c3aed' },
-  { id: 'wordy', bg: '#f9fafb', accent: '#7c3aed' },
-];
+const APPEARANCE_OPTIONS = [
+  { id: 'light', label: 'Light', color: '#ffffff', border: '#d1d5db' },
+  { id: 'dark', label: 'Dark', color: '#0D0D0F', border: '#374151' },
+  { id: 'pink', label: 'Pink', color: '#ffe4ea', border: '#f9a8d4' },
+] as const;
+
+// ─────────────────────────────────────────────────────────────
+// Types
+// ─────────────────────────────────────────────────────────────
 
 interface PreviewData {
   html: string;
+  intro?: string;
+  sections?: GeneratedSection[];
   totalTokens: number;
   generatedAt: string;
   moduleStatus: Record<string, 'success' | 'error'>;
@@ -36,27 +44,43 @@ interface PreviewData {
 interface PreviewClientProps {
   modules: ModuleRow[];
   initialTheme: string;
+  initialVerbosity: string;
   userEmail: string;
   sendTime: string;
   timezone: string;
 }
 
+// ─────────────────────────────────────────────────────────────
+// Component
+// ─────────────────────────────────────────────────────────────
+
 export default function PreviewClient({
   modules,
   initialTheme,
+  initialVerbosity,
   userEmail,
   sendTime,
   timezone,
 }: PreviewClientProps) {
-  const [theme, setTheme] = useState(initialTheme);
+  // Appearance is always one of light/dark/pink
+  const [appearance, setAppearance] = useState<string>(
+    ['light', 'dark', 'pink'].includes(initialTheme) ? initialTheme : 'light'
+  );
+  const [verbosity, setVerbosity] = useState<'succinct' | 'medium' | 'wordy'>(
+    (initialVerbosity as 'succinct' | 'medium' | 'wordy') ?? 'medium'
+  );
+
   const [loading, setLoading] = useState(false);
+  const [rerendering, setRerendering] = useState(false);
   const [previewData, setPreviewData] = useState<PreviewData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
   const [testSending, setTestSending] = useState(false);
   const msgIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  async function generate(themeOverride?: string) {
+  // Generate: calls Claude — expensive, slow
+  async function generate(appearanceOverride?: string) {
+    const themeToUse = appearanceOverride ?? appearance;
     setLoading(true);
     setError(null);
     setPreviewData(null);
@@ -72,7 +96,7 @@ export default function PreviewClient({
       const res = await fetch('/api/email/preview-html', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ theme: themeOverride ?? theme }),
+        body: JSON.stringify({ theme: themeToUse }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? 'Generation failed');
@@ -85,13 +109,59 @@ export default function PreviewClient({
     }
   }
 
+  // Re-render: uses stored sections + new theme — fast, no Claude
+  async function rerenderWithTheme(newAppearance: string) {
+    if (!previewData?.sections) return;
+    setRerendering(true);
+    try {
+      const res = await fetch('/api/email/render-only', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          intro: previewData.intro,
+          sections: previewData.sections,
+          theme: newAppearance,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? 'Render failed');
+      setPreviewData((prev) => prev ? { ...prev, html: data.html } : prev);
+    } catch {
+      // Silent fail — user still sees old HTML
+    } finally {
+      setRerendering(false);
+    }
+  }
+
+  function handleAppearanceChange(newAppearance: string) {
+    setAppearance(newAppearance);
+    if (previewData) {
+      // Re-render with stored sections — no Claude call
+      rerenderWithTheme(newAppearance);
+    }
+  }
+
+  async function handleSaveDefault() {
+    try {
+      const res = await fetch('/api/user/settings', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email_theme: appearance, email_verbosity: verbosity }),
+      });
+      if (!res.ok) throw new Error('Save failed');
+      toast.success('Default theme saved ✓');
+    } catch {
+      toast.error('Failed to save theme.');
+    }
+  }
+
   async function handleTestSend() {
     setTestSending(true);
     try {
       const res = await fetch('/api/email/test-send', { method: 'POST' });
       const data = await res.json();
       if (res.status === 429) {
-        toast.error('You\'ve reached the 3 test sends per day limit.');
+        toast.error("You've reached the 3 test sends per day limit.");
         return;
       }
       if (!res.ok) throw new Error(data.error ?? 'Send failed');
@@ -100,13 +170,6 @@ export default function PreviewClient({
       toast.error(err instanceof Error ? err.message : 'Failed to send test email');
     } finally {
       setTestSending(false);
-    }
-  }
-
-  function handleThemeChange(newTheme: string) {
-    setTheme(newTheme);
-    if (previewData) {
-      generate(newTheme);
     }
   }
 
@@ -119,28 +182,75 @@ export default function PreviewClient({
       {/* ── Left sidebar ── */}
       <div className="space-y-4 lg:col-span-2">
         {/* Controls card */}
-        <div className="rounded-xl border border-surface-border bg-white p-5 space-y-4">
+        <div className="rounded-xl border border-surface-border bg-white p-5 space-y-5">
           <p className="font-semibold text-ink">Preview</p>
 
-          {/* Theme selector */}
-          <div className="space-y-2">
-            <p className="text-xs font-medium text-ink-muted">Email theme</p>
+          {/* Appearance selector */}
+          <div>
+            <p className="text-xs font-medium uppercase tracking-wide text-ink-muted mb-2">
+              Appearance
+            </p>
             <div className="flex gap-2">
-              {THEME_LIST.map((t) => (
+              {APPEARANCE_OPTIONS.map((opt) => (
                 <button
-                  key={t.id}
+                  key={opt.id}
                   type="button"
-                  title={EMAIL_THEMES[t.id]?.name ?? t.id}
-                  onClick={() => handleThemeChange(t.id)}
-                  className={`h-7 w-7 rounded-full border-2 transition-all ${
-                    theme === t.id ? 'border-brand-purple scale-110' : 'border-transparent hover:border-surface-border'
+                  onClick={() => handleAppearanceChange(opt.id)}
+                  className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-all ${
+                    appearance === opt.id
+                      ? 'border-brand-purple bg-brand-purple-light text-brand-purple'
+                      : 'border-surface-border bg-white text-ink hover:border-brand-purple/50'
                   }`}
-                  style={{ backgroundColor: t.bg, boxShadow: `inset 0 0 0 2px ${t.accent}` }}
-                />
+                >
+                  <span
+                    className="inline-block h-3.5 w-3.5 rounded-full border flex-shrink-0"
+                    style={{ backgroundColor: opt.color, borderColor: opt.border }}
+                  />
+                  {opt.label}
+                </button>
               ))}
             </div>
-            <p className="text-xs text-ink-muted capitalize">{EMAIL_THEMES[theme]?.name ?? theme}</p>
           </div>
+
+          {/* Length selector */}
+          <div>
+            <p className="text-xs font-medium uppercase tracking-wide text-ink-muted mb-2">
+              Length
+            </p>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setVerbosity('succinct')}
+                className={`flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-medium transition-all ${
+                  verbosity === 'succinct'
+                    ? 'border-brand-purple bg-brand-purple-light text-brand-purple'
+                    : 'border-surface-border bg-white text-ink hover:border-brand-purple/50'
+                }`}
+              >
+                <Zap className="h-3.5 w-3.5" /> Succinct
+              </button>
+              <button
+                type="button"
+                onClick={() => setVerbosity('wordy')}
+                className={`flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-medium transition-all ${
+                  verbosity === 'wordy'
+                    ? 'border-brand-purple bg-brand-purple-light text-brand-purple'
+                    : 'border-surface-border bg-white text-ink hover:border-brand-purple/50'
+                }`}
+              >
+                <BookOpen className="h-3.5 w-3.5" /> Wordy
+              </button>
+            </div>
+          </div>
+
+          {/* Save as default */}
+          <button
+            type="button"
+            onClick={handleSaveDefault}
+            className="text-xs text-ink-muted hover:text-brand-purple transition-colors"
+          >
+            Save as my default theme
+          </button>
 
           {/* Generate */}
           {!previewData && !loading && !error && (
@@ -154,7 +264,7 @@ export default function PreviewClient({
             <Button
               variant="ghost"
               onClick={() => generate()}
-              disabled={loading}
+              disabled={loading || rerendering}
               className="w-full gap-2"
             >
               <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
@@ -225,13 +335,11 @@ export default function PreviewClient({
         {/* Loading skeleton */}
         {loading && (
           <div className="rounded-2xl border border-surface-border overflow-hidden shadow-md">
-            {/* Mock email header */}
             <div className="border-b border-surface-border bg-surface-secondary px-4 py-3 space-y-1.5 animate-pulse">
               <div className="h-3 w-48 rounded bg-surface-border" />
               <div className="h-3 w-36 rounded bg-surface-border" />
               <div className="h-3 w-56 rounded bg-surface-border" />
             </div>
-            {/* Skeleton body */}
             <div className="p-6 space-y-6 animate-pulse">
               {[120, 80, 160, 100, 140].map((h, i) => (
                 <div key={i} style={{ height: h }} className="rounded-lg bg-surface-border" />
@@ -257,8 +365,7 @@ export default function PreviewClient({
 
         {/* Rendered email */}
         {!loading && previewData && (
-          <div className="hidden sm:block rounded-2xl border border-surface-border overflow-hidden shadow-md">
-            {/* Mock email client header */}
+          <div className={`hidden sm:block rounded-2xl border border-surface-border overflow-hidden shadow-md transition-opacity ${rerendering ? 'opacity-60' : 'opacity-100'}`}>
             <div className="border-b border-surface-border bg-surface-secondary px-4 py-3">
               <div className="flex items-center gap-1.5 mb-2">
                 <span className="h-3 w-3 rounded-full bg-red-400" />
@@ -269,16 +376,15 @@ export default function PreviewClient({
               <p className="text-xs text-ink-muted">To: {userEmail}</p>
               <p className="text-xs text-ink-muted">Subject: Your Brief — {today}</p>
             </div>
-            {/* Email body */}
             <div className="overflow-y-auto max-h-[700px]">
               <div className="mx-auto max-w-[600px]" dangerouslySetInnerHTML={{ __html: previewData.html }} />
             </div>
           </div>
         )}
 
-        {/* Mobile: simpler frame */}
+        {/* Mobile frame */}
         {!loading && previewData && (
-          <div className="sm:hidden rounded-xl border border-surface-border overflow-hidden">
+          <div className={`sm:hidden rounded-xl border border-surface-border overflow-hidden transition-opacity ${rerendering ? 'opacity-60' : 'opacity-100'}`}>
             <div className="overflow-y-auto max-h-[500px]">
               <div dangerouslySetInnerHTML={{ __html: previewData.html }} />
             </div>

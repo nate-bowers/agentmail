@@ -21,6 +21,8 @@ export async function runPipeline(user: {
   email: string;
   full_name: string | null;
   email_theme: string;
+  email_verbosity?: string | null;
+  delivery_email?: string | null;
   timezone: string;
 }): Promise<PipelineResult> {
   const supabase = createAdminClient();

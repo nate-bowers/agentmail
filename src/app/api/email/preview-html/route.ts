@@ -61,6 +61,8 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       html,
+      intro: generated.intro,
+      sections: generated.sections,
       inputTokens: 0,
       outputTokens: generated.tokensUsed,
       totalTokens: generated.tokensUsed,

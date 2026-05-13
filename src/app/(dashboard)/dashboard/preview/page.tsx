@@ -64,6 +64,7 @@ export default async function PreviewPage() {
       <PreviewClient
         modules={enabledModules}
         initialTheme={p.email_theme ?? 'light'}
+        initialVerbosity={p.email_verbosity ?? 'medium'}
         userEmail={user.email ?? ''}
         sendTime={formatSendTime(p.send_time)}
         timezone={getTimezoneAbbr(p.timezone)}

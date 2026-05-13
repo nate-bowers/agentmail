@@ -9,9 +9,10 @@ import { getModulePoints, FREE_TIER_POINTS, PRO_TIER_POINTS } from '@/lib/module
 interface PointsBarProps {
   modules: { module_type: string; config?: Record<string, unknown> }[];
   isPro: boolean;
+  refreshing?: boolean;
 }
 
-export default function PointsBar({ modules, isPro }: PointsBarProps) {
+export default function PointsBar({ modules, isPro, refreshing }: PointsBarProps) {
   const totalPoints = modules.reduce(
     (sum, m) => sum + getModulePoints(m.module_type, m.config ?? {}),
     0
@@ -45,7 +46,7 @@ export default function PointsBar({ modules, isPro }: PointsBarProps) {
           <div
             className={cn(
               'h-full rounded-full transition-all duration-500',
-              atLimit ? 'bg-red-500' : 'bg-brand-purple'
+              refreshing ? 'animate-pulse bg-brand-purple/50' : atLimit ? 'bg-red-500' : 'bg-brand-purple'
             )}
             style={{ width: `${pct}%` }}
           />

@@ -10,7 +10,7 @@ export async function GET() {
 
   const { data: users, error: userError } = await supabase
     .from('profiles')
-    .select('id, email, full_name, email_theme, timezone, send_time')
+    .select('id, email, full_name, email_theme, email_verbosity, delivery_email, timezone, send_time')
     .eq('is_active', true)
     .limit(5);
 

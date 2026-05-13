@@ -16,7 +16,7 @@ export async function GET() {
   // Step 1: Find users and their modules
   const { data: users, error: usersError } = await supabase
     .from('profiles')
-    .select('id, email, full_name, email_theme, timezone')
+    .select('id, email, full_name, email_theme, email_verbosity, delivery_email, timezone')
     .limit(5);
 
   const { data: allModules, error: modulesError } = await supabase

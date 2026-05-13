@@ -14,6 +14,13 @@ const settingsSchema = z.object({
     .optional(),
   is_active: z.boolean().optional(),
   email_theme: z.string().min(1).max(20).optional(),
+  email_verbosity: z.enum(['succinct', 'medium', 'wordy']).optional(),
+  // null resets to account email; empty string treated as null
+  delivery_email: z.union([
+    z.string().email('Please enter a valid email address'),
+    z.literal(''),
+    z.null(),
+  ]).optional().transform((v) => (v === '' ? null : v)),
   has_onboarded: z.boolean().optional(),
   onboarding_step: z.number().int().min(0).max(10).optional(),
 });

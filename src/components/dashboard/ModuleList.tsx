@@ -2,26 +2,29 @@
 
 import { useState } from 'react';
 import {
-  Plus, Inbox, MoreHorizontal, Pencil, Trash2, Lock,
-  ChevronUp, ChevronDown, type LucideIcon,
-} from 'lucide-react';
-import {
-  Cloud, Newspaper, Quote, TrendingUp, HelpCircle,
+  Plus, Inbox, Pencil, Trash2, Lock, GripVertical, Loader2, HelpCircle,
+  Cloud, Newspaper, Quote, TrendingUp,
   Trophy, BookOpen, Dumbbell, Brain, Calendar, ArrowLeftRight, Headphones, Lightbulb,
   ChefHat, BookMarked, MessageSquare, Stars, Languages, Heart, Cpu, MapPin, Landmark, Zap,
+  type LucideIcon,
 } from 'lucide-react';
+import {
+  DndContext, closestCenter, KeyboardSensor, PointerSensor,
+  useSensor, useSensors, type DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy,
+  arrayMove, useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem,
-  DropdownMenuSeparator, DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel,
   AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
   AlertDialogHeader, AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import ModuleSheet from './ModuleSheet';
+import ModuleModal from './ModuleModal';
 import PointsBar from './PointsBar';
 import { MODULE_REGISTRY } from '@/lib/modules';
 import { getModulePoints } from '@/lib/modules/points';
@@ -35,9 +38,10 @@ const ICON_MAP: Record<string, LucideIcon> = {
   ChefHat, BookMarked, MessageSquare, Stars, Languages, Heart, Cpu, MapPin, Landmark, Zap,
 };
 
-// Modules that can be added immediately with default config (no required user input)
+// Zero-config modules: can be added immediately with defaults, no sheet needed
 const ZERO_CONFIG_TYPES = new Set([
-  'fact', 'on_this_day', 'word_of_day', 'mindfulness', 'quote', 'workout',
+  'fact', 'on_this_day', 'word_of_day', 'mindfulness', 'quote',
+  'challenge', 'affirmation', 'workout',
 ]);
 
 function configSummary(moduleType: string, config: Record<string, unknown>): string {
@@ -94,55 +98,162 @@ function configSummary(moduleType: string, config: Record<string, unknown>): str
   return '';
 }
 
-interface ModuleListProps {
-  initialModules: ModuleRow[];
-  subscriptionStatus: string;
+// ─────────────────────────────────────────────────────────────
+// Sortable card wrapper
+// ─────────────────────────────────────────────────────────────
+
+interface SortableCardProps {
+  module: ModuleRow;
+  onEdit: (module: ModuleRow) => void;
+  onDeleteRequest: (id: string) => void;
+  onToggle: (id: string) => void;
 }
 
-export default function ModuleList({ initialModules, subscriptionStatus }: ModuleListProps) {
-  const [modules, setModules] = useState<ModuleRow[]>(initialModules);
-  const [sheetOpen, setSheetOpen] = useState(false);
-  const [sheetMode, setSheetMode] = useState<'add' | 'edit'>('add');
-  const [sheetInitialType, setSheetInitialType] = useState<string | null>(null);
+function SortableModuleCard({ module, onEdit, onDeleteRequest, onToggle }: SortableCardProps) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: module.id,
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 10 : undefined,
+  };
+
+  const def = MODULE_REGISTRY[module.module_type];
+  if (!def) return null;
+
+  const Icon = ICON_MAP[def.icon] ?? HelpCircle;
+  const summary = configSummary(module.module_type, module.config);
+  const pts = getModulePoints(module.module_type, module.config ?? {});
+
+  return (
+    <div ref={setNodeRef} style={style}>
+      <div
+        className={`relative rounded-xl border border-surface-border bg-white p-5 border-t-[3px] border-t-brand-purple transition-opacity ${
+          module.is_enabled ? 'opacity-100' : 'opacity-50'
+        }`}
+      >
+        <div className="flex items-center gap-3">
+          {/* Drag handle */}
+          <div
+            className="flex h-6 w-6 shrink-0 items-center justify-center text-ink-faint cursor-grab active:cursor-grabbing touch-none"
+            {...attributes}
+            {...listeners}
+          >
+            <GripVertical className="h-4 w-4" />
+          </div>
+
+          {/* Icon */}
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-purple-light">
+            <Icon className="h-5 w-5 text-brand-purple" />
+          </div>
+
+          {/* Label + summary */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2">
+              <p className="font-medium text-ink">{def.label}</p>
+              {!module.is_enabled && (
+                <span className="text-xs italic text-ink-muted">Disabled</span>
+              )}
+            </div>
+            {summary && (
+              <p className="text-sm text-ink-muted truncate">{summary}</p>
+            )}
+          </div>
+
+          {/* Points badge */}
+          <span className="shrink-0 rounded-full bg-surface-secondary px-2 py-0.5 text-xs text-ink-muted">
+            {pts} {pts === 1 ? 'pt' : 'pts'}
+          </span>
+
+          {/* Enable/Disable toggle */}
+          <button
+            onClick={() => onToggle(module.id)}
+            className="shrink-0 text-xs text-ink-faint hover:text-ink transition-colors px-1"
+          >
+            {module.is_enabled ? 'Disable' : 'Enable'}
+          </button>
+
+          {/* Edit + Delete buttons */}
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => onEdit(module)}
+              className="p-1.5 rounded-lg text-ink-faint hover:text-ink hover:bg-surface-secondary transition-colors"
+              title="Edit module"
+            >
+              <Pencil className="h-3.5 w-3.5" />
+            </button>
+            <button
+              onClick={() => onDeleteRequest(module.id)}
+              className="p-1.5 rounded-lg text-ink-faint hover:text-red-500 hover:bg-red-50 transition-colors"
+              title="Remove module"
+            >
+              <Trash2 className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Main ModuleList
+// ─────────────────────────────────────────────────────────────
+
+interface ModuleListProps {
+  modules: ModuleRow[];
+  onModulesChange: (modules: ModuleRow[]) => void;
+  onRefresh: () => Promise<void>;
+  refreshing: boolean;
+  isPro: boolean;
+}
+
+export default function ModuleList({
+  modules, onModulesChange, onRefresh, refreshing, isPro,
+}: ModuleListProps) {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<'add' | 'edit'>('add');
+  const [modalInitialType, setModalInitialType] = useState<string | null>(null);
   const [existingModule, setExistingModule] = useState<Pick<ModuleRow, 'id' | 'module_type' | 'config'> | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
-
-  const isPro = subscriptionStatus === 'active';
-  const { used: pointsUsed, limit: pointsLimit, remaining, isAtLimit } = usePoints(modules, isPro);
-
+  const [loadingQuickAdd, setLoadingQuickAdd] = useState<string | null>(null);
   const [limitDialogOpen, setLimitDialogOpen] = useState(false);
 
+  const { used: pointsUsed, limit: pointsLimit, remaining, isAtLimit } = usePoints(modules, isPro);
   const recommendations = getModuleRecommendations(modules, remaining);
   const showSuggestions = !isAtLimit && modules.length > 0;
 
+  // DnD sensors — require 8px drag before activating to avoid click conflicts
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+  );
+
   function openAdd() {
-    if (isAtLimit) {
-      setLimitDialogOpen(true);
-      return;
-    }
+    if (isAtLimit) { setLimitDialogOpen(true); return; }
     setExistingModule(null);
-    setSheetInitialType(null);
-    setSheetMode('add');
-    setSheetOpen(true);
+    setModalInitialType(null);
+    setModalMode('add');
+    setModalOpen(true);
   }
 
   function openEdit(module: ModuleRow) {
     setExistingModule({ id: module.id, module_type: module.module_type, config: module.config });
-    setSheetInitialType(null);
-    setSheetMode('edit');
-    setSheetOpen(true);
+    setModalInitialType(null);
+    setModalMode('edit');
+    setModalOpen(true);
   }
 
   async function handleQuickAdd(moduleType: string) {
-    if (isAtLimit) {
-      setLimitDialogOpen(true);
-      return;
-    }
-
+    if (isAtLimit) { setLimitDialogOpen(true); return; }
     const def = MODULE_REGISTRY[moduleType];
     if (!def) return;
 
     if (ZERO_CONFIG_TYPES.has(moduleType)) {
+      setLoadingQuickAdd(moduleType);
       try {
         const res = await fetch('/api/modules', {
           method: 'POST',
@@ -161,79 +272,81 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
         }
         if (!res.ok) throw new Error('Failed');
         toast.success(`${def.label} added to your brief ✓`);
-        window.location.reload();
+        await onRefresh();
       } catch {
         toast.error('Something went wrong. Please try again.');
+      } finally {
+        setLoadingQuickAdd(null);
       }
     } else {
-      // Open sheet pre-selected on this type
       setExistingModule(null);
-      setSheetInitialType(moduleType);
-      setSheetMode('add');
-      setSheetOpen(true);
+      setModalInitialType(moduleType);
+      setModalMode('add');
+      setModalOpen(true);
     }
-  }
-
-  function handleSaved() {
-    window.location.reload();
   }
 
   async function handleToggle(id: string) {
     const found = modules.find((m) => m.id === id);
     if (!found) return;
     const newValue = !found.is_enabled;
-    setModules((prev) => prev.map((m) => (m.id === id ? { ...m, is_enabled: newValue } : m)));
+    // Optimistic update
+    onModulesChange(modules.map((m) => (m.id === id ? { ...m, is_enabled: newValue } : m)));
     const res = await fetch(`/api/modules/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ is_enabled: newValue }),
     });
     if (!res.ok) {
-      setModules((prev) => prev.map((m) => (m.id === id ? { ...m, is_enabled: !newValue } : m)));
+      // Revert on failure
+      onModulesChange(modules.map((m) => (m.id === id ? { ...m, is_enabled: !newValue } : m)));
       toast.error('Failed to update module.');
     }
   }
 
-  async function handleReorder(id: string, direction: 'up' | 'down') {
-    const idx = modules.findIndex((m) => m.id === id);
-    if (idx === -1) return;
-    const swapIdx = direction === 'up' ? idx - 1 : idx + 1;
-    if (swapIdx < 0 || swapIdx >= modules.length) return;
-
-    const newModules = [...modules];
-    const aOrder = newModules[idx].display_order;
-    const bOrder = newModules[swapIdx].display_order;
-    newModules[idx] = { ...newModules[idx], display_order: bOrder };
-    newModules[swapIdx] = { ...newModules[swapIdx], display_order: aOrder };
-    newModules.sort((a, b) => a.display_order - b.display_order);
-    setModules(newModules);
-
-    await Promise.all([
-      fetch(`/api/modules/${modules[idx].id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ display_order: bOrder }),
-      }),
-      fetch(`/api/modules/${modules[swapIdx].id}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ display_order: aOrder }),
-      }),
-    ]);
-  }
-
   async function handleDelete(id: string) {
     const snapshot = [...modules];
-    setModules((prev) => prev.filter((m) => m.id !== id));
+    onModulesChange(modules.filter((m) => m.id !== id));
+    setDeleteTarget(null);
     const res = await fetch(`/api/modules/${id}`, { method: 'DELETE' });
     if (!res.ok) {
-      setModules(snapshot);
-      toast.error('Failed to delete module.');
+      onModulesChange(snapshot);
+      toast.error('Failed to remove module.');
     } else {
       toast.success('Module removed.');
+      await onRefresh();
     }
-    setDeleteTarget(null);
   }
+
+  async function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = modules.findIndex((m) => m.id === active.id);
+    const newIndex = modules.findIndex((m) => m.id === over.id);
+    const reordered = arrayMove(modules, oldIndex, newIndex);
+    const updated = reordered.map((m, i) => ({ ...m, display_order: i }));
+
+    // Optimistic update
+    onModulesChange(updated);
+
+    try {
+      await fetch('/api/modules/reorder', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order: updated.map((m) => ({ id: m.id, display_order: m.display_order })) }),
+      });
+    } catch {
+      // Revert to DB state on failure
+      await onRefresh();
+      toast.error('Reorder failed. Changes reverted.');
+    }
+  }
+
+  const deleteTargetModule = deleteTarget ? modules.find((m) => m.id === deleteTarget) : null;
+  const deleteLabel = deleteTargetModule
+    ? (MODULE_REGISTRY[deleteTargetModule.module_type]?.label ?? deleteTargetModule.module_type)
+    : '';
 
   return (
     <>
@@ -246,18 +359,18 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
             variant={isAtLimit ? 'outline' : 'default'}
             onClick={openAdd}
             className="gap-1.5 min-h-[44px] sm:min-h-0"
+            disabled={refreshing}
           >
-            {isAtLimit ? (
-              <><Lock className="h-3.5 w-3.5" /><span className="hidden sm:inline"> Add module</span></>
-            ) : (
-              <><Plus className="h-3.5 w-3.5" /><span className="hidden sm:inline"> Add module</span></>
-            )}
+            {isAtLimit
+              ? <><Lock className="h-3.5 w-3.5" /><span className="hidden sm:inline"> Add module</span></>
+              : <><Plus className="h-3.5 w-3.5" /><span className="hidden sm:inline"> Add module</span></>
+            }
           </Button>
         </div>
 
         {/* Points bar */}
         {modules.length > 0 && (
-          <PointsBar modules={modules} isPro={isPro} />
+          <PointsBar modules={modules} isPro={isPro} refreshing={refreshing} />
         )}
 
         {/* Suggested modules strip */}
@@ -273,10 +386,13 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
                 const Icon = ICON_MAP[def.icon] ?? HelpCircle;
                 const pts = getModulePoints(type, def.defaultConfig as Record<string, unknown>);
                 const canAfford = pts <= remaining;
+                const isLoading = loadingQuickAdd === type;
+
                 return (
                   <button
                     key={type}
                     type="button"
+                    disabled={isLoading}
                     onClick={() => {
                       if (!canAfford) {
                         toast('Not enough credits', {
@@ -293,15 +409,19 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
                         : 'border-surface-border bg-surface-secondary opacity-60 cursor-not-allowed'
                     }`}
                   >
-                    {canAfford
-                      ? <Icon className="h-4 w-4 shrink-0 text-brand-purple" />
-                      : <Lock className="h-4 w-4 shrink-0 text-ink-faint" />
+                    {isLoading
+                      ? <Loader2 className="h-4 w-4 shrink-0 text-brand-purple animate-spin" />
+                      : canAfford
+                        ? <Icon className="h-4 w-4 shrink-0 text-brand-purple" />
+                        : <Lock className="h-4 w-4 shrink-0 text-ink-faint" />
                     }
                     <div className="min-w-0">
                       <p className="text-sm font-medium text-ink leading-none">{def.label}</p>
                       <p className="mt-0.5 text-xs text-ink-muted">{pts} {pts === 1 ? 'pt' : 'pts'}</p>
                     </div>
-                    {canAfford && <Plus className="h-3.5 w-3.5 shrink-0 text-brand-purple opacity-70 group-hover:opacity-100" />}
+                    {canAfford && !isLoading && (
+                      <Plus className="h-3.5 w-3.5 shrink-0 text-brand-purple opacity-70 group-hover:opacity-100" />
+                    )}
                   </button>
                 );
               })}
@@ -325,93 +445,26 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
           </div>
         )}
 
-        {/* Module cards */}
-        {modules.map((module, index) => {
-          const def = MODULE_REGISTRY[module.module_type];
-          if (!def) return null;
-          const Icon = ICON_MAP[def.icon] ?? HelpCircle;
-          const summary = configSummary(module.module_type, module.config);
-          const pts = getModulePoints(module.module_type, module.config ?? {});
-
-          return (
-            <div
-              key={module.id}
-              className={`relative rounded-xl border border-surface-border bg-white p-5 border-t-[3px] border-t-brand-purple transition-opacity ${
-                module.is_enabled ? 'opacity-100' : 'opacity-50'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                {/* Reorder arrows */}
-                <div className="flex flex-col gap-0.5">
-                  <button
-                    onClick={() => handleReorder(module.id, 'up')}
-                    disabled={index === 0}
-                    className="flex h-5 w-5 items-center justify-center rounded text-ink-faint transition-colors hover:text-ink disabled:opacity-25 disabled:cursor-default"
-                  >
-                    <ChevronUp className="h-3.5 w-3.5" />
-                  </button>
-                  <button
-                    onClick={() => handleReorder(module.id, 'down')}
-                    disabled={index === modules.length - 1}
-                    className="flex h-5 w-5 items-center justify-center rounded text-ink-faint transition-colors hover:text-ink disabled:opacity-25 disabled:cursor-default"
-                  >
-                    <ChevronDown className="h-3.5 w-3.5" />
-                  </button>
-                </div>
-
-                {/* Icon */}
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-purple-light">
-                  <Icon className="h-5 w-5 text-brand-purple" />
-                </div>
-
-                {/* Label + summary */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <p className="font-medium text-ink">{def.label}</p>
-                    {!module.is_enabled && (
-                      <span className="text-xs italic text-ink-muted">Disabled</span>
-                    )}
-                  </div>
-                  {summary && (
-                    <p className="text-sm text-ink-muted truncate">{summary}</p>
-                  )}
-                </div>
-
-                {/* Points badge */}
-                <span className="shrink-0 rounded-full bg-surface-secondary px-2 py-0.5 text-xs text-ink-muted">
-                  {pts} {pts === 1 ? 'pt' : 'pts'}
-                </span>
-
-                {/* Dropdown */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0 text-ink-faint">
-                      <MoreHorizontal className="h-4 w-4" />
-                      <span className="sr-only">Module options</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => openEdit(module)}>
-                      <Pencil className="mr-2 h-4 w-4" /> Edit
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handleToggle(module.id)}>
-                      {module.is_enabled ? 'Disable' : 'Enable'}
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                      className="text-destructive focus:text-destructive"
-                      onClick={() => setDeleteTarget(module.id)}
-                    >
-                      <Trash2 className="mr-2 h-4 w-4" /> Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+        {/* DnD module list */}
+        {modules.length > 0 && (
+          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+            <SortableContext items={modules.map((m) => m.id)} strategy={verticalListSortingStrategy}>
+              <div className="space-y-3">
+                {modules.map((module) => (
+                  <SortableModuleCard
+                    key={module.id}
+                    module={module}
+                    onEdit={openEdit}
+                    onDeleteRequest={setDeleteTarget}
+                    onToggle={handleToggle}
+                  />
+                ))}
               </div>
-            </div>
-          );
-        })}
+            </SortableContext>
+          </DndContext>
+        )}
 
-        {/* Full-width add button (only shown when there are modules) */}
+        {/* Full-width add button */}
         {modules.length > 0 && (
           isAtLimit ? (
             <button
@@ -434,19 +487,18 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
         )}
       </div>
 
-      {/* Module sheet */}
-      <ModuleSheet
-        open={sheetOpen}
+      {/* Module modal */}
+      <ModuleModal
+        open={modalOpen}
         onOpenChange={(open) => {
-          setSheetOpen(open);
-          if (!open) { setSheetInitialType(null); setExistingModule(null); }
+          setModalOpen(open);
+          if (!open) { setModalInitialType(null); setExistingModule(null); }
         }}
-        mode={sheetMode}
+        mode={modalMode}
         existingModule={existingModule ?? undefined}
-        initialModuleType={sheetInitialType}
+        initialModuleType={modalInitialType}
         remainingPoints={remaining}
-        isPro={isPro}
-        onSuccess={handleSaved}
+        onSuccess={onRefresh}
       />
 
       {/* Credit limit dialog */}
@@ -472,9 +524,9 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
       <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete this module?</AlertDialogTitle>
+            <AlertDialogTitle>Remove this module?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will remove the module from your daily brief. This cannot be undone.
+              This will remove {deleteLabel} from your brief. You can add it back anytime.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -483,7 +535,7 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               onClick={() => deleteTarget && handleDelete(deleteTarget)}
             >
-              Delete
+              Remove
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

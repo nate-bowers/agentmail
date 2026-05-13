@@ -114,13 +114,14 @@ const NO_SEARCH_MODULES = new Set([
 // ─────────────────────────────────────────────────────────────
 
 function buildPrompt(
-  user: { full_name?: string | null; email: string; email_theme?: string },
+  user: { full_name?: string | null; email: string; email_theme?: string; email_verbosity?: string | null },
   instructions: ModuleSearchInstruction[],
   prefetchedData: Record<string, unknown> = {},
 ): string {
   const firstName = (user.full_name ?? user.email).split(' ')[0];
   const theme = getTheme(user.email_theme ?? 'light');
-  const { verbosity, includeIntro, includeCommentary } = theme.prose;
+  const { includeIntro, includeCommentary } = theme.prose;
+  const verbosity = (user.email_verbosity as string | null | undefined) ?? 'medium';
 
   const instructionBlock = instructions
     .map((inst, i) => {
@@ -152,9 +153,9 @@ ${JSON.stringify(prefetched)}`;
   const sectionOrder = instructions.map((i) => i.moduleType).join(', ');
 
   const verbosityDirective =
-    verbosity === 'short'
+    verbosity === 'short' || verbosity === 'succinct'
       ? 'Be extremely concise. One sentence per news summary. Skip commentary.'
-      : verbosity === 'long'
+      : verbosity === 'long' || verbosity === 'wordy'
         ? 'Be thorough. 3-4 sentence summaries. Rich context. Full paragraph intro.'
         : 'Be clear and moderately detailed. 2 sentence summaries. 2-3 sentence intro.';
 
@@ -217,7 +218,7 @@ For sports "result" fields use only "win", "loss", or "draw".`;
 // ─────────────────────────────────────────────────────────────
 
 export async function generateDailyBrief(
-  user: { id?: string; email: string; full_name?: string | null; email_theme?: string },
+  user: { id?: string; email: string; full_name?: string | null; email_theme?: string; email_verbosity?: string | null },
   moduleInstructions: ModuleSearchInstruction[],
   prefetchedData: Record<string, unknown> = {},
 ): Promise<GenerateResult> {
@@ -226,14 +227,17 @@ export async function generateDailyBrief(
   }
 
   const moduleList = moduleInstructions.map((i) => i.moduleType).join(', ');
-  console.log(`[Generate] Starting for ${user.email} | modules: ${moduleList} | theme: ${user.email_theme ?? 'light'}`);
+  const verbosity = user.email_verbosity ?? 'medium';
+  console.log(`[Generate] Starting for ${user.email} | modules: ${moduleList} | theme: ${user.email_theme ?? 'light'} | verbosity: ${verbosity}`);
 
   const prompt = buildPrompt(user, moduleInstructions, prefetchedData);
   console.log('[Generate] Prompt being sent to Claude (first 800 chars):', prompt.slice(0, 800));
 
+  const maxTokens = verbosity === 'succinct' ? 2000 : verbosity === 'wordy' ? 4500 : 3000;
+
   const response = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
-    max_tokens: 4096,
+    max_tokens: maxTokens,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     tools: [{ type: 'web_search_20250305', name: 'web_search' }] as any,
     messages: [{ role: 'user', content: prompt }],
