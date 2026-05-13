@@ -5,7 +5,10 @@ import {
   Plus, Inbox, MoreHorizontal, Pencil, Trash2, Lock,
   ChevronUp, ChevronDown, type LucideIcon,
 } from 'lucide-react';
-import { Cloud, Newspaper, Quote, TrendingUp, HelpCircle } from 'lucide-react';
+import {
+  Cloud, Newspaper, Quote, TrendingUp, HelpCircle,
+  Trophy, BookOpen, Dumbbell, Brain, Calendar, ArrowLeftRight, Headphones, Lightbulb,
+} from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import {
@@ -23,7 +26,10 @@ import { MODULE_REGISTRY } from '@/lib/modules';
 import { MODULE_POINTS, FREE_TIER_POINTS, PRO_TIER_POINTS, getTotalPoints } from '@/lib/modules/points';
 import type { ModuleRow } from '@/types';
 
-const ICON_MAP: Record<string, LucideIcon> = { Cloud, Newspaper, Quote, TrendingUp };
+const ICON_MAP: Record<string, LucideIcon> = {
+  Cloud, Newspaper, Quote, TrendingUp,
+  Trophy, BookOpen, Dumbbell, Brain, Calendar, ArrowLeftRight, Headphones, Lightbulb,
+};
 
 function configSummary(moduleType: string, config: Record<string, unknown>): string {
   if (moduleType === 'weather') {
@@ -41,6 +47,40 @@ function configSummary(moduleType: string, config: Record<string, unknown>): str
   if (moduleType === 'markets') {
     const symbols = config.symbols as string[] | undefined;
     return symbols?.join(', ') ?? '';
+  }
+  if (moduleType === 'sports') {
+    const teams = config.teams as string[] | undefined;
+    return teams?.slice(0, 3).join(', ') ?? '';
+  }
+  if (moduleType === 'word_of_day') {
+    const diff = config.difficulty as string | undefined;
+    return diff ? diff.charAt(0).toUpperCase() + diff.slice(1) : '';
+  }
+  if (moduleType === 'workout') {
+    const level = config.fitnessLevel as string | undefined;
+    const focus = config.focus as string | undefined;
+    return [level, focus].filter(Boolean).join(' · ');
+  }
+  if (moduleType === 'mindfulness') {
+    const style = config.style as string | undefined;
+    return style ? style.charAt(0).toUpperCase() + style.slice(1) : '';
+  }
+  if (moduleType === 'on_this_day') {
+    const cat = config.category as string | undefined;
+    return cat ? cat.charAt(0).toUpperCase() + cat.slice(1) : '';
+  }
+  if (moduleType === 'currency') {
+    const base = config.baseCurrency as string | undefined;
+    const targets = config.targetCurrencies as string[] | undefined;
+    return base && targets ? `${base} → ${targets.join(', ')}` : '';
+  }
+  if (moduleType === 'podcast') {
+    const interests = config.interests as string[] | undefined;
+    return interests?.slice(0, 3).join(', ') ?? '';
+  }
+  if (moduleType === 'fact') {
+    const cat = config.category as string | undefined;
+    return cat ? cat.charAt(0).toUpperCase() + cat.slice(1) : '';
   }
   return '';
 }

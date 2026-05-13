@@ -3,6 +3,14 @@ export const MODULE_POINTS: Record<string, number> = {
   news: 2,
   quote: 1,
   markets: 1,
+  sports: 1,
+  word_of_day: 1,
+  workout: 1,
+  mindfulness: 1,
+  on_this_day: 1,
+  currency: 1,
+  podcast: 1,
+  fact: 1,
 };
 
 export const FREE_TIER_POINTS = 3;

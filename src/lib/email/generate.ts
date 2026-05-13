@@ -14,45 +14,18 @@ export interface GeneratedBrief {
 }
 
 export type GeneratedSection =
-  | {
-      type: 'weather';
-      data: {
-        locations: {
-          name: string;
-          tempF: number;
-          condition: string;
-          humidity: string;
-          high: number;
-          low: number;
-        }[];
-      };
-    }
-  | {
-      type: 'news';
-      data: {
-        articles: {
-          headline: string;
-          source: string;
-          summary: string;
-        }[];
-      };
-    }
-  | {
-      type: 'quote';
-      data: { text: string; author: string };
-    }
-  | {
-      type: 'markets';
-      data: {
-        symbols: {
-          symbol: string;
-          price: string;
-          change: string;
-          changePercent: string;
-          direction: 'up' | 'down';
-        }[];
-      };
-    };
+  | { type: 'weather'; data: { locations: { name: string; tempF: number; condition: string; humidity: string; high: number; low: number }[] } }
+  | { type: 'news'; data: { articles: { headline: string; source: string; summary: string }[] } }
+  | { type: 'quote'; data: { text: string; author: string } }
+  | { type: 'markets'; data: { symbols: { symbol: string; price: string; change: string; changePercent: string; direction: 'up' | 'down' }[] } }
+  | { type: 'sports'; data: { results: { team: string; opponent: string; score: string; result: 'win' | 'loss' | 'draw'; nextGame?: string }[]; standingsNote?: string } }
+  | { type: 'word_of_day'; data: { word: string; partOfSpeech: string; definition: string; etymology: string; exampleSentence: string } }
+  | { type: 'workout'; data: { intro: string; warmup: { exercise: string; duration: string }[]; circuit: { exercise: string; sets?: string; reps?: string; duration?: string }[]; cooldown: string } }
+  | { type: 'mindfulness'; data: { prompt: string; style: string } }
+  | { type: 'on_this_day'; data: { year: string; title: string; context: string } }
+  | { type: 'currency'; data: { base: string; rates: { target: string; rate: string; direction: 'up' | 'down' | 'flat'; change?: string }[] } }
+  | { type: 'podcast'; data: { showName: string; episodeTitle: string; length: string; guest?: string; description: string; url?: string } }
+  | { type: 'fact'; data: { fact: string; explanation: string; category: string } };
 
 // ─────────────────────────────────────────────────────────────
 // Prompt builder
@@ -77,29 +50,21 @@ Complete all of the following tasks by using your web search tool. Search for ea
 TASKS:
 ${instructionBlock}
 
-After completing all searches, write a short personalized intro of 2–3 sentences addressed to ${firstName} by first name. The intro should briefly acknowledge the day ahead based on what you found (weather, news, etc.) in a warm, concise tone.
+After completing all searches, write a short personalized intro of 2–3 sentences addressed to ${firstName} by first name. The intro should briefly acknowledge the day ahead based on what you found in a warm, concise tone.
 
 Respond ONLY with valid JSON. No markdown fences, no backticks, no preamble, no trailing text — just the raw JSON object.
 
-The JSON must follow this exact shape:
+The JSON must follow this exact shape (only include sections for the modules listed above):
 {
   "intro": "<2-3 sentence personalized intro>",
   "sections": [
     {
       "type": "weather",
-      "data": {
-        "locations": [
-          { "name": "string", "tempF": 0, "condition": "string", "humidity": "string", "high": 0, "low": 0 }
-        ]
-      }
+      "data": { "locations": [{ "name": "string", "tempF": 0, "condition": "string", "humidity": "string", "high": 0, "low": 0 }] }
     },
     {
       "type": "news",
-      "data": {
-        "articles": [
-          { "headline": "string", "source": "string", "summary": "string" }
-        ]
-      }
+      "data": { "articles": [{ "headline": "string", "source": "string", "summary": "string" }] }
     },
     {
       "type": "quote",
@@ -107,18 +72,53 @@ The JSON must follow this exact shape:
     },
     {
       "type": "markets",
+      "data": { "symbols": [{ "symbol": "string", "price": "string", "change": "string", "changePercent": "string", "direction": "up" }] }
+    },
+    {
+      "type": "sports",
       "data": {
-        "symbols": [
-          { "symbol": "string", "price": "string", "change": "string", "changePercent": "string", "direction": "up" }
-        ]
+        "results": [{ "team": "string", "opponent": "string", "score": "string", "result": "win", "nextGame": "optional string" }],
+        "standingsNote": "optional string"
       }
+    },
+    {
+      "type": "word_of_day",
+      "data": { "word": "string", "partOfSpeech": "string", "definition": "string", "etymology": "string", "exampleSentence": "string" }
+    },
+    {
+      "type": "workout",
+      "data": {
+        "intro": "string",
+        "warmup": [{ "exercise": "string", "duration": "string" }],
+        "circuit": [{ "exercise": "string", "sets": "optional", "reps": "optional", "duration": "optional" }],
+        "cooldown": "string"
+      }
+    },
+    {
+      "type": "mindfulness",
+      "data": { "prompt": "string", "style": "string" }
+    },
+    {
+      "type": "on_this_day",
+      "data": { "year": "string", "title": "string", "context": "string" }
+    },
+    {
+      "type": "currency",
+      "data": { "base": "string", "rates": [{ "target": "string", "rate": "string", "direction": "up", "change": "optional" }] }
+    },
+    {
+      "type": "podcast",
+      "data": { "showName": "string", "episodeTitle": "string", "length": "string", "guest": "optional", "description": "string", "url": "optional" }
+    },
+    {
+      "type": "fact",
+      "data": { "fact": "string", "explanation": "string", "category": "string" }
     }
   ]
 }
 
 Only include sections for the modules listed above. Sections must appear in this order: ${sectionOrder}.
-Use the exact type strings shown ("weather", "news", "quote", "markets").
-For markets, "direction" must be exactly "up" or "down" based on today's change.`;
+Use the exact type strings shown. For markets and currency, "direction" must be "up", "down", or "flat" based on today's change. For sports, "result" must be "win", "loss", or "draw".`;
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -129,7 +129,6 @@ export async function generateDailyBrief(
   user: Pick<Profile, 'full_name' | 'email'>,
   modules: ModuleRow[]
 ): Promise<GeneratedBrief> {
-  // Sort by display_order before building instructions so section order is preserved
   const sorted = [...modules].sort((a, b) => a.display_order - b.display_order);
   const instructions = buildSearchInstructions(sorted);
 
@@ -141,16 +140,12 @@ export async function generateDailyBrief(
 
   const response = await client.messages.create({
     model: 'claude-sonnet-4-6',
-    max_tokens: 2000,
-    // web_search_20250305 is a built-in tool type not yet reflected in the SDK's
-    // ToolUnion. Cast the array to bypass the type gap.
+    max_tokens: 4000,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     tools: [{ type: 'web_search_20250305', name: 'web_search' }] as any,
     messages: [{ role: 'user', content: prompt }],
   });
 
-  // Extract all text blocks from the response (search results come as tool_result blocks;
-  // the final answer is in text blocks)
   const rawText = response.content
     .filter((block): block is Anthropic.TextBlock => block.type === 'text')
     .map((block) => block.text)
@@ -161,7 +156,6 @@ export async function generateDailyBrief(
     throw new Error('[generate] Claude returned no text content.');
   }
 
-  // Strip accidental markdown fences Claude sometimes adds despite instructions
   const cleaned = rawText
     .trim()
     .replace(/^```(?:json)?\s*/i, '')
@@ -173,9 +167,7 @@ export async function generateDailyBrief(
     parsed = JSON.parse(cleaned) as GeneratedBrief;
   } catch {
     console.error('[generate] Failed to parse Claude response as JSON:\n', rawText);
-    throw new Error(
-      '[generate] Claude response was not valid JSON. See server logs for the raw response.'
-    );
+    throw new Error('[generate] Claude response was not valid JSON. See server logs for the raw response.');
   }
 
   return parsed;

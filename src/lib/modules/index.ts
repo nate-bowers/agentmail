@@ -4,6 +4,14 @@ import { weatherModule } from './weather';
 import { newsModule } from './news';
 import { quoteModule } from './quote';
 import { marketsModule } from './markets';
+import { sportsModule } from './sports';
+import { wordModule } from './word';
+import { workoutModule } from './workout';
+import { mindfulnessModule } from './mindfulness';
+import { onThisDayModule } from './onthisday';
+import { currencyModule } from './currency';
+import { podcastModule } from './podcast';
+import { factModule } from './fact';
 
 // ─────────────────────────────────────────────────────────────
 // Registry
@@ -15,7 +23,28 @@ export const MODULE_REGISTRY: Record<string, ModuleDefinition<any>> = {
   [newsModule.type]: newsModule,
   [quoteModule.type]: quoteModule,
   [marketsModule.type]: marketsModule,
+  [sportsModule.type]: sportsModule,
+  [wordModule.type]: wordModule,
+  [workoutModule.type]: workoutModule,
+  [mindfulnessModule.type]: mindfulnessModule,
+  [onThisDayModule.type]: onThisDayModule,
+  [currencyModule.type]: currencyModule,
+  [podcastModule.type]: podcastModule,
+  [factModule.type]: factModule,
 };
+
+// ─────────────────────────────────────────────────────────────
+// Display order for the module picker UI
+// ─────────────────────────────────────────────────────────────
+
+export const MODULE_DISPLAY_ORDER = [
+  'weather', 'news', 'quote', 'markets', 'sports',
+  'fact', 'on_this_day', 'word_of_day', 'mindfulness',
+  'workout', 'currency', 'podcast',
+];
+
+export const POPULAR_MODULE_TYPES = new Set(['weather', 'news', 'quote', 'markets', 'sports']);
+export const NEW_MODULE_TYPES = new Set(['fact', 'on_this_day', 'word_of_day', 'mindfulness', 'workout', 'currency', 'podcast']);
 
 // ─────────────────────────────────────────────────────────────
 // buildSearchInstructions
@@ -24,13 +53,6 @@ export const MODULE_REGISTRY: Record<string, ModuleDefinition<any>> = {
 /**
  * Converts an array of enabled user module rows into search instructions
  * ready to be passed to the Claude generation step.
- *
- * Rows with unknown or unrecognised module_type values are silently skipped
- * so that adding a new module type doesn't break existing users mid-deploy.
- *
- * Config is validated against the module's Zod schema before the instruction
- * is built. Rows with invalid config are skipped and logged to stderr so the
- * email still sends for the remaining valid modules.
  */
 export function buildSearchInstructions(
   modules: ModuleRow[]
