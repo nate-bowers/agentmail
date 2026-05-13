@@ -590,8 +590,13 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
         )
       );
 
-      const anyFailed = saveResults.some((r) => r.status === 'rejected');
-      if (anyFailed) throw new Error('Some modules failed to save');
+      for (const r of saveResults) {
+        if (r.status === 'rejected') throw new Error(`Module save network error: ${r.reason}`);
+        if (!r.value.ok) {
+          const body = await r.value.json().catch(() => ({}));
+          throw new Error(`Module save failed: ${body.error ?? r.value.status}`);
+        }
+      }
 
       // Save settings + complete onboarding
       const settingsRes = await fetch('/api/user/settings', {
@@ -604,7 +609,10 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
         }),
       });
 
-      if (!settingsRes.ok) throw new Error('Failed to save settings');
+      if (!settingsRes.ok) {
+        const body = await settingsRes.json().catch(() => ({}));
+        throw new Error(`Settings save failed: ${body.error ?? settingsRes.status}`);
+      }
 
       // Format delivery time for toast
       const [hStr, mStr] = sendTime.split(':');
@@ -617,7 +625,7 @@ export default function OnboardingModal({ onComplete }: OnboardingModalProps) {
       onComplete();
     } catch (err) {
       console.error('[onboarding] finish error:', err);
-      toast.error('Something went wrong. Please try again.');
+      toast.error(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
     } finally {
       setIsSaving(false);
     }

@@ -15,7 +15,6 @@ export async function GET() {
   const { data: users } = await supabase
     .from('profiles')
     .select('id, email, full_name, email_theme, timezone')
-    .eq('is_active', true)
     .limit(5);
 
   const { data: allModules } = await supabase
