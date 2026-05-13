@@ -58,9 +58,13 @@ export default function AuthForm({ mode }: AuthFormProps) {
   async function handleOAuth(provider: 'google' | 'azure') {
     setError(null);
     setOauthLoading(provider);
+    const scopes = provider === 'azure' ? 'openid email profile User.Read' : 'openid email profile';
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+        scopes,
+      },
     });
     if (error) {
       setError(error.message);
