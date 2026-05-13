@@ -100,7 +100,6 @@ export async function POST(request: NextRequest) {
         config: configParsed.data,
         display_order: nextOrder,
         is_enabled: true,
-        points: newModulePoints,
       })
       .select()
       .single();
