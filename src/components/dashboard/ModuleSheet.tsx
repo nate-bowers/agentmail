@@ -281,9 +281,24 @@ export default function ModuleSheet({ open, onOpenChange, editModule, onSaved }:
             body: JSON.stringify({ module_type: selectedType, config: finalConfig }),
           });
 
+      if (res.status === 403 && !isEditing) {
+        const body = await res.json();
+        if (body.error === 'points_exceeded') {
+          toast('No credits remaining', {
+            description: `You've used all ${body.pointsLimit ?? 3} credits. Upgrade to Pro to add more modules.`,
+            action: {
+              label: 'Upgrade',
+              onClick: () => { window.location.href = '/dashboard/upgrade'; },
+            },
+          });
+          handleOpenChange(false);
+          return;
+        }
+      }
+
       if (!res.ok) {
-        const { error } = await res.json();
-        throw new Error(typeof error === 'string' ? error : 'Save failed');
+        const body = await res.json();
+        throw new Error(typeof body.error === 'string' ? body.error : 'Save failed');
       }
 
       toast.success(isEditing ? 'Module updated.' : 'Module added.');

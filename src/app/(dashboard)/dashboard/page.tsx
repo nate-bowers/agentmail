@@ -7,6 +7,7 @@ import PageShell from '@/components/layout/PageShell';
 import ModuleList from '@/components/dashboard/ModuleList';
 import ResendButton from '@/components/dashboard/ResendButton';
 import TestSendButton from '@/components/dashboard/TestSendButton';
+import { getTotalPoints, FREE_TIER_POINTS, PRO_TIER_POINTS } from '@/lib/modules/points';
 import type { ModuleRow, Profile } from '@/types';
 
 function formatSendTime(time: string): string {
@@ -54,13 +55,19 @@ export default async function DashboardPage() {
   const onCooldown = lastSentAt ? new Date(lastSentAt) > new Date(sixHoursAgo) : false;
   const isPro = p.subscription_status === 'active';
 
+  const moduleList = (modules ?? []) as ModuleRow[];
+  const pointsUsed = getTotalPoints(moduleList);
+  const pointsLimit = isPro ? PRO_TIER_POINTS : FREE_TIER_POINTS;
+  const pointsPct = Math.min((pointsUsed / pointsLimit) * 100, 100);
+  const atLimit = pointsUsed >= pointsLimit;
+
   return (
     <PageShell>
       <div className="py-2 lg:grid lg:grid-cols-3 lg:gap-8">
         {/* Main content — 2 cols */}
         <div className="lg:col-span-2">
           <ModuleList
-            initialModules={(modules ?? []) as ModuleRow[]}
+            initialModules={moduleList}
             subscriptionStatus={p.subscription_status}
           />
         </div>
@@ -93,15 +100,27 @@ export default async function DashboardPage() {
                   Pro
                 </span>
               ) : (
-                <span className="inline-flex items-center rounded-full bg-surface-secondary border border-surface-border px-2.5 py-0.5 text-xs font-medium text-ink-muted">
+                <span className="inline-flex items-center rounded-full border border-surface-border bg-surface-secondary px-2.5 py-0.5 text-xs font-medium text-ink-muted">
                   Free
                 </span>
               )}
             </div>
+
+            {/* Compact points bar */}
+            <div className="mt-3 space-y-1.5">
+              <p className="text-xs text-ink-muted">{pointsUsed} / {pointsLimit} credits</p>
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-border">
+                <div
+                  className={`h-full rounded-full transition-all duration-300 ${atLimit ? 'bg-red-500' : 'bg-brand-purple'}`}
+                  style={{ width: `${pointsPct}%` }}
+                />
+              </div>
+            </div>
+
             {!isPro && (
               <Link
                 href="/dashboard/upgrade"
-                className="mt-2 inline-block text-sm text-brand-purple hover:text-brand-purple-dark"
+                className="mt-3 inline-block text-sm text-brand-purple hover:text-brand-purple-dark"
               >
                 Upgrade to Pro →
               </Link>
@@ -109,7 +128,7 @@ export default async function DashboardPage() {
             {isPro && (
               <Link
                 href="/dashboard/settings"
-                className="mt-2 inline-block text-sm text-brand-purple hover:text-brand-purple-dark"
+                className="mt-3 inline-block text-sm text-brand-purple hover:text-brand-purple-dark"
               >
                 Manage subscription
               </Link>

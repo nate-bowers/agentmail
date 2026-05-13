@@ -140,7 +140,7 @@ export async function generateDailyBrief(
   const prompt = buildPrompt(user, instructions);
 
   const response = await client.messages.create({
-    model: 'claude-sonnet-4-20250514',
+    model: 'claude-sonnet-4-6',
     max_tokens: 2000,
     // web_search_20250305 is a built-in tool type not yet reflected in the SDK's
     // ToolUnion. Cast the array to bypass the type gap.

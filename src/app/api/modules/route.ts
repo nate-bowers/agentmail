@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { MODULE_REGISTRY } from '@/lib/modules';
-import { PLANS } from '@/lib/stripe/products';
+import { MODULE_POINTS, FREE_TIER_POINTS, PRO_TIER_POINTS, getTotalPoints } from '@/lib/modules/points';
 
 const createSchema = z.object({
   module_type: z.string().min(1),
@@ -35,7 +35,6 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    // Validate request body shape
     let body: unknown;
     try {
       body = await request.json();
@@ -53,13 +52,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: `Unknown module type: ${module_type}` }, { status: 400 });
     }
 
-    // Validate config against the module's own schema
     const configParsed = MODULE_REGISTRY[module_type].configSchema.safeParse(config);
     if (!configParsed.success) {
       return NextResponse.json({ error: configParsed.error.flatten() }, { status: 422 });
     }
 
-    // Enforce free-tier module limit
+    // Points-based tier enforcement
     const { data: profile } = await supabase
       .from('profiles')
       .select('subscription_status')
@@ -67,16 +65,21 @@ export async function POST(request: NextRequest) {
       .single();
 
     const isPro = profile?.subscription_status === 'active';
+    const pointsLimit = isPro ? PRO_TIER_POINTS : FREE_TIER_POINTS;
+    const newModulePoints = MODULE_POINTS[module_type] ?? 1;
 
-    if (!isPro) {
-      const { count } = await supabase
-        .from('modules')
-        .select('id', { count: 'exact', head: true })
-        .eq('user_id', user.id);
+    const { data: existingModules } = await supabase
+      .from('modules')
+      .select('module_type')
+      .eq('user_id', user.id);
 
-      if ((count ?? 0) >= PLANS.free.moduleLimit) {
-        return NextResponse.json({ error: 'upgrade_required' }, { status: 403 });
-      }
+    const currentPoints = getTotalPoints((existingModules ?? []) as { module_type: string }[]);
+
+    if (currentPoints + newModulePoints > pointsLimit) {
+      return NextResponse.json(
+        { error: 'points_exceeded', pointsUsed: currentPoints, pointsLimit },
+        { status: 403 }
+      );
     }
 
     // Assign display_order = current max + 1
@@ -97,6 +100,7 @@ export async function POST(request: NextRequest) {
         config: configParsed.data,
         display_order: nextOrder,
         is_enabled: true,
+        points: newModulePoints,
       })
       .select()
       .single();

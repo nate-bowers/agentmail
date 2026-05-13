@@ -1,7 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Plus, Inbox, MoreHorizontal, Pencil, Trash2, type LucideIcon } from 'lucide-react';
+import {
+  Plus, Inbox, MoreHorizontal, Pencil, Trash2, Lock,
+  ChevronUp, ChevronDown, type LucideIcon,
+} from 'lucide-react';
 import { Cloud, Newspaper, Quote, TrendingUp, HelpCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -15,8 +18,9 @@ import {
   AlertDialogHeader, AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import ModuleSheet from './ModuleSheet';
+import PointsBar from './PointsBar';
 import { MODULE_REGISTRY } from '@/lib/modules';
-import { PLANS } from '@/lib/stripe/products';
+import { MODULE_POINTS, FREE_TIER_POINTS, PRO_TIER_POINTS, getTotalPoints } from '@/lib/modules/points';
 import type { ModuleRow } from '@/types';
 
 const ICON_MAP: Record<string, LucideIcon> = { Cloud, Newspaper, Quote, TrendingUp };
@@ -53,9 +57,21 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
 
   const isPro = subscriptionStatus === 'active';
-  const isAtLimit = !isPro && modules.length >= PLANS.free.moduleLimit;
+  const pointsUsed = getTotalPoints(modules);
+  const pointsLimit = isPro ? PRO_TIER_POINTS : FREE_TIER_POINTS;
+  const isAtLimit = pointsUsed >= pointsLimit;
 
   function openAdd() {
+    if (isAtLimit) {
+      toast('No credits remaining', {
+        description: `You've used all ${pointsLimit} credits. Upgrade to Pro to add more modules.`,
+        action: {
+          label: 'Upgrade',
+          onClick: () => { window.location.href = '/dashboard/upgrade'; },
+        },
+      });
+      return;
+    }
     setEditModule(null);
     setSheetOpen(true);
   }
@@ -85,6 +101,34 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
     }
   }
 
+  async function handleReorder(id: string, direction: 'up' | 'down') {
+    const idx = modules.findIndex((m) => m.id === id);
+    if (idx === -1) return;
+    const swapIdx = direction === 'up' ? idx - 1 : idx + 1;
+    if (swapIdx < 0 || swapIdx >= modules.length) return;
+
+    const newModules = [...modules];
+    const aOrder = newModules[idx].display_order;
+    const bOrder = newModules[swapIdx].display_order;
+    newModules[idx] = { ...newModules[idx], display_order: bOrder };
+    newModules[swapIdx] = { ...newModules[swapIdx], display_order: aOrder };
+    newModules.sort((a, b) => a.display_order - b.display_order);
+    setModules(newModules);
+
+    await Promise.all([
+      fetch(`/api/modules/${modules[idx].id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ display_order: bOrder }),
+      }),
+      fetch(`/api/modules/${modules[swapIdx].id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ display_order: aOrder }),
+      }),
+    ]);
+  }
+
   async function handleDelete(id: string) {
     const snapshot = [...modules];
     setModules((prev) => prev.filter((m) => m.id !== id));
@@ -104,16 +148,24 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
         {/* Header */}
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-ink">Your Modules</h2>
-          {isAtLimit ? (
-            <Button size="sm" variant="outline" asChild>
-              <a href="/dashboard/upgrade">Upgrade for more</a>
-            </Button>
-          ) : (
-            <Button size="sm" onClick={openAdd}>
-              <Plus className="mr-1.5 h-4 w-4" /> Add module
-            </Button>
-          )}
+          <Button
+            size="sm"
+            variant={isAtLimit ? 'outline' : 'default'}
+            onClick={openAdd}
+            className="gap-1.5"
+          >
+            {isAtLimit ? (
+              <><Lock className="h-3.5 w-3.5" /> Add module</>
+            ) : (
+              <><Plus className="h-3.5 w-3.5" /> Add module</>
+            )}
+          </Button>
         </div>
+
+        {/* Points bar */}
+        {modules.length > 0 && (
+          <PointsBar modules={modules} isPro={isPro} />
+        )}
 
         {/* Empty state */}
         {modules.length === 0 && (
@@ -132,11 +184,12 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
         )}
 
         {/* Module cards */}
-        {modules.map((module) => {
+        {modules.map((module, index) => {
           const def = MODULE_REGISTRY[module.module_type];
           if (!def) return null;
           const Icon = ICON_MAP[def.icon] ?? HelpCircle;
           const summary = configSummary(module.module_type, module.config);
+          const pts = MODULE_POINTS[module.module_type] ?? 1;
 
           return (
             <div
@@ -145,11 +198,31 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
                 module.is_enabled ? 'opacity-100' : 'opacity-50'
               }`}
             >
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
+                {/* Reorder arrows */}
+                <div className="flex flex-col gap-0.5">
+                  <button
+                    onClick={() => handleReorder(module.id, 'up')}
+                    disabled={index === 0}
+                    className="flex h-5 w-5 items-center justify-center rounded text-ink-faint transition-colors hover:text-ink disabled:opacity-25 disabled:cursor-default"
+                  >
+                    <ChevronUp className="h-3.5 w-3.5" />
+                  </button>
+                  <button
+                    onClick={() => handleReorder(module.id, 'down')}
+                    disabled={index === modules.length - 1}
+                    className="flex h-5 w-5 items-center justify-center rounded text-ink-faint transition-colors hover:text-ink disabled:opacity-25 disabled:cursor-default"
+                  >
+                    <ChevronDown className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+
+                {/* Icon */}
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-purple-light">
                   <Icon className="h-5 w-5 text-brand-purple" />
                 </div>
 
+                {/* Label + summary */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
                     <p className="font-medium text-ink">{def.label}</p>
@@ -162,6 +235,12 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
                   )}
                 </div>
 
+                {/* Points badge */}
+                <span className="shrink-0 rounded-full bg-surface-secondary px-2 py-0.5 text-xs text-ink-muted">
+                  {pts} {pts === 1 ? 'pt' : 'pts'}
+                </span>
+
+                {/* Dropdown */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0 text-ink-faint">

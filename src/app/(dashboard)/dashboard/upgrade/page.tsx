@@ -1,95 +1,180 @@
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { Check, ArrowLeft } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Lock, Sparkles } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import UpgradeButton from '@/components/dashboard/UpgradeButton';
-import { PLANS } from '@/lib/stripe/products';
+import PageShell from '@/components/layout/PageShell';
+import { getTotalPoints, FREE_TIER_POINTS } from '@/lib/modules/points';
+import { cn } from '@/lib/utils';
+
+const FREE_MODULES = [
+  { label: 'Weather', pts: 1, included: true },
+  { label: 'Quote', pts: 1, included: true },
+  { label: 'Markets', pts: 1, included: true },
+  { label: 'News digest', pts: 2, included: false },
+  { label: 'Sports scores', pts: 1, included: false },
+  { label: 'Word of the day', pts: 1, included: false },
+];
+
+const PRO_MODULES = [
+  { label: 'Weather', pts: 1 },
+  { label: 'News digest', pts: 2 },
+  { label: 'Quote', pts: 1 },
+  { label: 'Markets', pts: 1 },
+  { label: 'Sports scores', pts: 1 },
+  { label: 'Word of the day', pts: 1 },
+  { label: 'Workout tip', pts: 1 },
+  { label: 'Mindfulness', pts: 1 },
+];
 
 export default async function UpgradePage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('subscription_status')
-    .eq('id', user.id)
-    .single();
+  const [{ data: profile }, { data: modules }] = await Promise.all([
+    supabase.from('profiles').select('subscription_status').eq('id', user.id).single(),
+    supabase.from('modules').select('module_type').eq('user_id', user.id),
+  ]);
 
   const isActive = profile?.subscription_status === 'active';
+  const pointsUsed = getTotalPoints((modules ?? []) as { module_type: string }[]);
 
   return (
-    <div className="space-y-8">
-      <div>
-        <Button variant="ghost" size="sm" className="-ml-2 text-muted-foreground" asChild>
+    <PageShell>
+      <div className="mx-auto max-w-2xl space-y-10">
+        {/* Back link */}
+        <Button variant="ghost" size="sm" className="-ml-2 text-ink-muted" asChild>
           <Link href="/dashboard">
             <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
             Back to dashboard
           </Link>
         </Button>
-        <h1 className="mt-3 text-xl font-semibold">
-          {isActive ? 'Your subscription' : 'Upgrade to Brief Pro'}
-        </h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {isActive
-            ? 'You have an active Pro subscription.'
-            : 'Unlock unlimited modules and priority delivery.'}
-        </p>
-      </div>
 
-      {/* Pricing cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {/* Free */}
-        <div className="rounded-lg border bg-card p-6 space-y-4">
-          <div>
-            <p className="text-sm font-medium text-muted-foreground">{PLANS.free.name}</p>
-            <p className="text-3xl font-semibold mt-1">$0</p>
-            <p className="text-xs text-muted-foreground">per month</p>
+        {/* Header */}
+        <div className="space-y-3 text-center">
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-brand-purple-light px-3 py-1.5 text-sm font-medium text-brand-purple">
+            <Sparkles className="h-3.5 w-3.5" />
+            Brief Pro
           </div>
-          <ul className="space-y-2">
-            {PLANS.free.features.map((f) => (
-              <li key={f} className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Check className="h-3.5 w-3.5 shrink-0" />
+          <h1 className="text-3xl font-bold tracking-tight text-ink">
+            Unlock your full morning brief
+          </h1>
+          <p className="text-ink-muted">
+            Most people upgrade within their first week. Here&rsquo;s why.
+          </p>
+        </div>
+
+        {/* Social proof strip */}
+        <div className="rounded-xl bg-surface-secondary p-4">
+          <div className="flex items-center justify-center divide-x divide-surface-border">
+            {[
+              { stat: '2 min', label: 'Setup time' },
+              { stat: '12 credits', label: 'With Pro' },
+              { stat: '$9/mo', label: 'Less than a coffee' },
+            ].map(({ stat, label }) => (
+              <div key={label} className="flex flex-col items-center gap-0.5 px-8">
+                <span className="font-bold text-ink">{stat}</span>
+                <span className="text-xs text-ink-muted">{label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Points comparison */}
+        <div className="grid grid-cols-2 gap-4">
+          {/* Free */}
+          <div className="rounded-xl border border-surface-border p-5 space-y-3">
+            <p className="font-mono text-xs uppercase tracking-wider text-ink-muted">
+              Free — 3 credits
+            </p>
+            <div className="space-y-2">
+              {FREE_MODULES.map(({ label, pts, included }) => (
+                <div
+                  key={label}
+                  className={cn(
+                    'flex items-center gap-2 text-sm',
+                    included ? 'text-ink' : 'text-ink-faint'
+                  )}
+                >
+                  {included ? (
+                    <span className="text-green-500 text-base leading-none">✓</span>
+                  ) : (
+                    <Lock className="h-3.5 w-3.5 shrink-0" />
+                  )}
+                  <span className="flex-1">{label}</span>
+                  <span className="text-xs text-ink-faint">({pts}pt)</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Pro */}
+          <div className="rounded-xl border-2 border-brand-purple bg-brand-purple/[0.03] p-5 space-y-3">
+            <p className="font-mono text-xs uppercase tracking-wider text-brand-purple">
+              Pro — 12 credits
+            </p>
+            <div className="space-y-2">
+              {PRO_MODULES.map(({ label, pts }) => (
+                <div key={label} className="flex items-center gap-2 text-sm text-ink">
+                  <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-brand-purple" />
+                  <span className="flex-1">{label}</span>
+                  <span className="text-xs text-ink-faint">({pts}pt)</span>
+                </div>
+              ))}
+              <p className="pt-1 text-xs font-medium text-brand-purple">+ 4 more credits to use</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Pricing card */}
+        <div className="mx-auto w-full max-w-sm rounded-2xl border border-surface-border bg-white p-6 shadow-sm space-y-5">
+          <div>
+            <p className="font-medium text-ink">Brief Pro</p>
+            <div className="mt-1 flex items-baseline gap-1">
+              <span className="text-4xl font-bold text-ink">$9</span>
+              <span className="text-ink-muted">/month</span>
+            </div>
+          </div>
+
+          <ul className="space-y-2.5">
+            {[
+              '12 module credits — 4x more than free',
+              'All current and future modules',
+              'Priority email delivery',
+              'Cancel anytime, no questions asked',
+            ].map((f) => (
+              <li key={f} className="flex items-start gap-2.5 text-sm text-ink">
+                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-purple" />
                 {f}
               </li>
             ))}
           </ul>
-          <div className="pt-2">
-            <Badge variant="secondary" className="text-xs">Current plan</Badge>
+
+          {isActive ? (
+            <div className="rounded-lg border border-green-100 bg-green-50 px-4 py-3 text-center text-sm text-green-700">
+              You&rsquo;re already on Brief Pro
+            </div>
+          ) : (
+            <UpgradeButton />
+          )}
+
+          <div className="space-y-1 text-center">
+            <p className="text-xs text-ink-muted">
+              Secured by Stripe. Your card is never stored on our servers.
+            </p>
+            <p className="text-xs text-ink-faint">Visa · Mastercard · Amex · Apple Pay</p>
           </div>
         </div>
 
-        {/* Pro */}
-        <div className="rounded-lg border-2 border-primary bg-card p-6 space-y-4 relative">
-          <Badge className="absolute right-4 top-4 text-xs">Popular</Badge>
-          <div>
-            <p className="text-sm font-medium">{PLANS.pro.name}</p>
-            <p className="text-3xl font-semibold mt-1">${PLANS.pro.monthlyPrice}</p>
-            <p className="text-xs text-muted-foreground">per month</p>
-          </div>
-          <ul className="space-y-2">
-            {PLANS.pro.features.map((f) => (
-              <li key={f} className="flex items-center gap-2 text-sm">
-                <Check className="h-3.5 w-3.5 shrink-0 text-primary" />
-                {f}
-              </li>
-            ))}
-          </ul>
-          <div className="pt-2">
-            {isActive ? (
-              <Badge className="text-xs">Active</Badge>
-            ) : (
-              <UpgradeButton />
-            )}
-          </div>
-        </div>
+        {/* Current plan context */}
+        {!isActive && (
+          <p className="text-center text-sm text-ink-muted">
+            You&rsquo;re currently on the free plan using {pointsUsed} of {FREE_TIER_POINTS} credits.
+          </p>
+        )}
       </div>
-
-      <p className="text-xs text-muted-foreground text-center">
-        Payments are processed securely by Stripe. Cancel anytime.
-      </p>
-    </div>
+    </PageShell>
   );
 }

@@ -9,21 +9,38 @@ import Logo from './Logo';
 
 // ─── Marketing variant ────────────────────────────────────────
 
-function MarketingNav() {
+function MarketingNav({ transparent }: { transparent?: boolean }) {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-surface-border bg-surface">
+    <header
+      className={cn(
+        'sticky top-0 z-50 w-full transition-colors',
+        transparent ? '' : 'border-b border-surface-border bg-surface'
+      )}
+    >
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">
-        <Logo size="md" />
+        <Logo size="md" light={transparent} />
         <nav className="flex items-center gap-4">
           <Link
             href="/login"
-            className="text-sm text-ink-muted transition-colors hover:text-ink"
+            className={cn(
+              'text-sm transition-colors',
+              transparent ? 'text-white/70 hover:text-white' : 'text-ink-muted hover:text-ink'
+            )}
           >
             Sign in
           </Link>
-          <Button asChild size="sm">
-            <Link href="/signup">Get started</Link>
-          </Button>
+          {transparent ? (
+            <Link
+              href="/signup"
+              className="rounded-lg bg-white px-3.5 py-1.5 text-sm font-medium text-[#0D0D0F] transition-colors hover:bg-white/90"
+            >
+              Get started
+            </Link>
+          ) : (
+            <Button asChild size="sm">
+              <Link href="/signup">Get started</Link>
+            </Button>
+          )}
         </nav>
       </div>
     </header>
@@ -118,12 +135,12 @@ function DashboardNav({ email }: { email: string }) {
 // ─── Exported component ───────────────────────────────────────
 
 type TopNavProps =
-  | { variant: 'marketing' }
+  | { variant: 'marketing'; transparent?: boolean }
   | { variant: 'auth'; mode: 'login' | 'signup' }
   | { variant: 'dashboard'; email: string };
 
 export default function TopNav(props: TopNavProps) {
-  if (props.variant === 'marketing') return <MarketingNav />;
+  if (props.variant === 'marketing') return <MarketingNav transparent={props.transparent} />;
   if (props.variant === 'auth') return <AuthNav mode={props.mode} />;
   return <DashboardNav email={props.email} />;
 }
