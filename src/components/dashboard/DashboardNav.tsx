@@ -26,7 +26,7 @@ export default function DashboardNav({ email }: { email: string }) {
     <header className="border-b bg-background">
       <div className="mx-auto flex max-w-2xl items-center justify-between px-4 py-3">
         <div className="flex items-center gap-6">
-          <span className="text-sm font-semibold tracking-tight">AgentMail</span>
+          <span className="text-sm font-semibold tracking-tight">Daily Brief</span>
           <nav className="flex gap-4">
             {NAV_LINKS.map(({ href, label }) => (
               <Link

@@ -56,7 +56,7 @@ export async function sendDailyBrief(
 
   try {
     const { error } = await resend.emails.send({
-      from: 'AgentMail <brief@yourdomain.com>',
+      from: 'Daily Brief <brief@dailybriefmail.com>',
       to: email,
       subject,
       html,

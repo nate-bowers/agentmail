@@ -23,7 +23,7 @@ export default function NotFound() {
           className="inline-block rounded-none border px-5 py-2 text-xs tracking-wide transition-colors"
           style={{ borderColor: '#222', color: '#888' }}
         >
-          ← Back to AgentMail
+          ← Back to Daily Brief
         </Link>
       </div>
     </div>

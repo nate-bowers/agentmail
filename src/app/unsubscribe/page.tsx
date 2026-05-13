@@ -63,7 +63,7 @@ export default async function UnsubscribePage({ searchParams }: UnsubscribePageP
           className="mb-3 text-2xl tracking-tight"
           style={{ fontFamily: 'Georgia, "Times New Roman", ui-serif, serif' }}
         >
-          Unsubscribe from AgentMail?
+          Unsubscribe from Daily Brief?
         </h1>
 
         <p className="mb-2 text-sm leading-relaxed" style={{ color: '#666' }}>
@@ -79,7 +79,7 @@ export default async function UnsubscribePage({ searchParams }: UnsubscribePageP
             className="text-xs transition-colors"
             style={{ color: '#444' }}
           >
-            ← Back to AgentMail
+            ← Back to Daily Brief
           </Link>
         </div>
       </div>
@@ -111,7 +111,7 @@ function UnsubscribeError({ heading, body }: { heading: string; body: string }) 
           {body}
         </p>
         <Link href="/" className="text-xs" style={{ color: '#444' }}>
-          ← Back to AgentMail
+          ← Back to Daily Brief
         </Link>
       </div>
     </div>
@@ -135,7 +135,7 @@ function UnsubscribeResult({ heading, body }: { heading: string; body: string })
           {body}
         </p>
         <Link href="/" className="text-xs" style={{ color: '#444' }}>
-          ← Back to AgentMail
+          ← Back to Daily Brief
         </Link>
       </div>
     </div>

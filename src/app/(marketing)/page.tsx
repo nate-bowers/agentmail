@@ -14,7 +14,7 @@ import { PLANS } from '@/lib/stripe/products';
 // Page metadata + Open Graph
 // ─────────────────────────────────────────────────────────────
 
-const META_TITLE = 'AgentMail — Your Morning Brief, Curated by AI';
+const META_TITLE = 'Daily Brief — Your Morning Brief, Curated by AI';
 const META_DESCRIPTION =
   'One personalized email, every morning. Real-time weather, news, markets, and more — written by AI, configured by you. Free to start.';
 
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     description: META_DESCRIPTION,
     type: 'website',
     // Place a 1200×630 image at public/og.png before launch
-    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'AgentMail' }],
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Daily Brief' }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -94,7 +94,7 @@ function Nav() {
         href="/"
         className="text-sm font-semibold tracking-tight text-[#ededed]"
       >
-        AgentMail
+        Daily Brief
       </Link>
       <nav className="flex items-center gap-4">
         <Link
@@ -231,7 +231,7 @@ function Solution() {
           Everything you actually want.
         </h2>
         <p className="mt-6 max-w-lg text-base leading-relaxed text-[#444] md:text-lg">
-          Tell AgentMail what matters — your city&rsquo;s weather, the
+          Tell Daily Brief what matters — your city&rsquo;s weather, the
           topics you follow, the stocks you watch. Every morning, before
           you wake up, Claude searches the web in real time and writes your
           brief from scratch. No curation lag. No stale feeds. Just
@@ -532,7 +532,7 @@ function Footer() {
     <footer className="border-t border-[#141414] px-6 py-12">
       <div className="mx-auto flex max-w-2xl flex-col gap-8 md:flex-row md:items-start md:justify-between">
         <div>
-          <p className="text-sm font-medium text-[#ededed]">AgentMail</p>
+          <p className="text-sm font-medium text-[#ededed]">Daily Brief</p>
           <p className="mt-1 font-mono text-[11px] text-[#2a2a2a]">© 2025. All rights reserved.</p>
         </div>
 

@@ -14,8 +14,9 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "AgentMail",
-  description: "Your personalized daily email brief",
+  metadataBase: new URL('https://dailybriefmail.com'),
+  title: "Daily Brief",
+  description: "Your personalized daily email brief, curated by AI.",
 };
 
 export default function RootLayout({
