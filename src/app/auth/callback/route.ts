@@ -1,9 +1,5 @@
-// Handles the redirect after Supabase sends a confirmation email.
-// Supabase appends ?code=... to the URL; we exchange it for a session
-// and redirect the user into the app.
-
+import { createServerClient } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
@@ -11,13 +7,33 @@ export async function GET(request: NextRequest) {
   const next = searchParams.get('next') ?? '/dashboard';
 
   if (code) {
-    const supabase = await createClient();
+    // Build the redirect response first so we can attach cookies directly to it.
+    // Using createClient() here loses the session because cookieStore.set() writes
+    // to the default response, not to the NextResponse.redirect() we return.
+    const response = NextResponse.redirect(`${origin}${next}`);
+
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll();
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              response.cookies.set(name, value, options)
+            );
+          },
+        },
+      }
+    );
+
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      return NextResponse.redirect(`${origin}${next}`);
+      return response;
     }
   }
 
-  // Something went wrong — send to login with an error flag
   return NextResponse.redirect(`${origin}/login?error=auth_callback_failed`);
 }

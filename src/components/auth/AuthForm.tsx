@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -22,7 +21,6 @@ interface AuthFormProps {
 }
 
 export default function AuthForm({ mode, initialError }: AuthFormProps) {
-  const router = useRouter();
   const supabase = createClient();
 
   const [email, setEmail] = useState('');
@@ -45,17 +43,14 @@ export default function AuthForm({ mode, initialError }: AuthFormProps) {
         const { data, error } = await supabase.auth.signUp({ email, password });
         if (error) throw error;
         if (!data.session) {
-          // Email confirmation is required — session won't exist until confirmed
           setCheckEmail(true);
           return;
         }
-        router.refresh();
-        router.push('/dashboard');
+        window.location.href = '/dashboard';
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        router.refresh();
-        router.push('/dashboard');
+        window.location.href = '/dashboard';
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Something went wrong.');
