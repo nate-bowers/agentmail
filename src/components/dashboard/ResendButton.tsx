@@ -58,7 +58,7 @@ export default function ResendButton({ sentToday, onCooldown }: ResendButtonProp
       size="sm"
       onClick={handleResend}
       disabled={disabled}
-      className="gap-1.5 text-muted-foreground"
+      className="w-full justify-start gap-1.5 text-ink-muted hover:text-ink"
     >
       <RefreshCw className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`} />
       {justSent ? 'Sent!' : loading ? 'Sending…' : "Resend today's brief"}

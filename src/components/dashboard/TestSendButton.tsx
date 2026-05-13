@@ -40,14 +40,14 @@ export default function TestSendButton() {
 
   return (
     <Button
-      variant="outline"
+      variant="ghost"
       size="sm"
       onClick={handleSend}
       disabled={loading}
-      className="gap-1.5"
+      className="w-full justify-start gap-1.5 text-ink-muted hover:text-ink"
     >
       <Send className="h-3.5 w-3.5" />
-      {loading ? 'Sending…' : 'Send test brief'}
+      {loading ? 'Sending…' : 'Send test email'}
     </Button>
   );
 }

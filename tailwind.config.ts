@@ -10,6 +10,26 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Brand palette
+        brand: {
+          purple: '#7C5CFC',
+          'purple-light': '#EDE9FF',
+          'purple-dark': '#5B3FD4',
+          'purple-muted': '#A78BFA',
+        },
+        // Surface palette
+        surface: {
+          DEFAULT: '#FFFFFF',
+          secondary: '#F8F7FF',
+          border: '#E8E4FF',
+        },
+        // Ink palette
+        ink: {
+          DEFAULT: '#0F0F0F',
+          muted: '#6B7280',
+          faint: '#9CA3AF',
+        },
+        // shadcn tokens (hsl CSS variables)
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -49,8 +69,35 @@ const config: Config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+        "slide-in-from-right": {
+          from: { transform: "translateX(100%)" },
+          to: { transform: "translateX(0)" },
+        },
+        "slide-out-to-right": {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(100%)" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in": "fade-in 0.2s ease-out",
+      },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 };
 export default config;

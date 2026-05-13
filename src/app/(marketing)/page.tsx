@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import TopNav from '@/components/layout/TopNav';
 import {
   ArrowRight,
   Cloud,
@@ -86,33 +87,7 @@ function GrainOverlay() {
 // ─────────────────────────────────────────────────────────────
 
 function Nav() {
-  return (
-    <header
-      className="fixed inset-x-0 top-0 z-50 flex items-center justify-between border-b border-[#141414] px-6 py-4"
-      style={{ background: 'rgba(10,10,10,0.85)', backdropFilter: 'blur(16px)' }}
-    >
-      <Link
-        href="/"
-        className="text-sm font-semibold tracking-tight text-[#ededed]"
-      >
-        Daily Brief
-      </Link>
-      <nav className="flex items-center gap-4">
-        <Link
-          href="/login"
-          className="hidden text-sm text-[#555] transition-colors hover:text-[#ededed] sm:block"
-        >
-          Sign in
-        </Link>
-        <Link
-          href="/signup"
-          className="rounded-full bg-[#ededed] px-4 py-1.5 text-sm font-medium text-[#0a0a0a] transition-colors hover:bg-white"
-        >
-          Get started
-        </Link>
-      </nav>
-    </header>
-  );
+  return <TopNav variant="marketing" />;
 }
 
 // ─────────────────────────────────────────────────────────────

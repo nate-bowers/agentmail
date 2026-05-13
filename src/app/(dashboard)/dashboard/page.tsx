@@ -1,11 +1,12 @@
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { Settings } from 'lucide-react';
+import { Clock } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import PageShell from '@/components/layout/PageShell';
 import ModuleList from '@/components/dashboard/ModuleList';
 import ResendButton from '@/components/dashboard/ResendButton';
+import TestSendButton from '@/components/dashboard/TestSendButton';
 import type { ModuleRow, Profile } from '@/types';
 
 function formatSendTime(time: string): string {
@@ -17,10 +18,7 @@ function formatSendTime(time: string): string {
 
 function getTimezoneAbbr(tz: string): string {
   try {
-    const abbr = new Intl.DateTimeFormat('en-US', {
-      timeZone: tz,
-      timeZoneName: 'short',
-    })
+    const abbr = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'short' })
       .formatToParts(new Date())
       .find((p) => p.type === 'timeZoneName')?.value;
     return abbr ?? tz;
@@ -40,63 +38,99 @@ export default async function DashboardPage() {
 
   const [{ data: profile }, { data: modules }, { data: recentLogs }] = await Promise.all([
     supabase.from('profiles').select('*').eq('id', user.id).single(),
-    supabase
-      .from('modules')
-      .select('*')
-      .eq('user_id', user.id)
-      .order('display_order', { ascending: true }),
-    supabase
-      .from('email_logs')
-      .select('sent_at, status')
-      .eq('user_id', user.id)
-      .eq('status', 'success')
+    supabase.from('modules').select('*').eq('user_id', user.id).order('display_order', { ascending: true }),
+    supabase.from('email_logs').select('sent_at, status')
+      .eq('user_id', user.id).eq('status', 'success')
       .gte('sent_at', startOfToday.toISOString())
-      .order('sent_at', { ascending: false })
-      .limit(1),
+      .order('sent_at', { ascending: false }).limit(1),
   ]);
 
   if (!profile) redirect('/login');
 
   const p = profile as Profile;
   const tzAbbr = getTimezoneAbbr(p.timezone);
-
   const sentToday = (recentLogs?.length ?? 0) > 0;
   const lastSentAt = recentLogs?.[0]?.sent_at ?? null;
   const onCooldown = lastSentAt ? new Date(lastSentAt) > new Date(sixHoursAgo) : false;
+  const isPro = p.subscription_status === 'active';
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-xl font-semibold">Your Daily Brief</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Sent at{' '}
-            <span className="font-medium text-foreground">
-              {formatSendTime(p.send_time)}
-            </span>{' '}
-            {tzAbbr}
-          </p>
+    <PageShell>
+      <div className="py-2 lg:grid lg:grid-cols-3 lg:gap-8">
+        {/* Main content — 2 cols */}
+        <div className="lg:col-span-2">
+          <ModuleList
+            initialModules={(modules ?? []) as ModuleRow[]}
+            subscriptionStatus={p.subscription_status}
+          />
         </div>
 
-        <div className="flex items-center gap-2">
-          <ResendButton sentToday={sentToday} onCooldown={onCooldown} />
-          <Badge variant={p.subscription_status === 'active' ? 'default' : 'secondary'}>
-            {p.subscription_status === 'active' ? 'Pro' : 'Free'}
-          </Badge>
-          <Button variant="ghost" size="icon" className="h-8 w-8" asChild>
-            <Link href="/dashboard/settings" aria-label="Edit settings">
-              <Settings className="h-4 w-4" />
+        {/* Sidebar — 1 col */}
+        <div className="mt-8 space-y-4 lg:mt-0">
+          {/* Delivery card */}
+          <div className="rounded-xl border border-surface-border border-t-[3px] border-t-brand-purple bg-white p-5">
+            <p className="font-medium text-ink">Delivery</p>
+            <div className="mt-3 flex items-center gap-2 text-sm">
+              <Clock className="h-4 w-4 text-brand-purple shrink-0" />
+              <span className="font-medium text-ink">{formatSendTime(p.send_time)}</span>
+              <span className="text-ink-muted">{tzAbbr}</span>
+            </div>
+            <Link
+              href="/dashboard/settings"
+              className="mt-2 inline-block text-xs text-brand-purple hover:text-brand-purple-dark"
+            >
+              Edit settings →
             </Link>
-          </Button>
+          </div>
+
+          {/* Account card */}
+          <div className="rounded-xl border border-surface-border border-t-[3px] border-t-brand-purple bg-white p-5">
+            <p className="font-medium text-ink">Account</p>
+            <p className="mt-2 text-sm text-ink-muted truncate">{user.email}</p>
+            <div className="mt-2 flex items-center gap-2">
+              {isPro ? (
+                <span className="inline-flex items-center rounded-full bg-brand-purple px-2.5 py-0.5 text-xs font-medium text-white">
+                  Pro
+                </span>
+              ) : (
+                <span className="inline-flex items-center rounded-full bg-surface-secondary border border-surface-border px-2.5 py-0.5 text-xs font-medium text-ink-muted">
+                  Free
+                </span>
+              )}
+            </div>
+            {!isPro && (
+              <Link
+                href="/dashboard/upgrade"
+                className="mt-2 inline-block text-sm text-brand-purple hover:text-brand-purple-dark"
+              >
+                Upgrade to Pro →
+              </Link>
+            )}
+            {isPro && (
+              <Link
+                href="/dashboard/settings"
+                className="mt-2 inline-block text-sm text-brand-purple hover:text-brand-purple-dark"
+              >
+                Manage subscription
+              </Link>
+            )}
+          </div>
+
+          {/* Quick actions */}
+          <div className="rounded-xl border border-surface-border border-t-[3px] border-t-brand-purple bg-white p-5 space-y-2">
+            <p className="font-medium text-ink">Quick Actions</p>
+            <div className="flex flex-col gap-2 mt-3">
+              <Button variant="outline" size="sm" className="w-full justify-start" asChild>
+                <Link href="/dashboard/preview">Preview my brief</Link>
+              </Button>
+              <TestSendButton />
+              {sentToday && (
+                <ResendButton sentToday={sentToday} onCooldown={onCooldown} />
+              )}
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* Module list */}
-      <ModuleList
-        initialModules={(modules ?? []) as ModuleRow[]}
-        subscriptionStatus={p.subscription_status}
-      />
-    </div>
+    </PageShell>
   );
 }

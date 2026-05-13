@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { generateDailyBrief } from '@/lib/email/generate';
 import DailyBriefEmail from '@/components/email/DailyBriefEmail';
 import TestSendButton from '@/components/dashboard/TestSendButton';
+import PageShell from '@/components/layout/PageShell';
 import type { ModuleRow, Profile } from '@/types';
 
 export const dynamic = 'force-dynamic';
@@ -32,17 +33,19 @@ export default async function PreviewPage() {
   // If no modules are enabled, show a placeholder
   if (enabledModules.length === 0) {
     return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-xl font-semibold">Preview Your Brief</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Enable at least one module to preview your daily brief.
-          </p>
+      <PageShell>
+        <div className="space-y-6">
+          <div>
+            <h1 className="text-xl font-semibold">Preview Your Brief</h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Enable at least one module to preview your daily brief.
+            </p>
+          </div>
+          <div className="rounded-lg border border-dashed p-12 text-center">
+            <p className="text-sm text-muted-foreground">No modules enabled.</p>
+          </div>
         </div>
-        <div className="rounded-lg border border-dashed p-12 text-center">
-          <p className="text-sm text-muted-foreground">No modules enabled.</p>
-        </div>
-      </div>
+      </PageShell>
     );
   }
 
@@ -73,32 +76,34 @@ export default async function PreviewPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-xl font-semibold">Preview Your Brief</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Live preview generated with your current modules.
-          </p>
+    <PageShell>
+      <div className="space-y-6">
+        <div className="flex items-start justify-between">
+          <div>
+            <h1 className="text-xl font-semibold">Preview Your Brief</h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Live preview generated with your current modules.
+            </p>
+          </div>
+          <TestSendButton />
         </div>
-        <TestSendButton />
-      </div>
 
-      {errorMessage ? (
-        <div className="rounded-lg border border-destructive/40 bg-destructive/5 p-6 text-sm text-destructive">
-          <p className="font-medium">Failed to generate preview</p>
-          <p className="mt-1 text-xs opacity-80">{errorMessage}</p>
-        </div>
-      ) : (
-        <div className="overflow-hidden rounded-lg border">
-          <iframe
-            srcDoc={html}
-            className="h-[800px] w-full"
-            title="Email preview"
-            sandbox="allow-same-origin"
-          />
-        </div>
-      )}
-    </div>
+        {errorMessage ? (
+          <div className="rounded-lg border border-destructive/40 bg-destructive/5 p-6 text-sm text-destructive">
+            <p className="font-medium">Failed to generate preview</p>
+            <p className="mt-1 text-xs opacity-80">{errorMessage}</p>
+          </div>
+        ) : (
+          <div className="overflow-hidden rounded-lg border">
+            <iframe
+              srcDoc={html}
+              className="h-[800px] w-full"
+              title="Email preview"
+              sandbox="allow-same-origin"
+            />
+          </div>
+        )}
+      </div>
+    </PageShell>
   );
 }
