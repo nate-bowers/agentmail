@@ -100,6 +100,16 @@ function buildSchemaDescription(instructions: ModuleSearchInstruction[]): string
 }
 
 // ─────────────────────────────────────────────────────────────
+// Search policy — modules that never need real-time data
+// ─────────────────────────────────────────────────────────────
+
+const NO_SEARCH_MODULES = new Set([
+  'quote', 'fact', 'affirmation', 'mindfulness', 'recipe',
+  'book', 'challenge', 'language', 'word_of_day', 'horoscope',
+  'workout', 'on_this_day',
+]);
+
+// ─────────────────────────────────────────────────────────────
 // Prompt builder
 // ─────────────────────────────────────────────────────────────
 
@@ -112,7 +122,13 @@ function buildPrompt(
   const { verbosity, includeIntro, includeCommentary } = theme.prose;
 
   const instructionBlock = instructions
-    .map((inst, i) => `SECTION ${i + 1} (${inst.moduleType}):\n${inst.searchInstruction}`)
+    .map((inst, i) => {
+      const noSearch = NO_SEARCH_MODULES.has(inst.moduleType);
+      const searchDirective = noSearch
+        ? '⚠ DO NOT use web_search for this section. Generate entirely from your training knowledge.'
+        : '✓ Use web_search to fetch current real-time data for this section. One search is usually enough.';
+      return `SECTION ${i + 1} (${inst.moduleType}):\n${searchDirective}\n${inst.searchInstruction}`;
+    })
     .join('\n\n');
 
   const sectionOrder = instructions.map((i) => i.moduleType).join(', ');
@@ -143,6 +159,12 @@ Do not use markdown code fences or backticks.
 Do not include comments inside the JSON.
 Every section listed below must appear in the sections array.
 If you cannot find real data for a section, generate reasonable placeholder content — never omit a section.
+
+SEARCH EFFICIENCY (important — minimize API cost):
+- Sections marked ⚠ DO NOT use web_search — generate from training knowledge only.
+- Sections marked ✓ require real-time data — search, but use the minimum searches needed.
+- One search per real-time section is almost always sufficient. Do not run follow-up searches unless the first returned nothing useful.
+- Never search for content you already know (quotes, recipes, word definitions, horoscopes, workout plans, etc.).
 
 USER CONTEXT:
 Name: ${firstName}
