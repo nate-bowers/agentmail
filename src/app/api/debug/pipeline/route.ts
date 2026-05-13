@@ -12,16 +12,18 @@ export async function GET() {
   const output: Record<string, any> = {};
 
   // Step 1: Find users and their modules
-  const { data: users } = await supabase
+  const { data: users, error: usersError } = await supabase
     .from('profiles')
     .select('id, email, full_name, email_theme, timezone')
     .limit(5);
 
-  const { data: allModules } = await supabase
+  const { data: allModules, error: modulesError } = await supabase
     .from('modules')
     .select('*')
     .eq('is_enabled', true);
 
+  output.usersQueryError = usersError?.message ?? null;
+  output.modulesQueryError = modulesError?.message ?? null;
   output.usersFound = users?.length ?? 0;
   output.totalModulesFound = allModules?.length ?? 0;
   output.modulesByUser = (allModules ?? []).reduce<Record<string, string[]>>((acc, m: ModuleRow) => {
