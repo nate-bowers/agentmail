@@ -6,6 +6,8 @@ const configSchema = z.object({
   equipment: z.enum(['none', 'minimal', 'full_gym']),
   duration: z.union([z.literal(15), z.literal(30), z.literal(45)]),
   focus: z.enum(['full_body', 'upper', 'lower', 'cardio', 'flexibility']),
+  injuries: z.string().max(100).optional(),
+  customRequest: z.string().max(150).optional(),
 });
 
 type WorkoutConfig = z.infer<typeof configSchema>;
@@ -37,12 +39,18 @@ export const workoutModule: ModuleDefinition<typeof configSchema> = {
   } satisfies WorkoutConfig,
   configSchema,
   buildSearchInstruction(config) {
-    return (
+    let instruction =
       `Generate a ${config.duration}-minute ${focusLabel[config.focus]} workout for a ` +
       `${config.fitnessLevel} person with ${equipmentLabel[config.equipment]}. Include: ` +
       `a 2-sentence intro motivating the workout, a warm-up (2-3 exercises), main circuit ` +
       `(4-6 exercises with sets and reps or duration), and a cool-down note. Format as a ` +
-      `clean structured list. Make it specific and actionable, not generic.`
-    );
+      `clean structured list. Make it specific and actionable, not generic.`;
+    if (config.injuries) {
+      instruction += ` Avoid exercises that stress: ${config.injuries}.`;
+    }
+    if (config.customRequest) {
+      instruction += ` Additional context: ${config.customRequest}`;
+    }
+    return instruction;
   },
 };

@@ -4,15 +4,18 @@ import Link from 'next/link';
 import { Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { MODULE_POINTS, FREE_TIER_POINTS, PRO_TIER_POINTS } from '@/lib/modules/points';
+import { getModulePoints, FREE_TIER_POINTS, PRO_TIER_POINTS } from '@/lib/modules/points';
 
 interface PointsBarProps {
-  modules: { module_type: string }[];
+  modules: { module_type: string; config?: Record<string, unknown> }[];
   isPro: boolean;
 }
 
 export default function PointsBar({ modules, isPro }: PointsBarProps) {
-  const totalPoints = modules.reduce((sum, m) => sum + (MODULE_POINTS[m.module_type] ?? 1), 0);
+  const totalPoints = modules.reduce(
+    (sum, m) => sum + getModulePoints(m.module_type, m.config ?? {}),
+    0
+  );
   const limit = isPro ? PRO_TIER_POINTS : FREE_TIER_POINTS;
   const pct = Math.min((totalPoints / limit) * 100, 100);
   const atLimit = totalPoints >= limit;

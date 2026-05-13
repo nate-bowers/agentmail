@@ -1,6 +1,12 @@
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, CheckCircle2, Lock, Sparkles } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: 'Upgrade to Brief Pro',
+  description: 'Unlock 12 module credits and all features with Brief Pro for $9/month.',
+};
 import { createClient } from '@/lib/supabase/server';
 import { Button } from '@/components/ui/button';
 import UpgradeButton from '@/components/dashboard/UpgradeButton';
@@ -35,11 +41,13 @@ export default async function UpgradePage() {
 
   const [{ data: profile }, { data: modules }] = await Promise.all([
     supabase.from('profiles').select('subscription_status').eq('id', user.id).single(),
-    supabase.from('modules').select('module_type').eq('user_id', user.id),
+    supabase.from('modules').select('module_type, config').eq('user_id', user.id),
   ]);
 
   const isActive = profile?.subscription_status === 'active';
-  const pointsUsed = getTotalPoints((modules ?? []) as { module_type: string }[]);
+  const pointsUsed = getTotalPoints(
+    (modules ?? []) as { module_type: string; config: Record<string, unknown> }[]
+  );
 
   return (
     <PageShell>

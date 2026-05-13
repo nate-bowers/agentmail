@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  compress: true,
   experimental: {
     // Enables src/instrumentation.ts for startup env validation
     instrumentationHook: true,

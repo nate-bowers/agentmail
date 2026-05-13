@@ -1,11 +1,9 @@
 import { z } from 'zod';
 import type { ModuleDefinition } from '@/types';
 
-const QUOTE_STYLES = ['stoic', 'motivational', 'philosophical', 'funny'] as const;
-export type QuoteStyle = (typeof QUOTE_STYLES)[number];
-
 const configSchema = z.object({
-  style: z.enum(QUOTE_STYLES),
+  style: z.string(),
+  customPrompt: z.string().max(200).optional(),
 });
 
 type QuoteConfig = z.infer<typeof configSchema>;
@@ -20,6 +18,13 @@ export const quoteModule: ModuleDefinition<typeof configSchema> = {
   } satisfies QuoteConfig,
   configSchema,
   buildSearchInstruction(config) {
+    if (config.style === 'custom' && config.customPrompt) {
+      return (
+        `${config.customPrompt} ` +
+        `Return the quote text and the author's full name. ` +
+        `If using a real historical quote, verify it is correctly attributed.`
+      );
+    }
     return (
       `Generate a ${config.style} quote for today. ` +
       `Return the quote text and the author's full name. ` +

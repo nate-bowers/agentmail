@@ -1,30 +1,35 @@
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export default function NotFound() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center px-6"
-      style={{ background: '#0a0a0a', color: '#ededed' }}
-    >
-      <div className="w-full max-w-sm text-center">
-        <p className="mb-3 text-xs tracking-widest" style={{ color: '#444' }}>
-          404
-        </p>
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-white px-6">
+      {/* Decorative background 404 */}
+      <p
+        className="pointer-events-none absolute select-none text-[clamp(120px,30vw,280px)] font-black leading-none text-gray-50"
+        aria-hidden="true"
+      >
+        404
+      </p>
 
-        <h1
-          className="mb-6 text-2xl tracking-tight"
-          style={{ fontFamily: 'Georgia, "Times New Roman", ui-serif, serif' }}
-        >
-          This page doesn&apos;t exist.
+      <div className="relative z-10 flex flex-col items-center gap-5 text-center">
+        <div className="inline-flex items-center gap-1.5 rounded-full border border-brand-purple/20 bg-brand-purple-light px-3 py-1 text-xs font-medium text-brand-purple">
+          Daily Brief
+        </div>
+        <h1 className="text-2xl font-semibold tracking-tight text-ink">
+          This page doesn&rsquo;t exist.
         </h1>
-
-        <Link
-          href="/"
-          className="inline-block rounded-none border px-5 py-2 text-xs tracking-wide transition-colors"
-          style={{ borderColor: '#222', color: '#888' }}
-        >
-          ← Back to Daily Brief
-        </Link>
+        <p className="text-sm text-ink-muted">
+          It may have moved, or it never existed in the first place.
+        </p>
+        <div className="flex gap-3">
+          <Button asChild variant="outline">
+            <Link href="/">Go home</Link>
+          </Button>
+          <Button asChild>
+            <Link href="/dashboard">Go to dashboard</Link>
+          </Button>
+        </div>
       </div>
     </div>
   );

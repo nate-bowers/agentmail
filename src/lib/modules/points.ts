@@ -16,12 +16,25 @@ export const MODULE_POINTS: Record<string, number> = {
 export const FREE_TIER_POINTS = 3;
 export const PRO_TIER_POINTS = 12;
 
-export function getTotalPoints(modules: { module_type: string }[]): number {
-  return modules.reduce((sum, m) => sum + (MODULE_POINTS[m.module_type] ?? 1), 0);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function getModulePoints(moduleType: string, config: Record<string, any>): number {
+  if (moduleType === 'news') {
+    const count = (config.articleCount as number) ?? 5;
+    if (count <= 3) return 1;
+    if (count <= 5) return 2;
+    return 3;
+  }
+  return MODULE_POINTS[moduleType] ?? 1;
+}
+
+export function getTotalPoints(
+  modules: { module_type: string; config?: Record<string, unknown> }[]
+): number {
+  return modules.reduce((sum, m) => sum + getModulePoints(m.module_type, m.config ?? {}), 0);
 }
 
 export function getRemainingPoints(
-  modules: { module_type: string }[],
+  modules: { module_type: string; config?: Record<string, unknown> }[],
   isPro: boolean
 ): number {
   const limit = isPro ? PRO_TIER_POINTS : FREE_TIER_POINTS;

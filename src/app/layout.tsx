@@ -10,10 +10,22 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://dailybriefmail.com'),
-  title: "Daily Brief",
-  description: "Your personalized daily email brief, curated by AI.",
-  // Replace public/icon.png, public/favicon.ico, and public/apple-touch-icon.png
-  // with your actual logo files before launch.
+  title: { default: 'Daily Brief', template: '%s — Daily Brief' },
+  description: 'Your personalized daily email brief, curated by AI.',
+  openGraph: {
+    title: 'Daily Brief',
+    description: 'Your morning, curated.',
+    url: 'https://dailybriefmail.com',
+    siteName: 'Daily Brief',
+    images: [{ url: '/api/og', width: 1200, height: 630, alt: 'Daily Brief' }],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Daily Brief',
+    description: 'Your morning, curated.',
+    images: ['/api/og'],
+  },
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: 'any' },

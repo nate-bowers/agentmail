@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import TopNav from '@/components/layout/TopNav';
+import DeletedToast from '@/components/marketing/DeletedToast';
 import {
   ArrowRight,
   Cloud,
@@ -27,7 +28,7 @@ export const metadata: Metadata = {
     title: META_TITLE,
     description: META_DESCRIPTION,
     type: 'website',
-    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'Daily Brief' }],
+    images: [{ url: '/api/og', width: 1200, height: 630, alt: 'Daily Brief' }],
   },
   twitter: {
     card: 'summary_large_image',
@@ -483,6 +484,8 @@ function Footer() {
             { href: '/login', label: 'Sign in' },
             { href: '/signup', label: 'Get started' },
             { href: '/dashboard/upgrade', label: 'Pricing' },
+            { href: '/terms', label: 'Terms' },
+            { href: '/privacy', label: 'Privacy' },
           ].map(({ href, label }) => (
             <Link
               key={href}
@@ -509,7 +512,7 @@ function Footer() {
 export default function LandingPage({
   searchParams,
 }: {
-  searchParams?: { error?: string; error_description?: string; error_code?: string };
+  searchParams?: { error?: string; error_description?: string; error_code?: string; deleted?: string };
 }) {
   if (searchParams?.error) {
     const params = new URLSearchParams();
@@ -520,6 +523,7 @@ export default function LandingPage({
 
   return (
     <div className="antialiased">
+      {searchParams?.deleted === 'true' && <DeletedToast />}
       {/* Dark section — transparent nav + hero */}
       <div className="bg-[#0D0D0F]">
         <TopNav variant="marketing" transparent />

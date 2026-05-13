@@ -1,7 +1,13 @@
+import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Clock } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
+
+export const metadata: Metadata = {
+  title: 'Dashboard',
+  description: 'Manage your Daily Brief modules and delivery settings.',
+};
 import { Button } from '@/components/ui/button';
 import PageShell from '@/components/layout/PageShell';
 import ModuleList from '@/components/dashboard/ModuleList';

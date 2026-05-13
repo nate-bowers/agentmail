@@ -216,6 +216,58 @@ function SegmentedControl<T extends string | number>({
   );
 }
 
+// ─── Optional text field helper ───────────────────────────────
+
+function OptionalTextarea({
+  label, value, onChange, placeholder, maxLength,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  placeholder: string;
+  maxLength: number;
+}) {
+  return (
+    <div className="space-y-2">
+      <Label className="text-sm font-medium text-ink">{label}</Label>
+      <div className="relative">
+        <textarea
+          value={value}
+          onChange={(e) => onChange(e.target.value.slice(0, maxLength))}
+          placeholder={placeholder}
+          rows={3}
+          className="w-full resize-none rounded-lg border border-surface-border bg-white px-3 py-2 text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-brand-purple/30"
+        />
+        <span className="absolute bottom-2 right-3 text-[10px] text-ink-faint">
+          {value.length}/{maxLength}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function OptionalInput({
+  label, value, onChange, placeholder, maxLength,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  placeholder: string;
+  maxLength: number;
+}) {
+  return (
+    <div className="space-y-2">
+      <Label className="text-sm font-medium text-ink">{label}</Label>
+      <Input
+        value={value}
+        onChange={(e) => onChange(e.target.value.slice(0, maxLength))}
+        placeholder={placeholder}
+        maxLength={maxLength}
+      />
+    </div>
+  );
+}
+
 // ─── Config forms — original four ─────────────────────────────
 
 function WeatherConfigForm({ initialConfig, onChange }: FormProps) {
@@ -253,20 +305,47 @@ function WeatherConfigForm({ initialConfig, onChange }: FormProps) {
 
 function NewsConfigForm({ initialConfig, onChange }: FormProps) {
   const [topics, setTopics] = useState<string[]>((initialConfig.topics as string[] | undefined) ?? []);
-  const [count, setCount] = useState<number>((initialConfig.count as number | undefined) ?? 5);
-  const [inputValue, setInputValue] = useState('');
+  const [customQuery, setCustomQuery] = useState<string>((initialConfig.customQuery as string | undefined) ?? '');
+  const [sources, setSources] = useState<string[]>((initialConfig.sources as string[] | undefined) ?? []);
+  const [articleCount, setArticleCount] = useState<3 | 5 | 10>(
+    (initialConfig.articleCount as 3 | 5 | 10 | undefined) ?? 5
+  );
+  const [excludeTopics, setExcludeTopics] = useState<string>((initialConfig.excludeTopics as string | undefined) ?? '');
+  const [topicInput, setTopicInput] = useState('');
+  const [sourceInput, setSourceInput] = useState('');
+
+  function emit(
+    t = topics, q = customQuery, s = sources, ac = articleCount, ex = excludeTopics
+  ) {
+    onChange({
+      topics: t, customQuery: q || undefined, sources: s.length > 0 ? s : undefined,
+      articleCount: ac, excludeTopics: ex || undefined,
+    });
+  }
+
   function addTopic() {
-    const trimmed = inputValue.trim().toLowerCase();
+    const trimmed = topicInput.trim().toLowerCase();
     if (trimmed && !topics.includes(trimmed) && topics.length < 5) {
-      const next = [...topics, trimmed]; setTopics(next); setInputValue(''); onChange({ topics: next, count });
+      const next = [...topics, trimmed]; setTopics(next); setTopicInput(''); emit(next);
     }
   }
-  function removeTopic(topic: string) {
-    const next = topics.filter((t) => t !== topic); setTopics(next); onChange({ topics: next, count });
+  function removeTopic(t: string) { const next = topics.filter((x) => x !== t); setTopics(next); emit(next); }
+
+  function addSource() {
+    const trimmed = sourceInput.trim();
+    if (trimmed && !sources.includes(trimmed) && sources.length < 3) {
+      const next = [...sources, trimmed]; setSources(next); setSourceInput(''); emit(topics, customQuery, next);
+    }
   }
-  function updateCount(n: number) { setCount(n); onChange({ topics, count: n }); }
+  function removeSource(s: string) {
+    const next = sources.filter((x) => x !== s); setSources(next); emit(topics, customQuery, next);
+  }
+
+  const pointCost = articleCount <= 3 ? 1 : articleCount <= 5 ? 2 : 3;
+
   return (
     <div className="space-y-5">
+      {/* Topics */}
       <div className="space-y-2">
         <Label className="text-sm font-medium text-ink">Topics</Label>
         <div className="flex min-h-[44px] flex-wrap gap-1.5 rounded-lg border border-surface-border bg-white px-3 py-2">
@@ -277,8 +356,8 @@ function NewsConfigForm({ initialConfig, onChange }: FormProps) {
           ))}
           {topics.length < 5 && (
             <input
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+              value={topicInput}
+              onChange={(e) => setTopicInput(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); addTopic(); } }}
               onBlur={addTopic}
               placeholder={topics.length === 0 ? 'Type a topic and press Enter…' : ''}
@@ -288,34 +367,110 @@ function NewsConfigForm({ initialConfig, onChange }: FormProps) {
         </div>
         <p className="text-xs text-ink-faint">Press Enter to add. Max 5 topics.</p>
       </div>
+
+      {/* Custom query */}
       <div className="space-y-2">
-        <Label className="text-sm font-medium text-ink">Number of headlines</Label>
-        <div className="flex items-center gap-3">
-          <Button type="button" variant="outline" size="icon" className="h-8 w-8" disabled={count <= 3} onClick={() => updateCount(Math.max(3, count - 1))}>–</Button>
-          <span className="w-6 text-center text-sm font-medium">{count}</span>
-          <Button type="button" variant="outline" size="icon" className="h-8 w-8" disabled={count >= 10} onClick={() => updateCount(Math.min(10, count + 1))}>+</Button>
+        <Label className="text-sm font-medium text-ink">Narrow it down <span className="font-normal text-ink-faint">(optional)</span></Label>
+        <div className="relative">
+          <textarea
+            value={customQuery}
+            onChange={(e) => { const v = e.target.value.slice(0, 200); setCustomQuery(v); emit(topics, v); }}
+            placeholder="e.g. Only Taiwanese AI GPU supply chain news, or specifically Series A startup funding rounds"
+            rows={2}
+            className="w-full resize-none rounded-lg border border-surface-border bg-white px-3 py-2 text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-brand-purple/30"
+          />
+          <span className="absolute bottom-2 right-3 text-[10px] text-ink-faint">{customQuery.length}/200</span>
         </div>
       </div>
+
+      {/* Preferred sources */}
+      <div className="space-y-2">
+        <Label className="text-sm font-medium text-ink">Preferred sources <span className="font-normal text-ink-faint">(optional, max 3)</span></Label>
+        <div className="flex min-h-[44px] flex-wrap gap-1.5 rounded-lg border border-surface-border bg-white px-3 py-2">
+          {sources.map((src) => (
+            <span key={src} className="inline-flex items-center gap-1 rounded-full bg-brand-purple-light px-2.5 py-0.5 text-xs font-medium text-brand-purple">
+              {src}<button type="button" onClick={() => removeSource(src)}><X className="h-3 w-3" /></button>
+            </span>
+          ))}
+          {sources.length < 3 && (
+            <input
+              value={sourceInput}
+              onChange={(e) => setSourceInput(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); addSource(); } }}
+              onBlur={addSource}
+              placeholder={sources.length === 0 ? 'e.g. Reuters, The Verge, FT' : ''}
+              className="min-w-[120px] flex-1 bg-transparent text-sm outline-none placeholder:text-ink-faint"
+            />
+          )}
+        </div>
+      </div>
+
+      {/* Exclude topics */}
+      <div className="space-y-2">
+        <Label className="text-sm font-medium text-ink">Exclude topics <span className="font-normal text-ink-faint">(optional)</span></Label>
+        <Input
+          value={excludeTopics}
+          onChange={(e) => { const v = e.target.value.slice(0, 100); setExcludeTopics(v); emit(topics, customQuery, sources, articleCount, v); }}
+          placeholder="e.g. crypto, celebrity news"
+          maxLength={100}
+        />
+      </div>
+
+      {/* Article count */}
+      <SegmentedControl
+        label="Article count"
+        value={articleCount}
+        onChange={(v) => { setArticleCount(v); emit(topics, customQuery, sources, v); }}
+        options={[
+          { value: 3 as const, label: '3 articles — 1pt' },
+          { value: 5 as const, label: '5 articles — 2pts' },
+          { value: 10 as const, label: '10 articles — 3pts' },
+        ]}
+      />
+      <p className="text-sm text-ink-muted">
+        This module costs{' '}
+        <span className="font-medium text-brand-purple">{pointCost} {pointCost === 1 ? 'point' : 'points'}</span>
+      </p>
     </div>
   );
 }
 
 function QuoteConfigForm({ initialConfig, onChange }: FormProps) {
   const [style, setStyle] = useState<string>((initialConfig.style as string | undefined) ?? 'stoic');
-  function select(val: string) { setStyle(val); onChange({ style: val }); }
+  const [customPrompt, setCustomPrompt] = useState<string>((initialConfig.customPrompt as string | undefined) ?? '');
+
+  function selectStyle(val: string) {
+    setStyle(val);
+    onChange({ style: val, customPrompt: customPrompt || undefined });
+  }
+  function updatePrompt(val: string) {
+    setCustomPrompt(val);
+    onChange({ style, customPrompt: val || undefined });
+  }
+
   return (
-    <div className="space-y-2">
+    <div className="space-y-4">
       <Label className="text-sm font-medium text-ink">Quote style</Label>
       <RadioCards
-        value={style as 'stoic' | 'motivational' | 'philosophical' | 'funny'}
-        onChange={(v) => select(v)}
+        value={style as 'stoic' | 'motivational' | 'philosophical' | 'funny' | 'custom'}
+        onChange={selectStyle}
         options={[
           { value: 'stoic' as const, label: 'Stoic', emoji: '⚖️' },
           { value: 'motivational' as const, label: 'Motivational', emoji: '🔥' },
           { value: 'philosophical' as const, label: 'Philosophical', emoji: '🧠' },
           { value: 'funny' as const, label: 'Funny', emoji: '😄' },
+          { value: 'custom' as const, label: 'Custom ✏️', description: 'Describe exactly what you want' },
         ]}
       />
+      {style === 'custom' && (
+        <OptionalTextarea
+          label="Your custom prompt"
+          value={customPrompt}
+          onChange={updatePrompt}
+          placeholder="e.g. A quote about resilience from a female author, or something from Japanese philosophy"
+          maxLength={200}
+        />
+      )}
     </div>
   );
 }
@@ -354,15 +509,19 @@ function MarketsConfigForm({ initialConfig, onChange }: FormProps) {
 function SportsConfigForm({ initialConfig, onChange }: FormProps) {
   const [teams, setTeams] = useState<string[]>((initialConfig.teams as string[] | undefined) ?? ['']);
   const [leagues, setLeagues] = useState<string[]>((initialConfig.leagues as string[] | undefined) ?? ['NBA']);
+  const [customRequest, setCustomRequest] = useState<string>((initialConfig.customRequest as string | undefined) ?? '');
 
   const LEAGUE_OPTIONS = ['NBA', 'NFL', 'MLB', 'NHL', 'EPL', 'La Liga', 'F1'].map((l) => ({ value: l, label: l }));
 
-  function updateTeams(next: string[]) { setTeams(next); onChange({ teams: next.filter(Boolean), leagues }); }
+  function emit(t = teams, l = leagues, cr = customRequest) {
+    onChange({ teams: t.filter(Boolean), leagues: l, customRequest: cr || undefined });
+  }
+  function updateTeams(next: string[]) { setTeams(next); emit(next); }
   function toggleLeague(league: string) {
     const next = leagues.includes(league)
       ? leagues.filter((l) => l !== league)
       : leagues.length < 3 ? [...leagues, league] : leagues;
-    setLeagues(next); onChange({ teams: teams.filter(Boolean), leagues: next });
+    setLeagues(next); emit(teams, next);
   }
 
   return (
@@ -387,6 +546,13 @@ function SportsConfigForm({ initialConfig, onChange }: FormProps) {
           ))}
         </div>
       </div>
+      <OptionalTextarea
+        label="Anything specific? (optional)"
+        value={customRequest}
+        onChange={(v) => { setCustomRequest(v); emit(teams, leagues, v); }}
+        placeholder="e.g. Only show me 49ers scores if they won, or include injury reports for the Lakers"
+        maxLength={200}
+      />
     </div>
   );
 }
@@ -395,18 +561,31 @@ function WordOfDayConfigForm({ initialConfig, onChange }: FormProps) {
   const [difficulty, setDifficulty] = useState<'everyday' | 'advanced' | 'obscure'>(
     (initialConfig.difficulty as 'everyday' | 'advanced' | 'obscure' | undefined) ?? 'advanced'
   );
-  function select(val: 'everyday' | 'advanced' | 'obscure') { setDifficulty(val); onChange({ difficulty: val }); }
+  const [topic, setTopic] = useState<string>((initialConfig.topic as string | undefined) ?? '');
+
+  function emit(d = difficulty, t = topic) { onChange({ difficulty: d, topic: t || undefined }); }
+  function select(val: 'everyday' | 'advanced' | 'obscure') { setDifficulty(val); emit(val); }
+
   return (
-    <div className="space-y-2">
-      <Label className="text-sm font-medium text-ink">Difficulty</Label>
-      <RadioCards
-        value={difficulty}
-        onChange={select}
-        options={[
-          { value: 'everyday' as const, label: 'Everyday', description: 'Common but precise words' },
-          { value: 'advanced' as const, label: 'Advanced', description: 'Expand your vocabulary' },
-          { value: 'obscure' as const, label: 'Obscure', description: 'Rare and remarkable words' },
-        ]}
+    <div className="space-y-5">
+      <div className="space-y-2">
+        <Label className="text-sm font-medium text-ink">Difficulty</Label>
+        <RadioCards
+          value={difficulty}
+          onChange={select}
+          options={[
+            { value: 'everyday' as const, label: 'Everyday', description: 'Common but precise words' },
+            { value: 'advanced' as const, label: 'Advanced', description: 'Expand your vocabulary' },
+            { value: 'obscure' as const, label: 'Obscure', description: 'Rare and remarkable words' },
+          ]}
+        />
+      </div>
+      <OptionalInput
+        label="Topic or domain (optional)"
+        value={topic}
+        onChange={(v) => { setTopic(v); emit(difficulty, v); }}
+        placeholder="e.g. medicine, architecture, sailing, philosophy"
+        maxLength={80}
       />
     </div>
   );
@@ -425,9 +604,16 @@ function WorkoutConfigForm({ initialConfig, onChange }: FormProps) {
   const [focus, setFocus] = useState<'full_body' | 'upper' | 'lower' | 'cardio' | 'flexibility'>(
     (initialConfig.focus as 'full_body' | 'upper' | 'lower' | 'cardio' | 'flexibility' | undefined) ?? 'full_body'
   );
+  const [injuries, setInjuries] = useState<string>((initialConfig.injuries as string | undefined) ?? '');
+  const [customRequest, setCustomRequest] = useState<string>((initialConfig.customRequest as string | undefined) ?? '');
 
-  function emit(fl = fitnessLevel, eq = equipment, dur = duration, fo = focus) {
-    onChange({ fitnessLevel: fl, equipment: eq, duration: dur, focus: fo });
+  function emit(
+    fl = fitnessLevel, eq = equipment, dur = duration, fo = focus, inj = injuries, cr = customRequest
+  ) {
+    onChange({
+      fitnessLevel: fl, equipment: eq, duration: dur, focus: fo,
+      injuries: inj || undefined, customRequest: cr || undefined,
+    });
   }
 
   return (
@@ -480,28 +666,56 @@ function WorkoutConfigForm({ initialConfig, onChange }: FormProps) {
           ]}
         />
       </div>
+      <OptionalInput
+        label="Injuries or limitations (optional)"
+        value={injuries}
+        onChange={(v) => { setInjuries(v); emit(fitnessLevel, equipment, duration, focus, v); }}
+        placeholder="e.g. bad knees, lower back pain, avoid overhead pressing"
+        maxLength={100}
+      />
+      <OptionalTextarea
+        label="Anything specific? (optional)"
+        value={customRequest}
+        onChange={(v) => { setCustomRequest(v); emit(fitnessLevel, equipment, duration, focus, injuries, v); }}
+        placeholder="e.g. I have a race in 3 weeks, focus on leg endurance"
+        maxLength={150}
+      />
     </div>
   );
 }
 
 function MindfulnessConfigForm({ initialConfig, onChange }: FormProps) {
-  const [style, setStyle] = useState<'reflection' | 'intention' | 'gratitude' | 'challenge'>(
-    (initialConfig.style as 'reflection' | 'intention' | 'gratitude' | 'challenge' | undefined) ?? 'reflection'
+  const [style, setStyle] = useState<string>(
+    (initialConfig.style as string | undefined) ?? 'reflection'
   );
-  function select(val: typeof style) { setStyle(val); onChange({ style: val }); }
+  const [customTheme, setCustomTheme] = useState<string>((initialConfig.customTheme as string | undefined) ?? '');
+
+  function selectStyle(val: string) { setStyle(val); onChange({ style: val, customTheme: customTheme || undefined }); }
+  function updateTheme(val: string) { setCustomTheme(val); onChange({ style, customTheme: val || undefined }); }
+
   return (
-    <div className="space-y-2">
+    <div className="space-y-4">
       <Label className="text-sm font-medium text-ink">Style</Label>
       <RadioCards
-        value={style}
-        onChange={select}
+        value={style as 'reflection' | 'intention' | 'gratitude' | 'challenge' | 'custom'}
+        onChange={selectStyle}
         options={[
           { value: 'reflection' as const, label: 'Reflection', description: 'Examine something about yourself' },
           { value: 'intention' as const, label: 'Intention', description: 'Set a theme for the day' },
           { value: 'gratitude' as const, label: 'Gratitude', description: 'Surface something to appreciate' },
           { value: 'challenge' as const, label: 'Challenge', description: 'A small action to take today' },
+          { value: 'custom' as const, label: 'Custom ✏️', description: 'Write your own theme' },
         ]}
       />
+      {style === 'custom' && (
+        <OptionalTextarea
+          label="Your theme"
+          value={customTheme}
+          onChange={updateTheme}
+          placeholder="e.g. Focus on patience, or something related to my career decisions"
+          maxLength={200}
+        />
+      )}
     </div>
   );
 }
@@ -510,21 +724,34 @@ function OnThisDayConfigForm({ initialConfig, onChange }: FormProps) {
   const [category, setCategory] = useState<'any' | 'science' | 'politics' | 'sports' | 'arts' | 'technology'>(
     (initialConfig.category as 'any' | 'science' | 'politics' | 'sports' | 'arts' | 'technology' | undefined) ?? 'any'
   );
-  function select(val: typeof category) { setCategory(val); onChange({ category: val }); }
+  const [regionFocus, setRegionFocus] = useState<string>((initialConfig.regionFocus as string | undefined) ?? '');
+
+  function emit(c = category, r = regionFocus) { onChange({ category: c, regionFocus: r || undefined }); }
+  function select(val: typeof category) { setCategory(val); emit(val); }
+
   return (
-    <div className="space-y-2">
-      <Label className="text-sm font-medium text-ink">Category</Label>
-      <PillSelect
-        value={category}
-        onChange={(v) => select(v as typeof category)}
-        options={[
-          { value: 'any', label: 'Any' },
-          { value: 'science', label: 'Science' },
-          { value: 'politics', label: 'Politics' },
-          { value: 'sports', label: 'Sports' },
-          { value: 'arts', label: 'Arts' },
-          { value: 'technology', label: 'Technology' },
-        ]}
+    <div className="space-y-5">
+      <div className="space-y-2">
+        <Label className="text-sm font-medium text-ink">Category</Label>
+        <PillSelect
+          value={category}
+          onChange={(v) => select(v as typeof category)}
+          options={[
+            { value: 'any', label: 'Any' },
+            { value: 'science', label: 'Science' },
+            { value: 'politics', label: 'Politics' },
+            { value: 'sports', label: 'Sports' },
+            { value: 'arts', label: 'Arts' },
+            { value: 'technology', label: 'Technology' },
+          ]}
+        />
+      </div>
+      <OptionalInput
+        label="Region or focus (optional)"
+        value={regionFocus}
+        onChange={(v) => { setRegionFocus(v); emit(category, v); }}
+        placeholder="e.g. East Asia, Silicon Valley, Ancient Rome, women's history"
+        maxLength={80}
       />
     </div>
   );
@@ -575,7 +802,13 @@ function PodcastConfigForm({ initialConfig, onChange }: FormProps) {
   const [episodeLength, setEpisodeLength] = useState<'short' | 'medium' | 'long'>(
     (initialConfig.episodeLength as 'short' | 'medium' | 'long' | undefined) ?? 'medium'
   );
-  function emit(i = interests, el = episodeLength) { onChange({ interests: i, episodeLength: el }); }
+  const [specificShow, setSpecificShow] = useState<string>((initialConfig.specificShow as string | undefined) ?? '');
+  const [avoidTopics, setAvoidTopics] = useState<string>((initialConfig.avoidTopics as string | undefined) ?? '');
+
+  function emit(i = interests, el = episodeLength, ss = specificShow, at = avoidTopics) {
+    onChange({ interests: i, episodeLength: el, specificShow: ss || undefined, avoidTopics: at || undefined });
+  }
+
   return (
     <div className="space-y-5">
       <TagInput values={interests} onChange={(v) => { setInterests(v); emit(v); }} placeholder="Type an interest and press Enter…" max={4} label="Interests" />
@@ -591,6 +824,20 @@ function PodcastConfigForm({ initialConfig, onChange }: FormProps) {
           ]}
         />
       </div>
+      <OptionalInput
+        label="Prefer a specific show? (optional)"
+        value={specificShow}
+        onChange={(v) => { setSpecificShow(v); emit(interests, episodeLength, v); }}
+        placeholder="e.g. Lex Fridman, How I Built This, Huberman Lab"
+        maxLength={100}
+      />
+      <OptionalInput
+        label="Avoid topics (optional)"
+        value={avoidTopics}
+        onChange={(v) => { setAvoidTopics(v); emit(interests, episodeLength, specificShow, v); }}
+        placeholder="e.g. politics, crypto, true crime"
+        maxLength={100}
+      />
     </div>
   );
 }
@@ -599,21 +846,34 @@ function FactConfigForm({ initialConfig, onChange }: FormProps) {
   const [category, setCategory] = useState<'any' | 'science' | 'nature' | 'history' | 'technology' | 'psychology'>(
     (initialConfig.category as 'any' | 'science' | 'nature' | 'history' | 'technology' | 'psychology' | undefined) ?? 'any'
   );
-  function select(val: typeof category) { setCategory(val); onChange({ category: val }); }
+  const [customRequest, setCustomRequest] = useState<string>((initialConfig.customRequest as string | undefined) ?? '');
+
+  function emit(c = category, cr = customRequest) { onChange({ category: c, customRequest: cr || undefined }); }
+  function select(val: typeof category) { setCategory(val); emit(val); }
+
   return (
-    <div className="space-y-2">
-      <Label className="text-sm font-medium text-ink">Category</Label>
-      <PillSelect
-        value={category}
-        onChange={(v) => select(v as typeof category)}
-        options={[
-          { value: 'any', label: 'Any' },
-          { value: 'science', label: 'Science' },
-          { value: 'nature', label: 'Nature' },
-          { value: 'history', label: 'History' },
-          { value: 'technology', label: 'Technology' },
-          { value: 'psychology', label: 'Psychology' },
-        ]}
+    <div className="space-y-5">
+      <div className="space-y-2">
+        <Label className="text-sm font-medium text-ink">Category</Label>
+        <PillSelect
+          value={category}
+          onChange={(v) => select(v as typeof category)}
+          options={[
+            { value: 'any', label: 'Any' },
+            { value: 'science', label: 'Science' },
+            { value: 'nature', label: 'Nature' },
+            { value: 'history', label: 'History' },
+            { value: 'technology', label: 'Technology' },
+            { value: 'psychology', label: 'Psychology' },
+          ]}
+        />
+      </div>
+      <OptionalTextarea
+        label="More specific? (optional)"
+        value={customRequest}
+        onChange={(v) => { setCustomRequest(v); emit(category, v); }}
+        placeholder="e.g. facts about deep ocean creatures, or facts that involve surprising numbers"
+        maxLength={150}
       />
     </div>
   );
@@ -625,20 +885,23 @@ interface ModuleSheetProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   editModule?: Pick<ModuleRow, 'id' | 'module_type' | 'config'> | null;
+  initialType?: string | null;
   onSaved: () => void;
 }
 
 // ─── Main component ─────────────────────────────────────────────
 
-export default function ModuleSheet({ open, onOpenChange, editModule, onSaved }: ModuleSheetProps) {
+export default function ModuleSheet({ open, onOpenChange, editModule, initialType, onSaved }: ModuleSheetProps) {
   const isEditing = !!editModule;
-  const [selectedType, setSelectedType] = useState<string | null>(editModule?.module_type ?? null);
+  const [selectedType, setSelectedType] = useState<string | null>(
+    editModule?.module_type ?? initialType ?? null
+  );
   const [config, setConfig] = useState<Record<string, unknown>>(editModule?.config ?? {});
   const [isLoading, setIsLoading] = useState(false);
 
   function handleOpenChange(next: boolean) {
     if (!next) {
-      setSelectedType(editModule?.module_type ?? null);
+      setSelectedType(editModule?.module_type ?? initialType ?? null);
       setConfig(editModule?.config ?? {});
     }
     onOpenChange(next);
@@ -699,6 +962,9 @@ export default function ModuleSheet({ open, onOpenChange, editModule, onSaved }:
     .map((type) => MODULE_REGISTRY[type])
     .filter(Boolean);
 
+  // Show the picker when: not editing AND no initialType preset
+  const showPicker = !isEditing && !initialType;
+
   return (
     <Sheet open={open} onOpenChange={handleOpenChange}>
       <SheetContent className="flex flex-col overflow-hidden">
@@ -708,7 +974,7 @@ export default function ModuleSheet({ open, onOpenChange, editModule, onSaved }:
 
         <div className="flex-1 overflow-y-auto px-6 py-5 space-y-6">
           {/* Module type picker */}
-          {!isEditing && (
+          {showPicker && (
             <div className="grid grid-cols-2 gap-3">
               {orderedModules.map((def) => {
                 const Icon = ICON_MAP[def.icon] ?? HelpCircle;
@@ -730,17 +996,16 @@ export default function ModuleSheet({ open, onOpenChange, editModule, onSaved }:
                     }`}
                   >
                     {/* Badge */}
-                    {isPopular && (
+                    {isPopular && !isSelected && (
                       <span className="absolute right-2 top-2 rounded-full bg-brand-purple-light px-1.5 py-0.5 text-[10px] font-medium text-brand-purple border border-brand-purple/20">
                         Popular
                       </span>
                     )}
-                    {isNew && (
+                    {isNew && !isSelected && (
                       <span className="absolute right-2 top-2 rounded-full bg-green-100 px-1.5 py-0.5 text-[10px] font-medium text-green-700">
                         New
                       </span>
                     )}
-
                     {isSelected && (
                       <span className="absolute right-2 top-2 flex h-4 w-4 items-center justify-center rounded-full bg-brand-purple">
                         <Check className="h-2.5 w-2.5 text-white" />
@@ -763,7 +1028,19 @@ export default function ModuleSheet({ open, onOpenChange, editModule, onSaved }:
           {/* Config form */}
           {selectedType && selectedDef && (
             <div className="space-y-4">
-              {!isEditing && <div className="h-px bg-surface-border" />}
+              {showPicker && selectedType && <div className="h-px bg-surface-border" />}
+              {/* When initialType is set, show a back-to-picker header */}
+              {initialType && !isEditing && (
+                <div className="flex items-center gap-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-purple-light">
+                    {(() => { const Icon = ICON_MAP[selectedDef.icon] ?? HelpCircle; return <Icon className="h-4 w-4 text-brand-purple" />; })()}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-ink">{selectedDef.label}</p>
+                    <p className="text-xs text-ink-muted">{selectedDef.description}</p>
+                  </div>
+                </div>
+              )}
               {selectedType === 'weather' && <WeatherConfigForm initialConfig={editModule?.config ?? selectedDef.defaultConfig as Record<string, unknown>} onChange={setConfig} />}
               {selectedType === 'news' && <NewsConfigForm initialConfig={editModule?.config ?? selectedDef.defaultConfig as Record<string, unknown>} onChange={setConfig} />}
               {selectedType === 'quote' && <QuoteConfigForm initialConfig={editModule?.config ?? selectedDef.defaultConfig as Record<string, unknown>} onChange={setConfig} />}

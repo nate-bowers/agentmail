@@ -23,13 +23,19 @@ import {
 import ModuleSheet from './ModuleSheet';
 import PointsBar from './PointsBar';
 import { MODULE_REGISTRY } from '@/lib/modules';
-import { MODULE_POINTS, FREE_TIER_POINTS, PRO_TIER_POINTS, getTotalPoints } from '@/lib/modules/points';
+import { getModulePoints, FREE_TIER_POINTS, PRO_TIER_POINTS, getTotalPoints } from '@/lib/modules/points';
+import { getModuleRecommendations } from '@/lib/dashboard/recommendations';
 import type { ModuleRow } from '@/types';
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Cloud, Newspaper, Quote, TrendingUp,
   Trophy, BookOpen, Dumbbell, Brain, Calendar, ArrowLeftRight, Headphones, Lightbulb,
 };
+
+// Modules that can be added immediately with default config (no required user input)
+const ZERO_CONFIG_TYPES = new Set([
+  'fact', 'on_this_day', 'word_of_day', 'mindfulness', 'quote', 'workout',
+]);
 
 function configSummary(moduleType: string, config: Record<string, unknown>): string {
   if (moduleType === 'weather') {
@@ -93,6 +99,7 @@ interface ModuleListProps {
 export default function ModuleList({ initialModules, subscriptionStatus }: ModuleListProps) {
   const [modules, setModules] = useState<ModuleRow[]>(initialModules);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [sheetInitialType, setSheetInitialType] = useState<string | null>(null);
   const [editModule, setEditModule] = useState<Pick<ModuleRow, 'id' | 'module_type' | 'config'> | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
 
@@ -100,6 +107,9 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
   const pointsUsed = getTotalPoints(modules);
   const pointsLimit = isPro ? PRO_TIER_POINTS : FREE_TIER_POINTS;
   const isAtLimit = pointsUsed >= pointsLimit;
+
+  const recommendations = getModuleRecommendations(modules);
+  const showSuggestions = !isAtLimit && (modules.length < 3 || !isAtLimit);
 
   function openAdd() {
     if (isAtLimit) {
@@ -113,12 +123,57 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
       return;
     }
     setEditModule(null);
+    setSheetInitialType(null);
     setSheetOpen(true);
   }
 
   function openEdit(module: ModuleRow) {
     setEditModule({ id: module.id, module_type: module.module_type, config: module.config });
+    setSheetInitialType(null);
     setSheetOpen(true);
+  }
+
+  async function handleQuickAdd(moduleType: string) {
+    if (isAtLimit) {
+      toast('No credits remaining', {
+        description: `You've used all ${pointsLimit} credits. Upgrade to Pro to add more modules.`,
+        action: { label: 'Upgrade', onClick: () => { window.location.href = '/dashboard/upgrade'; } },
+      });
+      return;
+    }
+
+    const def = MODULE_REGISTRY[moduleType];
+    if (!def) return;
+
+    if (ZERO_CONFIG_TYPES.has(moduleType)) {
+      try {
+        const res = await fetch('/api/modules', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ module_type: moduleType, config: def.defaultConfig }),
+        });
+        if (res.status === 403) {
+          const body = await res.json();
+          if (body.error === 'points_exceeded') {
+            toast('No credits remaining', {
+              description: `You've used all ${body.pointsLimit ?? 3} credits.`,
+              action: { label: 'Upgrade', onClick: () => { window.location.href = '/dashboard/upgrade'; } },
+            });
+            return;
+          }
+        }
+        if (!res.ok) throw new Error('Failed');
+        toast.success(`${def.label} added to your brief ✓`);
+        window.location.reload();
+      } catch {
+        toast.error('Something went wrong. Please try again.');
+      }
+    } else {
+      // Open sheet pre-selected on this type
+      setEditModule(null);
+      setSheetInitialType(moduleType);
+      setSheetOpen(true);
+    }
   }
 
   function handleSaved() {
@@ -207,6 +262,38 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
           <PointsBar modules={modules} isPro={isPro} />
         )}
 
+        {/* Suggested modules strip */}
+        {showSuggestions && recommendations.length > 0 && (
+          <div className="space-y-2">
+            <p className="text-[10px] font-medium uppercase tracking-widest text-ink-muted">
+              Suggested for you
+            </p>
+            <div className="flex flex-wrap gap-3">
+              {recommendations.map((type) => {
+                const def = MODULE_REGISTRY[type];
+                if (!def) return null;
+                const Icon = ICON_MAP[def.icon] ?? HelpCircle;
+                const pts = getModulePoints(type, def.defaultConfig as Record<string, unknown>);
+                return (
+                  <button
+                    key={type}
+                    type="button"
+                    onClick={() => handleQuickAdd(type)}
+                    className="group flex items-center gap-3 rounded-xl border border-surface-border bg-white px-4 py-3 text-left transition-all hover:border-brand-purple hover:bg-brand-purple-light"
+                  >
+                    <Icon className="h-4 w-4 shrink-0 text-brand-purple" />
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-ink leading-none">{def.label}</p>
+                      <p className="mt-0.5 text-xs text-ink-muted">{pts} {pts === 1 ? 'pt' : 'pts'}</p>
+                    </div>
+                    <Plus className="h-3.5 w-3.5 shrink-0 text-brand-purple opacity-70 group-hover:opacity-100" />
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* Empty state */}
         {modules.length === 0 && (
           <div className="flex flex-col items-center justify-center rounded-2xl border border-surface-border bg-white py-16 text-center">
@@ -229,7 +316,7 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
           if (!def) return null;
           const Icon = ICON_MAP[def.icon] ?? HelpCircle;
           const summary = configSummary(module.module_type, module.config);
-          const pts = MODULE_POINTS[module.module_type] ?? 1;
+          const pts = getModulePoints(module.module_type, module.config ?? {});
 
           return (
             <div
@@ -308,13 +395,39 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
             </div>
           );
         })}
+
+        {/* Full-width add button (only shown when there are modules) */}
+        {modules.length > 0 && (
+          isAtLimit ? (
+            <button
+              type="button"
+              onClick={() => { window.location.href = '/dashboard/upgrade'; }}
+              className="flex h-14 w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-red-200 text-brand-purple transition-all hover:border-brand-purple hover:bg-brand-purple-light"
+            >
+              <span className="text-sm font-medium">Upgrade to add more modules →</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={openAdd}
+              className="flex h-14 w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-surface-border text-ink-muted transition-all hover:border-brand-purple hover:bg-brand-purple-light hover:text-brand-purple"
+            >
+              <Plus className="h-4 w-4" />
+              <span className="text-sm font-medium">Add a module</span>
+            </button>
+          )
+        )}
       </div>
 
       {/* Module sheet */}
       <ModuleSheet
         open={sheetOpen}
-        onOpenChange={setSheetOpen}
+        onOpenChange={(open) => {
+          setSheetOpen(open);
+          if (!open) setSheetInitialType(null);
+        }}
         editModule={editModule}
+        initialType={sheetInitialType}
         onSaved={handleSaved}
       />
 

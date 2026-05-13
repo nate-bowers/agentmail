@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { MODULE_REGISTRY } from '@/lib/modules';
-import { MODULE_POINTS, FREE_TIER_POINTS, PRO_TIER_POINTS, getTotalPoints } from '@/lib/modules/points';
+import { getModulePoints, FREE_TIER_POINTS, PRO_TIER_POINTS, getTotalPoints } from '@/lib/modules/points';
 
 const createSchema = z.object({
   module_type: z.string().min(1),
@@ -66,14 +66,16 @@ export async function POST(request: NextRequest) {
 
     const isPro = profile?.subscription_status === 'active';
     const pointsLimit = isPro ? PRO_TIER_POINTS : FREE_TIER_POINTS;
-    const newModulePoints = MODULE_POINTS[module_type] ?? 1;
+    const newModulePoints = getModulePoints(module_type, configParsed.data as Record<string, unknown>);
 
     const { data: existingModules } = await supabase
       .from('modules')
-      .select('module_type')
+      .select('module_type, config')
       .eq('user_id', user.id);
 
-    const currentPoints = getTotalPoints((existingModules ?? []) as { module_type: string }[]);
+    const currentPoints = getTotalPoints(
+      (existingModules ?? []) as { module_type: string; config: Record<string, unknown> }[]
+    );
 
     if (currentPoints + newModulePoints > pointsLimit) {
       return NextResponse.json(

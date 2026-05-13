@@ -12,6 +12,7 @@ const settingsSchema = z.object({
     .regex(/^\d{2}:\d{2}$/, 'Expected HH:MM format')
     .transform((t) => `${t}:00`)
     .optional(),
+  is_active: z.boolean().optional(),
 });
 
 export async function PATCH(request: NextRequest) {

@@ -68,15 +68,23 @@ function WeatherSection({ data }: { data: { locations: WeatherLocation[] } }) {
 }
 
 function NewsSection({ data }: { data: { articles: NewsArticle[] } }) {
+  const compact = data.articles.length >= 10;
   return (
     <Section>
       <Heading as="h2" style={sectionHeading}>📰 News</Heading>
       {data.articles.map((article, i) => (
-        <Section key={i} style={{ marginBottom: '16px' }}>
-          <Text style={{ ...bodyText, fontWeight: '600', marginBottom: '2px' }}>{article.headline}</Text>
-          <Text style={{ ...metaText, marginBottom: '4px' }}>{article.source}</Text>
-          <Text style={{ ...bodyText, color: colors.muted, margin: '0' }}>{article.summary}</Text>
-        </Section>
+        compact ? (
+          <Section key={i} style={{ marginBottom: '8px', paddingBottom: '8px', borderBottom: `1px solid ${colors.border}` }}>
+            <Text style={{ ...bodyText, fontWeight: '600', margin: '0 0 1px' }}>{article.headline}</Text>
+            <Text style={{ ...metaText, margin: '0' }}>{article.source} — {article.summary}</Text>
+          </Section>
+        ) : (
+          <Section key={i} style={{ marginBottom: '16px' }}>
+            <Text style={{ ...bodyText, fontWeight: '600', marginBottom: '2px' }}>{article.headline}</Text>
+            <Text style={{ ...metaText, marginBottom: '4px' }}>{article.source}</Text>
+            <Text style={{ ...bodyText, color: colors.muted, margin: '0' }}>{article.summary}</Text>
+          </Section>
+        )
       ))}
     </Section>
   );
@@ -293,8 +301,16 @@ export default function DailyBriefEmail({ userName, date, sections, unsubscribeT
           <Section style={{ paddingTop: '4px' }}>
             <Text style={{ ...metaText, textAlign: 'center' }}>
               You&rsquo;re receiving this because you set up a daily brief.{' '}
-              <Link href={`/unsubscribe?token=${unsubscribeToken}`} style={{ color: colors.muted, textDecoration: 'underline' }}>
+              <Link href={`https://dailybriefmail.com/unsubscribe?token=${unsubscribeToken}`} style={{ color: colors.muted, textDecoration: 'underline' }}>
                 Unsubscribe
+              </Link>
+              {' '}·{' '}
+              <Link href="https://dailybriefmail.com/privacy" style={{ color: colors.muted, textDecoration: 'underline' }}>
+                Privacy Policy
+              </Link>
+              {' '}·{' '}
+              <Link href="https://dailybriefmail.com/terms" style={{ color: colors.muted, textDecoration: 'underline' }}>
+                Terms of Service
               </Link>
             </Text>
           </Section>

@@ -82,6 +82,7 @@ const NAV_LINKS = [
   { href: '/dashboard', label: 'Dashboard' },
   { href: '/dashboard/preview', label: 'Preview' },
   { href: '/dashboard/upgrade', label: 'Upgrade' },
+  { href: '/dashboard/settings', label: 'Settings' },
 ];
 
 function DashboardNav({ email }: { email: string }) {
