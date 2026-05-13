@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { adminClient } from '@/lib/supabase/admin';
 import { generateDailyBrief } from '@/lib/email/generate';
 import { sendDailyBrief } from '@/lib/email/send';
 import type { ModuleRow, Profile } from '@/types';

@@ -1,21 +1,3 @@
-// Validate required environment variables at build time.
-// This surfaces misconfiguration early instead of at runtime.
-// Skip during `next lint` or other tooling that sets CI=true without real env vars.
-if (process.env.SKIP_ENV_VALIDATION !== '1' && process.env.NODE_ENV !== 'test') {
-  const { validateEnv } = await import('./src/lib/env.js');
-  try {
-    validateEnv();
-  } catch (err) {
-    // In CI without secrets (e.g. build previews), just warn instead of failing.
-    // The server-side check in instrumentation.ts still catches real misconfigurations.
-    if (process.env.CI) {
-      console.warn('[env]', err.message);
-    } else {
-      throw err;
-    }
-  }
-}
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {

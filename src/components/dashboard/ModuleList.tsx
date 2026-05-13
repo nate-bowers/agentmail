@@ -28,9 +28,9 @@ export default function ModuleList({ initialModules, subscriptionStatus }: Modul
   const isAtLimit = !isPro && modules.length >= PLANS.free.moduleLimit;
 
   async function handleToggle(id: string) {
-    const module = modules.find((m) => m.id === id);
-    if (!module) return;
-    const newValue = !module.is_enabled;
+    const found = modules.find((m) => m.id === id);
+    if (!found) return;
+    const newValue = !found.is_enabled;
 
     setModules((prev) =>
       prev.map((m) => (m.id === id ? { ...m, is_enabled: newValue } : m))
