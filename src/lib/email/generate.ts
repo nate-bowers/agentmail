@@ -54,11 +54,33 @@ function extractJSON(raw: string): string {
     .trim();
 
   const first = cleaned.indexOf('{');
-  const last = cleaned.lastIndexOf('}');
+  if (first === -1) {
+    console.error('[Generate] No opening brace found. Response:', cleaned.slice(0, 200));
+    throw new Error(`No JSON object found in response.`);
+  }
 
-  if (first === -1 || last === -1 || last <= first) {
-    console.error('[Generate] Could not find JSON in response:', cleaned);
-    throw new Error(`No valid JSON object found. Response started with: ${cleaned.slice(0, 100)}`);
+  // Walk forward from the first { using bracket depth to find the matching }
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+  let last = -1;
+
+  for (let i = first; i < cleaned.length; i++) {
+    const ch = cleaned[i];
+    if (escaped) { escaped = false; continue; }
+    if (ch === '\\' && inString) { escaped = true; continue; }
+    if (ch === '"') { inString = !inString; continue; }
+    if (inString) continue;
+    if (ch === '{') depth++;
+    else if (ch === '}') {
+      depth--;
+      if (depth === 0) { last = i; break; }
+    }
+  }
+
+  if (last === -1) {
+    console.error('[Generate] JSON object is not closed. Partial response:', cleaned.slice(first, first + 300));
+    throw new Error(`JSON object is not properly closed — response may be truncated.`);
   }
 
   return cleaned.slice(first, last + 1);
@@ -265,8 +287,10 @@ export async function generateDailyBrief(
   let parsed: GeneratedBrief;
   try {
     parsed = JSON.parse(cleaned) as GeneratedBrief;
-  } catch {
-    console.error('[Generate] Failed to parse Claude response as JSON:\n', rawText);
+  } catch (parseErr) {
+    console.error('[Generate] JSON.parse failed. Extracted slice (first 500):', cleaned.slice(0, 500));
+    console.error('[Generate] JSON.parse failed. Extracted slice (last 300):', cleaned.slice(-300));
+    console.error('[Generate] Parse error:', parseErr instanceof Error ? parseErr.message : parseErr);
     throw new Error('[Generate] Claude response was not valid JSON. See server logs for the raw response.');
   }
 
