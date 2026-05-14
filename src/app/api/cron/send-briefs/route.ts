@@ -13,6 +13,8 @@ import { runPipeline } from '@/lib/email/pipeline';
 import { cleanExpiredSearchCache } from '@/lib/email/cache';
 import type { Profile } from '@/types';
 
+export const maxDuration = 60;
+
 let isRunning = false;
 
 function isSendTime(sendTime: string, timezone: string): boolean {

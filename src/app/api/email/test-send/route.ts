@@ -6,6 +6,8 @@ import { generateDailyBrief } from '@/lib/email/generate';
 import { sendDailyBrief } from '@/lib/email/send';
 import type { ModuleRow, Profile } from '@/types';
 
+export const maxDuration = 60;
+
 const TEST_SEND_LIMIT = 3;
 
 export async function POST() {

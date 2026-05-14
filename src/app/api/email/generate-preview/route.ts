@@ -8,7 +8,9 @@ import { generateDailyBrief } from '@/lib/email/generate';
 import DailyBriefEmail from '@/components/email/DailyBriefEmail';
 import type { ModuleRow, Profile } from '@/types';
 
-const DAILY_LIMIT = 5;
+export const maxDuration = 60;
+
+const DAILY_LIMIT = 3;
 
 export async function POST(request: Request) {
   try {
@@ -65,16 +67,24 @@ export async function POST(request: Request) {
     );
 
     const dateLabel = format(new Date(), 'EEEE, MMMM d, yyyy');
-    const html = await render(
-      DailyBriefEmail({
-        userName: p.full_name ?? p.email,
-        date: dateLabel,
-        intro: generated.intro || undefined,
-        sections: generated.sections,
-        unsubscribeToken: 'preview',
-        theme: emailTheme,
-      })
-    );
+    console.log('[generate-preview] Rendering HTML...');
+    let html: string;
+    try {
+      html = await render(
+        DailyBriefEmail({
+          userName: p.full_name ?? p.email,
+          date: dateLabel,
+          intro: generated.intro || undefined,
+          sections: generated.sections,
+          unsubscribeToken: 'preview',
+          theme: emailTheme,
+        })
+      );
+    } catch (renderErr) {
+      console.error('[generate-preview] render() failed:', renderErr);
+      throw renderErr;
+    }
+    console.log(`[generate-preview] HTML rendered, length: ${html.length}`);
 
     // Increment counter (use admin client to avoid RLS issues)
     const newCount = currentCount + 1;

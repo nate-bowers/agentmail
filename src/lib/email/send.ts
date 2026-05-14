@@ -25,7 +25,7 @@ export async function sendDailyBrief(
     const recipientEmail = delivery_email ?? email;
     const theme = email_theme ?? 'light';
 
-    const zonedNow = toZonedTime(new Date(), timezone);
+    const zonedNow = toZonedTime(new Date(), timezone || 'UTC');
     const subject = `Your Brief — ${format(zonedNow, 'EEEE, MMMM d')}`;
     const dateLabel = format(zonedNow, 'EEEE, MMMM d, yyyy');
     const unsubscribeToken = generateUnsubscribeToken(userId);
