@@ -71,7 +71,13 @@ export async function POST(request: NextRequest) {
         .eq('id', userId);
 
       if (error) {
-        console.error('[webhook] step 4 FAILED: DB update error:', error.message, error.code);
+        if (error.code === '23514') {
+          console.error(
+            `[webhook] step 4 FAILED: check constraint violation — constraint: ${error.details ?? 'unknown'}, rejected value: subscription_status=${planId}`
+          );
+        } else {
+          console.error('[webhook] step 4 FAILED: DB update error:', error.message, error.code);
+        }
         return NextResponse.json({ error: 'DB update failed' }, { status: 500 });
       }
 
@@ -96,7 +102,13 @@ export async function POST(request: NextRequest) {
         .eq('stripe_customer_id', customerId);
 
       if (error) {
-        console.error('[webhook] Failed to update subscription for customer', customerId, error.message);
+        if (error.code === '23514') {
+          console.error(
+            `[webhook] check constraint violation on subscription.updated — constraint: ${error.details ?? 'unknown'}, rejected value: subscription_status=${planId}`
+          );
+        } else {
+          console.error('[webhook] Failed to update subscription for customer', customerId, error.message);
+        }
         return NextResponse.json({ error: 'DB update failed' }, { status: 500 });
       }
       break;
@@ -115,7 +127,13 @@ export async function POST(request: NextRequest) {
         .eq('stripe_customer_id', customerId);
 
       if (error) {
-        console.error('[webhook] Failed to clear subscription for customer', customerId, error.message);
+        if (error.code === '23514') {
+          console.error(
+            `[webhook] check constraint violation on subscription.deleted — constraint: ${error.details ?? 'unknown'}, rejected value: subscription_status=free`
+          );
+        } else {
+          console.error('[webhook] Failed to clear subscription for customer', customerId, error.message);
+        }
         return NextResponse.json({ error: 'DB update failed' }, { status: 500 });
       }
       break;
