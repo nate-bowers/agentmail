@@ -66,11 +66,17 @@ export async function GET(request: NextRequest) {
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
 
     for (const user of users as CronUser[]) {
+      // FREE PLAN: override send_time to 07:00 — free users always get email at 7am local.
+      // Paid users use their configured send_time. DB value is never modified.
+      const isFreePlan = !user.subscription_status || user.subscription_status === 'free';
+      const effectiveSendTime = isFreePlan ? '07:00' : user.send_time;
+
       // TODO (Pro plan): uncomment isSendTime to respect per-user send_time + timezone.
       // On Hobby the cron only runs once daily, so this filter would silently drop most users.
       // The cron is fixed at 08:00 ET for beta. send_time is still saved to the DB and shown
       // in the UI — re-enabling this one line is all that's needed when upgrading.
-      // if (!isSendTime(user.send_time, user.timezone)) continue;
+      // if (!isSendTime(effectiveSendTime, user.timezone)) continue;
+      void effectiveSendTime; // referenced above when isSendTime is re-enabled
 
       const { count } = await adminClient
         .from('email_logs')

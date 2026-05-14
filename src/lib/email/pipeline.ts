@@ -1,5 +1,5 @@
 import { createAdminClient } from '@/lib/supabase/admin';
-import { buildSearchInstructions } from '@/lib/modules';
+import { buildSearchInstructions, MODULE_REGISTRY } from '@/lib/modules';
 import { generateDailyBrief } from '@/lib/email/generate';
 import { sendDailyBrief } from '@/lib/email/send';
 import { prefetchModuleData } from '@/lib/email/prefetch';
@@ -61,6 +61,20 @@ export async function runPipeline(user: {
     const message = err instanceof Error ? err.message : String(err);
     console.error('[Pipeline] Module fetch failed:', err);
     return { success: false, stage: 'modules', error: message, detail: String(err) };
+  }
+
+  // FREE PLAN: replace topic-configurable module configs with defaults so free users
+  // can't set custom topics/subtopics. DB value is never modified — upgrade restores preferences.
+  const FREE_TOPIC_MODULES = new Set(['news', 'ai_tech', 'reddit', 'podcast', 'local_events']);
+  const isFreePlan = !user.subscription_status || user.subscription_status === 'free';
+  if (isFreePlan) {
+    modules = modules.map((mod) => {
+      if (!FREE_TOPIC_MODULES.has(mod.module_type)) return mod;
+      const definition = MODULE_REGISTRY[mod.module_type];
+      if (!definition) return mod;
+      return { ...mod, config: definition.defaultConfig };
+    });
+    console.log('[Pipeline] Free plan — topic module configs reset to defaults');
   }
 
   // STAGE 2: Build search instructions (preserves display_order for final merge)
