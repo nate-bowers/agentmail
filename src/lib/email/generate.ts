@@ -174,12 +174,29 @@ ${JSON.stringify(prefetched)}`;
 
   const sectionOrder = instructions.map((i) => i.moduleType).join(', ');
 
-  const verbosityDirective =
-    verbosity === 'short' || verbosity === 'succinct'
-      ? 'Be extremely concise. One sentence per news summary. Skip commentary.'
-      : verbosity === 'long' || verbosity === 'wordy'
-        ? 'Be thorough. 3-4 sentence summaries. Rich context. Full paragraph intro.'
-        : 'Be clear and moderately detailed. 2 sentence summaries. 2-3 sentence intro.';
+  const isSuccinct = verbosity === 'short' || verbosity === 'succinct';
+  const isWordy = verbosity === 'long' || verbosity === 'wordy';
+
+  const verbosityDirective = isSuccinct
+    ? 'Be extremely concise. One sentence per summary. Skip all commentary. Use the ITEM LIMITS below.'
+    : isWordy
+      ? 'Be thorough. 3-4 sentence summaries. Rich context. Full paragraph intro.'
+      : 'Be clear and moderately detailed. 2 sentence summaries. 2-3 sentence intro.';
+
+  // For succinct, cap list-based sections to keep JSON small enough to complete
+  const itemLimitsDirective = isSuccinct
+    ? `ITEM LIMITS (succinct mode — strictly enforce):
+- news: max 3 articles
+- ai_tech: max 3 stories
+- reddit: max 2 posts
+- sports.results: max 2 entries
+- markets.symbols: max 3 symbols
+- weather.locations: max 2 locations
+- recipe.ingredients: max 6 items; recipe.steps: max 4 steps
+- workout.warmup: max 3 items; workout.circuit: max 4 items
+- local_events.events: max 2 events
+- week_history.events: max 2 events`
+    : '';
 
   const introDirective = includeIntro
     ? `Write a warm, personalized 2-3 sentence intro addressing ${firstName} by first name. Reference something specific from today's content (a headline, the weather, the quote) to make it feel written, not templated. Do not start with "Good morning" — be more creative.`
@@ -200,6 +217,7 @@ Do not use markdown code fences or backticks.
 Do not include comments inside the JSON.
 Every section listed below must appear in the sections array.
 If you cannot find real data for a section, generate reasonable placeholder content — never omit a section.
+${itemLimitsDirective}
 
 SEARCH EFFICIENCY (important — minimize API cost):
 - Sections marked ⚠ DO NOT use web_search — generate from training knowledge only.
@@ -210,7 +228,7 @@ SEARCH EFFICIENCY (important — minimize API cost):
 USER CONTEXT:
 Name: ${firstName}
 Date: ${date}
-Prose style: ${verbosityDirective}${commentaryDirective ? `\n${commentaryDirective}` : ''}
+Prose style: ${verbosityDirective}${commentaryDirective ? `\n${commentaryDirective}` : ''}${itemLimitsDirective ? `\n${itemLimitsDirective}` : ''}
 
 INSTRUCTIONS FOR EACH SECTION:
 ${instructionBlock}
