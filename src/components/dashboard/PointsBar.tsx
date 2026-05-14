@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -20,7 +21,6 @@ export default function PointsBar({ modules, subscriptionStatus, refreshing }: P
     0
   );
 
-  // Unlimited: no bar
   if (isUnlimited) {
     return (
       <div className="text-sm text-ink-muted">
@@ -50,21 +50,36 @@ export default function PointsBar({ modules, subscriptionStatus, refreshing }: P
     <div className="space-y-3">
       <div className="space-y-1.5">
         <div className="flex items-center justify-between text-sm">
-          <span className="text-ink-muted">{totalPoints} / {limit} credits used</span>
+          <span className="text-ink-muted">
+            {totalPoints} /{' '}
+            <motion.span
+              key={limit}
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+              className="inline-block"
+            >
+              {limit}
+            </motion.span>{' '}
+            credits used
+          </span>
           <span className={statusClass}>{statusLabel}</span>
         </div>
         <div className="h-2 w-full overflow-hidden rounded-full bg-surface-border">
           <div
             className={cn(
-              'h-full rounded-full transition-all duration-500',
-              refreshing ? 'animate-pulse bg-brand-purple/50' : atLimit ? 'bg-red-500' : 'bg-brand-purple'
+              'h-full rounded-full transition-all duration-700 ease-out',
+              refreshing
+                ? 'animate-pulse bg-brand-purple/50'
+                : isFree && atLimit
+                  ? 'bg-red-500'
+                  : 'bg-brand-purple'
             )}
             style={{ width: `${pct}%` }}
           />
         </div>
       </div>
 
-      {/* Free user upgrade nudge */}
       {isFree && totalPoints >= 2 && (
         <div className="flex items-center gap-3 rounded-xl border border-brand-purple/20 bg-brand-purple-light p-4">
           <Sparkles className="h-4 w-4 shrink-0 text-brand-purple" />
@@ -79,7 +94,6 @@ export default function PointsBar({ modules, subscriptionStatus, refreshing }: P
         </div>
       )}
 
-      {/* Pro user at limit — neutral, no upgrade CTA */}
       {isPro && atLimit && (
         <div className="rounded-xl bg-surface-secondary p-3 text-center text-sm text-ink-muted">
           You&apos;ve reached your 12-credit limit. Remove a module to add a different one.

@@ -1,15 +1,9 @@
-// Stripe webhook handler.
-//
-// The App Router passes the raw Request object, so `request.text()` gives
-// us the raw body Stripe needs for signature verification — no bodyParser
-// configuration in next.config is required (that setting only applies to
-// the legacy Pages Router).
-
 import { NextRequest, NextResponse } from 'next/server';
-import type Stripe from 'stripe';
-import { stripe } from '@/lib/stripe/client';
-import { adminClient } from '@/lib/supabase/admin';
+import Stripe from 'stripe';
+import { createAdminClient } from '@/lib/supabase/admin';
 import type { PlanId } from '@/lib/stripe/plans';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 function getPlanIdFromPriceId(priceId: string): PlanId {
   if (priceId === process.env.STRIPE_PRO_PRICE_ID) return 'pro';
@@ -17,86 +11,119 @@ function getPlanIdFromPriceId(priceId: string): PlanId {
   return 'free';
 }
 
-async function updateProfileByCustomer(
-  customerId: string,
-  updates: Record<string, unknown>
-) {
-  const { error } = await adminClient
-    .from('profiles')
-    .update(updates)
-    .eq('stripe_customer_id', customerId);
-
-  if (error) {
-    console.error('[webhook] Failed to update profile for customer', customerId, error.message);
-  }
-}
-
 export async function POST(request: NextRequest) {
+  // Step 1: Read raw body and check signature header
   const body = await request.text();
   const signature = request.headers.get('stripe-signature');
+  console.log(`[webhook] step 1: raw body length ${body.length}, signature present: ${!!signature}`);
 
   if (!signature) {
+    console.error('[webhook] Missing stripe-signature header');
     return NextResponse.json({ error: 'Missing stripe-signature header' }, { status: 400 });
   }
 
+  // Step 2: Check webhook secret is configured
+  const secret = process.env.STRIPE_WEBHOOK_SECRET;
+  if (!secret) {
+    console.error('[webhook] STRIPE_WEBHOOK_SECRET is not set');
+    return NextResponse.json({ error: 'Server misconfiguration' }, { status: 500 });
+  }
+
+  // Step 3: Verify signature and parse event
   let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    );
+    event = stripe.webhooks.constructEvent(body, signature, secret);
   } catch (err) {
     console.error('[webhook] Signature verification failed:', err);
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
+  console.log(`[webhook] step 2: constructEvent succeeded, type: ${event.type}`);
 
-  try {
-    switch (event.type) {
-      case 'checkout.session.completed': {
-        const session = event.data.object as Stripe.Checkout.Session;
-        const userId = session.metadata?.user_id;
-        const planId = (session.metadata?.plan_id as PlanId) ?? 'pro';
-        const customerId = typeof session.customer === 'string' ? session.customer : session.customer?.id;
+  const admin = createAdminClient();
 
-        if (userId) {
-          await adminClient
-            .from('profiles')
-            .update({
-              subscription_status: planId,
-              ...(customerId ? { stripe_customer_id: customerId } : {}),
-            })
-            .eq('id', userId);
-          console.log(`[webhook] User ${userId} upgraded to ${planId}, customer: ${customerId}`);
-        }
-        break;
+  // Step 4: Handle the event
+  switch (event.type) {
+    case 'checkout.session.completed': {
+      const session = event.data.object as Stripe.Checkout.Session;
+      const userId = session.metadata?.user_id;
+      const planId = (session.metadata?.plan_id as PlanId) ?? 'pro';
+      const customerId =
+        typeof session.customer === 'string' ? session.customer : session.customer?.id;
+
+      console.log(
+        `[webhook] step 3: checkout.session.completed, userId=${userId}, planId=${planId}, customerId=${customerId}`
+      );
+
+      if (!userId) {
+        console.warn('[webhook] No user_id in session metadata — skipping (data issue, not server error)');
+        return NextResponse.json({ received: true });
       }
 
-      case 'customer.subscription.updated': {
-        const sub = event.data.object as Stripe.Subscription;
-        const customerId =
-          typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
-        const priceId = sub.items.data[0]?.price?.id ?? '';
-        const planId = getPlanIdFromPriceId(priceId);
-        await updateProfileByCustomer(customerId, { subscription_status: planId });
-        break;
+      console.log(
+        `[webhook] step 4: update profiles set subscription_status=${planId} where id=${userId}`
+      );
+      const { error } = await admin
+        .from('profiles')
+        .update({
+          subscription_status: planId,
+          ...(customerId ? { stripe_customer_id: customerId } : {}),
+        })
+        .eq('id', userId);
+
+      if (error) {
+        console.error('[webhook] step 4 FAILED: DB update error:', error.message, error.code);
+        return NextResponse.json({ error: 'DB update failed' }, { status: 500 });
       }
 
-      case 'customer.subscription.deleted': {
-        const sub = event.data.object as Stripe.Subscription;
-        const customerId =
-          typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
-        await updateProfileByCustomer(customerId, { subscription_status: 'free' });
-        break;
-      }
-
-      default:
-        // Unhandled event type — safe to ignore
-        break;
+      console.log(`[webhook] step 5: success — user ${userId} is now ${planId}`);
+      break;
     }
-  } catch (err) {
-    console.error('[webhook] Handler error for event', event.type, err);
-    // Still return 200 so Stripe doesn't retry — log and investigate separately
+
+    case 'customer.subscription.updated': {
+      const sub = event.data.object as Stripe.Subscription;
+      const customerId =
+        typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
+      const priceId = sub.items.data[0]?.price?.id ?? '';
+      const planId = getPlanIdFromPriceId(priceId);
+
+      console.log(
+        `[webhook] customer.subscription.updated: customerId=${customerId}, priceId=${priceId}, planId=${planId}`
+      );
+
+      const { error } = await admin
+        .from('profiles')
+        .update({ subscription_status: planId })
+        .eq('stripe_customer_id', customerId);
+
+      if (error) {
+        console.error('[webhook] Failed to update subscription for customer', customerId, error.message);
+        return NextResponse.json({ error: 'DB update failed' }, { status: 500 });
+      }
+      break;
+    }
+
+    case 'customer.subscription.deleted': {
+      const sub = event.data.object as Stripe.Subscription;
+      const customerId =
+        typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
+
+      console.log(`[webhook] customer.subscription.deleted: customerId=${customerId}`);
+
+      const { error } = await admin
+        .from('profiles')
+        .update({ subscription_status: 'free' })
+        .eq('stripe_customer_id', customerId);
+
+      if (error) {
+        console.error('[webhook] Failed to clear subscription for customer', customerId, error.message);
+        return NextResponse.json({ error: 'DB update failed' }, { status: 500 });
+      }
+      break;
+    }
+
+    default:
+      console.log(`[webhook] Unhandled event type: ${event.type}`);
+      break;
   }
 
   return NextResponse.json({ received: true });

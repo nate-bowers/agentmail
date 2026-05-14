@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { AlertCircle, RefreshCw, Send, Zap, BookOpen } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { MODULE_REGISTRY } from '@/lib/modules';
 import { getModulePoints } from '@/lib/modules/points';
 import type { GeneratedSection } from '@/lib/email/generate';
@@ -213,26 +214,32 @@ export default function PreviewClient({
             <p className="text-xs font-medium uppercase tracking-wide text-ink-muted mb-2">
               Appearance
             </p>
-            <div className="flex gap-2">
-              {APPEARANCE_OPTIONS.map((opt) => (
-                <button
-                  key={opt.id}
-                  type="button"
-                  onClick={() => handleAppearanceChange(opt.id)}
-                  className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-all ${
-                    appearance === opt.id
-                      ? 'border-brand-purple bg-brand-purple-light text-brand-purple'
-                      : 'border-surface-border bg-white text-ink hover:border-brand-purple/50'
-                  }`}
-                >
-                  <span
-                    className="inline-block h-3.5 w-3.5 rounded-full border flex-shrink-0"
-                    style={{ backgroundColor: opt.color, borderColor: opt.border }}
-                  />
-                  {opt.label}
-                </button>
-              ))}
-            </div>
+            <TooltipProvider delayDuration={200}>
+              <div className="flex gap-2">
+                {APPEARANCE_OPTIONS.map((opt) => (
+                  <Tooltip key={opt.id}>
+                    <TooltipTrigger asChild>
+                      <button
+                        type="button"
+                        onClick={() => handleAppearanceChange(opt.id)}
+                        className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium transition-all ${
+                          appearance === opt.id
+                            ? 'border-brand-purple bg-brand-purple-light text-brand-purple'
+                            : 'border-surface-border bg-white text-ink hover:border-brand-purple/50'
+                        }`}
+                      >
+                        <span
+                          className="inline-block h-3.5 w-3.5 rounded-full border flex-shrink-0"
+                          style={{ backgroundColor: opt.color, borderColor: opt.border }}
+                        />
+                        {opt.label}
+                      </button>
+                    </TooltipTrigger>
+                    <TooltipContent>{opt.label} theme</TooltipContent>
+                  </Tooltip>
+                ))}
+              </div>
+            </TooltipProvider>
           </div>
 
           {/* Length selector */}
@@ -240,30 +247,42 @@ export default function PreviewClient({
             <p className="text-xs font-medium uppercase tracking-wide text-ink-muted mb-2">
               Length
             </p>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setVerbosity('succinct')}
-                className={`flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-medium transition-all ${
-                  verbosity === 'succinct'
-                    ? 'border-brand-purple bg-brand-purple-light text-brand-purple'
-                    : 'border-surface-border bg-white text-ink hover:border-brand-purple/50'
-                }`}
-              >
-                <Zap className="h-3.5 w-3.5" /> Succinct
-              </button>
-              <button
-                type="button"
-                onClick={() => setVerbosity('wordy')}
-                className={`flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-medium transition-all ${
-                  verbosity === 'wordy'
-                    ? 'border-brand-purple bg-brand-purple-light text-brand-purple'
-                    : 'border-surface-border bg-white text-ink hover:border-brand-purple/50'
-                }`}
-              >
-                <BookOpen className="h-3.5 w-3.5" /> Wordy
-              </button>
-            </div>
+            <TooltipProvider delayDuration={200}>
+              <div className="flex gap-2">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      type="button"
+                      onClick={() => setVerbosity('succinct')}
+                      className={`flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-medium transition-all ${
+                        verbosity === 'succinct'
+                          ? 'border-brand-purple bg-brand-purple-light text-brand-purple'
+                          : 'border-surface-border bg-white text-ink hover:border-brand-purple/50'
+                      }`}
+                    >
+                      <Zap className="h-3.5 w-3.5" /> Succinct
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>Shorter summaries, less prose</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      type="button"
+                      onClick={() => setVerbosity('wordy')}
+                      className={`flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-medium transition-all ${
+                        verbosity === 'wordy'
+                          ? 'border-brand-purple bg-brand-purple-light text-brand-purple'
+                          : 'border-surface-border bg-white text-ink hover:border-brand-purple/50'
+                      }`}
+                    >
+                      <BookOpen className="h-3.5 w-3.5" /> Wordy
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>Full context, longer summaries</TooltipContent>
+                </Tooltip>
+              </div>
+            </TooltipProvider>
           </div>
 
           {/* Save as default */}

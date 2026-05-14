@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { createClient } from '@/lib/supabase/client';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -101,6 +102,17 @@ const NAV_LINKS = [
 function DashboardNav({ email }: { email: string }) {
   const pathname = usePathname();
   const supabase = createClient();
+  const [showProBadge, setShowProBadge] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (sessionStorage.getItem('justUpgraded') === 'true') {
+      sessionStorage.removeItem('justUpgraded');
+      setShowProBadge(true);
+      const timer = setTimeout(() => setShowProBadge(false), 10000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
 
   async function handleSignOut() {
     await supabase.auth.signOut();
@@ -130,6 +142,20 @@ function DashboardNav({ email }: { email: string }) {
           </nav>
         </div>
         <div className="flex items-center gap-3">
+          <AnimatePresence>
+            {showProBadge && (
+              <motion.span
+                key="pro-badge"
+                initial={{ opacity: 0, scale: 0.8, y: -4 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.8, y: -4 }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
+                className="inline-flex items-center gap-1 rounded-full bg-brand-purple px-2.5 py-0.5 text-xs font-medium text-white"
+              >
+                ✨ Pro
+              </motion.span>
+            )}
+          </AnimatePresence>
           <span className="hidden text-xs text-ink-faint sm:block">{email}</span>
           <div className="hidden h-4 w-px bg-surface-border sm:block" />
           <Button

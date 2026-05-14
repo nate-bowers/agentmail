@@ -2,17 +2,20 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Clock, Mail, Palette, User, Zap, BookOpen, Check, ChevronsUpDown } from 'lucide-react';
 import { toast } from 'sonner';
 import { useDebounce } from 'use-debounce';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
 import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from '@/components/ui/command';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import ModuleList from './ModuleList';
 import OnboardingGate from '@/components/onboarding/OnboardingGate';
 import { usePoints } from '@/hooks/usePoints';
 import { usePlan } from '@/hooks/usePlan';
 import { TIMEZONES } from '@/lib/timezones';
+import { triggerUpgradeCelebration } from '@/lib/celebration';
 import type { ModuleRow, Profile } from '@/types';
 import React from 'react';
 
@@ -28,7 +31,6 @@ function getTimezoneAbbr(tz: string): string {
   } catch { return tz; }
 }
 
-// Build hour options for 12-hour time picker
 const HOUR_OPTIONS = Array.from({ length: 12 }, (_, i) => {
   const h = i + 1;
   return { value: String(h), label: String(h) };
@@ -84,7 +86,7 @@ function SidebarCard({ icon, label, right, children }: {
 }
 
 // ─────────────────────────────────────────────────────────────
-// Delivery card — inline time picker + timezone combobox
+// Delivery card
 // ─────────────────────────────────────────────────────────────
 
 function DeliveryCard({ profile }: { profile: Profile }) {
@@ -131,12 +133,10 @@ function DeliveryCard({ profile }: { profile: Profile }) {
 
   return (
     <SidebarCard icon={<Clock className="h-4 w-4 text-brand-purple" />} label="Delivery">
-      {/* Time picker row */}
       <div className="space-y-3">
         <div>
           <p className="text-[10px] font-medium uppercase tracking-wide text-ink-muted mb-1.5">Send time</p>
           <div className="flex items-center gap-1.5">
-            {/* Hour */}
             <select
               value={hour}
               onChange={(e) => {
@@ -149,7 +149,6 @@ function DeliveryCard({ profile }: { profile: Profile }) {
                 <option key={o.value} value={o.value}>{o.label}</option>
               ))}
             </select>
-            {/* Minute */}
             <select
               value={minute}
               onChange={(e) => {
@@ -162,7 +161,6 @@ function DeliveryCard({ profile }: { profile: Profile }) {
                 <option key={o.value} value={o.value}>{o.label}</option>
               ))}
             </select>
-            {/* AM/PM */}
             <select
               value={ampm}
               onChange={(e) => {
@@ -179,7 +177,6 @@ function DeliveryCard({ profile }: { profile: Profile }) {
           </div>
         </div>
 
-        {/* Timezone combobox */}
         <div>
           <p className="text-[10px] font-medium uppercase tracking-wide text-ink-muted mb-1.5">Timezone</p>
           <Popover open={tzOpen} onOpenChange={setTzOpen}>
@@ -222,7 +219,7 @@ function DeliveryCard({ profile }: { profile: Profile }) {
 }
 
 // ─────────────────────────────────────────────────────────────
-// Recipient card — always-visible email input with debounced save
+// Recipient card
 // ─────────────────────────────────────────────────────────────
 
 function RecipientCard({ profile, accountEmail }: { profile: Profile; accountEmail: string }) {
@@ -231,7 +228,6 @@ function RecipientCard({ profile, accountEmail }: { profile: Profile; accountEma
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const savedRef = React.useRef(profile.delivery_email ?? '');
 
-  // Auto-save when debounced value changes
   React.useEffect(() => {
     const trimmed = debouncedValue.trim();
     if (trimmed === savedRef.current) return;
@@ -331,55 +327,71 @@ function EmailStyleCard({ profile }: { profile: Profile }) {
 
   return (
     <SidebarCard icon={<Palette className="h-4 w-4 text-brand-purple" />} label="Email Style">
-      {/* Appearance */}
-      <div>
-        <p className="text-[10px] font-medium uppercase tracking-wide text-ink-muted mb-2">Theme</p>
-        <div className="flex gap-2">
-          {APPEARANCE_OPTIONS.map((opt) => (
-            <button
-              key={opt.id}
-              title={opt.label}
-              onClick={() => handleThemeChange(opt.id)}
-              className={`w-6 h-6 rounded-full border-2 transition-all ${
-                theme === opt.id
-                  ? 'border-brand-purple scale-110'
-                  : 'border-transparent hover:border-surface-border'
-              }`}
-              style={{
-                backgroundColor: opt.color,
-                boxShadow: `inset 0 0 0 1px ${opt.border}`,
-              }}
-            />
-          ))}
+      <TooltipProvider delayDuration={200}>
+        {/* Appearance */}
+        <div>
+          <p className="text-[10px] font-medium uppercase tracking-wide text-ink-muted mb-2">Theme</p>
+          <div className="flex gap-2">
+            {APPEARANCE_OPTIONS.map((opt) => (
+              <Tooltip key={opt.id}>
+                <TooltipTrigger asChild>
+                  <button
+                    title={opt.label}
+                    onClick={() => handleThemeChange(opt.id)}
+                    className={`w-6 h-6 rounded-full border-2 transition-all ${
+                      theme === opt.id
+                        ? 'border-brand-purple scale-110'
+                        : 'border-transparent hover:border-surface-border'
+                    }`}
+                    style={{
+                      backgroundColor: opt.color,
+                      boxShadow: `inset 0 0 0 1px ${opt.border}`,
+                    }}
+                  />
+                </TooltipTrigger>
+                <TooltipContent>{opt.label}</TooltipContent>
+              </Tooltip>
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Length */}
-      <div className="mt-4">
-        <p className="text-[10px] font-medium uppercase tracking-wide text-ink-muted mb-2">Length</p>
-        <div className="flex gap-2">
-          <button
-            onClick={() => handleVerbosityChange('succinct')}
-            className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-all ${
-              verbosity === 'succinct'
-                ? 'border-brand-purple bg-brand-purple-light text-brand-purple'
-                : 'border-surface-border text-ink hover:border-brand-purple/50'
-            }`}
-          >
-            <Zap className="h-3 w-3" /> Succinct
-          </button>
-          <button
-            onClick={() => handleVerbosityChange('wordy')}
-            className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-all ${
-              verbosity === 'wordy'
-                ? 'border-brand-purple bg-brand-purple-light text-brand-purple'
-                : 'border-surface-border text-ink hover:border-brand-purple/50'
-            }`}
-          >
-            <BookOpen className="h-3 w-3" /> Wordy
-          </button>
+        {/* Length */}
+        <div className="mt-4">
+          <p className="text-[10px] font-medium uppercase tracking-wide text-ink-muted mb-2">Length</p>
+          <div className="flex gap-2">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={() => handleVerbosityChange('succinct')}
+                  className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-all ${
+                    verbosity === 'succinct'
+                      ? 'border-brand-purple bg-brand-purple-light text-brand-purple'
+                      : 'border-surface-border text-ink hover:border-brand-purple/50'
+                  }`}
+                >
+                  <Zap className="h-3 w-3" /> Succinct
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>Short summaries, fast to read</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={() => handleVerbosityChange('wordy')}
+                  className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-all ${
+                    verbosity === 'wordy'
+                      ? 'border-brand-purple bg-brand-purple-light text-brand-purple'
+                      : 'border-surface-border text-ink hover:border-brand-purple/50'
+                  }`}
+                >
+                  <BookOpen className="h-3 w-3" /> Wordy
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>Full context and commentary</TooltipContent>
+            </Tooltip>
+          </div>
         </div>
-      </div>
+      </TooltipProvider>
     </SidebarCard>
   );
 }
@@ -422,20 +434,17 @@ export default function DashboardClient({
     }
   }, []);
 
-  // Show "already on Pro" toast when redirected from upgrade page
   useEffect(() => {
     if (!alreadyPro) return;
     toast("You're already on Brief Pro.");
     window.history.replaceState({}, '', '/dashboard');
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Poll for subscription status after Stripe checkout redirect
   useEffect(() => {
     if (!initialUpgraded) return;
     let cancelled = false;
 
     async function handleUpgradeReturn() {
-      // Try confirm-upgrade first for immediate update
       if (sessionId) {
         try {
           await fetch('/api/stripe/confirm-upgrade', {
@@ -448,7 +457,6 @@ export default function DashboardClient({
         }
       }
 
-      // Poll until status is pro/unlimited
       for (let i = 0; i < 12; i++) {
         await new Promise(resolve => setTimeout(resolve, 2500));
         if (cancelled) return;
@@ -463,10 +471,22 @@ export default function DashboardClient({
           if (data.subscription_status === 'pro' || data.subscription_status === 'unlimited') {
             if (cancelled) return;
             setSubscriptionStatus(data.subscription_status);
-            toast.success('Welcome to Brief Pro!', {
-              description: 'Your credits have been unlocked. You can now add up to 12 modules.',
-              duration: 6000,
-            });
+            triggerUpgradeCelebration();
+            sessionStorage.setItem('justUpgraded', 'true');
+            toast.success(
+              '🎉 Welcome to Brief Pro!',
+              {
+                description: (
+                  <span>
+                    Your 12 credits are unlocked.{' '}
+                    <a href="/dashboard" className="underline font-medium">
+                      Add a module now →
+                    </a>
+                  </span>
+                ),
+                duration: 8000,
+              }
+            );
             window.history.replaceState({}, '', '/dashboard');
             return;
           }
@@ -510,34 +530,52 @@ export default function DashboardClient({
 
         {/* Sidebar — 1 col */}
         <div className="mt-8 space-y-4 lg:mt-0">
-          {/* CARD 1 — Delivery */}
           <DeliveryCard profile={profile} />
-
-          {/* CARD 2 — Recipient */}
           <RecipientCard profile={profile} accountEmail={user.email} />
-
-          {/* CARD 3 — Email Style */}
           <EmailStyleCard profile={profile} />
 
-          {/* CARD 4 — Account */}
+          {/* Account card */}
           <SidebarCard icon={<User className="h-4 w-4 text-brand-purple" />} label="Account">
             <p className="text-sm text-ink-muted truncate">{user.email}</p>
             <div className="mt-2 flex items-center gap-2">
-              {isFree && (
-                <span className="inline-flex items-center rounded-full border border-surface-border bg-surface-secondary px-2.5 py-0.5 text-xs font-medium text-ink-muted">
-                  Free
-                </span>
-              )}
-              {isPro && !isUnlimited && (
-                <span className="inline-flex items-center rounded-full bg-brand-purple px-2.5 py-0.5 text-xs font-medium text-white">
-                  Pro
-                </span>
-              )}
-              {isUnlimited && (
-                <span className="inline-flex items-center rounded-full bg-gradient-to-r from-brand-purple to-indigo-500 px-2.5 py-0.5 text-xs font-medium text-white">
-                  Unlimited
-                </span>
-              )}
+              <AnimatePresence mode="wait">
+                {isFree && (
+                  <motion.span
+                    key="free"
+                    initial={{ opacity: 0, scale: 0.85 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.85 }}
+                    transition={{ duration: 0.2 }}
+                    className="inline-flex items-center rounded-full border border-surface-border bg-surface-secondary px-2.5 py-0.5 text-xs font-medium text-ink-muted"
+                  >
+                    Free
+                  </motion.span>
+                )}
+                {isPro && !isUnlimited && (
+                  <motion.span
+                    key="pro"
+                    initial={{ opacity: 0, scale: 0.85 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.85 }}
+                    transition={{ duration: 0.2 }}
+                    className="inline-flex items-center rounded-full bg-brand-purple px-2.5 py-0.5 text-xs font-medium text-white"
+                  >
+                    Pro
+                  </motion.span>
+                )}
+                {isUnlimited && (
+                  <motion.span
+                    key="unlimited"
+                    initial={{ opacity: 0, scale: 0.85 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.85 }}
+                    transition={{ duration: 0.2 }}
+                    className="inline-flex items-center rounded-full bg-gradient-to-r from-brand-purple to-indigo-500 px-2.5 py-0.5 text-xs font-medium text-white"
+                  >
+                    Unlimited
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </div>
 
             {/* Compact points mini-bar */}
@@ -545,30 +583,48 @@ export default function DashboardClient({
               <p className="text-xs text-ink-muted">{pointsUsed} / {pointsLimit} credits</p>
               <div className="h-1.5 w-full overflow-hidden rounded-full bg-surface-border">
                 <div
-                  className={`h-full rounded-full transition-all duration-300 ${
-                    refreshing ? 'animate-pulse bg-brand-purple/50' : atLimit ? 'bg-red-500' : 'bg-brand-purple'
+                  className={`h-full rounded-full transition-all duration-700 ease-out ${
+                    refreshing ? 'animate-pulse bg-brand-purple/50' : isFree && atLimit ? 'bg-red-500' : 'bg-brand-purple'
                   }`}
                   style={{ width: `${percentUsed}%` }}
                 />
               </div>
             </div>
 
-            {isFree && (
-              <button
-                onClick={() => { window.location.href = '/dashboard/upgrade'; }}
-                className="mt-3 text-sm text-brand-purple hover:text-brand-purple-dark"
-              >
-                Upgrade to Pro →
-              </button>
-            )}
-            {isPro && (
-              <Link
-                href="/dashboard/settings"
-                className="mt-3 inline-block text-sm text-ink-muted hover:text-ink"
-              >
-                Manage subscription
-              </Link>
-            )}
+            <AnimatePresence>
+              {isFree && (
+                <motion.div
+                  key="upgrade-link"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <button
+                    onClick={() => { window.location.href = '/dashboard/upgrade'; }}
+                    className="mt-3 text-sm text-brand-purple hover:text-brand-purple-dark"
+                  >
+                    Upgrade to Pro →
+                  </button>
+                </motion.div>
+              )}
+              {isPro && (
+                <motion.div
+                  key="manage-link"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Link
+                    href="/dashboard/settings"
+                    className="mt-3 inline-block text-sm text-ink-muted hover:text-ink"
+                  >
+                    Manage subscription
+                  </Link>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </SidebarCard>
         </div>
       </div>

@@ -5,6 +5,14 @@
 
 import { createClient } from '@supabase/supabase-js';
 
+function getAdminKeys() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url) throw new Error('NEXT_PUBLIC_SUPABASE_URL is not set');
+  if (!key) throw new Error('SUPABASE_SERVICE_ROLE_KEY is not set');
+  return { url, key };
+}
+
 export const adminClient = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -16,16 +24,12 @@ export const adminClient = createClient(
   }
 );
 
-// Factory function — use when you need a fresh client instance (e.g. pipeline.ts)
 export function createAdminClient() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-      },
-    }
-  );
+  const { url, key } = getAdminKeys();
+  return createClient(url, key, {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+    },
+  });
 }

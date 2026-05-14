@@ -55,7 +55,7 @@ export default async function UpgradePage() {
 
   return (
     <PageShell>
-      <div className="mx-auto max-w-2xl space-y-10">
+      <div className="mx-auto max-w-2xl space-y-4 pt-4 pb-6">
         {/* Back link */}
         <Button variant="ghost" size="sm" className="-ml-2 text-ink-muted" asChild>
           <Link href="/dashboard">
@@ -65,28 +65,28 @@ export default async function UpgradePage() {
         </Button>
 
         {/* Header */}
-        <div className="space-y-3 text-center">
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-brand-purple-light px-3 py-1.5 text-sm font-medium text-brand-purple">
+        <div className="space-y-2 text-center pb-1">
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-brand-purple-light px-3 py-1 text-sm font-medium text-brand-purple">
             <Sparkles className="h-3.5 w-3.5" />
             Brief Pro
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-ink">
+          <h1 className="text-2xl font-bold tracking-tight text-ink">
             Unlock your full morning brief
           </h1>
-          <p className="text-ink-muted">
+          <p className="text-sm text-ink-muted">
             Most people upgrade within their first week. Here&rsquo;s why.
           </p>
         </div>
 
         {/* Social proof strip */}
-        <div className="rounded-xl bg-surface-secondary p-4">
+        <div className="rounded-xl bg-surface-secondary p-3">
           <div className="flex items-center justify-center divide-x divide-surface-border">
             {[
               { stat: '2 min', label: 'Setup time' },
               { stat: '12 credits', label: 'With Pro' },
               { stat: '$9/mo', label: 'Less than a coffee' },
             ].map(({ stat, label }) => (
-              <div key={label} className="flex flex-col items-center gap-0.5 px-8">
+              <div key={label} className="flex flex-col items-center gap-0.5 px-5">
                 <span className="font-bold text-ink">{stat}</span>
                 <span className="text-xs text-ink-muted">{label}</span>
               </div>
@@ -95,70 +95,70 @@ export default async function UpgradePage() {
         </div>
 
         {/* Points comparison */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3">
           {/* Free */}
-          <div className="rounded-xl border border-surface-border p-5 space-y-3">
+          <div className="rounded-xl border border-surface-border p-4 space-y-2">
             <p className="font-mono text-xs uppercase tracking-wider text-ink-muted">
               Free — 3 credits
             </p>
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               {FREE_MODULES.map(({ label, pts, included }) => (
                 <div
                   key={label}
                   className={cn(
-                    'flex items-center gap-2 text-sm',
+                    'flex items-center gap-1.5 text-xs',
                     included ? 'text-ink' : 'text-ink-faint'
                   )}
                 >
                   {included ? (
-                    <span className="text-green-500 text-base leading-none">✓</span>
+                    <span className="text-green-500 text-sm leading-none">✓</span>
                   ) : (
-                    <Lock className="h-3.5 w-3.5 shrink-0" />
+                    <Lock className="h-3 w-3 shrink-0" />
                   )}
                   <span className="flex-1">{label}</span>
-                  <span className="text-xs text-ink-faint">({pts}pt)</span>
+                  <span className="text-[10px] text-ink-faint">({pts}pt)</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Pro */}
-          <div className="rounded-xl border-2 border-brand-purple bg-brand-purple/[0.03] p-5 space-y-3">
+          <div className="rounded-xl border-2 border-brand-purple bg-brand-purple/[0.03] p-4 space-y-2">
             <p className="font-mono text-xs uppercase tracking-wider text-brand-purple">
               Pro — 12 credits
             </p>
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               {PRO_MODULES.map(({ label, pts }) => (
-                <div key={label} className="flex items-center gap-2 text-sm text-ink">
-                  <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-brand-purple" />
+                <div key={label} className="flex items-center gap-1.5 text-xs text-ink">
+                  <CheckCircle2 className="h-3 w-3 shrink-0 text-brand-purple" />
                   <span className="flex-1">{label}</span>
-                  <span className="text-xs text-ink-faint">({pts}pt)</span>
+                  <span className="text-[10px] text-ink-faint">({pts}pt)</span>
                 </div>
               ))}
-              <p className="pt-1 text-xs font-medium text-brand-purple">+ 4 more credits to use</p>
+              <p className="pt-0.5 text-xs font-medium text-brand-purple">+ 4 more credits to use</p>
             </div>
           </div>
         </div>
 
         {/* Pricing card */}
-        <div className="mx-auto w-full max-w-sm rounded-2xl border border-surface-border bg-white p-6 shadow-sm space-y-5">
+        <div className="mx-auto w-full max-w-sm rounded-2xl border border-surface-border bg-white p-5 shadow-sm space-y-3">
           <div>
             <p className="font-medium text-ink">Brief Pro</p>
             <div className="mt-1 flex items-baseline gap-1">
-              <span className="text-4xl font-bold text-ink">$9</span>
+              <span className="text-3xl font-bold text-ink">$9</span>
               <span className="text-ink-muted">/month</span>
             </div>
           </div>
 
-          <ul className="space-y-2.5">
+          <ul className="space-y-2">
             {[
               '12 module credits — 4x more than free',
               'All current and future modules',
               'Priority email delivery',
               'Cancel anytime, no questions asked',
             ].map((f) => (
-              <li key={f} className="flex items-start gap-2.5 text-sm text-ink">
-                <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand-purple" />
+              <li key={f} className="flex items-start gap-2 text-sm text-ink">
+                <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-purple" />
                 {f}
               </li>
             ))}
@@ -169,10 +169,12 @@ export default async function UpgradePage() {
               You&rsquo;re already on Brief Pro
             </div>
           ) : (
-            <UpgradeButton planId="pro" />
+            <div className="mt-1">
+              <UpgradeButton planId="pro" />
+            </div>
           )}
 
-          <div className="space-y-1 text-center">
+          <div className="space-y-1 text-center mt-1">
             <p className="text-xs text-ink-muted">
               Secured by Stripe. Your card is never stored on our servers.
             </p>
@@ -186,11 +188,6 @@ export default async function UpgradePage() {
             You&rsquo;re currently on the free plan using {pointsUsed} of {PLANS.free.pointLimit} credits.
           </p>
         )}
-
-        {/*
-          UNLIMITED PLAN — uncomment when STRIPE_UNLIMITED_PRICE_ID is configured
-          <UnlimitedPlanCard onUpgrade={() => handleUpgrade('unlimited')} />
-        */}
       </div>
     </PageShell>
   );
