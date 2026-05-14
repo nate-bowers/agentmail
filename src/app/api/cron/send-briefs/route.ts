@@ -17,6 +17,7 @@ export const maxDuration = 60;
 
 let isRunning = false;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- re-enable on Pro plan (see TODO below)
 function isSendTime(sendTime: string, timezone: string): boolean {
   try {
     const zonedNow = toZonedTime(new Date(), timezone);
@@ -65,7 +66,11 @@ export async function GET(request: NextRequest) {
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
 
     for (const user of users as CronUser[]) {
-      if (!isSendTime(user.send_time, user.timezone)) continue;
+      // TODO (Pro plan): uncomment isSendTime to respect per-user send_time + timezone.
+      // On Hobby the cron only runs once daily, so this filter would silently drop most users.
+      // The cron is fixed at 08:00 ET for beta. send_time is still saved to the DB and shown
+      // in the UI — re-enabling this one line is all that's needed when upgrading.
+      // if (!isSendTime(user.send_time, user.timezone)) continue;
 
       const { count } = await adminClient
         .from('email_logs')
