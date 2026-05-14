@@ -4,8 +4,12 @@ import { generateDailyBrief } from '@/lib/email/generate';
 import { sendDailyBrief } from '@/lib/email/send';
 import { prefetchModuleData } from '@/lib/email/prefetch';
 import { getDailyCache, setDailyCache } from '@/lib/email/dailycache';
-import { CACHEABLE_MODULES, buildCacheKey, getSearchCache, setSearchCache } from '@/lib/email/cache';
-import type { ModuleRow } from '@/types';
+import {
+  CACHEABLE_MODULES, buildCacheKey, getSearchCache, setSearchCache,
+  STATIC_CACHEABLE_MODULES, buildStaticCacheKey, getStaticCache, setStaticCache,
+} from '@/lib/email/cache';
+import type { ModuleRow, ModuleSearchInstruction } from '@/types';
+import type { GeneratedSection } from '@/lib/email/generate';
 
 export interface PipelineResult {
   success: boolean;
@@ -16,6 +20,11 @@ export interface PipelineResult {
   emailId?: string;
   prefetchedModules?: string[];
 }
+
+// History modules: prefetchedData holds raw Wikipedia events — Claude must pick and format them.
+// All other prefetched data (weather, markets, currency, ai_tech, search cache hits) is already
+// in final schema and can be injected directly without a Claude call.
+const HISTORY_MODULES = new Set(['on_this_day', 'week_history']);
 
 export async function runPipeline(user: {
   id: string;
@@ -53,9 +62,9 @@ export async function runPipeline(user: {
     return { success: false, stage: 'modules', error: message, detail: String(err) };
   }
 
-  // STAGE 2: Build search instructions
+  // STAGE 2: Build search instructions (preserves display_order for final merge)
   console.log('[Pipeline] Stage 2: Building search instructions');
-  let moduleInstructions;
+  let moduleInstructions: ModuleSearchInstruction[];
   try {
     moduleInstructions = buildSearchInstructions(modules);
     if (moduleInstructions.length === 0) {
@@ -68,11 +77,10 @@ export async function runPipeline(user: {
     return { success: false, stage: 'generate', error: message, detail: String(err) };
   }
 
-  // STAGE 2.5: Pre-fetch external API data + check shared cache
+  // STAGE 2.5: Pre-fetch external API data + check shared/search caches
   console.log('[Pipeline] Stage 2.5: Pre-fetching module data');
   let prefetchedData: Record<string, unknown> = {};
   try {
-    // Check if any modules have a cached ai_tech result
     const aiTechInst = moduleInstructions.find((m) => m.moduleType === 'ai_tech');
     if (aiTechInst) {
       const subtopics = (aiTechInst.config.subtopics as string[] | undefined) ?? [];
@@ -84,14 +92,12 @@ export async function runPipeline(user: {
       }
     }
 
-    // Pre-fetch weather/markets/currency/history via external APIs
     const apiData = await prefetchModuleData(moduleInstructions);
     prefetchedData = { ...prefetchedData, ...apiData };
 
-    // Check 12-hour search cache for cacheable modules not yet prefetched
     for (const inst of moduleInstructions) {
       if (!CACHEABLE_MODULES.has(inst.moduleType)) continue;
-      if (prefetchedData[inst.moduleType] !== undefined) continue; // already have data
+      if (prefetchedData[inst.moduleType] !== undefined) continue;
       const cacheKey = buildCacheKey(inst.moduleType, inst.config);
       const cached = await getSearchCache(cacheKey);
       if (cached) {
@@ -100,60 +106,137 @@ export async function runPipeline(user: {
       }
     }
 
-    const prefetchedModules = Object.keys(prefetchedData);
-    console.log('[Pipeline] Pre-fetched:', prefetchedModules.length > 0 ? prefetchedModules : 'none');
+    console.log('[Pipeline] Pre-fetched:', Object.keys(prefetchedData).length > 0 ? Object.keys(prefetchedData) : 'none');
   } catch (err) {
-    // Non-fatal: fall back to Claude search for all modules
     console.error('[Pipeline] Prefetch failed (non-fatal, continuing):', err);
   }
 
-  // STAGE 3: Generate via Claude
-  console.log('[Pipeline] Stage 3: Calling Claude API');
-  let generated;
-  try {
-    generated = await generateDailyBrief(user, moduleInstructions, prefetchedData);
-    console.log('[Pipeline] Generation successful. Tokens used:', generated.tokensUsed);
-    console.log('[Pipeline] Sections generated:', generated.sections?.map((s) => s.type));
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : String(err);
-    console.error('[Pipeline] Claude generation failed:', err);
-    return { success: false, stage: 'generate', error: message, detail: String(err) };
+  // STAGE 2.6: Build resolved sections map — everything we can provide without a Claude call.
+  // History modules stay out: prefetchedData holds raw Wikipedia events Claude must format.
+  // All other prefetched data (weather, markets, currency, ai_tech, search-cached modules) is
+  // already in final GeneratedSection.data shape — inject directly.
+  const resolvedSections = new Map<string, unknown>();
+
+  for (const [moduleType, data] of Object.entries(prefetchedData)) {
+    if (!HISTORY_MODULES.has(moduleType)) {
+      resolvedSections.set(moduleType, data);
+    }
   }
 
-  // Cache ai_tech result for subsequent users today (non-fatal)
+  // Check 24-hour static module cache (quote, fact, affirmation, etc.)
   try {
-    const aiTechSection = generated.sections.find((s) => s.type === 'ai_tech');
-    const aiTechInst = moduleInstructions.find((m) => m.moduleType === 'ai_tech');
-    if (aiTechSection && aiTechInst && !prefetchedData['ai_tech']) {
-      const subtopics = (aiTechInst.config.subtopics as string[] | undefined) ?? [];
-      const cacheKey = `ai_tech:${[...subtopics].sort().join(',')}`;
-      await setDailyCache(cacheKey, aiTechSection.data);
-      console.log('[Pipeline] ai_tech result cached for subsequent users');
+    for (const inst of moduleInstructions) {
+      if (!STATIC_CACHEABLE_MODULES.has(inst.moduleType)) continue;
+      if (resolvedSections.has(inst.moduleType)) continue;
+      const cacheKey = buildStaticCacheKey(inst.moduleType, inst.config);
+      const cached = await getStaticCache(cacheKey);
+      if (cached) {
+        resolvedSections.set(inst.moduleType, cached);
+        console.log(`[Pipeline] ${inst.moduleType} served from static cache`);
+      }
     }
   } catch (err) {
-    console.error('[Pipeline] ai_tech cache write failed (non-fatal):', err);
+    console.error('[Pipeline] Static cache check failed (non-fatal):', err);
   }
 
-  // Write newly searched cacheable sections to the 12-hour search cache
-  try {
+  // Modules Claude still needs to handle: cache misses only
+  const claudeInstructions = moduleInstructions.filter((i) => !resolvedSections.has(i.moduleType));
+  // History prefetched data (raw Wikipedia events) is the only context Claude needs
+  const claudePrefetchedData: Record<string, unknown> = {};
+  for (const [moduleType, data] of Object.entries(prefetchedData)) {
+    if (HISTORY_MODULES.has(moduleType)) claudePrefetchedData[moduleType] = data;
+  }
+
+  console.log(`[Pipeline] Cache hit: ${resolvedSections.size}/${moduleInstructions.length} modules`);
+  if (claudeInstructions.length > 0) {
+    console.log('[Pipeline] Claude cache misses:', claudeInstructions.map((i) => i.moduleType));
+  }
+
+  // STAGE 3: Generate via Claude — only cache-miss modules
+  let tokensUsed = 0;
+  if (claudeInstructions.length > 0) {
+    console.log('[Pipeline] Stage 3: Calling Claude API');
+    let generated;
+    try {
+      generated = await generateDailyBrief(user, claudeInstructions, claudePrefetchedData);
+      tokensUsed = generated.tokensUsed;
+      console.log('[Pipeline] Generation successful. Tokens used:', tokensUsed);
+      console.log('[Pipeline] Sections generated:', generated.sections?.map((s) => s.type));
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      console.error('[Pipeline] Claude generation failed:', err);
+      return { success: false, stage: 'generate', error: message, detail: String(err) };
+    }
+
+    // Add Claude's output to the resolved map
     for (const section of generated.sections) {
-      if (!CACHEABLE_MODULES.has(section.type)) continue;
-      if (prefetchedData[section.type] !== undefined) continue; // was already a cache hit
-      const inst = moduleInstructions.find((m) => m.moduleType === section.type);
-      if (!inst) continue;
-      const cacheKey = buildCacheKey(section.type, inst.config);
-      await setSearchCache(cacheKey, section.data);
-      console.log(`[Pipeline] ${section.type} written to search cache`);
+      resolvedSections.set(section.type, section.data);
     }
-  } catch (err) {
-    console.error('[Pipeline] Search cache write failed (non-fatal):', err);
+
+    // Write ai_tech to daily cache for subsequent users (non-fatal)
+    try {
+      const aiTechSection = generated.sections.find((s) => s.type === 'ai_tech');
+      const aiTechInst = claudeInstructions.find((m) => m.moduleType === 'ai_tech');
+      if (aiTechSection && aiTechInst) {
+        const subtopics = (aiTechInst.config.subtopics as string[] | undefined) ?? [];
+        const cacheKey = `ai_tech:${[...subtopics].sort().join(',')}`;
+        await setDailyCache(cacheKey, aiTechSection.data);
+        console.log('[Pipeline] ai_tech result cached for subsequent users');
+      }
+    } catch (err) {
+      console.error('[Pipeline] ai_tech cache write failed (non-fatal):', err);
+    }
+
+    // Write live search results to 12-hour search cache (non-fatal)
+    try {
+      for (const section of generated.sections) {
+        if (!CACHEABLE_MODULES.has(section.type)) continue;
+        const inst = claudeInstructions.find((m) => m.moduleType === section.type);
+        if (!inst) continue;
+        await setSearchCache(buildCacheKey(section.type, inst.config), section.data);
+        console.log(`[Pipeline] ${section.type} written to search cache`);
+      }
+    } catch (err) {
+      console.error('[Pipeline] Search cache write failed (non-fatal):', err);
+    }
+
+    // Write static module results to 24-hour static cache (non-fatal)
+    try {
+      for (const section of generated.sections) {
+        if (!STATIC_CACHEABLE_MODULES.has(section.type)) continue;
+        const inst = claudeInstructions.find((m) => m.moduleType === section.type);
+        if (!inst) continue;
+        await setStaticCache(buildStaticCacheKey(section.type, inst.config), section.data);
+        console.log(`[Pipeline] ${section.type} written to static cache`);
+      }
+    } catch (err) {
+      console.error('[Pipeline] Static cache write failed (non-fatal):', err);
+    }
+  } else {
+    console.log('[Pipeline] Stage 3: Skipped — all modules resolved from cache');
+  }
+
+  // Merge: restore original display order from moduleInstructions
+  const finalSections: GeneratedSection[] = moduleInstructions
+    .map((inst) => {
+      const data = resolvedSections.get(inst.moduleType);
+      if (!data) {
+        console.warn(`[Pipeline] No data resolved for ${inst.moduleType} — omitting from email`);
+        return null;
+      }
+      return { type: inst.moduleType, data } as GeneratedSection;
+    })
+    .filter((s): s is GeneratedSection => s !== null);
+
+  if (finalSections.length === 0) {
+    return { success: false, stage: 'generate', error: 'No sections resolved — all modules failed' };
   }
 
   // STAGE 4: Send email
   console.log('[Pipeline] Stage 4: Sending via Resend');
   let sendResult;
   try {
-    sendResult = await sendDailyBrief(user, generated);
+    sendResult = await sendDailyBrief(user, { sections: finalSections, tokensUsed });
     console.log('[Pipeline] Send result:', sendResult);
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
@@ -168,8 +251,8 @@ export async function runPipeline(user: {
   return {
     success: true,
     stage: 'complete',
-    tokensUsed: generated.tokensUsed,
+    tokensUsed,
     emailId: sendResult.emailId,
-    prefetchedModules: Object.keys(prefetchedData),
+    prefetchedModules: Array.from(resolvedSections.keys()),
   };
 }
