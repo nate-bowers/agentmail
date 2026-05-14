@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Stripe from 'stripe';
+import type Stripe from 'stripe';
+import { stripe } from '@/lib/stripe/client';
 import { createAdminClient } from '@/lib/supabase/admin';
 import type { PlanId } from '@/lib/stripe/plans';
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 function getPlanIdFromPriceId(priceId: string): PlanId {
   if (priceId === process.env.STRIPE_PRO_PRICE_ID) return 'pro';
