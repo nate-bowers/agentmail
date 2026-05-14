@@ -211,11 +211,11 @@ interface ModuleListProps {
   onModulesChange: (modules: ModuleRow[]) => void;
   onRefresh: () => Promise<void>;
   refreshing: boolean;
-  isPro: boolean;
+  subscriptionStatus: string;
 }
 
 export default function ModuleList({
-  modules, onModulesChange, onRefresh, refreshing, isPro,
+  modules, onModulesChange, onRefresh, refreshing, subscriptionStatus,
 }: ModuleListProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<'add' | 'edit'>('add');
@@ -226,7 +226,7 @@ export default function ModuleList({
   const [togglingModule, setTogglingModule] = useState<string | null>(null);
   const [limitDialogOpen, setLimitDialogOpen] = useState(false);
 
-  const { used: pointsUsed, limit: pointsLimit, remaining, isAtLimit } = usePoints(modules, isPro);
+  const { used: pointsUsed, limit: pointsLimit, remaining, isAtLimit } = usePoints(modules, subscriptionStatus);
   const recommendations = getModuleRecommendations(modules, remaining);
   const showSuggestions = !isAtLimit && modules.length > 0;
 
@@ -379,7 +379,7 @@ export default function ModuleList({
 
         {/* Points bar */}
         {modules.length > 0 && (
-          <PointsBar modules={modules} isPro={isPro} refreshing={refreshing} />
+          <PointsBar modules={modules} subscriptionStatus={subscriptionStatus} refreshing={refreshing} />
         )}
 
         {/* Suggested modules strip */}

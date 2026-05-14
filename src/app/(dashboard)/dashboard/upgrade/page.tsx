@@ -11,7 +11,8 @@ import { createClient } from '@/lib/supabase/server';
 import { Button } from '@/components/ui/button';
 import UpgradeButton from '@/components/dashboard/UpgradeButton';
 import PageShell from '@/components/layout/PageShell';
-import { getTotalPoints, FREE_TIER_POINTS } from '@/lib/modules/points';
+import { getTotalPoints } from '@/lib/modules/points';
+import { getPlanFromSubscriptionStatus, PLANS } from '@/lib/stripe/plans';
 import { cn } from '@/lib/utils';
 
 const FREE_MODULES = [
@@ -44,7 +45,7 @@ export default async function UpgradePage() {
     supabase.from('modules').select('module_type, config').eq('user_id', user.id),
   ]);
 
-  const isActive = profile?.subscription_status === 'active';
+  const isActive = getPlanFromSubscriptionStatus(profile?.subscription_status ?? null) !== 'free';
   const pointsUsed = getTotalPoints(
     (modules ?? []) as { module_type: string; config: Record<string, unknown> }[]
   );
@@ -165,7 +166,7 @@ export default async function UpgradePage() {
               You&rsquo;re already on Brief Pro
             </div>
           ) : (
-            <UpgradeButton />
+            <UpgradeButton planId="pro" />
           )}
 
           <div className="space-y-1 text-center">
@@ -179,9 +180,14 @@ export default async function UpgradePage() {
         {/* Current plan context */}
         {!isActive && (
           <p className="text-center text-sm text-ink-muted">
-            You&rsquo;re currently on the free plan using {pointsUsed} of {FREE_TIER_POINTS} credits.
+            You&rsquo;re currently on the free plan using {pointsUsed} of {PLANS.free.pointLimit} credits.
           </p>
         )}
+
+        {/*
+          UNLIMITED PLAN — uncomment when STRIPE_UNLIMITED_PRICE_ID is configured
+          <UnlimitedPlanCard onUpgrade={() => handleUpgrade('unlimited')} />
+        */}
       </div>
     </PageShell>
   );

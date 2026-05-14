@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { MODULE_REGISTRY } from '@/lib/modules';
-import { getModulePoints, FREE_TIER_POINTS, PRO_TIER_POINTS, getTotalPoints } from '@/lib/modules/points';
+import { getModulePoints, getPointLimit_ForUser, getTotalPoints } from '@/lib/modules/points';
 
 const createSchema = z.object({
   module_type: z.string().min(1),
@@ -69,8 +69,7 @@ export async function POST(request: NextRequest) {
       .eq('id', user.id)
       .single();
 
-    const isPro = profile?.subscription_status === 'active';
-    const pointsLimit = isPro ? PRO_TIER_POINTS : FREE_TIER_POINTS;
+    const pointsLimit = getPointLimit_ForUser(profile?.subscription_status ?? null);
     const newModulePoints = getModulePoints(module_type, configParsed.data as Record<string, unknown>);
 
     const { data: existingModules } = await supabase

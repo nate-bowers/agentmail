@@ -51,7 +51,6 @@ interface ModuleSheetProps {
   existingModule?: Pick<ModuleRow, 'id' | 'module_type' | 'config'>;
   initialModuleType?: string | null;
   remainingPoints: number;
-  isPro: boolean;
   onSuccess: () => void;
 }
 

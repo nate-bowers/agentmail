@@ -26,6 +26,9 @@ const envSchema = z.object({
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().min(1),
   STRIPE_PRO_PRICE_ID: z.string().min(1),
 
+  // Site
+  NEXT_PUBLIC_SITE_URL: z.string().url(),
+
   // Internal secrets
   CRON_SECRET: z.string().min(32),
   UNSUBSCRIBE_SECRET: z.string().min(32),

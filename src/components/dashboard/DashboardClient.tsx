@@ -11,6 +11,7 @@ import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, Command
 import ModuleList from './ModuleList';
 import OnboardingGate from '@/components/onboarding/OnboardingGate';
 import { usePoints } from '@/hooks/usePoints';
+import { getPlanFromSubscriptionStatus } from '@/lib/stripe/plans';
 import { TIMEZONES } from '@/lib/timezones';
 import type { ModuleRow, Profile } from '@/types';
 import React from 'react';
@@ -391,14 +392,14 @@ interface DashboardClientProps {
   initialModules: ModuleRow[];
   profile: Profile;
   user: { id: string; email: string };
-  isPro: boolean;
+  subscriptionStatus: string;
 }
 
 // ─────────────────────────────────────────────────────────────
 // Main component
 // ─────────────────────────────────────────────────────────────
 
-export default function DashboardClient({ initialModules, profile, user, isPro }: DashboardClientProps) {
+export default function DashboardClient({ initialModules, profile, user, subscriptionStatus }: DashboardClientProps) {
   const [modules, setModules] = useState<ModuleRow[]>(initialModules);
   const [refreshing, setRefreshing] = useState(false);
 
@@ -413,7 +414,8 @@ export default function DashboardClient({ initialModules, profile, user, isPro }
     }
   }, []);
 
-  const { used: pointsUsed, limit: pointsLimit, percentUsed } = usePoints(modules, isPro);
+  const isPro = getPlanFromSubscriptionStatus(subscriptionStatus) !== 'free';
+  const { used: pointsUsed, limit: pointsLimit, percentUsed } = usePoints(modules, subscriptionStatus);
   const atLimit = pointsUsed >= pointsLimit;
 
   return (
@@ -428,7 +430,7 @@ export default function DashboardClient({ initialModules, profile, user, isPro }
             onModulesChange={setModules}
             onRefresh={refreshModules}
             refreshing={refreshing}
-            isPro={isPro}
+            subscriptionStatus={subscriptionStatus}
           />
         </div>
 

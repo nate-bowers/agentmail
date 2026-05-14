@@ -23,7 +23,6 @@ export default async function DashboardPage() {
   if (!profile) redirect('/login');
 
   const p = profile as Profile;
-  const isPro = p.subscription_status === 'active';
   const moduleList = (modules ?? []) as ModuleRow[];
 
   return (
@@ -32,7 +31,7 @@ export default async function DashboardPage() {
         initialModules={moduleList}
         profile={p}
         user={{ id: user.id, email: user.email ?? '' }}
-        isPro={isPro}
+        subscriptionStatus={p.subscription_status}
       />
     </PageShell>
   );

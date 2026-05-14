@@ -9,14 +9,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import type Stripe from 'stripe';
 import { stripe } from '@/lib/stripe/client';
 import { adminClient } from '@/lib/supabase/admin';
-import type { SubscriptionStatus } from '@/types';
+import type { PlanId } from '@/lib/stripe/plans';
 
-function mapStripeStatus(status: string): SubscriptionStatus {
-  switch (status) {
-    case 'active':   return 'active';
-    case 'past_due': return 'past_due';
-    default:         return 'canceled';
-  }
+function getPlanIdFromPriceId(priceId: string): PlanId {
+  if (priceId === process.env.STRIPE_PRO_PRICE_ID) return 'pro';
+  if (priceId === process.env.STRIPE_UNLIMITED_PRICE_ID) return 'unlimited';
+  return 'free';
 }
 
 async function updateProfileByCustomer(
@@ -57,10 +55,15 @@ export async function POST(request: NextRequest) {
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
-        if (session.mode === 'subscription' && session.customer) {
-          const customerId =
-            typeof session.customer === 'string' ? session.customer : session.customer.id;
-          await updateProfileByCustomer(customerId, { subscription_status: 'active' });
+        const userId = session.metadata?.user_id;
+        const planId = (session.metadata?.plan_id as PlanId) ?? 'pro';
+
+        if (userId) {
+          await adminClient
+            .from('profiles')
+            .update({ subscription_status: planId })
+            .eq('id', userId);
+          console.log(`[webhook] User ${userId} upgraded to ${planId}`);
         }
         break;
       }
@@ -69,9 +72,9 @@ export async function POST(request: NextRequest) {
         const sub = event.data.object as Stripe.Subscription;
         const customerId =
           typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
-        await updateProfileByCustomer(customerId, {
-          subscription_status: mapStripeStatus(sub.status),
-        });
+        const priceId = sub.items.data[0]?.price?.id ?? '';
+        const planId = getPlanIdFromPriceId(priceId);
+        await updateProfileByCustomer(customerId, { subscription_status: planId });
         break;
       }
 
@@ -79,7 +82,7 @@ export async function POST(request: NextRequest) {
         const sub = event.data.object as Stripe.Subscription;
         const customerId =
           typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
-        await updateProfileByCustomer(customerId, { subscription_status: 'canceled' });
+        await updateProfileByCustomer(customerId, { subscription_status: 'free' });
         break;
       }
 

@@ -23,8 +23,15 @@ export const MODULE_POINTS: Record<string, number> = {
   challenge: 1,
 };
 
-export const FREE_TIER_POINTS = 3;
-export const PRO_TIER_POINTS = 12;
+import { PLANS, getPointLimit, getPlanFromSubscriptionStatus } from '@/lib/stripe/plans';
+
+// Re-exported for backward compatibility with callers that haven't migrated yet
+export const FREE_TIER_POINTS = PLANS.free.pointLimit;
+export const PRO_TIER_POINTS = PLANS.pro.pointLimit;
+
+export function getPointLimit_ForUser(subscriptionStatus: string | null): number {
+  return getPointLimit(getPlanFromSubscriptionStatus(subscriptionStatus));
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getModulePoints(moduleType: string, config: Record<string, any>): number {
@@ -45,8 +52,7 @@ export function getTotalPoints(
 
 export function getRemainingPoints(
   modules: { module_type: string; config?: Record<string, unknown> }[],
-  isPro: boolean
+  subscriptionStatus: string | null
 ): number {
-  const limit = isPro ? PRO_TIER_POINTS : FREE_TIER_POINTS;
-  return limit - getTotalPoints(modules);
+  return getPointLimit_ForUser(subscriptionStatus) - getTotalPoints(modules);
 }

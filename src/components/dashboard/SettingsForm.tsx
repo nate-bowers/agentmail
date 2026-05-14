@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { TIMEZONES } from '@/lib/timezones';
 import { EMAIL_THEMES } from '@/lib/email/themes';
+import { getPlanFromSubscriptionStatus } from '@/lib/stripe/plans';
 
 interface SettingsFormProps {
   profile: {
@@ -61,7 +62,7 @@ export default function SettingsForm({ profile, email }: SettingsFormProps) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isOpeningPortal, setIsOpeningPortal] = useState(false);
 
-  const isPro = profile.subscription_status === 'active';
+  const isPro = getPlanFromSubscriptionStatus(profile.subscription_status) !== 'free';
 
   async function handleSaveProfile(e: React.FormEvent) {
     e.preventDefault();

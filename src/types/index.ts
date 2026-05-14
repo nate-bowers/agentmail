@@ -57,7 +57,7 @@ export interface ModuleSearchInstruction {
 // Profiles
 // ─────────────────────────────────────────────────────────────
 
-export type SubscriptionStatus = 'free' | 'active' | 'canceled' | 'past_due';
+export type SubscriptionStatus = 'free' | 'pro' | 'unlimited' | 'active' | 'canceled' | 'past_due';
 
 export interface Profile {
   id: string;

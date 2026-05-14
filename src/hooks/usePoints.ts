@@ -1,11 +1,13 @@
-import { getTotalPoints, FREE_TIER_POINTS, PRO_TIER_POINTS } from '@/lib/modules/points';
+import { getTotalPoints, getPointLimit_ForUser } from '@/lib/modules/points';
+import { getPlanFromSubscriptionStatus } from '@/lib/stripe/plans';
 import type { ModuleRow } from '@/types';
 
-export function usePoints(modules: ModuleRow[], isPro: boolean) {
+export function usePoints(modules: ModuleRow[], subscriptionStatus: string | null) {
   const used = getTotalPoints(modules);
-  const limit = isPro ? PRO_TIER_POINTS : FREE_TIER_POINTS;
+  const limit = getPointLimit_ForUser(subscriptionStatus);
   const remaining = limit - used;
   const isAtLimit = remaining <= 0;
   const percentUsed = Math.min((used / limit) * 100, 100);
-  return { used, limit, remaining, isAtLimit, percentUsed };
+  const planId = getPlanFromSubscriptionStatus(subscriptionStatus);
+  return { used, limit, remaining, isAtLimit, percentUsed, planId };
 }
