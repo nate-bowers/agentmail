@@ -10,6 +10,9 @@ import {
   Quote,
   TrendingUp,
   Check,
+  Search,
+  Pen,
+  Inbox,
 } from 'lucide-react';
 import { PLANS } from '@/lib/stripe/products';
 
@@ -50,85 +53,64 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
-function GrainOverlay() {
-  return (
-    <svg
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.022]"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <filter id="grain">
-        <feTurbulence
-          type="fractalNoise"
-          baseFrequency="0.8"
-          numOctaves="4"
-          stitchTiles="stitch"
-        />
-        <feColorMatrix type="saturate" values="0" />
-      </filter>
-      <rect width="100%" height="100%" filter="url(#grain)" />
-    </svg>
-  );
-}
-
 // ─────────────────────────────────────────────────────────────
-// Hero (dark)
+// Hero (white)
 // ─────────────────────────────────────────────────────────────
 
 function Hero() {
   return (
-    <section
-      className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 pt-20"
-      style={{
-        background:
-          'radial-gradient(ellipse 80% 50% at 50% -10%, rgba(124, 92, 252, 0.15) 0%, transparent 70%), #0D0D0F',
-      }}
-    >
-      <GrainOverlay />
+    <section className="relative overflow-hidden bg-white px-6 pb-24 pt-20 md:pb-32 md:pt-28">
+      {/* Subtle purple gradient bleed */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-64"
+        style={{
+          background:
+            'radial-gradient(ellipse 60% 40% at 50% 0%, rgba(124, 92, 252, 0.07) 0%, transparent 70%)',
+        }}
+      />
 
-      <div className="relative z-10 mx-auto max-w-3xl text-center">
+      <div className="relative mx-auto max-w-3xl text-center">
         {/* Badge */}
-        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-[#1f1f1f] bg-[#0f0f0f] px-3 py-1">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-          <span className="font-mono text-[10px] tracking-widest text-[#555]">
+        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-surface-border bg-white px-3 py-1 shadow-sm">
+          <span className="h-1.5 w-1.5 rounded-full bg-brand-purple" />
+          <span className="font-mono text-[10px] tracking-widest text-ink-muted">
             POWERED BY CLAUDE AI
           </span>
         </div>
 
         {/* Headline */}
         <h1
-          className="mb-6 text-3xl leading-[1.05] tracking-tight text-[#ededed] sm:text-5xl md:text-8xl"
+          className="mb-6 text-4xl leading-[1.05] tracking-tight text-[#0D0D0F] sm:text-5xl md:text-7xl"
           style={{ fontFamily: 'Georgia, "Times New Roman", ui-serif, serif' }}
         >
-          Your morning,
+          Your morning brief,
           <br />
-          <span className="text-[#3a3a3a]">curated.</span>
+          <span className="text-[#c0c0c0]">written by AI.</span>
         </h1>
 
-        <p className="mx-auto mb-10 max-w-xl text-lg leading-relaxed text-white/60 md:text-xl">
-          One personalized email, every morning. Real-time weather, news,
-          markets, and more — written by AI, configured by you.
+        <p className="mx-auto mb-10 max-w-xl text-lg leading-relaxed text-[#666] md:text-xl">
+          Daily Brief is an AI agent that searches the web, reads the news,
+          and writes a personalized email — delivered to your inbox every morning
+          before you wake up.
         </p>
 
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
           <Link
             href="/signup"
-            className="flex items-center gap-2 rounded-full bg-[#ededed] px-6 py-3 text-sm font-medium text-[#0D0D0F] transition-colors hover:bg-white"
+            className="flex items-center gap-2 rounded-full bg-[#0D0D0F] px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-[#1a1a1a]"
           >
             Start for free
             <ArrowRight className="h-4 w-4" />
           </Link>
           <Link
-            href="#how-it-works"
-            className="text-sm text-white/60 transition-colors hover:text-white/90"
+            href="#agent"
+            className="text-sm text-[#999] transition-colors hover:text-[#333]"
           >
             See how it works →
           </Link>
         </div>
       </div>
-
-      {/* Fade to white */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-white" />
     </section>
   );
 }
@@ -161,29 +143,75 @@ function Problem() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// Solution (white)
+// Agent section (white, 3-column)
 // ─────────────────────────────────────────────────────────────
 
-function Solution() {
+function AgentCard({
+  icon,
+  step,
+  title,
+  description,
+}: {
+  icon: React.ReactNode;
+  step: string;
+  title: string;
+  description: string;
+}) {
   return (
-    <section className="border-t border-gray-100 bg-white px-6 py-24 md:py-32">
+    <div className="flex flex-col gap-4 rounded-2xl border border-surface-border bg-white p-6 shadow-sm">
+      <div className="flex items-center justify-between">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-purple-light text-brand-purple">
+          {icon}
+        </div>
+        <span className="font-mono text-[10px] text-[#ccc]">{step}</span>
+      </div>
+      <div>
+        <p className="font-semibold text-[#0D0D0F]">{title}</p>
+        <p className="mt-1.5 text-sm leading-relaxed text-[#666]">{description}</p>
+      </div>
+    </div>
+  );
+}
+
+function AgentSection() {
+  return (
+    <section
+      id="agent"
+      className="border-t border-gray-100 bg-white px-6 py-24 md:py-32"
+    >
       <div className="mx-auto max-w-2xl">
-        <SectionLabel>THE FIX</SectionLabel>
+        <SectionLabel>THE AGENT</SectionLabel>
         <h2
           className="mt-4 text-4xl leading-tight tracking-tight text-[#0D0D0F] md:text-5xl"
           style={{ fontFamily: 'Georgia, "Times New Roman", ui-serif, serif' }}
         >
-          One brief. Every morning.
-          <br />
-          Everything you actually want.
+          An AI that works while you sleep.
         </h2>
-        <p className="mt-6 max-w-lg text-base leading-relaxed text-[#666] md:text-lg">
-          Tell Daily Brief what matters — your city&rsquo;s weather, the
-          topics you follow, the stocks you watch. Every morning, before
-          you wake up, Claude searches the web in real time and writes your
-          brief from scratch. No curation lag. No stale feeds. Just
-          everything you wanted to know, in one clean email.
+        <p className="mt-4 max-w-lg text-base leading-relaxed text-[#666]">
+          Every night, your Daily Brief agent runs automatically — no prompts, no
+          interaction required. Here&rsquo;s what it does.
         </p>
+
+        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <AgentCard
+            icon={<Search className="h-5 w-5" />}
+            step="01"
+            title="Searches the web"
+            description="Claude fetches live data — today's weather, breaking news, market prices — in real time, moments before your email is sent."
+          />
+          <AgentCard
+            icon={<Pen className="h-5 w-5" />}
+            step="02"
+            title="Writes from scratch"
+            description="Every brief is written fresh. No templates, no copy-paste. Claude reads the data and writes a summary tailored to your preferences."
+          />
+          <AgentCard
+            icon={<Inbox className="h-5 w-5" />}
+            step="03"
+            title="Lands in your inbox"
+            description="Pick your delivery time. Your brief arrives before you wake up — formatted, clean, and ready to read with your morning coffee."
+          />
+        </div>
       </div>
     </section>
   );
@@ -309,61 +337,6 @@ function ModuleShowcase() {
           <NewsCard />
           <QuoteCard />
           <MarketsCard />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ─────────────────────────────────────────────────────────────
-// How it works (white)
-// ─────────────────────────────────────────────────────────────
-
-function HowItWorks() {
-  const steps = [
-    {
-      n: '01',
-      title: 'Create an account',
-      desc: 'Sign up with your email address. Free to start, no credit card required.',
-    },
-    {
-      n: '02',
-      title: 'Build your brief',
-      desc: 'Add modules and configure them — your city, the topics you follow, the stocks you watch. Takes about two minutes.',
-    },
-    {
-      n: '03',
-      title: 'Wake up to it',
-      desc: 'Pick a delivery time. Every morning, Claude searches the web and writes your brief before your alarm goes off.',
-    },
-  ];
-
-  return (
-    <section
-      id="how-it-works"
-      className="border-t border-gray-100 bg-white px-6 py-24 md:py-32"
-    >
-      <div className="mx-auto max-w-2xl">
-        <SectionLabel>HOW IT WORKS</SectionLabel>
-        <h2
-          className="mt-4 text-4xl tracking-tight text-[#0D0D0F] md:text-5xl"
-          style={{ fontFamily: 'Georgia, "Times New Roman", ui-serif, serif' }}
-        >
-          Three steps to a better morning.
-        </h2>
-
-        <div className="mt-12 divide-y divide-gray-100">
-          {steps.map((step) => (
-            <div key={step.n} className="flex gap-8 py-8">
-              <span className="mt-0.5 shrink-0 font-mono text-xs text-[#ccc]">
-                {step.n}
-              </span>
-              <div>
-                <h3 className="text-sm font-medium text-[#0D0D0F]">{step.title}</h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-[#666]">{step.desc}</p>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </section>
@@ -522,19 +495,13 @@ export default function LandingPage({
   }
 
   return (
-    <div className="antialiased">
+    <div className="antialiased bg-white">
       {searchParams?.deleted === 'true' && <DeletedToast />}
-      {/* Dark section — transparent nav + hero */}
-      <div className="bg-[#0D0D0F]">
-        <TopNav variant="marketing" transparent />
-        <Hero />
-      </div>
-
-      {/* White sections */}
+      <TopNav variant="marketing" />
+      <Hero />
       <Problem />
-      <Solution />
+      <AgentSection />
       <ModuleShowcase />
-      <HowItWorks />
       <Pricing />
       <Footer />
     </div>

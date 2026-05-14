@@ -10,6 +10,7 @@ import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 import { adminClient } from '@/lib/supabase/admin';
 import { runPipeline } from '@/lib/email/pipeline';
+import { cleanExpiredSearchCache } from '@/lib/email/cache';
 import type { Profile } from '@/types';
 
 let isRunning = false;
@@ -79,6 +80,11 @@ export async function GET(request: NextRequest) {
     const promises = matchedUsers.map((user) => runPipeline(user));
     const settled = await Promise.allSettled(promises);
     results.push(...settled);
+
+    // Clean up expired search cache entries (non-fatal)
+    cleanExpiredSearchCache().catch((err) =>
+      console.error('[Cron] Search cache cleanup failed (non-fatal):', err)
+    );
   } catch (err) {
     console.error('[Cron] Fatal error:', err);
     isRunning = false;

@@ -48,11 +48,14 @@ interface PreviewClientProps {
   userEmail: string;
   sendTime: string;
   timezone: string;
+  initialGenerationsToday: number;
 }
 
 // ─────────────────────────────────────────────────────────────
 // Component
 // ─────────────────────────────────────────────────────────────
+
+const DAILY_LIMIT = 5;
 
 export default function PreviewClient({
   modules,
@@ -61,6 +64,7 @@ export default function PreviewClient({
   userEmail,
   sendTime,
   timezone,
+  initialGenerationsToday,
 }: PreviewClientProps) {
   // Appearance is always one of light/dark/pink
   const [appearance, setAppearance] = useState<string>(
@@ -76,10 +80,14 @@ export default function PreviewClient({
   const [error, setError] = useState<string | null>(null);
   const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
   const [testSending, setTestSending] = useState(false);
+  const [generationsToday, setGenerationsToday] = useState(initialGenerationsToday);
   const msgIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const remaining = DAILY_LIMIT - generationsToday;
+  const atLimit = remaining <= 0;
 
   // Generate: calls Claude — expensive, slow
   async function generate(appearanceOverride?: string) {
+    if (atLimit) return;
     const themeToUse = appearanceOverride ?? appearance;
     setLoading(true);
     setError(null);
@@ -93,14 +101,20 @@ export default function PreviewClient({
     }, 2000);
 
     try {
-      const res = await fetch('/api/email/preview-html', {
+      const res = await fetch('/api/email/generate-preview', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ theme: themeToUse }),
       });
       const data = await res.json();
+      if (res.status === 429) {
+        setGenerationsToday(DAILY_LIMIT);
+        setError('limit_reached');
+        return;
+      }
       if (!res.ok) throw new Error(data.error ?? 'Generation failed');
       setPreviewData(data as PreviewData);
+      setGenerationsToday(DAILY_LIMIT - (data.remaining ?? 0));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
     } finally {
@@ -253,23 +267,43 @@ export default function PreviewClient({
           </button>
 
           {/* Generate */}
-          {!previewData && !loading && !error && (
-            <Button onClick={() => generate()} className="w-full" disabled={loading}>
-              Generate preview
-            </Button>
+          {!previewData && !loading && error !== 'limit_reached' && (
+            <div className="space-y-1.5">
+              <Button onClick={() => generate()} className="w-full" disabled={loading || atLimit}>
+                Generate preview
+              </Button>
+              {!atLimit && (
+                <p className="text-xs text-ink-muted text-center">
+                  {remaining} of {DAILY_LIMIT} previews remaining today
+                </p>
+              )}
+            </div>
           )}
 
           {/* Regenerate */}
-          {(previewData || error) && (
-            <Button
-              variant="ghost"
-              onClick={() => generate()}
-              disabled={loading || rerendering}
-              className="w-full gap-2"
-            >
-              <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-              Regenerate preview
-            </Button>
+          {(previewData || (error && error !== 'limit_reached')) && (
+            <div className="space-y-1.5">
+              <Button
+                variant="ghost"
+                onClick={() => generate()}
+                disabled={loading || rerendering || atLimit}
+                className="w-full gap-2"
+              >
+                <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+                Regenerate preview
+              </Button>
+              <p className="text-xs text-ink-muted text-center">
+                {atLimit ? 'Limit reached — resets tomorrow' : `${remaining} of ${DAILY_LIMIT} remaining today`}
+              </p>
+            </div>
+          )}
+
+          {/* Limit reached (no prior preview) */}
+          {error === 'limit_reached' && !previewData && (
+            <div className="rounded-lg bg-amber-50 border border-amber-200 px-4 py-3 text-center space-y-1">
+              <p className="text-sm font-medium text-amber-800">Daily limit reached</p>
+              <p className="text-xs text-amber-700">You&apos;ve used all {DAILY_LIMIT} previews for today. Resets at midnight.</p>
+            </div>
           )}
 
           {/* Test send */}
@@ -328,7 +362,10 @@ export default function PreviewClient({
           <div className="flex flex-col items-center justify-center rounded-xl border border-surface-border bg-white py-20 text-center">
             <p className="font-medium text-ink">Ready to preview?</p>
             <p className="mt-1 text-sm text-ink-muted">Generating calls the AI and takes 15–30 seconds.</p>
-            <Button className="mt-5" onClick={() => generate()}>Generate preview</Button>
+            <Button className="mt-5" onClick={() => generate()} disabled={atLimit}>Generate preview</Button>
+            {atLimit && (
+              <p className="mt-2 text-xs text-ink-muted">Daily limit reached — resets tomorrow</p>
+            )}
           </div>
         )}
 
@@ -350,7 +387,7 @@ export default function PreviewClient({
         )}
 
         {/* Error state */}
-        {!loading && error && (
+        {!loading && error && error !== 'limit_reached' && (
           <div className="flex flex-col items-center justify-center rounded-xl border border-surface-border bg-white py-16 text-center gap-4">
             <AlertCircle className="h-8 w-8 text-red-500" />
             <div>
@@ -359,7 +396,7 @@ export default function PreviewClient({
                 Something went wrong generating your preview. This is usually a temporary issue.
               </p>
             </div>
-            <Button variant="outline" onClick={() => generate()}>Try again</Button>
+            <Button variant="outline" onClick={() => generate()} disabled={atLimit}>Try again</Button>
           </div>
         )}
 

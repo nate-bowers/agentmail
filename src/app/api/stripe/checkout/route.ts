@@ -5,10 +5,15 @@ import { stripe } from '@/lib/stripe/client';
 import { PLANS } from '@/lib/stripe/products';
 
 export async function POST() {
+  console.log('[stripe/checkout] POST called at', new Date().toISOString());
   try {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (!user) {
+      console.log('[stripe/checkout] Unauthorized — no user session');
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.log('[stripe/checkout] User:', user.id);
 
     const { data: profile } = await supabase
       .from('profiles')
@@ -53,15 +58,17 @@ export async function POST() {
     });
 
     if (!session.url) {
+      console.error('[stripe/checkout] Session created but no URL returned. Session ID:', session.id);
       return NextResponse.json(
         { error: 'Stripe did not return a checkout URL' },
         { status: 500 }
       );
     }
 
+    console.log('[stripe/checkout] Session created. ID:', session.id, '| URL domain:', new URL(session.url).hostname);
     return NextResponse.json({ url: session.url });
   } catch (err) {
-    console.error('[POST /api/stripe/checkout]', err);
+    console.error('[stripe/checkout] Unexpected error:', err);
     return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
   }
 }

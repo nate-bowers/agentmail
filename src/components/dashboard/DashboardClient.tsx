@@ -2,25 +2,22 @@
 
 import { useState, useCallback } from 'react';
 import Link from 'next/link';
-import { Clock, Mail, Palette, User, Zap, BookOpen } from 'lucide-react';
+import { Clock, Mail, Palette, User, Zap, BookOpen, Check, ChevronsUpDown } from 'lucide-react';
 import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
+import { useDebounce } from 'use-debounce';
 import { Input } from '@/components/ui/input';
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover';
+import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem } from '@/components/ui/command';
 import ModuleList from './ModuleList';
 import OnboardingGate from '@/components/onboarding/OnboardingGate';
 import { usePoints } from '@/hooks/usePoints';
+import { TIMEZONES } from '@/lib/timezones';
 import type { ModuleRow, Profile } from '@/types';
+import React from 'react';
 
 // ─────────────────────────────────────────────────────────────
 // Helpers
 // ─────────────────────────────────────────────────────────────
-
-function formatSendTime(time: string): string {
-  const [h, m] = time.split(':').map(Number);
-  const ampm = h >= 12 ? 'PM' : 'AM';
-  const h12 = h % 12 || 12;
-  return `${h12}:${String(m).padStart(2, '0')} ${ampm}`;
-}
 
 function getTimezoneAbbr(tz: string): string {
   try {
@@ -28,6 +25,37 @@ function getTimezoneAbbr(tz: string): string {
       .formatToParts(new Date())
       .find((p) => p.type === 'timeZoneName')?.value ?? tz;
   } catch { return tz; }
+}
+
+// Build hour options for 12-hour time picker
+const HOUR_OPTIONS = Array.from({ length: 12 }, (_, i) => {
+  const h = i + 1;
+  return { value: String(h), label: String(h) };
+});
+
+const MINUTE_OPTIONS = [
+  { value: '00', label: ':00' },
+  { value: '30', label: ':30' },
+];
+
+const AMPM_OPTIONS = [
+  { value: 'AM', label: 'AM' },
+  { value: 'PM', label: 'PM' },
+];
+
+function parse24(time: string): { hour: string; minute: string; ampm: 'AM' | 'PM' } {
+  const [h, m] = time.split(':').map(Number);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const hour = String(h % 12 || 12);
+  const minute = m === 30 ? '30' : '00';
+  return { hour, minute, ampm: ampm as 'AM' | 'PM' };
+}
+
+function to24(hour: string, minute: string, ampm: string): string {
+  let h = parseInt(hour, 10);
+  if (ampm === 'PM' && h !== 12) h += 12;
+  if (ampm === 'AM' && h === 12) h = 0;
+  return `${String(h).padStart(2, '0')}:${minute}`;
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -55,88 +83,204 @@ function SidebarCard({ icon, label, right, children }: {
 }
 
 // ─────────────────────────────────────────────────────────────
-// Recipient card
+// Delivery card — inline time picker + timezone combobox
 // ─────────────────────────────────────────────────────────────
 
-function RecipientCard({ profile, accountEmail }: { profile: Profile; accountEmail: string }) {
-  const [editing, setEditing] = useState(false);
-  const [value, setValue] = useState(profile.delivery_email ?? '');
-  const [error, setError] = useState<string | null>(null);
+function DeliveryCard({ profile }: { profile: Profile }) {
+  const parsed = parse24(profile.send_time);
+  const [hour, setHour] = useState(parsed.hour);
+  const [minute, setMinute] = useState(parsed.minute);
+  const [ampm, setAmpm] = useState<'AM' | 'PM'>(parsed.ampm);
+  const [timezone, setTimezone] = useState(profile.timezone);
+  const [tzOpen, setTzOpen] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const displayEmail = profile.delivery_email ?? null;
+  const tzLabel = TIMEZONES.find((t) => t.value === timezone)?.label ?? getTimezoneAbbr(timezone);
 
-  async function handleSave() {
-    setError(null);
-    const trimmed = value.trim();
-    if (trimmed && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
-      setError('Please enter a valid email address');
-      return;
-    }
+  async function save(updates: { send_time?: string; timezone?: string }) {
+    if (saving) return;
     setSaving(true);
     try {
       const res = await fetch('/api/user/settings', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ delivery_email: trimmed || null }),
+        body: JSON.stringify(updates),
       });
       if (!res.ok) throw new Error('Save failed');
-      profile.delivery_email = trimmed || null;
-      setEditing(false);
-      if (trimmed) {
-        toast.success(`Brief will be delivered to ${trimmed}`);
-      } else {
-        toast.success(`Reverted to account email: ${accountEmail}`);
-      }
+      toast.success('Delivery updated ✓', { duration: 1500 });
     } catch {
-      toast.error('Failed to save delivery email.');
+      toast.error('Failed to save delivery settings.');
     } finally {
       setSaving(false);
     }
   }
+
+  function handleTimeChange(newHour: string, newMinute: string, newAmpm: 'AM' | 'PM') {
+    const time = to24(newHour, newMinute, newAmpm);
+    profile.send_time = time;
+    save({ send_time: time });
+  }
+
+  function handleTzChange(newTz: string) {
+    setTimezone(newTz);
+    profile.timezone = newTz;
+    setTzOpen(false);
+    save({ timezone: newTz });
+  }
+
+  return (
+    <SidebarCard icon={<Clock className="h-4 w-4 text-brand-purple" />} label="Delivery">
+      {/* Time picker row */}
+      <div className="space-y-3">
+        <div>
+          <p className="text-[10px] font-medium uppercase tracking-wide text-ink-muted mb-1.5">Send time</p>
+          <div className="flex items-center gap-1.5">
+            {/* Hour */}
+            <select
+              value={hour}
+              onChange={(e) => {
+                setHour(e.target.value);
+                handleTimeChange(e.target.value, minute, ampm);
+              }}
+              className="rounded-lg border border-surface-border bg-white px-2 py-1.5 text-sm text-ink focus:border-brand-purple focus:outline-none"
+            >
+              {HOUR_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>{o.label}</option>
+              ))}
+            </select>
+            {/* Minute */}
+            <select
+              value={minute}
+              onChange={(e) => {
+                setMinute(e.target.value);
+                handleTimeChange(hour, e.target.value, ampm);
+              }}
+              className="rounded-lg border border-surface-border bg-white px-2 py-1.5 text-sm text-ink focus:border-brand-purple focus:outline-none"
+            >
+              {MINUTE_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>{o.label}</option>
+              ))}
+            </select>
+            {/* AM/PM */}
+            <select
+              value={ampm}
+              onChange={(e) => {
+                const newAmpm = e.target.value as 'AM' | 'PM';
+                setAmpm(newAmpm);
+                handleTimeChange(hour, minute, newAmpm);
+              }}
+              className="rounded-lg border border-surface-border bg-white px-2 py-1.5 text-sm text-ink focus:border-brand-purple focus:outline-none"
+            >
+              {AMPM_OPTIONS.map((o) => (
+                <option key={o.value} value={o.value}>{o.label}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Timezone combobox */}
+        <div>
+          <p className="text-[10px] font-medium uppercase tracking-wide text-ink-muted mb-1.5">Timezone</p>
+          <Popover open={tzOpen} onOpenChange={setTzOpen}>
+            <PopoverTrigger asChild>
+              <button
+                type="button"
+                className="flex w-full items-center justify-between rounded-lg border border-surface-border bg-white px-3 py-1.5 text-left text-sm text-ink hover:border-brand-purple/50 focus:outline-none"
+              >
+                <span className="truncate">{tzLabel}</span>
+                <ChevronsUpDown className="ml-2 h-3.5 w-3.5 shrink-0 text-ink-muted" />
+              </button>
+            </PopoverTrigger>
+            <PopoverContent align="start" className="w-72 p-0">
+              <Command>
+                <CommandInput placeholder="Search timezone..." />
+                <CommandList>
+                  <CommandEmpty>No timezone found.</CommandEmpty>
+                  <CommandGroup>
+                    {TIMEZONES.map((tz) => (
+                      <CommandItem
+                        key={tz.value}
+                        value={tz.label}
+                        onSelect={() => handleTzChange(tz.value)}
+                      >
+                        <Check
+                          className={`mr-2 h-3.5 w-3.5 shrink-0 ${timezone === tz.value ? 'opacity-100 text-brand-purple' : 'opacity-0'}`}
+                        />
+                        <span className="truncate">{tz.label}</span>
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+        </div>
+      </div>
+    </SidebarCard>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// Recipient card — always-visible email input with debounced save
+// ─────────────────────────────────────────────────────────────
+
+function RecipientCard({ profile, accountEmail }: { profile: Profile; accountEmail: string }) {
+  const [value, setValue] = useState(profile.delivery_email ?? '');
+  const [debouncedValue] = useDebounce(value, 800);
+  const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const savedRef = React.useRef(profile.delivery_email ?? '');
+
+  // Auto-save when debounced value changes
+  React.useEffect(() => {
+    const trimmed = debouncedValue.trim();
+    if (trimmed === savedRef.current) return;
+    if (trimmed && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) return;
+
+    setSaveState('saving');
+    fetch('/api/user/settings', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ delivery_email: trimmed || null }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error();
+        savedRef.current = trimmed;
+        profile.delivery_email = trimmed || null;
+        setSaveState('saved');
+        setTimeout(() => setSaveState('idle'), 2000);
+      })
+      .catch(() => {
+        setSaveState('error');
+        setTimeout(() => setSaveState('idle'), 3000);
+      });
+  }, [debouncedValue]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const isInvalidEmail = value.trim() !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
 
   return (
     <SidebarCard
       icon={<Mail className="h-4 w-4 text-brand-purple" />}
       label="Recipient"
       right={
-        !editing ? (
-          <button
-            onClick={() => { setValue(profile.delivery_email ?? ''); setEditing(true); setError(null); }}
-            className="text-xs text-brand-purple hover:text-brand-purple-dark"
-          >
-            Edit
-          </button>
-        ) : null
+        <span className={`text-xs transition-colors ${
+          saveState === 'saving' ? 'text-ink-muted' :
+          saveState === 'saved' ? 'text-emerald-600' :
+          saveState === 'error' ? 'text-red-500' : 'opacity-0'
+        }`}>
+          {saveState === 'saving' ? 'Saving…' : saveState === 'saved' ? 'Saved ✓' : saveState === 'error' ? 'Failed' : '·'}
+        </span>
       }
     >
-      {!editing ? (
-        displayEmail ? (
-          <p className="text-sm font-medium text-ink">{displayEmail}</p>
-        ) : (
-          <p className="text-sm text-ink-muted italic">{accountEmail} <span className="not-italic text-ink-faint">(account email)</span></p>
-        )
-      ) : (
-        <div className="space-y-2">
-          <Input
-            value={value}
-            onChange={(e) => { setValue(e.target.value); setError(null); }}
-            placeholder={accountEmail}
-            className="text-sm"
-            autoFocus
-          />
-          <p className="text-xs text-ink-faint">Leave blank to use your account email</p>
-          {error && <p className="text-xs text-red-500">{error}</p>}
-          <div className="flex gap-2 mt-2">
-            <Button size="sm" onClick={handleSave} disabled={saving}>
-              {saving ? 'Saving…' : 'Save'}
-            </Button>
-            <Button size="sm" variant="ghost" onClick={() => { setEditing(false); setError(null); }}>
-              Cancel
-            </Button>
-          </div>
-        </div>
-      )}
+      <Input
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        placeholder={accountEmail}
+        className={`text-sm ${isInvalidEmail ? 'border-red-300 focus-visible:ring-red-300' : ''}`}
+      />
+      <p className="mt-1.5 text-xs text-ink-faint">
+        {value.trim() ? 'Overrides your account email' : `Sending to: ${accountEmail}`}
+      </p>
+      {isInvalidEmail && <p className="mt-1 text-xs text-red-500">Enter a valid email address</p>}
     </SidebarCard>
   );
 }
@@ -271,7 +415,6 @@ export default function DashboardClient({ initialModules, profile, user, isPro }
 
   const { used: pointsUsed, limit: pointsLimit, percentUsed } = usePoints(modules, isPro);
   const atLimit = pointsUsed >= pointsLimit;
-  const tzAbbr = getTimezoneAbbr(profile.timezone);
 
   return (
     <>
@@ -292,21 +435,7 @@ export default function DashboardClient({ initialModules, profile, user, isPro }
         {/* Sidebar — 1 col */}
         <div className="mt-8 space-y-4 lg:mt-0">
           {/* CARD 1 — Delivery */}
-          <SidebarCard
-            icon={<Clock className="h-4 w-4 text-brand-purple" />}
-            label="Delivery"
-          >
-            <div className="flex items-center gap-2 text-sm">
-              <span className="font-medium text-ink">{formatSendTime(profile.send_time)}</span>
-              <span className="text-ink-muted">{tzAbbr}</span>
-            </div>
-            <Link
-              href="/dashboard/settings"
-              className="mt-2 inline-block text-xs text-brand-purple hover:text-brand-purple-dark"
-            >
-              Edit settings →
-            </Link>
-          </SidebarCard>
+          <DeliveryCard profile={profile} />
 
           {/* CARD 2 — Recipient */}
           <RecipientCard profile={profile} accountEmail={user.email} />

@@ -71,6 +71,8 @@ export interface Profile {
   email_theme: string;
   email_verbosity: string;
   delivery_email: string | null;
+  preview_generations_today: number;
+  preview_generations_date: string | null;
   has_onboarded: boolean;
   onboarding_step: number;
   created_at: string;

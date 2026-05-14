@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import ModuleModal from './ModuleModal';
 import PointsBar from './PointsBar';
+import { Toggle } from '@/components/ui/toggle';
 import { MODULE_REGISTRY } from '@/lib/modules';
 import { getModulePoints } from '@/lib/modules/points';
 import { usePoints } from '@/hooks/usePoints';
@@ -107,9 +108,10 @@ interface SortableCardProps {
   onEdit: (module: ModuleRow) => void;
   onDeleteRequest: (id: string) => void;
   onToggle: (id: string) => void;
+  toggling: boolean;
 }
 
-function SortableModuleCard({ module, onEdit, onDeleteRequest, onToggle }: SortableCardProps) {
+function SortableModuleCard({ module, onEdit, onDeleteRequest, onToggle, toggling }: SortableCardProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: module.id,
   });
@@ -132,7 +134,7 @@ function SortableModuleCard({ module, onEdit, onDeleteRequest, onToggle }: Sorta
     <div ref={setNodeRef} style={style}>
       <div
         className={`relative rounded-xl border border-surface-border bg-white p-5 border-t-[3px] border-t-brand-purple transition-opacity ${
-          module.is_enabled ? 'opacity-100' : 'opacity-50'
+          module.is_enabled ? 'opacity-100' : 'opacity-60'
         }`}
       >
         <div className="flex items-center gap-3">
@@ -155,7 +157,9 @@ function SortableModuleCard({ module, onEdit, onDeleteRequest, onToggle }: Sorta
             <div className="flex items-center gap-2">
               <p className="font-medium text-ink">{def.label}</p>
               {!module.is_enabled && (
-                <span className="text-xs italic text-ink-muted">Disabled</span>
+                <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium text-amber-700">
+                  Paused
+                </span>
               )}
             </div>
             {summary && (
@@ -168,13 +172,12 @@ function SortableModuleCard({ module, onEdit, onDeleteRequest, onToggle }: Sorta
             {pts} {pts === 1 ? 'pt' : 'pts'}
           </span>
 
-          {/* Enable/Disable toggle */}
-          <button
-            onClick={() => onToggle(module.id)}
-            className="shrink-0 text-xs text-ink-faint hover:text-ink transition-colors px-1"
-          >
-            {module.is_enabled ? 'Disable' : 'Enable'}
-          </button>
+          {/* iOS-style toggle */}
+          <Toggle
+            checked={module.is_enabled}
+            onChange={() => onToggle(module.id)}
+            loading={toggling}
+          />
 
           {/* Edit + Delete buttons */}
           <div className="flex items-center gap-1">
@@ -220,6 +223,7 @@ export default function ModuleList({
   const [existingModule, setExistingModule] = useState<Pick<ModuleRow, 'id' | 'module_type' | 'config'> | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<string | null>(null);
   const [loadingQuickAdd, setLoadingQuickAdd] = useState<string | null>(null);
+  const [togglingModule, setTogglingModule] = useState<string | null>(null);
   const [limitDialogOpen, setLimitDialogOpen] = useState(false);
 
   const { used: pointsUsed, limit: pointsLimit, remaining, isAtLimit } = usePoints(modules, isPro);
@@ -288,19 +292,24 @@ export default function ModuleList({
 
   async function handleToggle(id: string) {
     const found = modules.find((m) => m.id === id);
-    if (!found) return;
+    if (!found || togglingModule) return;
     const newValue = !found.is_enabled;
     // Optimistic update
+    setTogglingModule(id);
     onModulesChange(modules.map((m) => (m.id === id ? { ...m, is_enabled: newValue } : m)));
-    const res = await fetch(`/api/modules/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ is_enabled: newValue }),
-    });
-    if (!res.ok) {
-      // Revert on failure
-      onModulesChange(modules.map((m) => (m.id === id ? { ...m, is_enabled: !newValue } : m)));
-      toast.error('Failed to update module.');
+    try {
+      const res = await fetch(`/api/modules/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ is_enabled: newValue }),
+      });
+      if (!res.ok) {
+        // Revert on failure
+        onModulesChange(modules.map((m) => (m.id === id ? { ...m, is_enabled: !newValue } : m)));
+        toast.error('Failed to update module.');
+      }
+    } finally {
+      setTogglingModule(null);
     }
   }
 
@@ -457,6 +466,7 @@ export default function ModuleList({
                     onEdit={openEdit}
                     onDeleteRequest={setDeleteTarget}
                     onToggle={handleToggle}
+                    toggling={togglingModule === module.id}
                   />
                 ))}
               </div>

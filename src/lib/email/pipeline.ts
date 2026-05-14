@@ -4,6 +4,7 @@ import { generateDailyBrief } from '@/lib/email/generate';
 import { sendDailyBrief } from '@/lib/email/send';
 import { prefetchModuleData } from '@/lib/email/prefetch';
 import { getDailyCache, setDailyCache } from '@/lib/email/dailycache';
+import { CACHEABLE_MODULES, buildCacheKey, getSearchCache, setSearchCache } from '@/lib/email/cache';
 import type { ModuleRow } from '@/types';
 
 export interface PipelineResult {
@@ -87,6 +88,18 @@ export async function runPipeline(user: {
     const apiData = await prefetchModuleData(moduleInstructions);
     prefetchedData = { ...prefetchedData, ...apiData };
 
+    // Check 12-hour search cache for cacheable modules not yet prefetched
+    for (const inst of moduleInstructions) {
+      if (!CACHEABLE_MODULES.has(inst.moduleType)) continue;
+      if (prefetchedData[inst.moduleType] !== undefined) continue; // already have data
+      const cacheKey = buildCacheKey(inst.moduleType, inst.config);
+      const cached = await getSearchCache(cacheKey);
+      if (cached) {
+        prefetchedData[inst.moduleType] = cached;
+        console.log(`[Pipeline] ${inst.moduleType} served from search cache`);
+      }
+    }
+
     const prefetchedModules = Object.keys(prefetchedData);
     console.log('[Pipeline] Pre-fetched:', prefetchedModules.length > 0 ? prefetchedModules : 'none');
   } catch (err) {
@@ -119,6 +132,21 @@ export async function runPipeline(user: {
     }
   } catch (err) {
     console.error('[Pipeline] ai_tech cache write failed (non-fatal):', err);
+  }
+
+  // Write newly searched cacheable sections to the 12-hour search cache
+  try {
+    for (const section of generated.sections) {
+      if (!CACHEABLE_MODULES.has(section.type)) continue;
+      if (prefetchedData[section.type] !== undefined) continue; // was already a cache hit
+      const inst = moduleInstructions.find((m) => m.moduleType === section.type);
+      if (!inst) continue;
+      const cacheKey = buildCacheKey(section.type, inst.config);
+      await setSearchCache(cacheKey, section.data);
+      console.log(`[Pipeline] ${section.type} written to search cache`);
+    }
+  } catch (err) {
+    console.error('[Pipeline] Search cache write failed (non-fatal):', err);
   }
 
   // STAGE 4: Send email

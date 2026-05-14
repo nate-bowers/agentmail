@@ -59,6 +59,10 @@ export default async function PreviewPage() {
     return `${h12}:${String(m).padStart(2, '0')} ${ampm}`;
   }
 
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const isNewDay = p.preview_generations_date !== todayStr;
+  const generationsToday = isNewDay ? 0 : (p.preview_generations_today ?? 0);
+
   return (
     <PageShell className="py-6">
       <PreviewClient
@@ -68,6 +72,7 @@ export default async function PreviewPage() {
         userEmail={user.email ?? ''}
         sendTime={formatSendTime(p.send_time)}
         timezone={getTimezoneAbbr(p.timezone)}
+        initialGenerationsToday={generationsToday}
       />
     </PageShell>
   );
