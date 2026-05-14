@@ -7,13 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -24,18 +17,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { TIMEZONES } from '@/lib/timezones';
-import { EMAIL_THEMES } from '@/lib/email/themes';
 import { getPlanFromSubscriptionStatus } from '@/lib/stripe/plans';
 
 interface SettingsFormProps {
   profile: {
     full_name: string | null;
-    timezone: string;
     send_time: string;
     subscription_status: string;
     is_active: boolean;
-    email_theme: string;
   };
   email: string;
 }
@@ -43,20 +32,12 @@ interface SettingsFormProps {
 export default function SettingsForm({ profile, email }: SettingsFormProps) {
   const router = useRouter();
 
-  // Profile section
   const [fullName, setFullName] = useState(profile.full_name ?? '');
   const [isSavingProfile, setIsSavingProfile] = useState(false);
 
-  // Delivery section
-  const [timezone, setTimezone] = useState(profile.timezone);
   const [sendTime, setSendTime] = useState(profile.send_time.slice(0, 5));
   const [isSavingDelivery, setIsSavingDelivery] = useState(false);
 
-  // Theme
-  const [emailTheme, setEmailTheme] = useState(profile.email_theme ?? 'light');
-  const [isSavingTheme, setIsSavingTheme] = useState(false);
-
-  // Danger zone
   const [isActive, setIsActive] = useState(profile.is_active);
   const [isPausing, setIsPausing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -90,7 +71,7 @@ export default function SettingsForm({ profile, email }: SettingsFormProps) {
       const res = await fetch('/api/user/settings', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ timezone, send_time: sendTime }),
+        body: JSON.stringify({ send_time: sendTime }),
       });
       if (!res.ok) { const { error } = await res.json(); throw new Error(typeof error === 'string' ? error : 'Save failed'); }
       toast.success('Delivery schedule saved.');
@@ -99,24 +80,6 @@ export default function SettingsForm({ profile, email }: SettingsFormProps) {
       toast.error(e instanceof Error ? e.message : 'Failed to save.');
     } finally {
       setIsSavingDelivery(false);
-    }
-  }
-
-  async function handleSaveTheme(themeId: string) {
-    setIsSavingTheme(true);
-    try {
-      const res = await fetch('/api/user/settings', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email_theme: themeId }),
-      });
-      if (!res.ok) { const { error } = await res.json(); throw new Error(typeof error === 'string' ? error : 'Save failed'); }
-      setEmailTheme(themeId);
-      toast.success('Email theme saved.');
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Failed to save.');
-    } finally {
-      setIsSavingTheme(false);
     }
   }
 
@@ -205,66 +168,13 @@ export default function SettingsForm({ profile, email }: SettingsFormProps) {
               required
             />
             <p className="text-xs text-ink-muted">
-              Your brief will be sent at this time in your selected timezone.
+              Your brief will be sent at this time. Update your timezone on the dashboard.
             </p>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="timezone">Timezone</Label>
-            <Select value={timezone} onValueChange={setTimezone}>
-              <SelectTrigger id="timezone" className="max-w-xs">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="max-h-72">
-                {TIMEZONES.map((tz) => (
-                  <SelectItem key={tz.value} value={tz.value}>
-                    {tz.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
           <Button type="submit" disabled={isSavingDelivery}>
             {isSavingDelivery ? 'Saving…' : 'Save schedule'}
           </Button>
         </form>
-      </section>
-
-      {/* Email Theme */}
-      <section className="rounded-xl border border-surface-border bg-white p-6 space-y-5">
-        <div>
-          <h2 className="text-base font-semibold text-ink">Email Theme</h2>
-          <p className="text-sm text-ink-muted mt-1">Choose how your daily brief looks in your inbox.</p>
-        </div>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
-          {Object.values(EMAIL_THEMES).map((t) => {
-            const isSelected = emailTheme === t.id;
-            return (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => handleSaveTheme(t.id)}
-                disabled={isSavingTheme}
-                className={`rounded-xl border-2 p-3 text-left transition-all ${
-                  isSelected
-                    ? 'border-brand-purple bg-brand-purple-light'
-                    : 'border-surface-border bg-white hover:border-brand-purple'
-                }`}
-              >
-                {/* Mini preview strips */}
-                <div
-                  className="mb-2 rounded-md overflow-hidden h-10"
-                  style={{ backgroundColor: t.colors.containerBg, border: `1px solid ${t.colors.border}` }}
-                >
-                  <div className="h-2 m-1.5 rounded" style={{ backgroundColor: t.colors.text, opacity: 0.8 }} />
-                  <div className="h-1.5 m-1.5 mt-0 rounded w-3/4" style={{ backgroundColor: t.colors.muted, opacity: 0.5 }} />
-                  <div className="h-1.5 m-1.5 mt-0 rounded w-1/2" style={{ backgroundColor: t.colors.muted, opacity: 0.5 }} />
-                </div>
-                <p className="text-xs font-medium text-ink">{t.name}</p>
-                <p className="text-[10px] text-ink-muted capitalize">{t.prose.verbosity}</p>
-              </button>
-            );
-          })}
-        </div>
       </section>
 
       {/* Subscription */}

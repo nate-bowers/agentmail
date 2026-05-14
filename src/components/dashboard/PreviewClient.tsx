@@ -57,7 +57,7 @@ interface PreviewClientProps {
 // Component
 // ─────────────────────────────────────────────────────────────
 
-const DAILY_LIMIT = 5;
+const DAILY_LIMIT = 3;
 const TEST_SEND_LIMIT = 3;
 
 export default function PreviewClient({
@@ -296,16 +296,9 @@ export default function PreviewClient({
 
           {/* Generate */}
           {!previewData && !loading && error !== 'limit_reached' && (
-            <div className="space-y-1.5">
-              <Button onClick={() => generate()} className="w-full" disabled={loading || atLimit}>
-                Generate preview
-              </Button>
-              {!atLimit && (
-                <p className="text-xs text-ink-muted text-center">
-                  {remaining} of {DAILY_LIMIT} previews remaining today
-                </p>
-              )}
-            </div>
+            <Button onClick={() => generate()} className="w-full" disabled={loading || atLimit}>
+              Generate preview
+            </Button>
           )}
 
           {/* Regenerate */}
