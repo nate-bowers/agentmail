@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -296,8 +295,8 @@ export default function SettingsForm({ profile, email }: SettingsFormProps) {
         ) : (
           <div className="space-y-2">
             <p className="text-sm text-ink-muted">Upgrade to Brief Pro for 12 credits and all modules.</p>
-            <Button size="sm" asChild>
-              <Link href="/dashboard/upgrade">Upgrade to Pro →</Link>
+            <Button size="sm" onClick={() => { window.location.href = '/dashboard/upgrade'; }}>
+              Upgrade to Pro →
             </Button>
           </div>
         )}

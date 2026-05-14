@@ -60,8 +60,10 @@ export default async function PreviewPage() {
   }
 
   const todayStr = new Date().toISOString().slice(0, 10);
-  const isNewDay = p.preview_generations_date !== todayStr;
-  const generationsToday = isNewDay ? 0 : (p.preview_generations_today ?? 0);
+  const generationsToday = p.preview_generations_date === todayStr
+    ? (p.preview_generations_today ?? 0) : 0;
+  const testSendsToday = p.test_sends_date === todayStr
+    ? (p.test_sends_today ?? 0) : 0;
 
   return (
     <PageShell className="py-6">
@@ -73,6 +75,7 @@ export default async function PreviewPage() {
         sendTime={formatSendTime(p.send_time)}
         timezone={getTimezoneAbbr(p.timezone)}
         initialGenerationsToday={generationsToday}
+        initialTestSendsToday={testSendsToday}
       />
     </PageShell>
   );

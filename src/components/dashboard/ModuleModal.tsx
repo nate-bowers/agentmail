@@ -5,7 +5,7 @@ import {
   Cloud, Newspaper, Quote, TrendingUp,
   Trophy, BookOpen, Dumbbell, Brain, Calendar, ArrowLeftRight, Headphones, Lightbulb,
   ChefHat, BookMarked, MessageSquare, Stars, Languages, Heart, Cpu, MapPin, Landmark, Zap,
-  HelpCircle, ChevronLeft, Loader2, type LucideIcon,
+  HelpCircle, ChevronLeft, Loader2, Lock, Sparkles, type LucideIcon,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -176,6 +176,25 @@ export default function ModuleModal({
             </div>
 
             <div className="flex-1 overflow-y-auto px-6 py-4">
+              {/* Full limit banner */}
+              {remainingPoints === 0 && (
+                <div className="flex items-center gap-3 rounded-xl bg-gradient-to-r from-brand-purple to-brand-purple-dark p-4 mb-4">
+                  <Sparkles className="h-5 w-5 text-white shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-sm text-white">You&apos;ve used all your credits</p>
+                    <p className="text-xs text-white/80 mt-0.5">
+                      Upgrade to Brief Pro for 12 credits and access to all 22 modules.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => { window.location.href = '/dashboard/upgrade'; }}
+                    className="shrink-0 bg-white text-brand-purple text-xs font-semibold rounded-lg px-3 py-1.5 hover:bg-white/90 transition-colors whitespace-nowrap"
+                  >
+                    Upgrade — $9/mo
+                  </button>
+                </div>
+              )}
+
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {orderedModules.map((def) => {
                   const Icon = ICON_MAP[def.icon] ?? HelpCircle;
@@ -188,29 +207,40 @@ export default function ModuleModal({
                     <button
                       key={def.type}
                       onClick={() => {
-                        if (!canAfford) {
-                          toast('Not enough credits', {
-                            description: `This module costs ${pts} credit${pts !== 1 ? 's' : ''}.`,
-                            action: { label: 'Upgrade', onClick: () => { window.location.href = '/dashboard/upgrade'; } },
-                          });
-                          return;
-                        }
+                        if (!canAfford) return;
                         setSelectedType(def.type);
                         setFormKey((prev) => prev + 1);
                         setStep(2);
                       }}
+                      disabled={!canAfford}
                       className={`relative flex flex-col gap-2 rounded-xl border p-4 text-left h-full transition-all duration-150 ${
                         canAfford
                           ? 'border-surface-border bg-white hover:border-brand-purple hover:bg-brand-purple-light cursor-pointer'
-                          : 'border-surface-border bg-surface-secondary opacity-50 cursor-not-allowed'
+                          : 'border-surface-border bg-white cursor-default'
                       }`}
                     >
-                      {/* Badge top-right */}
+                      {/* Locked overlay */}
                       {!canAfford && (
-                        <span className="absolute right-2 top-2 rounded-full bg-red-100 px-1.5 py-0.5 text-[10px] font-medium text-red-600">
-                          Needs {pts} pt
-                        </span>
+                        <div className="absolute inset-0 rounded-xl flex flex-col items-center justify-center gap-2 z-10"
+                          style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(2px)' }}
+                        >
+                          <Lock className="h-5 w-5 text-brand-purple" />
+                          <span className="text-xs font-medium text-ink text-center px-2">
+                            Needs {pts} credit{pts !== 1 ? 's' : ''}
+                          </span>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              window.location.href = '/dashboard/upgrade';
+                            }}
+                            className="text-xs bg-brand-purple text-white rounded-lg px-3 py-1.5 font-medium hover:bg-brand-purple-dark transition-colors"
+                          >
+                            Upgrade to unlock
+                          </button>
+                        </div>
                       )}
+
+                      {/* Badge top-right (for affordable modules) */}
                       {canAfford && isPopular && (
                         <span className="absolute right-2 top-2 rounded-full bg-brand-purple-light px-1.5 py-0.5 text-[10px] font-medium text-brand-purple border border-brand-purple/20">
                           Popular

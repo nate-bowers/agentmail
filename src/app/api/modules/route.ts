@@ -48,8 +48,13 @@ export async function POST(request: NextRequest) {
     }
     const { module_type, config } = parsed.data;
 
+    const validTypes = Object.keys(MODULE_REGISTRY);
     if (!MODULE_REGISTRY[module_type]) {
-      return NextResponse.json({ error: `Unknown module type: ${module_type}` }, { status: 400 });
+      return NextResponse.json({
+        error: 'invalid_module_type',
+        message: `Module type "${module_type}" is not recognized.`,
+        validTypes,
+      }, { status: 400 });
     }
 
     const configParsed = MODULE_REGISTRY[module_type].configSchema.safeParse(config);

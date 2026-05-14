@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -10,11 +11,23 @@ import Logo from './Logo';
 // ─── Marketing variant ────────────────────────────────────────
 
 function MarketingNav({ transparent }: { transparent?: boolean }) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handler, { passive: true });
+    return () => window.removeEventListener('scroll', handler);
+  }, []);
+
   return (
     <header
       className={cn(
-        'sticky top-0 z-50 w-full transition-colors',
-        transparent ? '' : 'border-b border-surface-border bg-surface'
+        'sticky top-0 z-50 w-full transition-all duration-300',
+        transparent
+          ? ''
+          : scrolled
+            ? 'shadow-sm backdrop-blur-sm bg-white/95 border-b border-surface-border'
+            : 'bg-white border-b border-transparent'
       )}
     >
       <div className="mx-auto flex h-14 max-w-5xl items-center justify-between px-6">

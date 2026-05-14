@@ -7,6 +7,12 @@
     text-wrap: balance;
   }
 
+  .hero-bg {
+    background-color: #ffffff;
+    background-image: radial-gradient(circle, #e8e4ff 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }

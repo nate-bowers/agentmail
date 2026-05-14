@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -61,8 +60,8 @@ export default function PointsBar({ modules, isPro, refreshing }: PointsBarProps
               ? "You've used all your free credits. Add more modules with Brief Pro."
               : `You're using ${totalPoints} of 3 free credits. Upgrade to Pro for 12 credits and access to all modules.`}
           </p>
-          <Button size="sm" asChild>
-            <Link href="/dashboard/upgrade">Upgrade →</Link>
+          <Button size="sm" onClick={() => { window.location.href = '/dashboard/upgrade'; }}>
+            Upgrade →
           </Button>
         </div>
       )}

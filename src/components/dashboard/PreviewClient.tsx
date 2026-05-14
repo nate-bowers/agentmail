@@ -49,6 +49,7 @@ interface PreviewClientProps {
   sendTime: string;
   timezone: string;
   initialGenerationsToday: number;
+  initialTestSendsToday: number;
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -56,6 +57,7 @@ interface PreviewClientProps {
 // ─────────────────────────────────────────────────────────────
 
 const DAILY_LIMIT = 5;
+const TEST_SEND_LIMIT = 3;
 
 export default function PreviewClient({
   modules,
@@ -65,6 +67,7 @@ export default function PreviewClient({
   sendTime,
   timezone,
   initialGenerationsToday,
+  initialTestSendsToday,
 }: PreviewClientProps) {
   // Appearance is always one of light/dark/pink
   const [appearance, setAppearance] = useState<string>(
@@ -81,9 +84,12 @@ export default function PreviewClient({
   const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
   const [testSending, setTestSending] = useState(false);
   const [generationsToday, setGenerationsToday] = useState(initialGenerationsToday);
+  const [testSendsToday, setTestSendsToday] = useState(initialTestSendsToday);
   const msgIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const remaining = DAILY_LIMIT - generationsToday;
   const atLimit = remaining <= 0;
+  const testSendsRemaining = TEST_SEND_LIMIT - testSendsToday;
+  const testSendsAtLimit = testSendsRemaining <= 0;
 
   // Generate: calls Claude — expensive, slow
   async function generate(appearanceOverride?: string) {
@@ -170,15 +176,18 @@ export default function PreviewClient({
   }
 
   async function handleTestSend() {
+    if (testSendsAtLimit) return;
     setTestSending(true);
     try {
       const res = await fetch('/api/email/test-send', { method: 'POST' });
       const data = await res.json();
       if (res.status === 429) {
+        setTestSendsToday(TEST_SEND_LIMIT);
         toast.error("You've reached the 3 test sends per day limit.");
         return;
       }
       if (!res.ok) throw new Error(data.error ?? 'Send failed');
+      setTestSendsToday((prev) => prev + 1);
       toast.success(`Test email sent! ${data.remaining ?? 0} sends remaining today.`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Failed to send test email');
@@ -307,17 +316,50 @@ export default function PreviewClient({
           )}
 
           {/* Test send */}
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <Button
               variant="outline"
               className="w-full gap-2"
               onClick={handleTestSend}
-              disabled={testSending}
+              disabled={testSending || testSendsAtLimit}
             >
               <Send className="h-4 w-4" />
               {testSending ? 'Sending…' : 'Send test email'}
             </Button>
-            <p className="text-xs text-ink-muted text-center">3 test sends per day</p>
+          </div>
+
+          {/* Counters */}
+          <div className="space-y-3 pt-1 border-t border-surface-border mt-1">
+            {/* Preview counter */}
+            <div>
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-xs text-ink-muted">Preview generations</span>
+                <span className={`text-xs font-medium ${atLimit ? 'text-red-500' : 'text-ink'}`}>
+                  {remaining} / {DAILY_LIMIT} remaining
+                </span>
+              </div>
+              <div className="w-full bg-surface-border rounded-full h-1.5">
+                <div
+                  className={`h-1.5 rounded-full transition-all ${atLimit ? 'bg-red-400' : 'bg-brand-purple'}`}
+                  style={{ width: `${(remaining / DAILY_LIMIT) * 100}%` }}
+                />
+              </div>
+            </div>
+            {/* Test send counter */}
+            <div>
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-xs text-ink-muted">Test emails</span>
+                <span className={`text-xs font-medium ${testSendsAtLimit ? 'text-red-500' : 'text-ink'}`}>
+                  {testSendsRemaining} / {TEST_SEND_LIMIT} remaining
+                </span>
+              </div>
+              <div className="w-full bg-surface-border rounded-full h-1.5">
+                <div
+                  className={`h-1.5 rounded-full transition-all ${testSendsAtLimit ? 'bg-red-400' : 'bg-brand-purple'}`}
+                  style={{ width: `${(testSendsRemaining / TEST_SEND_LIMIT) * 100}%` }}
+                />
+              </div>
+            </div>
           </div>
         </div>
 

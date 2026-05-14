@@ -73,6 +73,8 @@ export interface Profile {
   delivery_email: string | null;
   preview_generations_today: number;
   preview_generations_date: string | null;
+  test_sends_today: number;
+  test_sends_date: string | null;
   has_onboarded: boolean;
   onboarding_step: number;
   created_at: string;

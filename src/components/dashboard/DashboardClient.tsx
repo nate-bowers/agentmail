@@ -472,12 +472,12 @@ export default function DashboardClient({ initialModules, profile, user, isPro }
             </div>
 
             {!isPro && (
-              <Link
-                href="/dashboard/upgrade"
-                className="mt-3 inline-block text-sm text-brand-purple hover:text-brand-purple-dark"
+              <button
+                onClick={() => { window.location.href = '/dashboard/upgrade'; }}
+                className="mt-3 text-sm text-brand-purple hover:text-brand-purple-dark"
               >
                 Upgrade to Pro →
-              </Link>
+              </button>
             )}
             {isPro && (
               <Link
