@@ -543,15 +543,6 @@ export default function DailyBriefEmail({
             <Text style={{ ...mutedStyle(c), margin: '0' }}>{date}</Text>
           </Section>
 
-          {intro && (
-            <>
-              <Hr style={dividerStyle} />
-              <Section>
-                <Text style={{ ...bodyStyle(c), fontStyle: 'italic', margin: '0' }}>{intro}</Text>
-              </Section>
-            </>
-          )}
-
           <Hr style={dividerStyle} />
 
           {sections.map((section, i) => (

@@ -431,12 +431,12 @@ export default function PreviewClient({
               <div className="h-3 w-36 rounded bg-surface-border" />
               <div className="h-3 w-56 rounded bg-surface-border" />
             </div>
-            <div className="p-6 space-y-6 animate-pulse">
-              {[120, 80, 160, 100, 140].map((h, i) => (
+            <div className="p-4 space-y-3 animate-pulse">
+              {[32, 48, 32, 48, 32].map((h, i) => (
                 <div key={i} style={{ height: h }} className="rounded-lg bg-surface-border" />
               ))}
             </div>
-            <div className="px-6 pb-6 text-center text-sm text-ink-muted">{loadingMsg}</div>
+            <div className="px-4 pb-4 text-center text-sm text-ink-muted">{loadingMsg}</div>
           </div>
         )}
 

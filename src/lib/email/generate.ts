@@ -198,9 +198,7 @@ ${JSON.stringify(prefetched)}`;
 - week_history.events: max 2 events`
     : '';
 
-  const introDirective = includeIntro
-    ? `Write a warm, personalized 2-3 sentence intro addressing ${firstName} by first name. Reference something specific from today's content (a headline, the weather, the quote) to make it feel written, not templated. Do not start with "Good morning" — be more creative.`
-    : `Set "intro" to an empty string "".`;
+  const introDirective = `Set "intro" to an empty string "".`;
 
   const commentaryDirective = includeCommentary
     ? 'Where relevant, add brief editorial commentary connecting data points.'
