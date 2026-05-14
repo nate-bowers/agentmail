@@ -233,7 +233,7 @@ export async function generateDailyBrief(
   const prompt = buildPrompt(user, moduleInstructions, prefetchedData);
   console.log('[Generate] Prompt being sent to Claude (first 800 chars):', prompt.slice(0, 800));
 
-  const maxTokens = verbosity === 'succinct' ? 2000 : verbosity === 'wordy' ? 4500 : 3000;
+  const maxTokens = verbosity === 'succinct' ? 6000 : verbosity === 'wordy' ? 10000 : 8000;
 
   const response = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
