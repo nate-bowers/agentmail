@@ -57,13 +57,17 @@ export async function POST(request: NextRequest) {
         const session = event.data.object as Stripe.Checkout.Session;
         const userId = session.metadata?.user_id;
         const planId = (session.metadata?.plan_id as PlanId) ?? 'pro';
+        const customerId = typeof session.customer === 'string' ? session.customer : session.customer?.id;
 
         if (userId) {
           await adminClient
             .from('profiles')
-            .update({ subscription_status: planId })
+            .update({
+              subscription_status: planId,
+              ...(customerId ? { stripe_customer_id: customerId } : {}),
+            })
             .eq('id', userId);
-          console.log(`[webhook] User ${userId} upgraded to ${planId}`);
+          console.log(`[webhook] User ${userId} upgraded to ${planId}, customer: ${customerId}`);
         }
         break;
       }

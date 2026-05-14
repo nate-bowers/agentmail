@@ -39,22 +39,20 @@ export async function POST(request: NextRequest) {
 
     if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 });
 
-    // Create or retrieve the Stripe customer
+    // Verify the stored customer ID is still valid (may be stale if switching Stripe modes)
     let customerId = profile.stripe_customer_id as string | null;
-    if (!customerId) {
-      const customer = await stripe.customers.create({
-        email: profile.email as string,
-        metadata: { supabase_user_id: user.id },
-      });
-      customerId = customer.id;
-
-      const { error: updateError } = await supabase
-        .from('profiles')
-        .update({ stripe_customer_id: customerId })
-        .eq('id', user.id);
-
-      if (updateError) {
-        console.error('[stripe/checkout] Failed to persist customer ID:', updateError.message);
+    if (customerId) {
+      try {
+        await stripe.customers.retrieve(customerId);
+      } catch (err: unknown) {
+        const stripeErr = err as { code?: string };
+        if (stripeErr.code === 'resource_missing') {
+          console.log('[stripe/checkout] Stale customer ID, clearing:', customerId);
+          await supabase.from('profiles').update({ stripe_customer_id: null }).eq('id', user.id);
+          customerId = null;
+        } else {
+          throw err;
+        }
       }
     }
 
@@ -62,16 +60,22 @@ export async function POST(request: NextRequest) {
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://dailybriefmail.com';
 
-    const session = await stripe.checkout.sessions.create({
-      customer: customerId,
+    const sessionParams: Parameters<typeof stripe.checkout.sessions.create>[0] = {
       mode: 'subscription',
       payment_method_types: ['card'],
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${siteUrl}/dashboard?upgraded=true`,
       cancel_url: `${siteUrl}/dashboard/upgrade`,
-      customer_email: !customerId ? (user.email ?? undefined) : undefined,
       metadata: { user_id: user.id, plan_id: planId },
-    });
+    };
+
+    if (customerId) {
+      sessionParams.customer = customerId;
+    } else {
+      sessionParams.customer_email = user.email ?? undefined;
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionParams);
 
     if (!session.url) {
       console.error('[stripe/checkout] Session created but no URL returned. Session ID:', session.id);
