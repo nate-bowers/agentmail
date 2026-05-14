@@ -12,6 +12,7 @@ import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, Command
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import ModuleList from './ModuleList';
 import OnboardingGate from '@/components/onboarding/OnboardingGate';
+import ProOnboardingModal from './ProOnboardingModal';
 import { usePoints } from '@/hooks/usePoints';
 import { usePlan } from '@/hooks/usePlan';
 import { TIMEZONES } from '@/lib/timezones';
@@ -422,6 +423,7 @@ export default function DashboardClient({
   const [modules, setModules] = useState<ModuleRow[]>(initialModules);
   const [refreshing, setRefreshing] = useState(false);
   const [subscriptionStatus, setSubscriptionStatus] = useState(initialSubscriptionStatus);
+  const [showUpgradeOnboarding, setShowUpgradeOnboarding] = useState(false);
 
   const refreshModules = useCallback(async () => {
     setRefreshing(true);
@@ -473,20 +475,7 @@ export default function DashboardClient({
             setSubscriptionStatus(data.subscription_status);
             triggerUpgradeCelebration();
             sessionStorage.setItem('justUpgraded', 'true');
-            toast.success(
-              '🎉 Welcome to Brief Pro!',
-              {
-                description: (
-                  <span>
-                    Your 12 credits are unlocked.{' '}
-                    <a href="/dashboard" className="underline font-medium">
-                      Add a module now →
-                    </a>
-                  </span>
-                ),
-                duration: 8000,
-              }
-            );
+            setShowUpgradeOnboarding(true);
             window.history.replaceState({}, '', '/dashboard');
             return;
           }
@@ -515,6 +504,13 @@ export default function DashboardClient({
   return (
     <>
       {!profile.has_onboarded && <OnboardingGate userId={user.id} />}
+
+      <ProOnboardingModal
+        open={showUpgradeOnboarding}
+        onClose={() => { setShowUpgradeOnboarding(false); refreshModules(); }}
+        modules={modules}
+        initialSendTime={profile.send_time}
+      />
 
       <div className="py-2 lg:grid lg:grid-cols-3 lg:gap-8 lg:items-start">
         {/* Main — 2 cols */}
