@@ -3,10 +3,23 @@
 import { useState } from 'react';
 import OnboardingModal from './OnboardingModal';
 
-export default function OnboardingGate({ userId }: { userId: string }) {
+interface OnboardingGateProps {
+  userId: string;
+  variant: 'free' | 'pro';
+  onModulesCreated: () => Promise<void>;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function OnboardingGate({ userId, variant, onModulesCreated }: OnboardingGateProps) {
   const [open, setOpen] = useState(true);
 
   if (!open) return null;
 
-  return <OnboardingModal userId={userId} onComplete={() => setOpen(false)} />;
+  return (
+    <OnboardingModal
+      variant={variant}
+      onComplete={() => setOpen(false)}
+      onModulesCreated={onModulesCreated}
+    />
+  );
 }

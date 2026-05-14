@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Sparkles, Check } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -23,6 +23,7 @@ export default function AuthForm({ mode, initialError }: AuthFormProps) {
   const [loading, setLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<'google' | 'azure' | null>(null);
   const [checkEmail, setCheckEmail] = useState(false);
+  const [proSelected, setProSelected] = useState(false);
 
   const isSignup = mode === 'signup';
   const anyLoading = loading || oauthLoading !== null;
@@ -232,6 +233,52 @@ export default function AuthForm({ mode, initialError }: AuthFormProps) {
           </>
         )}
       </p>
+
+      {/* Pro CTA — signup only */}
+      {isSignup && (
+        <>
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-surface-border" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-white px-2 text-ink-faint">or</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 rounded-xl border border-brand-purple/20 bg-brand-purple-light p-4">
+            <Sparkles className="h-5 w-5 shrink-0 text-brand-purple" />
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-ink">Start with Brief Pro</p>
+              <p className="text-xs text-ink-muted mt-0.5">12 credits, all modules, custom delivery time. $9/month.</p>
+            </div>
+            <Button
+              type="button"
+              size="sm"
+              variant={proSelected ? 'outline' : 'default'}
+              className={proSelected ? 'border-brand-purple text-brand-purple shrink-0' : 'shrink-0'}
+              onClick={() => {
+                localStorage.setItem('pendingPro', 'true');
+                setProSelected(true);
+              }}
+            >
+              {proSelected ? (
+                <span className="flex items-center gap-1">
+                  <Check className="h-3.5 w-3.5" /> Selected
+                </span>
+              ) : (
+                'Start Pro →'
+              )}
+            </Button>
+          </div>
+
+          {proSelected && (
+            <p className="text-center text-xs text-brand-purple">
+              ✓ Pro plan selected — finish signing up above to continue.
+            </p>
+          )}
+        </>
+      )}
     </div>
   );
 }

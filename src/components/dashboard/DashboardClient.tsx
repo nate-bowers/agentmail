@@ -448,6 +448,17 @@ export default function DashboardClient({
   const [subscriptionStatus, setSubscriptionStatus] = useState(initialSubscriptionStatus);
   const [showUpgradeOnboarding, setShowUpgradeOnboarding] = useState(false);
 
+  // Determine onboarding variant once at mount from localStorage + subscription status
+  const [onboardingVariant] = useState<'free' | 'pro'>(() => {
+    if (typeof window === 'undefined') return 'free';
+    const pending = localStorage.getItem('pendingPro') === 'true';
+    if (pending) localStorage.removeItem('pendingPro');
+    if (pending) return 'pro';
+    const s = initialSubscriptionStatus;
+    if (s === 'pro' || s === 'unlimited' || s === 'active') return 'pro';
+    return 'free';
+  });
+
   const refreshModules = useCallback(async () => {
     setRefreshing(true);
     try {
@@ -526,7 +537,13 @@ export default function DashboardClient({
 
   return (
     <>
-      {!profile.has_onboarded && <OnboardingGate userId={user.id} />}
+      {!profile.has_onboarded && (
+        <OnboardingGate
+          userId={user.id}
+          variant={onboardingVariant}
+          onModulesCreated={refreshModules}
+        />
+      )}
 
       <ProOnboardingModal
         open={showUpgradeOnboarding}
