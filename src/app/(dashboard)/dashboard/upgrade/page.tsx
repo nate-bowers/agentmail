@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, CheckCircle2, Lock, Sparkles } from 'lucide-react';
+import { ArrowLeft, Check, CheckCircle2, Sparkles, X } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,28 +14,67 @@ import { Button } from '@/components/ui/button';
 import UpgradeButton from '@/components/dashboard/UpgradeButton';
 import PageShell from '@/components/layout/PageShell';
 import { getTotalPoints } from '@/lib/modules/points';
-import { getPlanFromSubscriptionStatus, PLANS } from '@/lib/stripe/plans';
-import { cn } from '@/lib/utils';
+import { getPlanFromSubscriptionStatus } from '@/lib/stripe/plans';
 
-const FREE_MODULES = [
-  { label: 'Weather', pts: 1, included: true },
-  { label: 'Quote', pts: 1, included: true },
-  { label: 'Markets', pts: 1, included: true },
-  { label: 'News digest', pts: 2, included: false },
-  { label: 'Sports scores', pts: 1, included: false },
-  { label: 'Word of the day', pts: 1, included: false },
+const HIGHLIGHTED_PRO = new Set(['Module credits', 'Custom send time', 'Access to all 22 modules']);
+
+const benefits = [
+  { label: 'Module credits', freeValue: '3 credits', proValue: '12 credits', freeIncluded: true },
+  { label: 'Daily email brief', freeValue: 'every day', proValue: 'every day', freeIncluded: true },
+  { label: 'Custom send time', freeValue: '7:00 AM only', proValue: 'any time you choose', freeIncluded: false },
+  { label: 'Custom timezone', freeValue: null, proValue: 'any timezone', freeIncluded: false },
+  { label: 'Email theme', freeValue: 'Light only', proValue: 'Light, Dark, Pink', freeIncluded: false },
+  { label: 'Email length', freeValue: null, proValue: 'Succinct or Wordy', freeIncluded: false },
+  { label: 'News topics and subtopics', freeValue: 'default headlines only', proValue: 'fully customizable', freeIncluded: false },
+  { label: 'Custom news sources', freeValue: null, proValue: 'specify preferred outlets', freeIncluded: false },
+  { label: 'Local events module', freeValue: null, proValue: 'your city and categories', freeIncluded: false },
+  { label: 'Interests and personalization', freeValue: null, proValue: 'podcasts, books, recipes and more', freeIncluded: false },
+  { label: 'Sports scores', freeValue: null, proValue: 'your teams and leagues', freeIncluded: false },
+  { label: 'Markets and crypto', freeValue: null, proValue: 'custom symbols and watchlist', freeIncluded: false },
+  { label: 'Language learning module', freeValue: null, proValue: 'any language, any level', freeIncluded: false },
+  { label: 'AI and tech briefing', freeValue: null, proValue: 'custom subtopics and depth', freeIncluded: false },
+  { label: 'Access to all 22 modules', freeValue: null, proValue: 'current and future modules', freeIncluded: false },
+  { label: 'Cancel anytime', freeValue: 'n/a', proValue: 'no questions asked', freeIncluded: true },
 ];
 
-const PRO_MODULES = [
-  { label: 'Weather', pts: 1 },
-  { label: 'News digest', pts: 2 },
-  { label: 'Quote', pts: 1 },
-  { label: 'Markets', pts: 1 },
-  { label: 'Sports scores', pts: 1 },
-  { label: 'Word of the day', pts: 1 },
-  { label: 'Workout tip', pts: 1 },
-  { label: 'Mindfulness', pts: 1 },
-];
+function BenefitRow({
+  included,
+  isPro,
+  label,
+  freeValue,
+  proValue,
+}: {
+  included: boolean;
+  isPro: boolean;
+  label: string;
+  freeValue?: string;
+  proValue?: string;
+}) {
+  const highlight = isPro && HIGHLIGHTED_PRO.has(label);
+  return (
+    <div className={`flex items-start gap-2.5 py-2.5 border-b border-surface-border last:border-0 rounded-lg${highlight ? ' -mx-1 px-1 bg-brand-purple-light' : ''}`}>
+      {isPro
+        ? <Check className="h-4 w-4 text-brand-purple flex-shrink-0" />
+        : included
+          ? <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
+          : <X className="h-4 w-4 text-ink-faint flex-shrink-0" />
+      }
+      <div>
+        <span className={`text-sm ${included || isPro ? 'text-ink' : 'text-ink-muted'}`}>
+          {label}
+        </span>
+        {isPro && proValue && (
+          <span className={`text-xs ml-1 ${highlight ? 'text-brand-purple font-medium' : 'text-ink-muted'}`}>
+            {proValue}
+          </span>
+        )}
+        {!isPro && included && freeValue && (
+          <span className="text-xs text-ink-muted ml-1">{freeValue}</span>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default async function UpgradePage() {
   const supabase = await createClient();
@@ -94,48 +133,57 @@ export default async function UpgradePage() {
           </div>
         </div>
 
-        {/* Points comparison */}
-        <div className="grid grid-cols-2 gap-3">
-          {/* Free */}
-          <div className="rounded-xl border border-surface-border p-4 space-y-2">
-            <p className="font-mono text-xs uppercase tracking-wider text-ink-muted">
-              Free — 3 credits
-            </p>
-            <div className="space-y-1.5">
-              {FREE_MODULES.map(({ label, pts, included }) => (
-                <div
-                  key={label}
-                  className={cn(
-                    'flex items-center gap-1.5 text-xs',
-                    included ? 'text-ink' : 'text-ink-faint'
-                  )}
-                >
-                  {included ? (
-                    <span className="text-green-500 text-sm leading-none">✓</span>
-                  ) : (
-                    <Lock className="h-3 w-3 shrink-0" />
-                  )}
-                  <span className="flex-1">{label}</span>
-                  <span className="text-[10px] text-ink-faint">({pts}pt)</span>
-                </div>
+        {/* Comparison */}
+        <p className="text-center text-sm text-ink-muted mb-4">
+          Everything in Free, plus all of this:
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 mb-6">
+          {/* Free card */}
+          <div className="rounded-2xl border border-surface-border p-5 bg-white order-last md:order-first">
+            <div className="sticky top-0 bg-white pb-2 flex items-center gap-2 mb-2">
+              <span className="text-sm font-medium text-ink-muted bg-surface-secondary rounded-full px-3 py-1">
+                Free
+              </span>
+              <span className="text-sm text-ink-muted">$0 / month</span>
+            </div>
+            <div className="max-h-[50vh] overflow-y-auto">
+              {benefits.map((b) => (
+                <BenefitRow
+                  key={b.label}
+                  isPro={false}
+                  included={b.freeIncluded}
+                  label={b.label}
+                  freeValue={b.freeValue ?? undefined}
+                  proValue={undefined}
+                />
               ))}
             </div>
           </div>
 
-          {/* Pro */}
-          <div className="rounded-xl border-2 border-brand-purple bg-brand-purple/[0.03] p-4 space-y-2">
-            <p className="font-mono text-xs uppercase tracking-wider text-brand-purple">
-              Pro — 12 credits
-            </p>
-            <div className="space-y-1.5">
-              {PRO_MODULES.map(({ label, pts }) => (
-                <div key={label} className="flex items-center gap-1.5 text-xs text-ink">
-                  <CheckCircle2 className="h-3 w-3 shrink-0 text-brand-purple" />
-                  <span className="flex-1">{label}</span>
-                  <span className="text-[10px] text-ink-faint">({pts}pt)</span>
-                </div>
+          {/* Pro card */}
+          <div className="rounded-2xl border-2 border-brand-purple p-5 bg-white relative order-first md:order-last">
+            <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+              <span className="bg-brand-purple text-white text-xs font-semibold rounded-full px-3 py-1">
+                Most popular
+              </span>
+            </div>
+            <div className="sticky top-0 bg-white pb-2 flex items-center gap-2 mb-2">
+              <span className="text-sm font-semibold text-brand-purple bg-brand-purple-light rounded-full px-3 py-1">
+                ✨ Pro
+              </span>
+              <span className="text-sm text-ink-muted">$9 / month</span>
+            </div>
+            <div className="max-h-[50vh] overflow-y-auto">
+              {benefits.map((b) => (
+                <BenefitRow
+                  key={b.label}
+                  isPro={true}
+                  included={true}
+                  label={b.label}
+                  freeValue={undefined}
+                  proValue={b.proValue ?? undefined}
+                />
               ))}
-              <p className="pt-0.5 text-xs font-medium text-brand-purple">+ 4 more credits to use</p>
             </div>
           </div>
         </div>
@@ -183,11 +231,12 @@ export default async function UpgradePage() {
         </div>
 
         {/* Current plan context */}
-        {!isActive && (
-          <p className="text-center text-sm text-ink-muted">
-            You&rsquo;re currently on the free plan using {pointsUsed} of {PLANS.free.pointLimit} credits.
-          </p>
-        )}
+        <p className="text-center text-sm text-ink-muted">
+          {isActive
+            ? "You're already on Brief Pro. Enjoy your 12 credits."
+            : `You're on the free plan with ${pointsUsed} of 3 credits used. Upgrade to unlock ${3 - pointsUsed} more credits and full customization.`
+          }
+        </p>
       </div>
     </PageShell>
   );
