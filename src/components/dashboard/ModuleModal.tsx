@@ -65,6 +65,10 @@ export default function ModuleModal({
 
   const [step, setStep] = useState<1 | 2>(1);
   const [selectedType, setSelectedType] = useState<string | undefined>(undefined);
+
+  // FREE PLAN: topic customization is locked for these modules — server enforces defaults at send time
+  const FREE_TOPIC_MODULES = new Set(['news', 'ai_tech', 'reddit', 'podcast', 'local_events']);
+  const isTopicLocked = isFree && !!selectedType && FREE_TOPIC_MODULES.has(selectedType);
   const [formKey, setFormKey] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [pointsError, setPointsError] = useState<string | null>(null);
@@ -325,6 +329,24 @@ export default function ModuleModal({
             </div>
 
             <div className="flex-1 overflow-y-auto px-6 py-5">
+              {/* FREE PLAN: show lock banner for topic-configurable modules */}
+              {isTopicLocked && (
+                <div className="mb-4 flex items-start gap-3 rounded-xl border border-brand-purple/20 bg-brand-purple-light p-4">
+                  <Lock className="h-4 w-4 text-brand-purple shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-medium text-brand-purple">Topic customization is a Pro feature</p>
+                    <p className="text-xs text-brand-purple/70 mt-0.5">
+                      Free users receive default topics.{' '}
+                      <a href="/dashboard/upgrade" className="font-medium underline hover:text-brand-purple">
+                        Upgrade to Pro
+                      </a>{' '}
+                      to personalize your feed.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              <div className={isTopicLocked ? 'pointer-events-none opacity-50 select-none' : ''}>
               {selectedType === 'weather' && <WeatherForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               {selectedType === 'news' && <NewsForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               {selectedType === 'quote' && <QuoteForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
@@ -347,6 +369,7 @@ export default function ModuleModal({
               {selectedType === 'local_events' && <LocalEventsForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               {selectedType === 'week_history' && <WeekHistoryForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               {selectedType === 'challenge' && <ChallengeForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
+              </div>
             </div>
 
             <div className="border-t border-surface-border px-6 py-4">

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -159,19 +160,36 @@ export default function SettingsForm({ profile, email }: SettingsFormProps) {
         <form onSubmit={handleSaveDelivery} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="send-time">Send time</Label>
-            <input
-              id="send-time"
-              type="time"
-              value={sendTime}
-              onChange={(e) => setSendTime(e.target.value)}
-              className="flex h-9 w-32 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-              required
-            />
-            <p className="text-xs text-ink-muted">
-              Your brief will be sent at this time. Update your timezone on the dashboard.
-            </p>
+            {/* FREE PLAN: send time is locked — free users always receive at 07:00 local */}
+            <div className="relative inline-flex items-center">
+              <input
+                id="send-time"
+                type="time"
+                value={sendTime}
+                onChange={(e) => setSendTime(e.target.value)}
+                disabled={!isPro}
+                className={`flex h-9 w-32 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${!isPro ? 'opacity-50 cursor-not-allowed select-none' : ''}`}
+                required
+              />
+              {!isPro && (
+                <div className="absolute inset-0 flex items-center justify-center rounded-md bg-surface-secondary/60 pointer-events-none">
+                  <Lock className="h-3.5 w-3.5 text-brand-purple" />
+                </div>
+              )}
+            </div>
+            {!isPro ? (
+              <p className="text-xs text-ink-muted">
+                Custom send time is a{' '}
+                <a href="/dashboard/upgrade" className="font-medium text-brand-purple hover:underline">Pro feature</a>.
+                {' '}Free users receive their brief at 7:00 AM local time.
+              </p>
+            ) : (
+              <p className="text-xs text-ink-muted">
+                Your brief will be sent at this time. Update your timezone on the dashboard.
+              </p>
+            )}
           </div>
-          <Button type="submit" disabled={isSavingDelivery}>
+          <Button type="submit" disabled={isSavingDelivery || !isPro}>
             {isSavingDelivery ? 'Saving…' : 'Save schedule'}
           </Button>
         </form>
