@@ -13,17 +13,6 @@ function getAdminKeys() {
   return { url, key };
 }
 
-export const adminClient = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-  }
-);
-
 export function createAdminClient() {
   const { url, key } = getAdminKeys();
   return createClient(url, key, {
@@ -33,3 +22,13 @@ export function createAdminClient() {
     },
   });
 }
+
+// Lazy singleton — defers instantiation to first use so the module can be
+// imported without NEXT_PUBLIC_SUPABASE_URL being available at build time.
+let _adminClient: ReturnType<typeof createAdminClient> | null = null;
+export const adminClient = new Proxy({} as ReturnType<typeof createAdminClient>, {
+  get(_, prop: string | symbol) {
+    if (!_adminClient) _adminClient = createAdminClient();
+    return (_adminClient as unknown as Record<string | symbol, unknown>)[prop];
+  },
+});
