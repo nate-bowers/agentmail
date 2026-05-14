@@ -8,7 +8,11 @@ import { generateUnsubscribeToken } from '@/lib/unsubscribe';
 import type { GeneratedSection } from './generate';
 import type { Profile } from '@/types';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+let _resend: Resend | null = null;
+function getResend() {
+  if (!_resend) _resend = new Resend(process.env.RESEND_API_KEY);
+  return _resend;
+}
 
 export interface SendResult {
   success: boolean;
@@ -49,7 +53,7 @@ export async function sendDailyBrief(
       console.warn('[Send] Rendered HTML seems too short — possible render error');
     }
 
-    const { data, error } = await resend.emails.send({
+    const { data, error } = await getResend().emails.send({
       from: 'Daily Brief <brief@dailybriefmail.com>',
       to: recipientEmail,
       subject,
