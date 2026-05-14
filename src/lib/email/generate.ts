@@ -2,7 +2,11 @@ import Anthropic from '@anthropic-ai/sdk';
 import { getTheme } from '@/lib/email/themes';
 import type { ModuleSearchInstruction } from '@/types';
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+let _client: Anthropic | null = null;
+function getClient() {
+  if (!_client) _client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  return _client;
+}
 
 // ─────────────────────────────────────────────────────────────
 // JSON shape Claude must return
@@ -267,7 +271,7 @@ export async function generateDailyBrief(
 
   const maxTokens = verbosity === 'succinct' ? 6000 : verbosity === 'wordy' ? 10000 : 8000;
 
-  const response = await client.messages.create({
+  const response = await getClient().messages.create({
     model: 'claude-haiku-4-5-20251001',
     max_tokens: maxTokens,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
