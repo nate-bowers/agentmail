@@ -15,7 +15,7 @@ export interface GeneratedBrief {
 
 export type GeneratedSection =
   | { type: 'weather'; data: { locations: { name: string; tempF: number; condition: string; humidity: string; high: number; low: number }[] } }
-  | { type: 'news'; data: { articles: { headline: string; source: string; summary: string }[] } }
+  | { type: 'news'; data: { articles: { headline: string; source: string; summary: string; url?: string }[] } }
   | { type: 'quote'; data: { text: string; author: string } }
   | { type: 'markets'; data: { symbols: { symbol: string; price: string; change: string; changePercent: string; direction: 'up' | 'down' }[] } }
   | { type: 'sports'; data: { results: { team: string; opponent: string; score: string; result: 'win' | 'loss' | 'draw'; nextGame?: string }[]; standingsNote?: string } }
@@ -92,7 +92,7 @@ function extractJSON(raw: string): string {
 
 const SCHEMA_MAP: Record<string, string> = {
   weather: `weather: { "locations": [{ "name": string, "tempF": number, "condition": string, "humidity": string, "high": number, "low": number }] }`,
-  news: `news: { "articles": [{ "headline": string, "source": string, "summary": string }] }`,
+  news: `news: { "articles": [{ "headline": string, "source": string, "summary": string, "url"?: string }] }`,
   quote: `quote: { "text": string, "author": string }`,
   markets: `markets: { "symbols": [{ "symbol": string, "price": string, "change": string, "changePercent": string, "direction": "up"|"down" }] }`,
   sports: `sports: { "results": [{ "team": string, "opponent": string, "score": string, "result": "win"|"loss"|"draw", "nextGame"?: string }], "standingsNote"?: string }`,
@@ -145,6 +145,29 @@ function buildPrompt(
   const { includeCommentary } = theme.prose;
   const verbosity = (user.email_verbosity as string | null | undefined) ?? 'medium';
 
+  const isSuccinct = verbosity === 'short' || verbosity === 'succinct';
+  const isWordy = verbosity === 'long' || verbosity === 'wordy';
+
+  const verbosityDirective = isSuccinct
+    ? 'Extremely concise — one sentence per summary, no commentary.'
+    : isWordy
+      ? 'Thorough — 3-4 sentence summaries, rich context.'
+      : 'Moderate — 2 sentence summaries.';
+
+  const itemLimitsDirective = isSuccinct
+    ? `Item limits (strictly enforce): news ≤ 3, ai_tech ≤ 3, reddit ≤ 2, sports.results ≤ 2, markets.symbols ≤ 3, weather.locations ≤ 2, recipe.ingredients ≤ 6, recipe.steps ≤ 4, workout.warmup ≤ 3, workout.circuit ≤ 4, local_events.events ≤ 2, week_history.events ≤ 2.`
+    : '';
+
+  const commentaryDirective = includeCommentary
+    ? 'Add brief editorial commentary connecting data points where relevant.'
+    : '';
+
+  const date = new Date().toLocaleDateString('en-US', {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+  });
+
+  const sectionOrder = instructions.map((i) => i.moduleType).join(', ');
+
   const instructionBlock = instructions
     .map((inst, i) => {
       const prefetched = prefetchedData[inst.moduleType];
@@ -153,102 +176,73 @@ function buildPrompt(
         // For weather/markets/currency, data is already in the final shape.
         const isHistoryModule = inst.moduleType === 'on_this_day' || inst.moduleType === 'week_history';
         if (isHistoryModule) {
-          return `SECTION ${i + 1} (${inst.moduleType}):
-⚠ DO NOT use web_search. Use these pre-fetched Wikipedia events for today's date.
-Pick the best match for the user's preferences (${inst.searchInstruction}).
-Events available:
+          return `SECTION ${i + 1} (${inst.moduleType}) ⚠ STATIC — pre-fetched Wikipedia events:
+Pick the best match for: ${inst.searchInstruction}
 ${JSON.stringify(prefetched)}`;
         }
-        return `SECTION ${i + 1} (${inst.moduleType}):
-⚠ DATA PRE-FETCHED — DO NOT use web_search.
-Write this section using exactly this data (do not alter values):
+        return `SECTION ${i + 1} (${inst.moduleType}) ⚠ STATIC — pre-fetched, do not alter values:
 ${JSON.stringify(prefetched)}`;
       }
-      const noSearch = NO_SEARCH_MODULES.has(inst.moduleType);
-      const searchDirective = noSearch
-        ? '⚠ DO NOT use web_search for this section. Generate entirely from your training knowledge.'
-        : '✓ Use web_search to fetch current real-time data for this section. One search is usually enough.';
-      return `SECTION ${i + 1} (${inst.moduleType}):\n${searchDirective}\n${inst.searchInstruction}`;
+      const marker = NO_SEARCH_MODULES.has(inst.moduleType) ? '⚠ STATIC' : '✓ LIVE';
+      return `SECTION ${i + 1} (${inst.moduleType}) ${marker}:\n${inst.searchInstruction}`;
     })
     .join('\n\n');
 
-  const sectionOrder = instructions.map((i) => i.moduleType).join(', ');
-
-  const isSuccinct = verbosity === 'short' || verbosity === 'succinct';
-  const isWordy = verbosity === 'long' || verbosity === 'wordy';
-
-  const verbosityDirective = isSuccinct
-    ? 'Be extremely concise. One sentence per summary. Skip all commentary. Use the ITEM LIMITS below.'
-    : isWordy
-      ? 'Be thorough. 3-4 sentence summaries. Rich context. Full paragraph intro.'
-      : 'Be clear and moderately detailed. 2 sentence summaries. 2-3 sentence intro.';
-
-  // For succinct, cap list-based sections to keep JSON small enough to complete
-  const itemLimitsDirective = isSuccinct
-    ? `ITEM LIMITS (succinct mode — strictly enforce):
-- news: max 3 articles
-- ai_tech: max 3 stories
-- reddit: max 2 posts
-- sports.results: max 2 entries
-- markets.symbols: max 3 symbols
-- weather.locations: max 2 locations
-- recipe.ingredients: max 6 items; recipe.steps: max 4 steps
-- workout.warmup: max 3 items; workout.circuit: max 4 items
-- local_events.events: max 2 events
-- week_history.events: max 2 events`
-    : '';
-
-  const introDirective = `Set "intro" to an empty string "".`;
-
-  const commentaryDirective = includeCommentary
-    ? 'Where relevant, add brief editorial commentary connecting data points.'
-    : '';
-
-  const date = new Date().toLocaleDateString('en-US', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-  });
-
-  return `CRITICAL INSTRUCTIONS:
-You must respond with ONLY a valid JSON object.
-Do not include any text before or after the JSON.
-Do not use markdown code fences or backticks.
-Do not include comments inside the JSON.
-Every section listed below must appear in the sections array.
-If you cannot find real data for a section, generate reasonable placeholder content — never omit a section.
+  return `OUTPUT FORMAT:
+Respond with ONLY a valid JSON object — no text before or after, no markdown fences, no comments.
+Set "intro" to "". Never omit a section; use placeholder data if real data is unavailable.
 ${itemLimitsDirective}
 
-SEARCH EFFICIENCY (important — minimize API cost):
-- Sections marked ⚠ DO NOT use web_search — generate from training knowledge only.
-- Sections marked ✓ require real-time data — search, but use the minimum searches needed.
-- One search per real-time section is almost always sufficient. Do not run follow-up searches unless the first returned nothing useful.
-- Never search for content you already know (quotes, recipes, word definitions, horoscopes, workout plans, etc.).
-
-USER CONTEXT:
+USER:
 Name: ${firstName}
 Date: ${date}
-Prose style: ${verbosityDirective}${commentaryDirective ? `\n${commentaryDirective}` : ''}${itemLimitsDirective ? `\n${itemLimitsDirective}` : ''}
+Style: ${verbosityDirective}${commentaryDirective ? ` ${commentaryDirective}` : ''}
 
-INSTRUCTIONS FOR EACH SECTION:
+SEARCH RULES:
+✓ LIVE — run one web_search. Run a second only if the first returned nothing useful.
+⚠ STATIC — do not search; generate from training knowledge.
+
+SECTIONS:
 ${instructionBlock}
 
-INTRO INSTRUCTION:
-${introDirective}
-
-SECTION DATA SHAPES (only include sections for: ${sectionOrder}):
+SCHEMA (sections: ${sectionOrder}):
 ${buildSchemaDescription(instructions)}
 
-RESPOND WITH THIS EXACT JSON STRUCTURE:
+RESPOND WITH:
 {
-  "intro": "string",
+  "intro": "",
   "sections": [
     ${instructions.map((m) => `{ "type": "${m.moduleType}", "data": { ... } }`).join(',\n    ')}
   ]
 }
+Exact order: ${sectionOrder}. Missing strings → "Unavailable", missing numbers → 0.
+"direction": "up"|"down"|"flat". Sports "result": "win"|"loss"|"draw".`;
+}
 
-Sections must appear in this exact order: ${sectionOrder}.
-Use "Unavailable" for string fields you cannot fill, 0 for missing numbers.
-For "direction" fields use only "up", "down", or "flat".
-For sports "result" fields use only "win", "loss", or "draw".`;
+// ─────────────────────────────────────────────────────────────
+// HTML entity decoder — strips encoded entities Claude sometimes emits
+// ─────────────────────────────────────────────────────────────
+
+function decodeHtmlEntities(obj: unknown): unknown {
+  if (typeof obj === 'string') {
+    return obj
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/&apos;/g, "'")
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&#(\d+);/g, (_, n: string) => String.fromCharCode(+n))
+      .replace(/&#x([0-9a-fA-F]+);/g, (_, h: string) => String.fromCharCode(parseInt(h, 16)));
+  }
+  if (Array.isArray(obj)) return obj.map(decodeHtmlEntities);
+  if (obj !== null && typeof obj === 'object') {
+    return Object.fromEntries(
+      Object.entries(obj as Record<string, unknown>).map(([k, v]) => [k, decodeHtmlEntities(v)])
+    );
+  }
+  return obj;
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -302,7 +296,7 @@ export async function generateDailyBrief(
 
   let parsed: GeneratedBrief;
   try {
-    parsed = JSON.parse(cleaned) as GeneratedBrief;
+    parsed = decodeHtmlEntities(JSON.parse(cleaned)) as GeneratedBrief;
   } catch (parseErr) {
     console.error('[Generate] JSON.parse failed. Extracted slice (first 500):', cleaned.slice(0, 500));
     console.error('[Generate] JSON.parse failed. Extracted slice (last 300):', cleaned.slice(-300));

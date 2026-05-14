@@ -27,7 +27,7 @@ function isSendTime(sendTime: string, timezone: string): boolean {
   }
 }
 
-type CronUser = Pick<Profile, 'id' | 'email' | 'full_name' | 'timezone' | 'send_time' | 'email_theme' | 'email_verbosity' | 'delivery_email'>;
+type CronUser = Pick<Profile, 'id' | 'email' | 'full_name' | 'timezone' | 'send_time' | 'email_theme' | 'email_verbosity' | 'delivery_email' | 'subscription_status'>;
 
 export async function GET(request: NextRequest) {
   // Auth
@@ -51,7 +51,7 @@ export async function GET(request: NextRequest) {
   try {
     const { data: users, error: usersError } = await adminClient
       .from('profiles')
-      .select('id, email, full_name, timezone, send_time, email_theme, email_verbosity, delivery_email')
+      .select('id, email, full_name, timezone, send_time, email_theme, email_verbosity, delivery_email, subscription_status')
       .eq('is_active', true);
 
     if (usersError) throw usersError;

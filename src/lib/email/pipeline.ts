@@ -8,7 +8,7 @@ import {
   CACHEABLE_MODULES, buildCacheKey, getSearchCache, setSearchCache,
   STATIC_CACHEABLE_MODULES, buildStaticCacheKey, getStaticCache, setStaticCache,
 } from '@/lib/email/cache';
-import type { ModuleRow, ModuleSearchInstruction } from '@/types';
+import type { ModuleRow, ModuleSearchInstruction, SubscriptionStatus } from '@/types';
 import type { GeneratedSection } from '@/lib/email/generate';
 
 export interface PipelineResult {
@@ -34,6 +34,7 @@ export async function runPipeline(user: {
   email_verbosity?: string | null;
   delivery_email?: string | null;
   timezone: string;
+  subscription_status: SubscriptionStatus;
 }): Promise<PipelineResult> {
   const supabase = createAdminClient();
 

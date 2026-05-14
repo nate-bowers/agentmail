@@ -19,7 +19,7 @@ export async function POST() {
     // Fetch profile with test send tracking columns
     const { data: profile } = await supabase
       .from('profiles')
-      .select('id, email, full_name, timezone, send_time, test_sends_today, test_sends_date, email_theme')
+      .select('id, email, full_name, timezone, send_time, test_sends_today, test_sends_date, email_theme, subscription_status')
       .eq('id', user.id)
       .single();
 
@@ -66,7 +66,7 @@ export async function POST() {
     }
 
     const emailTheme = (profile as { email_theme?: string }).email_theme ?? 'light';
-    const p = profile as Pick<Profile, 'id' | 'email' | 'full_name' | 'timezone'> & { email_theme: string };
+    const p = profile as Pick<Profile, 'id' | 'email' | 'full_name' | 'timezone' | 'subscription_status'> & { email_theme: string };
     p.email_theme = emailTheme;
 
     const moduleInstructions = buildSearchInstructions(modules as ModuleRow[]);

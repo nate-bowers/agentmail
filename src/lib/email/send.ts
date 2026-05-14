@@ -17,11 +17,11 @@ export interface SendResult {
 }
 
 export async function sendDailyBrief(
-  user: Pick<Profile, 'id' | 'email' | 'full_name' | 'timezone' | 'email_theme'> & { delivery_email?: string | null },
+  user: Pick<Profile, 'id' | 'email' | 'full_name' | 'timezone' | 'email_theme' | 'subscription_status'> & { delivery_email?: string | null },
   generated: { intro?: string; sections: GeneratedSection[]; tokensUsed?: number },
 ): Promise<SendResult> {
   try {
-    const { id: userId, email, full_name, timezone, email_theme, delivery_email } = user;
+    const { id: userId, email, full_name, timezone, email_theme, delivery_email, subscription_status } = user;
     const recipientEmail = delivery_email ?? email;
     const theme = email_theme ?? 'light';
 
@@ -29,6 +29,8 @@ export async function sendDailyBrief(
     const subject = `Your Brief — ${format(zonedNow, 'EEEE, MMMM d')}`;
     const dateLabel = format(zonedNow, 'EEEE, MMMM d, yyyy');
     const unsubscribeToken = generateUnsubscribeToken(userId);
+
+    const showUpgradeCta = !subscription_status || subscription_status === 'free';
 
     const renderedHTML = await render(
       DailyBriefEmail({
@@ -38,6 +40,7 @@ export async function sendDailyBrief(
         sections: generated.sections,
         unsubscribeToken,
         theme,
+        showUpgradeCta,
       })
     );
 

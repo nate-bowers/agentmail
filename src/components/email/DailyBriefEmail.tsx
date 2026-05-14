@@ -19,7 +19,7 @@ import { getTheme, type EmailThemeColors } from '@/lib/email/themes';
 interface WeatherLocation {
   name: string; tempF: number; condition: string; humidity: string; high: number; low: number;
 }
-interface NewsArticle { headline: string; source: string; summary: string; }
+interface NewsArticle { headline: string; source: string; summary: string; url?: string; }
 interface MarketSymbol { symbol: string; price: string; change: string; changePercent: string; direction: 'up' | 'down'; }
 interface SportsResult { team: string; opponent: string; score: string; result: 'win' | 'loss' | 'draw'; nextGame?: string; }
 interface WorkoutExercise { exercise: string; sets?: string; reps?: string; duration?: string; }
@@ -40,6 +40,7 @@ export interface DailyBriefEmailProps {
   sections: SectionData[];
   unsubscribeToken: string;
   theme?: string;
+  showUpgradeCta?: boolean;
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -90,13 +91,19 @@ function NewsSection({ data, c }: { data: Record<string, unknown>; c: EmailTheme
         compact ? (
           <Section key={i} style={{ marginBottom: '8px', paddingBottom: '8px', borderBottom: `1px solid ${c.border}` }}>
             <Text style={{ ...bodyStyle(c), fontWeight: '600', margin: '0 0 1px' }}>{article.headline}</Text>
-            <Text style={{ ...mutedStyle(c), margin: '0' }}>{article.source} — {article.summary}</Text>
+            <Text style={{ ...mutedStyle(c), margin: '0' }}>
+              {article.source} — {article.summary}
+              {article.url && <> · <Link href={article.url} style={{ color: c.accent, fontSize: '12px' }}>Read more →</Link></>}
+            </Text>
           </Section>
         ) : (
           <Section key={i} style={{ marginBottom: '16px' }}>
             <Text style={{ ...bodyStyle(c), fontWeight: '600', marginBottom: '2px' }}>{article.headline}</Text>
             <Text style={{ ...mutedStyle(c), marginBottom: '4px' }}>{article.source}</Text>
-            <Text style={{ ...bodyStyle(c), color: c.muted, margin: '0' }}>{article.summary}</Text>
+            <Text style={{ ...bodyStyle(c), color: c.muted, margin: '0 0 4px' }}>{article.summary}</Text>
+            {article.url && (
+              <Link href={article.url} style={{ color: c.accent, fontSize: '13px' }}>Read more →</Link>
+            )}
           </Section>
         )
       ))}
@@ -516,7 +523,7 @@ function mutedStyle(c: EmailThemeColors): React.CSSProperties {
 }
 
 export default function DailyBriefEmail({
-  userName, date, sections, unsubscribeToken, theme,
+  userName, date, sections, unsubscribeToken, theme, showUpgradeCta,
 }: DailyBriefEmailProps) {
   const firstName = userName.split(' ')[0];
   const { colors: c } = getTheme(theme ?? 'light');
@@ -574,6 +581,32 @@ export default function DailyBriefEmail({
           ))}
 
           <Hr style={dividerStyle} />
+
+          {showUpgradeCta && (
+            <>
+              <Section style={{ textAlign: 'center', padding: '16px 0 24px' }}>
+                <Text style={{ color: c.muted, fontSize: '13px', margin: '0 0 12px' }}>
+                  You&rsquo;re on the free plan — unlock all 22 modules with Brief Pro
+                </Text>
+                <Link
+                  href="https://dailybriefmail.com/dashboard/upgrade"
+                  style={{
+                    display: 'inline-block',
+                    backgroundColor: c.accent,
+                    color: '#ffffff',
+                    borderRadius: '6px',
+                    padding: '10px 22px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    textDecoration: 'none',
+                  }}
+                >
+                  Upgrade to Brief Pro →
+                </Link>
+              </Section>
+              <Hr style={dividerStyle} />
+            </>
+          )}
 
           <Section style={{ paddingTop: '4px' }}>
             <Text style={{ ...mutedStyle(c), textAlign: 'center' }}>

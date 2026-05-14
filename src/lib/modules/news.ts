@@ -39,7 +39,7 @@ export const newsModule: ModuleDefinition<typeof configSchema> = {
     }
     instruction +=
       ` For each article return: headline, source name, publication time if available, ` +
-      `and a 2-sentence summary that captures why this story matters.`;
+      `a 2-sentence summary that captures why this story matters, and the direct URL to the article.`;
     return instruction;
   },
 };
