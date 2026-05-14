@@ -76,7 +76,7 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
       .select()
       .single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) { console.error('[modules/id]', error.message); return NextResponse.json({ error: 'Internal server error' }, { status: 500 }); }
     return NextResponse.json(data);
   } catch (err) {
     console.error('[PATCH /api/modules/[id]]', err);
@@ -107,7 +107,7 @@ export async function DELETE(_request: NextRequest, context: RouteContext) {
     }
 
     const { error } = await supabase.from('modules').delete().eq('id', id);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) { console.error('[modules/id]', error.message); return NextResponse.json({ error: 'Internal server error' }, { status: 500 }); }
     return new NextResponse(null, { status: 204 });
   } catch (err) {
     console.error('[DELETE /api/modules/[id]]', err);

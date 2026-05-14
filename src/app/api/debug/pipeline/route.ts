@@ -1,5 +1,3 @@
-// TODO: Remove this endpoint before public launch or add auth check
-
 export const dynamic = 'force-dynamic';
 
 import { NextResponse } from 'next/server';
@@ -9,6 +7,10 @@ import { generateDailyBrief } from '@/lib/email/generate';
 import type { ModuleRow } from '@/types';
 
 export async function GET() {
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  }
+
   const supabase = createAdminClient();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const output: Record<string, any> = {};

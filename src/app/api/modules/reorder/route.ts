@@ -47,7 +47,7 @@ export async function PATCH(request: NextRequest) {
         { onConflict: 'id' }
       );
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) { console.error('[modules/reorder]', error.message); return NextResponse.json({ error: 'Internal server error' }, { status: 500 }); }
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error('[PATCH /api/modules/reorder]', err);

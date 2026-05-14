@@ -48,7 +48,7 @@ export async function PATCH(request: NextRequest) {
       .update(parsed.data)
       .eq('id', user.id);
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) { console.error('[user/settings]', error.message); return NextResponse.json({ error: 'Internal server error' }, { status: 500 }); }
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error('[PATCH /api/user/settings]', err);
@@ -63,7 +63,7 @@ export async function DELETE() {
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { error } = await adminClient.auth.admin.deleteUser(user.id);
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) { console.error('[user/settings]', error.message); return NextResponse.json({ error: 'Internal server error' }, { status: 500 }); }
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error('[DELETE /api/user/settings]', err);

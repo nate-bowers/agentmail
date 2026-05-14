@@ -13,7 +13,7 @@ export async function GET() {
   const { data: profile, error } = await supabase
     .from('profiles')
     .select(`
-      id, email, full_name, subscription_status, stripe_customer_id,
+      id, email, full_name, subscription_status,
       email_theme, email_verbosity, delivery_email, send_time, timezone,
       is_active, preview_generations_today, preview_generations_date,
       test_sends_today, test_sends_date

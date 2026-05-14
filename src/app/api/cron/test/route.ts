@@ -1,11 +1,16 @@
 export const dynamic = 'force-dynamic';
 
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { runPipeline } from '@/lib/email/pipeline';
 import type { ModuleRow } from '@/types';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const authHeader = request.headers.get('authorization');
+  if (!authHeader || authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   const supabase = createAdminClient();
 
   const { data: users, error: userError } = await supabase

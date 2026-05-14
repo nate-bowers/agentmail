@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { MODULE_REGISTRY } from '@/lib/modules';
 import { getModulePoints, getPointLimit_ForUser, getTotalPoints } from '@/lib/modules/points';
+import { rateLimit } from '@/lib/security/rateLimit';
 
 const createSchema = z.object({
   module_type: z.string().min(1),
@@ -21,7 +22,7 @@ export async function GET() {
       .eq('user_id', user.id)
       .order('display_order', { ascending: true });
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) { console.error('[modules]', error.message); return NextResponse.json({ error: 'Internal server error' }, { status: 500 }); }
     return NextResponse.json(data);
   } catch (err) {
     console.error('[GET /api/modules]', err);
@@ -34,6 +35,11 @@ export async function POST(request: NextRequest) {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+    const limit = rateLimit(`create_module:${user.id}`, 20, 60 * 60 * 1000);
+    if (!limit.allowed) {
+      return NextResponse.json({ error: 'Too many requests.' }, { status: 429 });
+    }
 
     let body: unknown;
     try {
@@ -110,7 +116,7 @@ export async function POST(request: NextRequest) {
       .select()
       .single();
 
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    if (error) { console.error('[modules]', error.message); return NextResponse.json({ error: 'Internal server error' }, { status: 500 }); }
     return NextResponse.json(data, { status: 201 });
   } catch (err) {
     console.error('[POST /api/modules]', err);

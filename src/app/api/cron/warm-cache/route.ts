@@ -5,6 +5,7 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
+import { timingSafeEqual } from 'crypto';
 import { getDailyCache, setDailyCache } from '@/lib/email/dailycache';
 import { fetchHistoryEvents } from '@/lib/fetchers/history';
 import { generateDailyBrief } from '@/lib/email/generate';
@@ -13,9 +14,19 @@ import type { ModuleRow } from '@/types';
 
 const DEFAULT_AI_TECH_SUBTOPICS = ['AI Models', 'Open Source', 'Big Tech', 'Startups'];
 
+function verifyCronSecret(provided: string): boolean {
+  const expected = process.env.CRON_SECRET ?? '';
+  try {
+    return timingSafeEqual(Buffer.from(provided), Buffer.from(expected));
+  } catch {
+    return false;
+  }
+}
+
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get('authorization');
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  const token = authHeader?.replace('Bearer ', '') ?? '';
+  if (!verifyCronSecret(token)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

@@ -6,6 +6,7 @@
 // authoritative deduplication guard across instances.
 
 import { NextRequest, NextResponse } from 'next/server';
+import { timingSafeEqual } from 'crypto';
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 import { adminClient } from '@/lib/supabase/admin';
@@ -29,10 +30,20 @@ function isSendTime(sendTime: string, timezone: string): boolean {
 
 type CronUser = Pick<Profile, 'id' | 'email' | 'full_name' | 'timezone' | 'send_time' | 'email_theme' | 'email_verbosity' | 'delivery_email' | 'subscription_status'>;
 
+function verifyCronSecret(provided: string): boolean {
+  const expected = process.env.CRON_SECRET ?? '';
+  try {
+    return timingSafeEqual(Buffer.from(provided), Buffer.from(expected));
+  } catch {
+    return false;
+  }
+}
+
 export async function GET(request: NextRequest) {
   // Auth
   const authHeader = request.headers.get('authorization');
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  const token = authHeader?.replace('Bearer ', '') ?? '';
+  if (!verifyCronSecret(token)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

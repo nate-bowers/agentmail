@@ -6,13 +6,19 @@ const MAX_LENGTH = 200;
 // Patterns that look like instruction injections
 const INJECTION_PATTERNS = [
   /ignore\s+(all\s+)?previous\s+instructions?/gi,
+  /disregard\s+(all\s+)?previous\s+instructions?/gi,
+  /disregard\s+all\s+prior/gi,
   /forget\s+(all\s+)?previous\s+instructions?/gi,
   /you\s+are\s+now\s+(?:a|an)\s+/gi,
   /new\s+instructions?:/gi,
   /system\s+prompt/gi,
-  /<\s*(?:system|instruction|prompt)\s*>/gi,
+  /<\s*(?:system|instructions?|prompt)\s*>/gi,
   /\[INST\]/gi,
   /<<SYS>>/gi,
+  /^system\s*:/gim,
+  /^assistant\s*:/gim,
+  /^---+\s*$/gm,
+  /^===+\s*$/gm,
 ];
 
 /**

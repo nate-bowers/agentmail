@@ -63,8 +63,7 @@ export async function POST(request: NextRequest) {
     console.log('[ConfirmUpgrade] Successfully set', user.id, 'to', planId);
     return NextResponse.json({ success: true, plan: planId });
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
-    console.error('[ConfirmUpgrade] Error:', message);
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error('[ConfirmUpgrade] Error:', err instanceof Error ? err.message : err);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
   } catch (err) {
     console.error('[POST /api/email/render-only]', err);
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : 'Render failed' },
+      { error: 'Render failed' },
       { status: 500 }
     );
   }

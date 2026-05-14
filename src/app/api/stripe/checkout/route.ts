@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { stripe } from '@/lib/stripe/client';
 import { getPriceId } from '@/lib/stripe/plans';
+import { rateLimit } from '@/lib/security/rateLimit';
 import type { PlanId } from '@/lib/stripe/plans';
 
 export async function POST(request: NextRequest) {
@@ -16,6 +17,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     console.log('[Checkout] User:', user.id);
+
+    const limit = rateLimit(`checkout:${user.id}`, 5, 60 * 60 * 1000);
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: 'Too many checkout attempts. Try again later.' },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': new Date(limit.resetAt).toISOString(),
+          },
+        }
+      );
+    }
 
     const body = await request.json().catch(() => ({}));
     const planId: PlanId = body.planId ?? 'pro';

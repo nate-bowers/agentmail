@@ -116,7 +116,7 @@ export async function POST(request: Request) {
   } catch (err) {
     console.error('[POST /api/email/generate-preview]', err);
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : 'Generation failed' },
+      { error: 'Generation failed' },
       { status: 500 }
     );
   }
