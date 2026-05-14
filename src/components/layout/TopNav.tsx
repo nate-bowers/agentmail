@@ -15,11 +15,11 @@ import Logo from './Logo';
 // ─── Marketing variant ────────────────────────────────────────
 
 function MarketingNav({ transparent }: { transparent?: boolean }) {
-  const supabase = createClient();
   const [scrolled, setScrolled] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
+    const supabase = createClient();
     const handler = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handler, { passive: true });
     supabase.auth.getUser().then(({ data: { user } }) => {
@@ -116,7 +116,6 @@ const BASE_NAV_LINKS = [
 
 function DashboardNav({ email, isPro }: { email: string; isPro?: boolean }) {
   const pathname = usePathname();
-  const supabase = createClient();
   const isFree = !isPro;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showPostUpgradeBadge, setShowPostUpgradeBadge] = useState(false);
@@ -138,7 +137,7 @@ function DashboardNav({ email, isPro }: { email: string; isPro?: boolean }) {
   }, []);
 
   async function handleSignOut() {
-    await supabase.auth.signOut();
+    await createClient().auth.signOut();
     window.location.href = '/login';
   }
 

@@ -14,8 +14,6 @@ interface AuthFormProps {
 }
 
 export default function AuthForm({ mode, initialError }: AuthFormProps) {
-  const supabase = createClient();
-
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,6 +30,7 @@ export default function AuthForm({ mode, initialError }: AuthFormProps) {
     e.preventDefault();
     setError(null);
     setLoading(true);
+    const supabase = createClient();
 
     try {
       if (isSignup) {
@@ -64,6 +63,7 @@ export default function AuthForm({ mode, initialError }: AuthFormProps) {
   async function handleOAuth(provider: 'google' | 'azure') {
     setError(null);
     setOauthLoading(provider);
+    const supabase = createClient();
     const scopes = provider === 'azure' ? 'openid email profile User.Read' : 'openid email profile';
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
