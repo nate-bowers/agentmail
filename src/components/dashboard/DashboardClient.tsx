@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Clock, Mail, Palette, User, Zap, BookOpen, Check, ChevronsUpDown } from 'lucide-react';
+import { Clock, Lock, Mail, Palette, User, Zap, BookOpen, Check, ChevronsUpDown } from 'lucide-react';
 import { toast } from 'sonner';
 import { useDebounce } from 'use-debounce';
 import { Input } from '@/components/ui/input';
@@ -90,7 +90,7 @@ function SidebarCard({ icon, label, right, children }: {
 // Delivery card
 // ─────────────────────────────────────────────────────────────
 
-function DeliveryCard({ profile }: { profile: Profile }) {
+function DeliveryCard({ profile, isFree }: { profile: Profile; isFree: boolean }) {
   const parsed = parse24(profile.send_time);
   const [hour, setHour] = useState(parsed.hour);
   const [minute, setMinute] = useState(parsed.minute);
@@ -132,89 +132,112 @@ function DeliveryCard({ profile }: { profile: Profile }) {
     save({ timezone: newTz });
   }
 
-  return (
-    <SidebarCard icon={<Clock className="h-4 w-4 text-brand-purple" />} label="Delivery">
-      <div className="space-y-3">
-        <div>
-          <p className="text-[10px] font-medium uppercase tracking-wide text-ink-muted mb-1.5">Send time</p>
-          <div className="flex items-center gap-1.5">
-            <select
-              value={hour}
-              onChange={(e) => {
-                setHour(e.target.value);
-                handleTimeChange(e.target.value, minute, ampm);
-              }}
-              className="rounded-lg border border-surface-border bg-white px-2 py-1.5 text-sm text-ink focus:border-brand-purple focus:outline-none"
-            >
-              {HOUR_OPTIONS.map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
-              ))}
-            </select>
-            <select
-              value={minute}
-              onChange={(e) => {
-                setMinute(e.target.value);
-                handleTimeChange(hour, e.target.value, ampm);
-              }}
-              className="rounded-lg border border-surface-border bg-white px-2 py-1.5 text-sm text-ink focus:border-brand-purple focus:outline-none"
-            >
-              {MINUTE_OPTIONS.map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
-              ))}
-            </select>
-            <select
-              value={ampm}
-              onChange={(e) => {
-                const newAmpm = e.target.value as 'AM' | 'PM';
-                setAmpm(newAmpm);
-                handleTimeChange(hour, minute, newAmpm);
-              }}
-              className="rounded-lg border border-surface-border bg-white px-2 py-1.5 text-sm text-ink focus:border-brand-purple focus:outline-none"
-            >
-              {AMPM_OPTIONS.map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        <div>
-          <p className="text-[10px] font-medium uppercase tracking-wide text-ink-muted mb-1.5">Timezone</p>
-          <Popover open={tzOpen} onOpenChange={setTzOpen}>
-            <PopoverTrigger asChild>
-              <button
-                type="button"
-                className="flex w-full items-center justify-between rounded-lg border border-surface-border bg-white px-3 py-1.5 text-left text-sm text-ink hover:border-brand-purple/50 focus:outline-none"
-              >
-                <span className="truncate">{tzLabel}</span>
-                <ChevronsUpDown className="ml-2 h-3.5 w-3.5 shrink-0 text-ink-muted" />
-              </button>
-            </PopoverTrigger>
-            <PopoverContent align="start" className="w-72 p-0">
-              <Command>
-                <CommandInput placeholder="Search timezone..." />
-                <CommandList>
-                  <CommandEmpty>No timezone found.</CommandEmpty>
-                  <CommandGroup>
-                    {TIMEZONES.map((tz) => (
-                      <CommandItem
-                        key={tz.value}
-                        value={tz.label}
-                        onSelect={() => handleTzChange(tz.value)}
-                      >
-                        <Check
-                          className={`mr-2 h-3.5 w-3.5 shrink-0 ${timezone === tz.value ? 'opacity-100 text-brand-purple' : 'opacity-0'}`}
-                        />
-                        <span className="truncate">{tz.label}</span>
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
+  const inputs = (
+    <div className="space-y-3">
+      <div>
+        <p className="text-[10px] font-medium uppercase tracking-wide text-ink-muted mb-1.5">Send time</p>
+        <div className="flex items-center gap-1.5">
+          <select
+            value={hour}
+            onChange={(e) => {
+              setHour(e.target.value);
+              handleTimeChange(e.target.value, minute, ampm);
+            }}
+            className="rounded-lg border border-surface-border bg-white px-2 py-1.5 text-sm text-ink focus:border-brand-purple focus:outline-none"
+          >
+            {HOUR_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
+          </select>
+          <select
+            value={minute}
+            onChange={(e) => {
+              setMinute(e.target.value);
+              handleTimeChange(hour, e.target.value, ampm);
+            }}
+            className="rounded-lg border border-surface-border bg-white px-2 py-1.5 text-sm text-ink focus:border-brand-purple focus:outline-none"
+          >
+            {MINUTE_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
+          </select>
+          <select
+            value={ampm}
+            onChange={(e) => {
+              const newAmpm = e.target.value as 'AM' | 'PM';
+              setAmpm(newAmpm);
+              handleTimeChange(hour, minute, newAmpm);
+            }}
+            className="rounded-lg border border-surface-border bg-white px-2 py-1.5 text-sm text-ink focus:border-brand-purple focus:outline-none"
+          >
+            {AMPM_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
+          </select>
         </div>
       </div>
+
+      <div>
+        <p className="text-[10px] font-medium uppercase tracking-wide text-ink-muted mb-1.5">Timezone</p>
+        <Popover open={tzOpen} onOpenChange={setTzOpen}>
+          <PopoverTrigger asChild>
+            <button
+              type="button"
+              className="flex w-full items-center justify-between rounded-lg border border-surface-border bg-white px-3 py-1.5 text-left text-sm text-ink hover:border-brand-purple/50 focus:outline-none"
+            >
+              <span className="truncate">{tzLabel}</span>
+              <ChevronsUpDown className="ml-2 h-3.5 w-3.5 shrink-0 text-ink-muted" />
+            </button>
+          </PopoverTrigger>
+          <PopoverContent align="start" className="w-72 p-0">
+            <Command>
+              <CommandInput placeholder="Search timezone..." />
+              <CommandList>
+                <CommandEmpty>No timezone found.</CommandEmpty>
+                <CommandGroup>
+                  {TIMEZONES.map((tz) => (
+                    <CommandItem
+                      key={tz.value}
+                      value={tz.label}
+                      onSelect={() => handleTzChange(tz.value)}
+                    >
+                      <Check
+                        className={`mr-2 h-3.5 w-3.5 shrink-0 ${timezone === tz.value ? 'opacity-100 text-brand-purple' : 'opacity-0'}`}
+                      />
+                      <span className="truncate">{tz.label}</span>
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+      </div>
+    </div>
+  );
+
+  return (
+    <SidebarCard icon={<Clock className="h-4 w-4 text-brand-purple" />} label="Delivery">
+      {isFree ? (
+        <div className="relative">
+          <div className="blur-sm pointer-events-none select-none opacity-60">
+            {inputs}
+          </div>
+          <div
+            className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer"
+            onClick={() => { window.location.href = '/dashboard/upgrade'; }}
+          >
+            <div className="flex items-center gap-1.5 bg-white border border-surface-border rounded-xl px-3 py-1.5 shadow-sm hover:shadow-md transition-shadow">
+              <Lock className="h-3.5 w-3.5 text-brand-purple" />
+              <span className="text-xs font-medium text-brand-purple">
+                Upgrade to Pro to change delivery time
+              </span>
+            </div>
+          </div>
+        </div>
+      ) : (
+        inputs
+      )}
     </SidebarCard>
   );
 }
@@ -526,7 +549,7 @@ export default function DashboardClient({
 
         {/* Sidebar — 1 col */}
         <div className="mt-8 space-y-4 lg:mt-0">
-          <DeliveryCard profile={profile} />
+          <DeliveryCard profile={profile} isFree={isFree} />
           <RecipientCard profile={profile} accountEmail={user.email} />
           <EmailStyleCard profile={profile} />
 

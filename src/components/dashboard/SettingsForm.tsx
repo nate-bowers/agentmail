@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -23,7 +22,6 @@ import { getPlanFromSubscriptionStatus } from '@/lib/stripe/plans';
 interface SettingsFormProps {
   profile: {
     full_name: string | null;
-    send_time: string;
     subscription_status: string;
     is_active: boolean;
   };
@@ -35,9 +33,6 @@ export default function SettingsForm({ profile, email }: SettingsFormProps) {
 
   const [fullName, setFullName] = useState(profile.full_name ?? '');
   const [isSavingProfile, setIsSavingProfile] = useState(false);
-
-  const [sendTime, setSendTime] = useState(profile.send_time.slice(0, 5));
-  const [isSavingDelivery, setIsSavingDelivery] = useState(false);
 
   const [isActive, setIsActive] = useState(profile.is_active);
   const [isPausing, setIsPausing] = useState(false);
@@ -62,25 +57,6 @@ export default function SettingsForm({ profile, email }: SettingsFormProps) {
       toast.error(e instanceof Error ? e.message : 'Failed to save.');
     } finally {
       setIsSavingProfile(false);
-    }
-  }
-
-  async function handleSaveDelivery(e: React.FormEvent) {
-    e.preventDefault();
-    setIsSavingDelivery(true);
-    try {
-      const res = await fetch('/api/user/settings', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ send_time: sendTime }),
-      });
-      if (!res.ok) { const { error } = await res.json(); throw new Error(typeof error === 'string' ? error : 'Save failed'); }
-      toast.success('Delivery schedule saved.');
-      router.refresh();
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : 'Failed to save.');
-    } finally {
-      setIsSavingDelivery(false);
     }
   }
 
@@ -150,47 +126,6 @@ export default function SettingsForm({ profile, email }: SettingsFormProps) {
           </div>
           <Button type="submit" disabled={isSavingProfile}>
             {isSavingProfile ? 'Saving…' : 'Save profile'}
-          </Button>
-        </form>
-      </section>
-
-      {/* Delivery */}
-      <section className="rounded-xl border border-surface-border bg-white p-6 space-y-5">
-        <h2 className="text-base font-semibold text-ink">Delivery</h2>
-        <form onSubmit={handleSaveDelivery} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="send-time">Send time</Label>
-            {/* FREE PLAN: send time is locked — free users always receive at 07:00 local */}
-            <div className="relative inline-flex items-center">
-              <input
-                id="send-time"
-                type="time"
-                value={sendTime}
-                onChange={(e) => setSendTime(e.target.value)}
-                disabled={!isPro}
-                className={`flex h-9 w-32 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${!isPro ? 'opacity-50 cursor-not-allowed select-none' : ''}`}
-                required
-              />
-              {!isPro && (
-                <div className="absolute inset-0 flex items-center justify-center rounded-md bg-surface-secondary/60 pointer-events-none">
-                  <Lock className="h-3.5 w-3.5 text-brand-purple" />
-                </div>
-              )}
-            </div>
-            {!isPro ? (
-              <p className="text-xs text-ink-muted">
-                Custom send time is a{' '}
-                <a href="/dashboard/upgrade" className="font-medium text-brand-purple hover:underline">Pro feature</a>.
-                {' '}Free users receive their brief at 7:00 AM local time.
-              </p>
-            ) : (
-              <p className="text-xs text-ink-muted">
-                Your brief will be sent at this time. Update your timezone on the dashboard.
-              </p>
-            )}
-          </div>
-          <Button type="submit" disabled={isSavingDelivery || !isPro}>
-            {isSavingDelivery ? 'Saving…' : 'Save schedule'}
           </Button>
         </form>
       </section>
