@@ -142,7 +142,7 @@ function buildPrompt(
 ): string {
   const firstName = (user.full_name ?? user.email).split(' ')[0];
   const theme = getTheme(user.email_theme ?? 'light');
-  const { includeIntro, includeCommentary } = theme.prose;
+  const { includeCommentary } = theme.prose;
   const verbosity = (user.email_verbosity as string | null | undefined) ?? 'medium';
 
   const instructionBlock = instructions

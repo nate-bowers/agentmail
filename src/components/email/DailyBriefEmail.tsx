@@ -36,7 +36,7 @@ type SectionData = { type: string; data: Record<string, any> };
 export interface DailyBriefEmailProps {
   userName: string;
   date: string;
-  intro?: string;
+  intro?: string; // retained for API compatibility, no longer rendered
   sections: SectionData[];
   unsubscribeToken: string;
   theme?: string;
@@ -516,7 +516,7 @@ function mutedStyle(c: EmailThemeColors): React.CSSProperties {
 }
 
 export default function DailyBriefEmail({
-  userName, date, intro, sections, unsubscribeToken, theme,
+  userName, date, intro: _intro, sections, unsubscribeToken, theme,
 }: DailyBriefEmailProps) {
   const firstName = userName.split(' ')[0];
   const { colors: c } = getTheme(theme ?? 'light');
