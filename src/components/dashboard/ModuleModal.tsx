@@ -5,7 +5,7 @@ import {
   Cloud, Newspaper, Quote, TrendingUp,
   Trophy, BookOpen, Dumbbell, Brain, Calendar, ArrowLeftRight, Headphones, Lightbulb,
   ChefHat, BookMarked, MessageSquare, Stars, Languages, Heart, Cpu, MapPin, Landmark, Zap,
-  HelpCircle, ChevronLeft, Loader2, Lock, Sparkles, type LucideIcon,
+  HelpCircle, ChevronLeft, Loader2, Lock, Sparkles, MinusCircle, Info, type LucideIcon,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/dialog';
 import { MODULE_REGISTRY, MODULE_DISPLAY_ORDER, POPULAR_MODULE_TYPES, NEW_MODULE_TYPES } from '@/lib/modules';
 import { getModulePoints } from '@/lib/modules/points';
+import { usePlan } from '@/hooks/usePlan';
 import { WeatherForm } from '@/components/modules/forms/WeatherForm';
 import { NewsForm } from '@/components/modules/forms/NewsForm';
 import { QuoteForm } from '@/components/modules/forms/QuoteForm';
@@ -51,13 +52,15 @@ interface ModuleModalProps {
   existingModule?: Pick<ModuleRow, 'id' | 'module_type' | 'config'>;
   initialModuleType?: string | null;
   remainingPoints: number;
+  subscriptionStatus: string;
   onSuccess: () => Promise<void>;
 }
 
 export default function ModuleModal({
   open, onOpenChange, mode, existingModule, initialModuleType,
-  remainingPoints, onSuccess,
+  remainingPoints, subscriptionStatus, onSuccess,
 }: ModuleModalProps) {
+  const { isFree, isPro, isUnlimited } = usePlan(subscriptionStatus);
   const isEditing = mode === 'edit';
 
   const [step, setStep] = useState<1 | 2>(1);
@@ -127,7 +130,9 @@ export default function ModuleModal({
         const body = await res.json();
         if (body.error === 'points_exceeded') {
           setPointsError(
-            `You've used all ${body.pointsLimit ?? remainingPoints} credits. Upgrade to Pro for more.`
+            isFree
+              ? `You've used all ${body.pointsLimit ?? remainingPoints} credits. Upgrade to Pro for more.`
+              : `You've used all ${body.pointsLimit ?? remainingPoints} credits. Remove a module to add a new one.`
           );
           setIsLoading(false);
           return;
@@ -176,8 +181,8 @@ export default function ModuleModal({
             </div>
 
             <div className="flex-1 overflow-y-auto px-6 py-4">
-              {/* Full limit banner */}
-              {remainingPoints === 0 && (
+              {/* Full limit banner — free user */}
+              {remainingPoints === 0 && isFree && (
                 <div className="flex items-center gap-3 rounded-xl bg-gradient-to-r from-brand-purple to-brand-purple-dark p-4 mb-4">
                   <Sparkles className="h-5 w-5 text-white shrink-0" />
                   <div className="flex-1 min-w-0">
@@ -195,13 +200,26 @@ export default function ModuleModal({
                 </div>
               )}
 
+              {/* Full limit banner — pro user, neutral */}
+              {remainingPoints === 0 && isPro && (
+                <div className="flex items-center gap-3 rounded-xl bg-surface-secondary p-4 mb-4">
+                  <Info className="h-5 w-5 text-ink-muted shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-sm text-ink">You&apos;ve used all 12 credits.</p>
+                    <p className="text-xs text-ink-muted mt-0.5">
+                      Remove an existing module to make room for a new one.
+                    </p>
+                  </div>
+                </div>
+              )}
+
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {orderedModules.map((def) => {
                   const Icon = ICON_MAP[def.icon] ?? HelpCircle;
                   const isPopular = POPULAR_MODULE_TYPES.has(def.type);
                   const isNew = NEW_MODULE_TYPES.has(def.type);
                   const pts = getModulePoints(def.type, def.defaultConfig as Record<string, unknown>);
-                  const canAfford = pts <= remainingPoints;
+                  const canAfford = isUnlimited || pts <= remainingPoints;
 
                   return (
                     <button
@@ -219,8 +237,8 @@ export default function ModuleModal({
                           : 'border-surface-border bg-white cursor-default'
                       }`}
                     >
-                      {/* Locked overlay */}
-                      {!canAfford && (
+                      {/* Locked overlay — free user: show upgrade CTA */}
+                      {!canAfford && isFree && (
                         <div className="absolute inset-0 rounded-xl flex flex-col items-center justify-center gap-2 z-10"
                           style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(2px)' }}
                         >
@@ -237,6 +255,16 @@ export default function ModuleModal({
                           >
                             Upgrade to unlock
                           </button>
+                        </div>
+                      )}
+
+                      {/* Locked overlay — pro user at limit: neutral, no upgrade */}
+                      {!canAfford && isPro && (
+                        <div className="absolute inset-0 rounded-xl flex flex-col items-center justify-center gap-1 z-10 bg-surface-secondary/80">
+                          <MinusCircle className="h-4 w-4 text-ink-muted" />
+                          <span className="text-xs text-ink-muted text-center px-3">
+                            Remove a module to add this one
+                          </span>
                         </div>
                       )}
 

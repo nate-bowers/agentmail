@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { Clock, Mail, Palette, User, Zap, BookOpen, Check, ChevronsUpDown } from 'lucide-react';
 import { toast } from 'sonner';
@@ -11,7 +11,7 @@ import { Command, CommandInput, CommandList, CommandEmpty, CommandGroup, Command
 import ModuleList from './ModuleList';
 import OnboardingGate from '@/components/onboarding/OnboardingGate';
 import { usePoints } from '@/hooks/usePoints';
-import { getPlanFromSubscriptionStatus } from '@/lib/stripe/plans';
+import { usePlan } from '@/hooks/usePlan';
 import { TIMEZONES } from '@/lib/timezones';
 import type { ModuleRow, Profile } from '@/types';
 import React from 'react';
@@ -393,15 +393,23 @@ interface DashboardClientProps {
   profile: Profile;
   user: { id: string; email: string };
   subscriptionStatus: string;
+  initialUpgraded?: boolean;
+  sessionId?: string | null;
+  alreadyPro?: boolean;
 }
 
 // ─────────────────────────────────────────────────────────────
 // Main component
 // ─────────────────────────────────────────────────────────────
 
-export default function DashboardClient({ initialModules, profile, user, subscriptionStatus }: DashboardClientProps) {
+export default function DashboardClient({
+  initialModules, profile, user,
+  subscriptionStatus: initialSubscriptionStatus,
+  initialUpgraded, sessionId, alreadyPro,
+}: DashboardClientProps) {
   const [modules, setModules] = useState<ModuleRow[]>(initialModules);
   const [refreshing, setRefreshing] = useState(false);
+  const [subscriptionStatus, setSubscriptionStatus] = useState(initialSubscriptionStatus);
 
   const refreshModules = useCallback(async () => {
     setRefreshing(true);
@@ -414,7 +422,73 @@ export default function DashboardClient({ initialModules, profile, user, subscri
     }
   }, []);
 
-  const isPro = getPlanFromSubscriptionStatus(subscriptionStatus) !== 'free';
+  // Show "already on Pro" toast when redirected from upgrade page
+  useEffect(() => {
+    if (!alreadyPro) return;
+    toast("You're already on Brief Pro.");
+    window.history.replaceState({}, '', '/dashboard');
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Poll for subscription status after Stripe checkout redirect
+  useEffect(() => {
+    if (!initialUpgraded) return;
+    let cancelled = false;
+
+    async function handleUpgradeReturn() {
+      // Try confirm-upgrade first for immediate update
+      if (sessionId) {
+        try {
+          await fetch('/api/stripe/confirm-upgrade', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sessionId }),
+          });
+        } catch (err) {
+          console.error('[Dashboard] Confirm upgrade failed:', err);
+        }
+      }
+
+      // Poll until status is pro/unlimited
+      for (let i = 0; i < 12; i++) {
+        await new Promise(resolve => setTimeout(resolve, 2500));
+        if (cancelled) return;
+        try {
+          const res = await fetch('/api/user/profile', {
+            cache: 'no-store',
+            headers: { 'Cache-Control': 'no-cache' },
+          });
+          if (!res.ok) continue;
+          const data = await res.json();
+          console.log(`[Poll] Attempt ${i + 1}: status = ${data.subscription_status}`);
+          if (data.subscription_status === 'pro' || data.subscription_status === 'unlimited') {
+            if (cancelled) return;
+            setSubscriptionStatus(data.subscription_status);
+            toast.success('Welcome to Brief Pro!', {
+              description: 'Your credits have been unlocked. You can now add up to 12 modules.',
+              duration: 6000,
+            });
+            window.history.replaceState({}, '', '/dashboard');
+            return;
+          }
+        } catch (err) {
+          console.error(`[Poll] Attempt ${i + 1} failed:`, err);
+        }
+      }
+
+      if (!cancelled) {
+        window.history.replaceState({}, '', '/dashboard');
+        toast('Almost there', {
+          description: 'Your upgrade is processing. Refresh the page in a moment.',
+          duration: 10000,
+        });
+      }
+    }
+
+    handleUpgradeReturn();
+    return () => { cancelled = true; };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const { isFree, isPro, isUnlimited } = usePlan(subscriptionStatus);
   const { used: pointsUsed, limit: pointsLimit, percentUsed } = usePoints(modules, subscriptionStatus);
   const atLimit = pointsUsed >= pointsLimit;
 
@@ -449,13 +523,19 @@ export default function DashboardClient({ initialModules, profile, user, subscri
           <SidebarCard icon={<User className="h-4 w-4 text-brand-purple" />} label="Account">
             <p className="text-sm text-ink-muted truncate">{user.email}</p>
             <div className="mt-2 flex items-center gap-2">
-              {isPro ? (
+              {isFree && (
+                <span className="inline-flex items-center rounded-full border border-surface-border bg-surface-secondary px-2.5 py-0.5 text-xs font-medium text-ink-muted">
+                  Free
+                </span>
+              )}
+              {isPro && !isUnlimited && (
                 <span className="inline-flex items-center rounded-full bg-brand-purple px-2.5 py-0.5 text-xs font-medium text-white">
                   Pro
                 </span>
-              ) : (
-                <span className="inline-flex items-center rounded-full border border-surface-border bg-surface-secondary px-2.5 py-0.5 text-xs font-medium text-ink-muted">
-                  Free
+              )}
+              {isUnlimited && (
+                <span className="inline-flex items-center rounded-full bg-gradient-to-r from-brand-purple to-indigo-500 px-2.5 py-0.5 text-xs font-medium text-white">
+                  Unlimited
                 </span>
               )}
             </div>
@@ -473,7 +553,7 @@ export default function DashboardClient({ initialModules, profile, user, subscri
               </div>
             </div>
 
-            {!isPro && (
+            {isFree && (
               <button
                 onClick={() => { window.location.href = '/dashboard/upgrade'; }}
                 className="mt-3 text-sm text-brand-purple hover:text-brand-purple-dark"
@@ -484,7 +564,7 @@ export default function DashboardClient({ initialModules, profile, user, subscri
             {isPro && (
               <Link
                 href="/dashboard/settings"
-                className="mt-3 inline-block text-sm text-brand-purple hover:text-brand-purple-dark"
+                className="mt-3 inline-block text-sm text-ink-muted hover:text-ink"
               >
                 Manage subscription
               </Link>

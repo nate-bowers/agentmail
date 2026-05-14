@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
       mode: 'subscription',
       payment_method_types: ['card'],
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${siteUrl}/dashboard?upgraded=true`,
+      success_url: `${siteUrl}/dashboard?upgraded=true&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/dashboard/upgrade`,
       metadata: { user_id: user.id, plan_id: planId },
     };

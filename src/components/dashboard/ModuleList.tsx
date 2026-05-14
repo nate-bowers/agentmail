@@ -6,6 +6,7 @@ import {
   Cloud, Newspaper, Quote, TrendingUp,
   Trophy, BookOpen, Dumbbell, Brain, Calendar, ArrowLeftRight, Headphones, Lightbulb,
   ChefHat, BookMarked, MessageSquare, Stars, Languages, Heart, Cpu, MapPin, Landmark, Zap,
+  MinusCircle, LayoutGrid,
   type LucideIcon,
 } from 'lucide-react';
 import {
@@ -30,6 +31,7 @@ import { Toggle } from '@/components/ui/toggle';
 import { MODULE_REGISTRY } from '@/lib/modules';
 import { getModulePoints } from '@/lib/modules/points';
 import { usePoints } from '@/hooks/usePoints';
+import { usePlan } from '@/hooks/usePlan';
 import { getModuleRecommendations } from '@/lib/dashboard/recommendations';
 import type { ModuleRow } from '@/types';
 
@@ -227,6 +229,7 @@ export default function ModuleList({
   const [limitDialogOpen, setLimitDialogOpen] = useState(false);
 
   const { used: pointsUsed, limit: pointsLimit, remaining, isAtLimit } = usePoints(modules, subscriptionStatus);
+  const { isFree, isPro, isUnlimited } = usePlan(subscriptionStatus);
   const recommendations = getModuleRecommendations(modules, remaining);
   const showSuggestions = !isAtLimit && modules.length > 0;
 
@@ -237,7 +240,7 @@ export default function ModuleList({
   );
 
   function openAdd() {
-    if (isAtLimit) { setLimitDialogOpen(true); return; }
+    if (isAtLimit && !isUnlimited) { setLimitDialogOpen(true); return; }
     setExistingModule(null);
     setModalInitialType(null);
     setModalMode('add');
@@ -252,7 +255,7 @@ export default function ModuleList({
   }
 
   async function handleQuickAdd(moduleType: string) {
-    if (isAtLimit) { setLimitDialogOpen(true); return; }
+    if (isAtLimit && !isUnlimited) { setLimitDialogOpen(true); return; }
     const def = MODULE_REGISTRY[moduleType];
     if (!def) return;
 
@@ -267,10 +270,16 @@ export default function ModuleList({
         if (res.status === 403) {
           const body = await res.json();
           if (body.error === 'points_exceeded') {
-            toast('No credits remaining', {
-              description: `You've used all ${body.pointsLimit ?? 3} credits.`,
-              action: { label: 'Upgrade', onClick: () => { window.location.href = '/dashboard/upgrade'; } },
-            });
+            if (isFree) {
+              toast('No credits remaining', {
+                description: `You've used all ${body.pointsLimit ?? 3} credits.`,
+                action: { label: 'Upgrade', onClick: () => { window.location.href = '/dashboard/upgrade'; } },
+              });
+            } else {
+              toast('No credits remaining', {
+                description: 'Remove a module to free up credits.',
+              });
+            }
             return;
           }
         }
@@ -365,14 +374,16 @@ export default function ModuleList({
           <h2 className="text-lg font-semibold text-ink">Your Modules</h2>
           <Button
             size="sm"
-            variant={isAtLimit ? 'outline' : 'default'}
+            variant={isAtLimit && !isUnlimited ? 'outline' : 'default'}
             onClick={openAdd}
             className="gap-1.5 min-h-[44px] sm:min-h-0"
             disabled={refreshing}
           >
-            {isAtLimit
+            {isAtLimit && isFree
               ? <><Lock className="h-3.5 w-3.5" /><span className="hidden sm:inline"> Add module</span></>
-              : <><Plus className="h-3.5 w-3.5" /><span className="hidden sm:inline"> Add module</span></>
+              : isAtLimit && isPro
+                ? <><LayoutGrid className="h-3.5 w-3.5" /><span className="hidden sm:inline"> Add module</span></>
+                : <><Plus className="h-3.5 w-3.5" /><span className="hidden sm:inline"> Add module</span></>
             }
           </Button>
         </div>
@@ -404,10 +415,16 @@ export default function ModuleList({
                     disabled={isLoading}
                     onClick={() => {
                       if (!canAfford) {
-                        toast('Not enough credits', {
-                          description: `This module costs ${pts} credit${pts !== 1 ? 's' : ''} but you only have ${remaining} left.`,
-                          action: { label: 'Upgrade', onClick: () => { window.location.href = '/dashboard/upgrade'; } },
-                        });
+                        if (isFree) {
+                          toast('Not enough credits', {
+                            description: `This module costs ${pts} credit${pts !== 1 ? 's' : ''} but you only have ${remaining} left.`,
+                            action: { label: 'Upgrade', onClick: () => { window.location.href = '/dashboard/upgrade'; } },
+                          });
+                        } else {
+                          toast('Not enough credits', {
+                            description: 'Remove a module to free up credits.',
+                          });
+                        }
                         return;
                       }
                       handleQuickAdd(type);
@@ -422,7 +439,9 @@ export default function ModuleList({
                       ? <Loader2 className="h-4 w-4 shrink-0 text-brand-purple animate-spin" />
                       : canAfford
                         ? <Icon className="h-4 w-4 shrink-0 text-brand-purple" />
-                        : <Lock className="h-4 w-4 shrink-0 text-ink-faint" />
+                        : isFree
+                          ? <Lock className="h-4 w-4 shrink-0 text-ink-faint" />
+                          : <MinusCircle className="h-4 w-4 shrink-0 text-ink-faint" />
                     }
                     <div className="min-w-0">
                       <p className="text-sm font-medium text-ink leading-none">{def.label}</p>
@@ -476,13 +495,21 @@ export default function ModuleList({
 
         {/* Full-width add button */}
         {modules.length > 0 && (
-          isAtLimit ? (
+          isAtLimit && isFree ? (
             <button
               type="button"
               onClick={() => { window.location.href = '/dashboard/upgrade'; }}
               className="flex h-14 w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-red-200 text-brand-purple transition-all hover:border-brand-purple hover:bg-brand-purple-light"
             >
-              <span className="text-sm font-medium">Upgrade to add more modules →</span>
+              <span className="text-sm font-medium">Upgrade to Pro to add more modules →</span>
+            </button>
+          ) : isAtLimit && isPro ? (
+            <button
+              type="button"
+              onClick={() => toast('Remove a module to free up credits.')}
+              className="flex h-14 w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-surface-border text-ink-muted"
+            >
+              <span className="text-sm font-medium">12-credit limit reached — remove a module to add another</span>
             </button>
           ) : (
             <button
@@ -508,27 +535,50 @@ export default function ModuleList({
         existingModule={existingModule ?? undefined}
         initialModuleType={modalInitialType}
         remainingPoints={remaining}
+        subscriptionStatus={subscriptionStatus}
         onSuccess={onRefresh}
       />
 
-      {/* Credit limit dialog */}
-      <AlertDialog open={limitDialogOpen} onOpenChange={setLimitDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>You&rsquo;ve used all your credits</AlertDialogTitle>
-            <AlertDialogDescription>
-              You&rsquo;re using {pointsUsed} of {pointsLimit} credits. Upgrade to Brief Pro for 12
-              credits and access to all modules.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Maybe later</AlertDialogCancel>
-            <AlertDialogAction onClick={() => { window.location.href = '/dashboard/upgrade'; }}>
-              Upgrade to Pro
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {/* Credit limit dialog — free user */}
+      {isFree && (
+        <AlertDialog open={limitDialogOpen} onOpenChange={setLimitDialogOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>You&rsquo;ve used all your credits</AlertDialogTitle>
+              <AlertDialogDescription>
+                You&rsquo;re using {pointsUsed} of {pointsLimit} credits. Upgrade to Brief Pro for 12
+                credits and access to all modules.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Maybe later</AlertDialogCancel>
+              <AlertDialogAction onClick={() => { window.location.href = '/dashboard/upgrade'; }}>
+                Upgrade to Pro
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
+
+      {/* Credit limit dialog — pro user */}
+      {isPro && (
+        <AlertDialog open={limitDialogOpen} onOpenChange={setLimitDialogOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>12-credit limit reached</AlertDialogTitle>
+              <AlertDialogDescription>
+                You have used all 12 module credits. To add a new module, remove one of your
+                existing modules first.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogAction onClick={() => setLimitDialogOpen(false)}>
+                Got it
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
 
       {/* Delete confirmation */}
       <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>

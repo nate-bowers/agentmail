@@ -3,8 +3,8 @@
 import { Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { getModulePoints, getPointLimit_ForUser } from '@/lib/modules/points';
-import { getPlanFromSubscriptionStatus } from '@/lib/stripe/plans';
+import { getModulePoints } from '@/lib/modules/points';
+import { usePlan } from '@/hooks/usePlan';
 
 interface PointsBarProps {
   modules: { module_type: string; config?: Record<string, unknown> }[];
@@ -13,15 +13,25 @@ interface PointsBarProps {
 }
 
 export default function PointsBar({ modules, subscriptionStatus, refreshing }: PointsBarProps) {
+  const { isFree, isPro, isUnlimited, pointLimit } = usePlan(subscriptionStatus);
+
   const totalPoints = modules.reduce(
     (sum, m) => sum + getModulePoints(m.module_type, m.config ?? {}),
     0
   );
-  const limit = getPointLimit_ForUser(subscriptionStatus);
+
+  // Unlimited: no bar
+  if (isUnlimited) {
+    return (
+      <div className="text-sm text-ink-muted">
+        {totalPoints} credits used (unlimited)
+      </div>
+    );
+  }
+
+  const limit = pointLimit;
   const pct = Math.min((totalPoints / limit) * 100, 100);
   const atLimit = totalPoints >= limit;
-  const isPro = getPlanFromSubscriptionStatus(subscriptionStatus) !== 'free';
-  const showNudge = !isPro && totalPoints >= 2;
 
   let statusLabel = 'Plenty of room';
   let statusClass = 'text-green-600';
@@ -54,7 +64,8 @@ export default function PointsBar({ modules, subscriptionStatus, refreshing }: P
         </div>
       </div>
 
-      {showNudge && (
+      {/* Free user upgrade nudge */}
+      {isFree && totalPoints >= 2 && (
         <div className="flex items-center gap-3 rounded-xl border border-brand-purple/20 bg-brand-purple-light p-4">
           <Sparkles className="h-4 w-4 shrink-0 text-brand-purple" />
           <p className="flex-1 text-sm text-ink">
@@ -65,6 +76,13 @@ export default function PointsBar({ modules, subscriptionStatus, refreshing }: P
           <Button size="sm" onClick={() => { window.location.href = '/dashboard/upgrade'; }}>
             Upgrade →
           </Button>
+        </div>
+      )}
+
+      {/* Pro user at limit — neutral, no upgrade CTA */}
+      {isPro && atLimit && (
+        <div className="rounded-xl bg-surface-secondary p-3 text-center text-sm text-ink-muted">
+          You&apos;ve reached your 12-credit limit. Remove a module to add a different one.
         </div>
       )}
     </div>

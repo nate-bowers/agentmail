@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, CheckCircle2, Lock, Sparkles } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Upgrade to Brief Pro',
   description: 'Unlock 12 module credits and all features with Brief Pro for $9/month.',
@@ -46,6 +48,7 @@ export default async function UpgradePage() {
   ]);
 
   const isActive = getPlanFromSubscriptionStatus(profile?.subscription_status ?? null) !== 'free';
+  if (isActive) redirect('/dashboard?already_pro=true');
   const pointsUsed = getTotalPoints(
     (modules ?? []) as { module_type: string; config: Record<string, unknown> }[]
   );
