@@ -516,7 +516,7 @@ function mutedStyle(c: EmailThemeColors): React.CSSProperties {
 }
 
 export default function DailyBriefEmail({
-  userName, date, intro: _intro, sections, unsubscribeToken, theme,
+  userName, date, sections, unsubscribeToken, theme,
 }: DailyBriefEmailProps) {
   const firstName = userName.split(' ')[0];
   const { colors: c } = getTheme(theme ?? 'light');
