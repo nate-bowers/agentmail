@@ -1,0 +1,3649 @@
+[
+  {
+    "word": "saudade",
+    "partOfSpeech": "noun",
+    "definition": "A deep, melancholic longing for someone or something absent that one loves.",
+    "etymology": "From Portuguese, derived from Latin solitas meaning 'solitude'; documented in Portuguese literature since the 13th century.",
+    "exampleSentence": "Listening to fado music filled her with saudade for the Lisbon summers of her childhood."
+  },
+  {
+    "word": "hiraeth",
+    "partOfSpeech": "noun",
+    "definition": "A homesickness for a home you cannot return to, or one that perhaps never was.",
+    "etymology": "From Welsh, combining 'hir' (long) and an older root meaning 'grief' or 'longing'; in literary use since at least the 18th century.",
+    "exampleSentence": "Walking the hills above Snowdonia, he felt a sudden hiraeth, though he had never lived there."
+  },
+  {
+    "word": "tsundoku",
+    "partOfSpeech": "noun",
+    "definition": "The practice of acquiring books and letting them pile up unread.",
+    "etymology": "From Japanese, combining 'tsunde-oku' (to pile up) and 'doku' (to read); first attested in 1879.",
+    "exampleSentence": "His tsundoku had reached the point where the stack by his bed doubled as a nightstand."
+  },
+  {
+    "word": "wabi-sabi",
+    "partOfSpeech": "noun",
+    "definition": "A worldview centered on the acceptance of transience and imperfection in beauty.",
+    "etymology": "From Japanese, combining 'wabi' (rustic simplicity) and 'sabi' (the patina of age); rooted in 15th-century tea ceremony aesthetics.",
+    "exampleSentence": "The cracked teacup, mended with gold, embodied a quiet wabi-sabi she had come to prefer over flawless porcelain."
+  },
+  {
+    "word": "sprezzatura",
+    "partOfSpeech": "noun",
+    "definition": "Studied carelessness; the art of making difficult things look effortless.",
+    "etymology": "Coined by Italian courtier Baldassare Castiglione in 'Il Cortegiano' (1528).",
+    "exampleSentence": "He tied his scarf with the sprezzatura of someone who had practiced the gesture for years."
+  },
+  {
+    "word": "meraki",
+    "partOfSpeech": "noun",
+    "definition": "The soul, creativity, or love put into something; the essence of yourself left in your work.",
+    "etymology": "From modern Greek, from Turkish 'merak' meaning 'labor of love'.",
+    "exampleSentence": "You could taste the meraki in every dish she sent out of the kitchen."
+  },
+  {
+    "word": "fernweh",
+    "partOfSpeech": "noun",
+    "definition": "An aching longing for far-off places one has never been.",
+    "etymology": "From German, combining 'fern' (far) and 'weh' (pain); coined in the 19th century as an inversion of Heimweh (homesickness).",
+    "exampleSentence": "Every globe in the bookshop triggered another wave of fernweh."
+  },
+  {
+    "word": "hygge",
+    "partOfSpeech": "noun",
+    "definition": "A feeling of cozy contentment from simple pleasures, usually shared with others.",
+    "etymology": "From Danish, borrowed from Norwegian 'hugga' meaning 'to comfort'; in modern use since the early 19th century.",
+    "exampleSentence": "Candles, wool socks, and a slow stew bubbling on the stove: the apartment was pure hygge."
+  },
+  {
+    "word": "koselig",
+    "partOfSpeech": "adjective",
+    "definition": "Warmly intimate and snug, often describing a place or a shared moment.",
+    "etymology": "From Norwegian, related to the verb 'kose' meaning 'to enjoy' or 'cuddle'.",
+    "exampleSentence": "The cabin was small and badly lit, but the company made it utterly koselig."
+  },
+  {
+    "word": "kalsarikannit",
+    "partOfSpeech": "noun",
+    "definition": "The Finnish practice of drinking alone at home in your underwear with no intention of going out.",
+    "etymology": "From Finnish, combining 'kalsari' (underpants) and 'kannit' (drunkenness); officially recognized by the Finnish Foreign Ministry in 2017.",
+    "exampleSentence": "After a brutal week, he declared Friday a strict kalsarikannit evening."
+  },
+  {
+    "word": "gigil",
+    "partOfSpeech": "noun",
+    "definition": "The overwhelming urge to squeeze or pinch something unbearably cute.",
+    "etymology": "From Tagalog, used in everyday Filipino speech.",
+    "exampleSentence": "The puppy's wrinkled face gave her such gigil that she had to look away."
+  },
+  {
+    "word": "ikigai",
+    "partOfSpeech": "noun",
+    "definition": "One's reason for being; the convergence of what you love, are good at, can be paid for, and the world needs.",
+    "etymology": "From Japanese, combining 'iki' (life) and 'gai' (worth); in use since the Heian period.",
+    "exampleSentence": "After leaving the law firm, he spent two years searching for his ikigai."
+  },
+  {
+    "word": "schadenfreude",
+    "partOfSpeech": "noun",
+    "definition": "Pleasure derived from another person's misfortune.",
+    "etymology": "From German, combining 'Schaden' (harm) and 'Freude' (joy); entered English in the mid-19th century.",
+    "exampleSentence": "She tried to hide her schadenfreude when her rival's souffle collapsed on live television."
+  },
+  {
+    "word": "weltschmerz",
+    "partOfSpeech": "noun",
+    "definition": "A weariness or sadness from the gap between the world as it is and as one wishes it to be.",
+    "etymology": "Coined in German by Jean Paul Richter in 1827.",
+    "exampleSentence": "The news cycle left him with a low-grade weltschmerz he could not quite shake."
+  },
+  {
+    "word": "kummerspeck",
+    "partOfSpeech": "noun",
+    "definition": "Excess weight gained from emotional overeating; literally, 'grief bacon'.",
+    "etymology": "From German, combining 'Kummer' (grief) and 'Speck' (bacon, fat).",
+    "exampleSentence": "After the breakup he wore a fresh layer of kummerspeck and a sheepish grin."
+  },
+  {
+    "word": "treppenwitz",
+    "partOfSpeech": "noun",
+    "definition": "The perfect retort that occurs to you only after the moment has passed.",
+    "etymology": "From German, literally 'staircase wit', mirroring French 'esprit de l'escalier' coined by Diderot in 1773.",
+    "exampleSentence": "Halfway home he was struck by the most exquisite treppenwitz; it would have devastated her."
+  },
+  {
+    "word": "mamihlapinatapai",
+    "partOfSpeech": "noun",
+    "definition": "A wordless, meaningful look shared by two people who both wish to initiate something but neither will.",
+    "etymology": "From Yaghan, an indigenous language of Tierra del Fuego; cited as one of the most succinct words in the world.",
+    "exampleSentence": "Across the dinner table they shared a long mamihlapinatapai about who would mention the engagement."
+  },
+  {
+    "word": "iktsuarpok",
+    "partOfSpeech": "noun",
+    "definition": "The restless anticipation that makes you keep checking outside to see if someone is coming.",
+    "etymology": "From Inuktitut, used among Inuit speakers in the Arctic.",
+    "exampleSentence": "He paced the porch with classic iktsuarpok as the headlights of every passing car raised his hopes."
+  },
+  {
+    "word": "komorebi",
+    "partOfSpeech": "noun",
+    "definition": "Sunlight filtering through the leaves of trees.",
+    "etymology": "From Japanese, combining 'ko' (tree), 'moreru' (to leak through), and 'bi' (sun or light).",
+    "exampleSentence": "She paused on the trail just to photograph the komorebi striping the path."
+  },
+  {
+    "word": "yugen",
+    "partOfSpeech": "noun",
+    "definition": "A profound, mysterious sense of the beauty of the universe and the sad beauty of human suffering.",
+    "etymology": "From Japanese, central to medieval Noh theater aesthetics; from Middle Chinese terms for 'dim' and 'deep'.",
+    "exampleSentence": "Standing alone at the edge of the cliff, she felt the yugen of the open Pacific."
+  },
+  {
+    "word": "mono no aware",
+    "partOfSpeech": "phrase",
+    "definition": "A gentle sadness at the transience of things, and a tender appreciation of their passing.",
+    "etymology": "From Japanese; coined by 18th-century scholar Motoori Norinaga to describe the emotional tone of 'The Tale of Genji'.",
+    "exampleSentence": "Cherry blossoms in their last days always stirred a quiet mono no aware in him."
+  },
+  {
+    "word": "jugaad",
+    "partOfSpeech": "noun",
+    "definition": "A flexible, frugal, often improvised solution to a problem.",
+    "etymology": "From Hindi; widely adopted in business and design literature since the 2000s.",
+    "exampleSentence": "His jugaad fix for the broken washer involved a chopstick, two zip ties, and ten years of confidence."
+  },
+  {
+    "word": "ubuntu",
+    "partOfSpeech": "noun",
+    "definition": "A humanist philosophy that one's humanity is bound up in the humanity of others.",
+    "etymology": "From Nguni Bantu languages of southern Africa; popularized in English by Desmond Tutu in the 1990s.",
+    "exampleSentence": "The village's response to the flood was a textbook expression of ubuntu."
+  },
+  {
+    "word": "fika",
+    "partOfSpeech": "noun",
+    "definition": "A leisurely coffee break, often with pastries, treated as a social institution.",
+    "etymology": "From Swedish; a 19th-century back-slang of 'kaffi' (coffee).",
+    "exampleSentence": "Meetings paused at three for an obligatory fika, and the office hummed back to life afterward."
+  },
+  {
+    "word": "lagom",
+    "partOfSpeech": "adjective",
+    "definition": "Not too much, not too little; just the right amount.",
+    "etymology": "From Swedish; folk etymology ties it to 'laget om' (around the team), referring to Viking-era shared drinking horns.",
+    "exampleSentence": "Her wardrobe was deliberately lagom: enough to be elegant, never enough to feel cluttered."
+  },
+  {
+    "word": "friluftsliv",
+    "partOfSpeech": "noun",
+    "definition": "A life lived in close communion with nature, as a guiding philosophy.",
+    "etymology": "From Norwegian, popularized in 1859 by playwright Henrik Ibsen.",
+    "exampleSentence": "Weekends meant friluftsliv: long hikes, cold lakes, and food cooked over a small fire."
+  },
+  {
+    "word": "jeitinho",
+    "partOfSpeech": "noun",
+    "definition": "A clever, often improvisational workaround used to bend rules without breaking them.",
+    "etymology": "From Brazilian Portuguese, diminutive of 'jeito' (way, manner); a recognized concept in Brazilian sociology since the mid-20th century.",
+    "exampleSentence": "The clerk's jeitinho got our paperwork stamped two weeks early."
+  },
+  {
+    "word": "apricity",
+    "partOfSpeech": "noun",
+    "definition": "The warmth of the sun in winter.",
+    "etymology": "From Latin 'apricus' (sunny); coined in Henry Cockeram's English dictionary in 1623.",
+    "exampleSentence": "The cat had chosen the one square of apricity on the kitchen floor."
+  },
+  {
+    "word": "petrichor",
+    "partOfSpeech": "noun",
+    "definition": "The earthy scent produced when rain falls on dry soil.",
+    "etymology": "Coined in 1964 by Australian scientists Bear and Thomas, from Greek 'petra' (stone) and 'ichor' (the fluid of the gods).",
+    "exampleSentence": "He opened the window to catch the petrichor before the storm arrived in full."
+  },
+  {
+    "word": "lethologica",
+    "partOfSpeech": "noun",
+    "definition": "The temporary inability to recall a word or name.",
+    "etymology": "Coined by Carl Jung in the early 20th century, from Greek 'lethe' (forgetfulness) and 'logos' (word).",
+    "exampleSentence": "He suffered a sudden bout of lethologica at the podium and called his old mentor 'that man'."
+  },
+  {
+    "word": "dysania",
+    "partOfSpeech": "noun",
+    "definition": "Extreme difficulty getting out of bed in the morning.",
+    "etymology": "From Greek 'dys-' (bad) and 'anistanai' (to rise); a clinical term used since the early 20th century.",
+    "exampleSentence": "Mondays brought a dysania so heavy she negotiated with her duvet aloud."
+  },
+  {
+    "word": "susurrus",
+    "partOfSpeech": "noun",
+    "definition": "A soft, whispering or rustling sound.",
+    "etymology": "From Latin 'susurrus' (a whisper); in literary English since the 19th century.",
+    "exampleSentence": "A susurrus of wind through dry grass was the only sound on the hillside."
+  },
+  {
+    "word": "gloaming",
+    "partOfSpeech": "noun",
+    "definition": "The twilight; the half-light between day and night.",
+    "etymology": "From Old English 'glomung', derived from 'glom' (twilight); revived by Scottish poetry in the 18th century.",
+    "exampleSentence": "They walked back along the river in the gloaming, single file and silent."
+  },
+  {
+    "word": "vellichor",
+    "partOfSpeech": "noun",
+    "definition": "The wistful atmosphere of old bookshops.",
+    "etymology": "Coined by John Koenig in 'The Dictionary of Obscure Sorrows' (2012), from 'vellum' and 'petrichor'.",
+    "exampleSentence": "She pushed open the door and was met with the unmistakable vellichor of a thousand secondhand novels."
+  },
+  {
+    "word": "mellifluous",
+    "partOfSpeech": "adjective",
+    "definition": "Sweet or musical; pleasant to hear.",
+    "etymology": "From Late Latin 'mellifluus', from 'mel' (honey) and 'fluere' (to flow); in English since the 15th century.",
+    "exampleSentence": "The host's mellifluous voice could have sold sand to a desert."
+  },
+  {
+    "word": "halcyon",
+    "partOfSpeech": "adjective",
+    "definition": "Denoting a period of time in the past that was idyllically happy and peaceful.",
+    "etymology": "From Greek 'alkyon' (kingfisher), referring to a mythical bird said to calm the seas in winter.",
+    "exampleSentence": "She often spoke of the halcyon summers spent at her grandmother's farmhouse."
+  },
+  {
+    "word": "eldritch",
+    "partOfSpeech": "adjective",
+    "definition": "Strange and otherworldly in a sinister way.",
+    "etymology": "From Scots, possibly from Middle English 'elfriche' (fairy realm); in literary use since the 16th century.",
+    "exampleSentence": "An eldritch wind moved through the pines, though the air below was perfectly still."
+  },
+  {
+    "word": "dapple",
+    "partOfSpeech": "verb",
+    "definition": "To mark or become marked with small patches of contrasting color or light.",
+    "etymology": "From Middle English, of obscure origin, possibly Old Norse 'depill' (a spot).",
+    "exampleSentence": "Late sun dappled the courtyard through the lemon tree."
+  },
+  {
+    "word": "fulminate",
+    "partOfSpeech": "verb",
+    "definition": "To express vehement protest or criticism.",
+    "etymology": "From Latin 'fulminare' (to strike with lightning), from 'fulmen' (lightning bolt).",
+    "exampleSentence": "He fulminated against the new parking rules for a full twenty minutes."
+  },
+  {
+    "word": "defenestrate",
+    "partOfSpeech": "verb",
+    "definition": "To throw someone or something out of a window.",
+    "etymology": "From Latin 'de-' (out of) and 'fenestra' (window); coined to describe the 1618 Defenestration of Prague.",
+    "exampleSentence": "In a moment of frustration he nearly defenestrated his laptop."
+  },
+  {
+    "word": "supererogatory",
+    "partOfSpeech": "adjective",
+    "definition": "Going beyond what is required or expected.",
+    "etymology": "From Late Latin 'supererogare' (to pay out beyond), via medieval theology.",
+    "exampleSentence": "Her supererogatory kindness toward strangers became a quiet legend in the office."
+  },
+  {
+    "word": "sonder",
+    "partOfSpeech": "noun",
+    "definition": "The realization that each random passerby is living a life as vivid and complex as your own.",
+    "etymology": "Coined by John Koenig in 'The Dictionary of Obscure Sorrows' in 2012.",
+    "exampleSentence": "Stuck in traffic, he was hit with a wave of sonder for every other driver on the freeway."
+  },
+  {
+    "word": "limerence",
+    "partOfSpeech": "noun",
+    "definition": "An intense, involuntary infatuation marked by intrusive thoughts of another person.",
+    "etymology": "Coined by psychologist Dorothy Tennov in 1977 in her book 'Love and Limerence'.",
+    "exampleSentence": "The limerence faded after six months, but the friendship that replaced it lasted years."
+  },
+  {
+    "word": "nodus tollens",
+    "partOfSpeech": "phrase",
+    "definition": "The realization that the plot of your life no longer makes sense to you.",
+    "etymology": "Coined by John Koenig in 'The Dictionary of Obscure Sorrows', from Latin elements meaning 'a knot that lifts'.",
+    "exampleSentence": "Halfway through his forties he experienced a quiet nodus tollens at the kitchen sink."
+  },
+  {
+    "word": "pareidolia",
+    "partOfSpeech": "noun",
+    "definition": "The tendency to perceive familiar patterns, especially faces, in random stimuli.",
+    "etymology": "From German 'Pareidolie', from Greek 'para-' (beside) and 'eidolon' (image); coined in 1866 by psychiatrist Karl Ludwig Kahlbaum.",
+    "exampleSentence": "His pareidolia turned every car grille into a startled face."
+  },
+  {
+    "word": "apophenia",
+    "partOfSpeech": "noun",
+    "definition": "The tendency to perceive meaningful connections between unrelated things.",
+    "etymology": "Coined by German psychiatrist Klaus Conrad in 1958, from Greek 'apo-' (away from) and 'phaneros' (visible).",
+    "exampleSentence": "Sleep-deprived and obsessed, the detective slipped into apophenia, finding clues in the wallpaper."
+  },
+  {
+    "word": "frisson",
+    "partOfSpeech": "noun",
+    "definition": "A sudden thrill or shiver of emotion.",
+    "etymology": "From French 'frisson' (shiver), from Latin 'frigere' (to be cold); in English since the 18th century.",
+    "exampleSentence": "The opening chord sent a frisson down her spine."
+  },
+  {
+    "word": "hypnopompic",
+    "partOfSpeech": "adjective",
+    "definition": "Relating to the state of partial consciousness just before fully waking.",
+    "etymology": "Coined by Frederic W. H. Myers in 1903, from Greek 'hypnos' (sleep) and 'pompe' (sending away).",
+    "exampleSentence": "In that hypnopompic minute, the dream still felt more real than the room."
+  },
+  {
+    "word": "hypnagogic",
+    "partOfSpeech": "adjective",
+    "definition": "Relating to the drowsy state just before falling asleep.",
+    "etymology": "From French 'hypnagogique', coined by Alfred Maury in 1848, from Greek 'hypnos' (sleep) and 'agogos' (leading).",
+    "exampleSentence": "Her best ideas arrived in hypnagogic flashes she had learned to scribble down immediately."
+  },
+  {
+    "word": "synesthesia",
+    "partOfSpeech": "noun",
+    "definition": "A neurological phenomenon in which stimulation of one sense involuntarily triggers another.",
+    "etymology": "From Greek 'syn-' (together) and 'aesthesis' (sensation); coined in the late 19th century.",
+    "exampleSentence": "Her synesthesia meant Tuesdays were always pale yellow, and Bach was indigo."
+  },
+  {
+    "word": "parosmia",
+    "partOfSpeech": "noun",
+    "definition": "A distortion of smell, often causing pleasant odors to seem foul.",
+    "etymology": "From Greek 'para-' (beside) and 'osme' (smell); used in clinical literature since the 19th century.",
+    "exampleSentence": "After her illness, a months-long parosmia made coffee smell like burning rubber."
+  },
+  {
+    "word": "dysrationalia",
+    "partOfSpeech": "noun",
+    "definition": "The inability to think rationally despite having adequate intelligence.",
+    "etymology": "Coined by cognitive scientist Keith Stanovich in the 1990s.",
+    "exampleSentence": "He was brilliant in his field and a textbook case of dysrationalia at the dinner table."
+  },
+  {
+    "word": "brontide",
+    "partOfSpeech": "noun",
+    "definition": "A low, distant rumbling, like far-off thunder.",
+    "etymology": "From Greek 'bronte' (thunder); used in 19th-century geological writing.",
+    "exampleSentence": "A brontide rolled across the valley though the sky remained clear."
+  },
+  {
+    "word": "mizzle",
+    "partOfSpeech": "noun",
+    "definition": "A fine, misty drizzle.",
+    "etymology": "From Middle English 'misellen'; in regional English use since the 15th century.",
+    "exampleSentence": "By the time they reached the harbor, the rain had thinned to a soft mizzle."
+  },
+  {
+    "word": "cwtch",
+    "partOfSpeech": "noun",
+    "definition": "A warm, affectionate hug; also, a cozy little hideaway.",
+    "etymology": "From Welsh, originally meaning 'cupboard' or 'safe place'.",
+    "exampleSentence": "She gave the toddler a long cwtch before kindergarten drop-off."
+  },
+  {
+    "word": "gowpen",
+    "partOfSpeech": "noun",
+    "definition": "The amount that can be held in two cupped hands together.",
+    "etymology": "From Middle English and Scots, from Old Norse 'gaupn'.",
+    "exampleSentence": "He scooped a gowpen of well water and drank it straight."
+  },
+  {
+    "word": "scurryfunge",
+    "partOfSpeech": "verb",
+    "definition": "To hastily tidy a home in the brief window before guests arrive.",
+    "etymology": "From a 19th-century New England English dialect word; revived in modern usage.",
+    "exampleSentence": "She had ten minutes to scurryfunge the kitchen before her mother walked in."
+  },
+  {
+    "word": "psithurism",
+    "partOfSpeech": "noun",
+    "definition": "The sound of wind whispering through leaves.",
+    "etymology": "From Greek 'psithuros' (whispering); used in 19th-century English poetry.",
+    "exampleSentence": "He fell asleep to a slow psithurism from the elms outside the window."
+  },
+  {
+    "word": "selcouth",
+    "partOfSpeech": "adjective",
+    "definition": "Strange yet marvelous; uncommonly wonderful.",
+    "etymology": "From Old English 'seldcuth', combining 'seld' (rarely) and 'cuth' (known).",
+    "exampleSentence": "The valley after the snowfall looked positively selcouth."
+  },
+  {
+    "word": "agastopia",
+    "partOfSpeech": "noun",
+    "definition": "Admiration of a particular part of someone's body.",
+    "etymology": "From Greek 'agastos' (admirable) and '-opia' (sight); a modern English coinage.",
+    "exampleSentence": "He developed a quiet agastopia for the nape of her neck."
+  },
+  {
+    "word": "ataraxia",
+    "partOfSpeech": "noun",
+    "definition": "A state of serene calmness, free from emotional disturbance.",
+    "etymology": "From Greek 'ataraxia', meaning 'untroubledness'; central to Stoic and Epicurean philosophy.",
+    "exampleSentence": "After the retreat she returned with a portable kind of ataraxia."
+  },
+  {
+    "word": "eudaimonia",
+    "partOfSpeech": "noun",
+    "definition": "A flourishing life of meaning and virtue, not merely pleasure.",
+    "etymology": "From Greek 'eu-' (good) and 'daimon' (spirit); central to Aristotelian ethics.",
+    "exampleSentence": "He measured the year not by his salary but by his sense of eudaimonia."
+  },
+  {
+    "word": "aporia",
+    "partOfSpeech": "noun",
+    "definition": "An expression of doubt, real or feigned; a philosophical puzzlement.",
+    "etymology": "From Greek 'aporia' (impasse), used by Socrates in Platonic dialogues.",
+    "exampleSentence": "The seminar ended in a productive aporia, with everyone less sure than they began."
+  },
+  {
+    "word": "kenopsia",
+    "partOfSpeech": "noun",
+    "definition": "The eerie atmosphere of a place usually bustling with people but now abandoned.",
+    "etymology": "Coined by John Koenig in 'The Dictionary of Obscure Sorrows', from Greek 'kenos' (empty) and '-opsia' (sight).",
+    "exampleSentence": "The shuttered shopping mall was thick with kenopsia."
+  },
+  {
+    "word": "opia",
+    "partOfSpeech": "noun",
+    "definition": "The intense intimacy of looking into someone's eyes.",
+    "etymology": "Coined by John Koenig in 'The Dictionary of Obscure Sorrows', from Greek '-opia' (sight).",
+    "exampleSentence": "Across the candlelit table they shared a long moment of opia."
+  },
+  {
+    "word": "monachopsis",
+    "partOfSpeech": "noun",
+    "definition": "The subtle but persistent feeling of being out of place.",
+    "etymology": "Coined by John Koenig in 'The Dictionary of Obscure Sorrows', from Greek 'monachos' (alone).",
+    "exampleSentence": "In the chic gallery he felt a steady monachopsis, like a seal beached on linoleum."
+  },
+  {
+    "word": "anemoia",
+    "partOfSpeech": "noun",
+    "definition": "Nostalgia for a time you never knew.",
+    "etymology": "Coined by John Koenig in 'The Dictionary of Obscure Sorrows'.",
+    "exampleSentence": "Old jazz recordings filled him with anemoia for a Manhattan he had only seen in photographs."
+  },
+  {
+    "word": "ellipsism",
+    "partOfSpeech": "noun",
+    "definition": "Sadness that you will never know how history turns out.",
+    "etymology": "Coined by John Koenig in 'The Dictionary of Obscure Sorrows', from 'ellipsis'.",
+    "exampleSentence": "Reading about Mars colonies stirred a low ellipsism he could not quite name."
+  },
+  {
+    "word": "lacuna",
+    "partOfSpeech": "noun",
+    "definition": "An unfilled space or gap; a missing portion in a manuscript.",
+    "etymology": "From Latin 'lacuna' (pool, gap); in English since the 17th century.",
+    "exampleSentence": "There was a lacuna in the diary between June and September she could not explain."
+  },
+  {
+    "word": "rasasvada",
+    "partOfSpeech": "noun",
+    "definition": "The taste of bliss in the absence of all thoughts.",
+    "etymology": "From Sanskrit, used in Vedanta and Indian aesthetics.",
+    "exampleSentence": "After meditation she lingered in a brief rasasvada before the day resumed."
+  },
+  {
+    "word": "tarab",
+    "partOfSpeech": "noun",
+    "definition": "A state of musically induced ecstasy or emotional transformation.",
+    "etymology": "From Arabic, central to classical Arabic musical tradition.",
+    "exampleSentence": "By the third encore the audience had drifted into collective tarab."
+  },
+  {
+    "word": "duende",
+    "partOfSpeech": "noun",
+    "definition": "A heightened state of inspiration, passion, and authenticity in artistic performance.",
+    "etymology": "From Spanish, popularized by Federico Garcia Lorca in his 1933 lecture 'Teoria y juego del duende'.",
+    "exampleSentence": "The flamenco dancer had duende that night, and the room knew it."
+  },
+  {
+    "word": "querencia",
+    "partOfSpeech": "noun",
+    "definition": "A place from which one's strength is drawn; a deep sense of being at home.",
+    "etymology": "From Spanish 'querer' (to desire); used in bullfighting to describe the bull's chosen safe spot in the ring.",
+    "exampleSentence": "The little bookshop on Calle Mayor had been her querencia for a decade."
+  },
+  {
+    "word": "sobremesa",
+    "partOfSpeech": "noun",
+    "definition": "The leisurely conversation that lingers at the table after a meal.",
+    "etymology": "From Spanish, literally 'over the table'.",
+    "exampleSentence": "The sobremesa stretched until the candles had burned down to their holders."
+  },
+  {
+    "word": "uitwaaien",
+    "partOfSpeech": "verb",
+    "definition": "To take a walk in windy weather to clear one's head.",
+    "etymology": "From Dutch, literally 'to wind-out'.",
+    "exampleSentence": "After a brutal afternoon of editing, he went out to uitwaaien along the canal."
+  },
+  {
+    "word": "verschlimmbessern",
+    "partOfSpeech": "verb",
+    "definition": "To make something worse by trying to improve it.",
+    "etymology": "From German, combining 'verschlimmern' (to worsen) and 'verbessern' (to improve).",
+    "exampleSentence": "He verschlimmbesserned the gravy by adding a second cup of cream."
+  },
+  {
+    "word": "backpfeifengesicht",
+    "partOfSpeech": "noun",
+    "definition": "A face badly in need of a slap.",
+    "etymology": "From German, combining 'Backpfeife' (slap) and 'Gesicht' (face).",
+    "exampleSentence": "The smug commentator had a textbook backpfeifengesicht."
+  },
+  {
+    "word": "torschlusspanik",
+    "partOfSpeech": "noun",
+    "definition": "The anxiety that time is running out to accomplish life's important things.",
+    "etymology": "From German, literally 'gate-closing panic', dating to medieval city gates.",
+    "exampleSentence": "Approaching forty, she felt a flicker of torschlusspanik whenever someone mentioned children."
+  },
+  {
+    "word": "fremdscham",
+    "partOfSpeech": "noun",
+    "definition": "Vicarious embarrassment felt on behalf of someone else.",
+    "etymology": "From German, combining 'fremd' (foreign) and 'Scham' (shame).",
+    "exampleSentence": "Watching the toast go off the rails, she was overcome by fremdscham."
+  },
+  {
+    "word": "ohrwurm",
+    "partOfSpeech": "noun",
+    "definition": "A catchy tune that lodges itself in your head.",
+    "etymology": "From German, literally 'ear worm'.",
+    "exampleSentence": "He had a three-day ohrwurm from an ice cream truck."
+  },
+  {
+    "word": "fingerspitzengefuhl",
+    "partOfSpeech": "noun",
+    "definition": "An intuitive flair or instinct, literally a 'fingertip feeling'.",
+    "etymology": "From German, used in military strategy and adopted into business English.",
+    "exampleSentence": "Her fingerspitzengefuhl for what a client really wanted made her invaluable."
+  },
+  {
+    "word": "waldeinsamkeit",
+    "partOfSpeech": "noun",
+    "definition": "The reflective solitude felt when alone in a forest.",
+    "etymology": "From German, combining 'Wald' (forest) and 'Einsamkeit' (solitude); a Romantic-era favorite.",
+    "exampleSentence": "Two hours into the trail he reached a deep, unhurried waldeinsamkeit."
+  },
+  {
+    "word": "luftmensch",
+    "partOfSpeech": "noun",
+    "definition": "An impractical dreamer with no business sense, literally 'air person'.",
+    "etymology": "From Yiddish, with German roots; used in Eastern European Jewish literature.",
+    "exampleSentence": "Her uncle was a charming luftmensch who reinvented his career every spring."
+  },
+  {
+    "word": "shemomedjamo",
+    "partOfSpeech": "verb",
+    "definition": "To continue eating something delicious even after you are full.",
+    "etymology": "From Georgian, literally 'I accidentally ate the whole thing'.",
+    "exampleSentence": "He shemomedjamoed his way through the entire khachapuri."
+  },
+  {
+    "word": "tartle",
+    "partOfSpeech": "verb",
+    "definition": "To hesitate when introducing someone because you've forgotten their name.",
+    "etymology": "From Scots, in dialect use since the 18th century.",
+    "exampleSentence": "He tartled awkwardly at the party, then improvised with 'you two know each other'."
+  },
+  {
+    "word": "tingo",
+    "partOfSpeech": "verb",
+    "definition": "To gradually steal a neighbor's possessions by borrowing them and never returning.",
+    "etymology": "From Rapa Nui, the language of Easter Island.",
+    "exampleSentence": "Over the course of a year, his roommate had effectively tingoed his entire spice rack."
+  },
+  {
+    "word": "razbliuto",
+    "partOfSpeech": "noun",
+    "definition": "The tender feeling once held for someone you no longer love.",
+    "etymology": "From Russian, often cited in late 20th-century compendiums of untranslatable words.",
+    "exampleSentence": "There was no anger left, only a soft razbliuto whenever she heard his name."
+  },
+  {
+    "word": "toska",
+    "partOfSpeech": "noun",
+    "definition": "A spiritual anguish, often a deep nostalgia or yearning with no clear cause.",
+    "etymology": "From Russian; Vladimir Nabokov described it at length in his commentary on Eugene Onegin.",
+    "exampleSentence": "On gray afternoons he was prone to a slow Russian toska."
+  },
+  {
+    "word": "kefi",
+    "partOfSpeech": "noun",
+    "definition": "An ecstatic, joyful state of high spirits often expressed through celebration.",
+    "etymology": "From Greek; central to Greek hospitality culture.",
+    "exampleSentence": "By midnight the taverna was deep in kefi, with plates and feet flying."
+  },
+  {
+    "word": "philotimo",
+    "partOfSpeech": "noun",
+    "definition": "A deep sense of honor, generosity, and duty toward others.",
+    "etymology": "From Greek, combining 'philos' (love) and 'time' (honor).",
+    "exampleSentence": "Helping the stranger fix the tire was a matter of philotimo, not heroism."
+  },
+  {
+    "word": "akrasia",
+    "partOfSpeech": "noun",
+    "definition": "Acting against one's better judgment.",
+    "etymology": "From Greek 'akrasia' (lack of self-mastery); discussed by Aristotle in the Nicomachean Ethics.",
+    "exampleSentence": "His New Year's resolutions died of pure akrasia by January 12th."
+  },
+  {
+    "word": "phronesis",
+    "partOfSpeech": "noun",
+    "definition": "Practical wisdom; the ability to discern the right action in a given situation.",
+    "etymology": "From Greek 'phronesis'; a key virtue in Aristotelian ethics.",
+    "exampleSentence": "Decades on the bench had given her a kind of judicial phronesis no textbook taught."
+  },
+  {
+    "word": "logorrhea",
+    "partOfSpeech": "noun",
+    "definition": "Excessive, uncontrolled talkativeness.",
+    "etymology": "From Greek 'logos' (word) and 'rhein' (to flow); used in medical literature since the 19th century.",
+    "exampleSentence": "Three espressos in, his logorrhea was unstoppable."
+  },
+  {
+    "word": "callipygian",
+    "partOfSpeech": "adjective",
+    "definition": "Having well-shaped buttocks.",
+    "etymology": "From Greek 'kallipygos' (beautifully buttocked), name of an ancient Aphrodite statue.",
+    "exampleSentence": "The marble figure was famously callipygian, drawing crowds for centuries."
+  },
+  {
+    "word": "borborygmus",
+    "partOfSpeech": "noun",
+    "definition": "The rumbling sound made by gas moving through the intestines.",
+    "etymology": "From Greek 'borborygmos', imitative of the sound.",
+    "exampleSentence": "Her stomach delivered a thunderous borborygmus right in the middle of the silent meditation."
+  },
+  {
+    "word": "tarantism",
+    "partOfSpeech": "noun",
+    "definition": "An uncontrollable urge to dance, historically attributed to a spider's bite.",
+    "etymology": "Italian, from the town of Taranto where outbreaks were recorded in the 15th-17th centuries.",
+    "exampleSentence": "When the band hit the third song, she was struck with a happy tarantism."
+  },
+  {
+    "word": "deipnophobia",
+    "partOfSpeech": "noun",
+    "definition": "Fear of dinner parties or of conversing at meals.",
+    "etymology": "From Greek 'deipnon' (dinner) and 'phobos' (fear).",
+    "exampleSentence": "His deipnophobia meant he reliably canceled the morning of every reservation."
+  },
+  {
+    "word": "sciamachy",
+    "partOfSpeech": "noun",
+    "definition": "A fight or struggle against an imaginary enemy.",
+    "etymology": "From Greek 'skia' (shadow) and 'mache' (battle).",
+    "exampleSentence": "His online arguments were largely sciamachy with a phantom version of his uncle."
+  },
+  {
+    "word": "psephology",
+    "partOfSpeech": "noun",
+    "definition": "The statistical study of elections and voting.",
+    "etymology": "Coined in 1948 from Greek 'psephos' (pebble used in voting).",
+    "exampleSentence": "Election week brought a small army of psephology bloggers to the airwaves."
+  },
+  {
+    "word": "tmesis",
+    "partOfSpeech": "noun",
+    "definition": "The insertion of a word into the middle of another word for emphasis.",
+    "etymology": "From Greek 'tmesis' (a cutting); used in rhetoric since antiquity.",
+    "exampleSentence": "'Fan-bloody-tastic' is a textbook tmesis."
+  },
+  {
+    "word": "zeugma",
+    "partOfSpeech": "noun",
+    "definition": "A figure of speech in which one word governs two others in different senses.",
+    "etymology": "From Greek 'zeugma' (a yoking); a classical rhetorical term.",
+    "exampleSentence": "'She broke his car and his heart' is a tidy zeugma."
+  },
+  {
+    "word": "litotes",
+    "partOfSpeech": "noun",
+    "definition": "Ironic understatement in which an affirmative is expressed by negating its opposite.",
+    "etymology": "From Greek 'litotes' (plainness, simplicity).",
+    "exampleSentence": "Calling the Pacific 'not a small body of water' is classic litotes."
+  },
+  {
+    "word": "anagnorisis",
+    "partOfSpeech": "noun",
+    "definition": "A moment of critical discovery or recognition, especially in drama.",
+    "etymology": "From Greek; central to Aristotle's analysis of tragedy in the Poetics.",
+    "exampleSentence": "The film's anagnorisis arrived quietly, in a kitchen, over cold tea."
+  },
+  {
+    "word": "peripeteia",
+    "partOfSpeech": "noun",
+    "definition": "A sudden reversal of fortune in a narrative.",
+    "etymology": "From Greek; another key term in Aristotle's Poetics.",
+    "exampleSentence": "The novel's peripeteia hinged on an unsent letter."
+  },
+  {
+    "word": "catharsis",
+    "partOfSpeech": "noun",
+    "definition": "The release of strong emotions through art, leading to renewal.",
+    "etymology": "From Greek 'katharsis' (cleansing); Aristotelian, central to tragedy.",
+    "exampleSentence": "She left the theater wrung out, in the best, most catharsis-soaked way."
+  },
+  {
+    "word": "sphallolalia",
+    "partOfSpeech": "noun",
+    "definition": "Flirtatious talk that leads nowhere.",
+    "etymology": "From Greek 'sphallo' (to cause to fall) and 'lalia' (talk); used in linguistic and rhetoric studies.",
+    "exampleSentence": "The dinner party devolved into harmless sphallolalia by the second bottle."
+  },
+  {
+    "word": "redamancy",
+    "partOfSpeech": "noun",
+    "definition": "The act of loving in return; reciprocal love.",
+    "etymology": "From Latin 'redamare' (to love back); an archaic English word revived in modern usage.",
+    "exampleSentence": "Her letters told a long, patient story of redamancy."
+  },
+  {
+    "word": "abditory",
+    "partOfSpeech": "noun",
+    "definition": "A hiding place; a secret repository.",
+    "etymology": "From Latin 'abdere' (to hide); used in English since the 17th century.",
+    "exampleSentence": "She kept her best chocolates in an abditory behind the cookbooks."
+  },
+  {
+    "word": "absquatulate",
+    "partOfSpeech": "verb",
+    "definition": "To leave abruptly or stealthily.",
+    "etymology": "American English coinage, 1830s, a mock-Latin formation.",
+    "exampleSentence": "He absquatulated through the back door before the bill arrived."
+  },
+  {
+    "word": "acatalepsy",
+    "partOfSpeech": "noun",
+    "definition": "The philosophical doctrine that nothing can be known with certainty.",
+    "etymology": "From Greek 'akatalepsia'; central to ancient Skeptic philosophy.",
+    "exampleSentence": "By the end of his second whisky, he had embraced a cheerful acatalepsy."
+  },
+  {
+    "word": "accismus",
+    "partOfSpeech": "noun",
+    "definition": "A feigned refusal of something one actually wants.",
+    "etymology": "From Greek 'akkismos'; a classical rhetorical figure.",
+    "exampleSentence": "His accismus about the corner office fooled nobody."
+  },
+  {
+    "word": "adoxography",
+    "partOfSpeech": "noun",
+    "definition": "Skilled writing in praise of trivial subjects.",
+    "etymology": "From Greek 'adoxos' (insignificant) and 'graphein' (to write).",
+    "exampleSentence": "Her food blog was a masterclass in adoxography about sandwiches."
+  },
+  {
+    "word": "agelast",
+    "partOfSpeech": "noun",
+    "definition": "A person who never laughs.",
+    "etymology": "From Greek 'agelastos' (not laughing); used by Rabelais and later English writers.",
+    "exampleSentence": "Her boss was the office agelast, and meetings ran accordingly."
+  },
+  {
+    "word": "alexithymia",
+    "partOfSpeech": "noun",
+    "definition": "Difficulty identifying or describing one's own emotions.",
+    "etymology": "Coined by psychiatrist Peter Sifneos in 1973, from Greek elements.",
+    "exampleSentence": "Years of alexithymia made therapy feel like a foreign language class."
+  },
+  {
+    "word": "ambsace",
+    "partOfSpeech": "noun",
+    "definition": "The worst possible throw at dice; bad luck.",
+    "etymology": "From Old French 'ambes as' (both aces); in English since the 14th century.",
+    "exampleSentence": "The startup hit pure ambsace the month its server bill tripled."
+  },
+  {
+    "word": "amphibology",
+    "partOfSpeech": "noun",
+    "definition": "A phrase that can be interpreted in more than one way.",
+    "etymology": "From Greek 'amphibolos' (ambiguous); used in rhetoric since antiquity.",
+    "exampleSentence": "'I saw the man with the telescope' is the schoolbook amphibology."
+  },
+  {
+    "word": "anatopism",
+    "partOfSpeech": "noun",
+    "definition": "Something out of its proper place.",
+    "etymology": "From Greek 'ana-' (against) and 'topos' (place); modeled on 'anachronism'.",
+    "exampleSentence": "The neon sign on the medieval cathedral was a glaring anatopism."
+  },
+  {
+    "word": "anfractuous",
+    "partOfSpeech": "adjective",
+    "definition": "Full of windings and twists; tortuous.",
+    "etymology": "From Latin 'anfractus' (a bending).",
+    "exampleSentence": "The coastal road was anfractuous enough to make passengers regret breakfast."
+  },
+  {
+    "word": "anguilliform",
+    "partOfSpeech": "adjective",
+    "definition": "Shaped like an eel.",
+    "etymology": "From Latin 'anguilla' (eel) and '-form'.",
+    "exampleSentence": "The dancer's anguilliform movement made the stage seem suddenly underwater."
+  },
+  {
+    "word": "apocope",
+    "partOfSpeech": "noun",
+    "definition": "The cutting off of the final sound or syllable of a word.",
+    "etymology": "From Greek 'apokope' (cutting off); used in linguistics since antiquity.",
+    "exampleSentence": "'Photo' from 'photograph' is a familiar apocope."
+  },
+  {
+    "word": "apricate",
+    "partOfSpeech": "verb",
+    "definition": "To bask in the sun.",
+    "etymology": "From Latin 'apricari' (to bask).",
+    "exampleSentence": "The old dog apricated on the porch every afternoon, religiously."
+  },
+  {
+    "word": "argute",
+    "partOfSpeech": "adjective",
+    "definition": "Shrewd, sharply perceptive.",
+    "etymology": "From Latin 'argutus' (clear, witty).",
+    "exampleSentence": "Her argute reading of the contract saved the company a fortune."
+  },
+  {
+    "word": "atrabilious",
+    "partOfSpeech": "adjective",
+    "definition": "Bad-tempered or melancholy.",
+    "etymology": "From Latin 'atra bilis' (black bile), one of the four humors.",
+    "exampleSentence": "He was unusually atrabilious all that winter."
+  },
+  {
+    "word": "balter",
+    "partOfSpeech": "verb",
+    "definition": "To dance clumsily but joyfully.",
+    "etymology": "Of Middle English dialect origin; revived in modern usage.",
+    "exampleSentence": "The toddlers baltered around the living room to the radio."
+  },
+  {
+    "word": "barathrum",
+    "partOfSpeech": "noun",
+    "definition": "A bottomless pit; figuratively, an insatiable appetite.",
+    "etymology": "From Greek 'barathron'; in English since the 16th century.",
+    "exampleSentence": "The teenager's metabolism was a barathrum no fridge could fill."
+  },
+  {
+    "word": "bibliopole",
+    "partOfSpeech": "noun",
+    "definition": "A dealer in books, especially rare ones.",
+    "etymology": "From Greek 'biblion' (book) and 'poles' (seller).",
+    "exampleSentence": "The Paris bibliopole turned out to know more about her late father than she did."
+  },
+  {
+    "word": "blatherskite",
+    "partOfSpeech": "noun",
+    "definition": "A person who talks at length without making sense.",
+    "etymology": "From Scots 'blether' (nonsense) and 'skate' (term of contempt); popularized in America by the song 'Maggie Lauder'.",
+    "exampleSentence": "The town meeting attracted every blatherskite within twenty miles."
+  },
+  {
+    "word": "borborology",
+    "partOfSpeech": "noun",
+    "definition": "Filthy or obscene talk.",
+    "etymology": "From Greek 'borboros' (mud, filth).",
+    "exampleSentence": "After a long voyage the sailors' borborology had to be edited heavily for the diary."
+  },
+  {
+    "word": "boustrophedon",
+    "partOfSpeech": "noun",
+    "definition": "Writing in which lines alternate direction left-to-right and right-to-left.",
+    "etymology": "From Greek 'bous' (ox) and 'strophe' (turning), like an ox plowing a field.",
+    "exampleSentence": "Early Greek inscriptions are often written in boustrophedon."
+  },
+  {
+    "word": "brumal",
+    "partOfSpeech": "adjective",
+    "definition": "Relating to winter; wintry.",
+    "etymology": "From Latin 'brumalis', from 'bruma' (winter).",
+    "exampleSentence": "A brumal hush settled over the village by late November."
+  },
+  {
+    "word": "cacoethes",
+    "partOfSpeech": "noun",
+    "definition": "An irresistible urge to do something inadvisable.",
+    "etymology": "From Greek 'kakoetheia' (ill-disposition); famously 'cacoethes scribendi', the itch to write.",
+    "exampleSentence": "He had a strict cacoethes for replying-all to old chains."
+  },
+  {
+    "word": "callithumpian",
+    "partOfSpeech": "adjective",
+    "definition": "Like a noisy, boisterous parade or band.",
+    "etymology": "American English, early 19th century, of fanciful origin.",
+    "exampleSentence": "The neighbors threw a callithumpian welcome with pots, pans, and a borrowed tuba."
+  },
+  {
+    "word": "cantillate",
+    "partOfSpeech": "verb",
+    "definition": "To chant or intone, especially sacred text.",
+    "etymology": "From Latin 'cantillare' (to sing softly).",
+    "exampleSentence": "The cantor cantillated each verse to a melody centuries old."
+  },
+  {
+    "word": "cattywampus",
+    "partOfSpeech": "adjective",
+    "definition": "Askew; positioned diagonally or out of alignment.",
+    "etymology": "American English, 19th-century coinage of obscure origin.",
+    "exampleSentence": "After the earthquake the bookshelves were politely cattywampus."
+  },
+  {
+    "word": "cerulean",
+    "partOfSpeech": "adjective",
+    "definition": "Deep sky blue.",
+    "etymology": "From Latin 'caeruleus' (sky-colored), from 'caelum' (sky).",
+    "exampleSentence": "The Aegean spread out in a cerulean so saturated it looked staged."
+  },
+  {
+    "word": "chiaroscuro",
+    "partOfSpeech": "noun",
+    "definition": "The artful contrast of light and shadow.",
+    "etymology": "From Italian, combining 'chiaro' (clear, bright) and 'scuro' (dark).",
+    "exampleSentence": "Caravaggio's saints emerge from a chiaroscuro you can almost smell."
+  },
+  {
+    "word": "clinquant",
+    "partOfSpeech": "adjective",
+    "definition": "Glittering with tinsel or gold; superficially showy.",
+    "etymology": "From French 'clinquant' (jingling, glittering); used in English since the 16th century.",
+    "exampleSentence": "The casino's clinquant decor was visible from orbit."
+  },
+  {
+    "word": "coruscate",
+    "partOfSpeech": "verb",
+    "definition": "To flash or sparkle.",
+    "etymology": "From Latin 'coruscare' (to glitter).",
+    "exampleSentence": "Her diamond pendant coruscated under the chandelier."
+  },
+  {
+    "word": "cynosure",
+    "partOfSpeech": "noun",
+    "definition": "A person or thing that is the center of attention or admiration.",
+    "etymology": "From Greek 'kynosoura' (dog's tail), referring to the constellation containing the North Star.",
+    "exampleSentence": "The bride was the inevitable cynosure of the room."
+  },
+  {
+    "word": "deasil",
+    "partOfSpeech": "adverb",
+    "definition": "Clockwise; in the direction of the sun.",
+    "etymology": "From Scottish Gaelic 'deiseil'; used in old folk rituals.",
+    "exampleSentence": "Tradition said you should stir the punch deasil to keep the luck in."
+  },
+  {
+    "word": "demiurge",
+    "partOfSpeech": "noun",
+    "definition": "A powerful creative force or being.",
+    "etymology": "From Greek 'demiourgos' (craftsman); used in Platonic and Gnostic philosophy.",
+    "exampleSentence": "She was the demiurge behind the entire festival, sleepless and triumphant."
+  },
+  {
+    "word": "diaphanous",
+    "partOfSpeech": "adjective",
+    "definition": "Light, delicate, and translucent.",
+    "etymology": "From Greek 'diaphanes' (transparent).",
+    "exampleSentence": "She wore a diaphanous shawl over a stark black dress."
+  },
+  {
+    "word": "doppelganger",
+    "partOfSpeech": "noun",
+    "definition": "An apparition or double of a living person.",
+    "etymology": "From German, combining 'doppel' (double) and 'Ganger' (goer); first used by Jean Paul in 1796.",
+    "exampleSentence": "He swore he had seen his doppelganger on the train two stops back."
+  },
+  {
+    "word": "ebullience",
+    "partOfSpeech": "noun",
+    "definition": "The quality of being cheerful and full of energy.",
+    "etymology": "From Latin 'ebullire' (to boil out).",
+    "exampleSentence": "Her ebullience was contagious enough to power a small town."
+  },
+  {
+    "word": "effloresce",
+    "partOfSpeech": "verb",
+    "definition": "To burst into bloom; to develop into fullness.",
+    "etymology": "From Latin 'efflorescere' (to blossom forth).",
+    "exampleSentence": "Her writing only effloresced after she moved abroad."
+  },
+  {
+    "word": "ekphrasis",
+    "partOfSpeech": "noun",
+    "definition": "A vivid verbal description of a work of visual art.",
+    "etymology": "From Greek 'ekphrasis' (description); a classical rhetorical exercise.",
+    "exampleSentence": "Homer's description of Achilles' shield is the most famous ekphrasis in literature."
+  },
+  {
+    "word": "embrangle",
+    "partOfSpeech": "verb",
+    "definition": "To entangle or embroil in complications.",
+    "etymology": "From English 'brangle' (a quarrel), of obscure origin.",
+    "exampleSentence": "He had embrangled himself in three unrelated lawsuits by April."
+  },
+  {
+    "word": "ennui",
+    "partOfSpeech": "noun",
+    "definition": "A profound boredom arising from a lack of meaning.",
+    "etymology": "From French, from Late Latin 'inodiare' (to make loathsome).",
+    "exampleSentence": "After her promotion, an unexpected ennui crept into her evenings."
+  },
+  {
+    "word": "epicaricacy",
+    "partOfSpeech": "noun",
+    "definition": "The English equivalent of schadenfreude: joy at another's misfortune.",
+    "etymology": "From Greek 'epi-' (upon), 'chara' (joy), and 'kakos' (evil); historically rare in English.",
+    "exampleSentence": "A tiny, unworthy epicaricacy bloomed when his rival's car wouldn't start."
+  },
+  {
+    "word": "epigone",
+    "partOfSpeech": "noun",
+    "definition": "A less distinguished follower or imitator of a great figure.",
+    "etymology": "From Greek 'epigonos' (one born after).",
+    "exampleSentence": "The biography portrayed him as a brilliant artist surrounded by polite epigones."
+  },
+  {
+    "word": "epizeuxis",
+    "partOfSpeech": "noun",
+    "definition": "The rhetorical repetition of a word for emphasis with no words between.",
+    "etymology": "From Greek 'epizeuxis' (a fastening together).",
+    "exampleSentence": "'Never, never, never give up' is classic epizeuxis."
+  },
+  {
+    "word": "estivate",
+    "partOfSpeech": "verb",
+    "definition": "To spend the summer in a state of torpor; the warm-weather counterpart of hibernate.",
+    "etymology": "From Latin 'aestivare' (to spend the summer).",
+    "exampleSentence": "She planned to estivate in a hammock with a stack of novels."
+  },
+  {
+    "word": "eucatastrophe",
+    "partOfSpeech": "noun",
+    "definition": "A sudden and favorable resolution in a story.",
+    "etymology": "Coined by J.R.R. Tolkien in 1944 in his essay 'On Fairy-Stories'.",
+    "exampleSentence": "The novel's last chapter delivered a quiet, perfectly judged eucatastrophe."
+  },
+  {
+    "word": "eutony",
+    "partOfSpeech": "noun",
+    "definition": "The harmonious sound of a word or phrase.",
+    "etymology": "From Greek 'eu-' (good) and 'tonos' (tone).",
+    "exampleSentence": "The poem's appeal was less about meaning than its eutony."
+  },
+  {
+    "word": "exiguous",
+    "partOfSpeech": "adjective",
+    "definition": "Very small in size or amount.",
+    "etymology": "From Latin 'exiguus' (scanty).",
+    "exampleSentence": "The exiguous budget covered exactly one carafe of cheap wine."
+  },
+  {
+    "word": "fissilingual",
+    "partOfSpeech": "adjective",
+    "definition": "Having a forked tongue.",
+    "etymology": "From Latin 'fissus' (split) and 'lingua' (tongue).",
+    "exampleSentence": "The fissilingual lizard flicked at the air to read the room."
+  },
+  {
+    "word": "flapdoodle",
+    "partOfSpeech": "noun",
+    "definition": "Foolish words or nonsense.",
+    "etymology": "American English, 19th century, of fanciful origin.",
+    "exampleSentence": "His political speech was three parts statistics and one part flapdoodle."
+  },
+  {
+    "word": "floccinaucinihilipilification",
+    "partOfSpeech": "noun",
+    "definition": "The act of describing something as worthless.",
+    "etymology": "Coined in 1741 at Eton College from four Latin words meaning 'nothing'.",
+    "exampleSentence": "Reviewers engaged in elaborate floccinaucinihilipilification of his second novel."
+  },
+  {
+    "word": "foofaraw",
+    "partOfSpeech": "noun",
+    "definition": "A great fuss over a trivial matter.",
+    "etymology": "American English, 19th century, of uncertain origin, possibly Spanish 'fanfarron'.",
+    "exampleSentence": "The whole foofaraw was about a missing parking cone."
+  },
+  {
+    "word": "frangible",
+    "partOfSpeech": "adjective",
+    "definition": "Fragile; easily broken.",
+    "etymology": "From Latin 'frangere' (to break).",
+    "exampleSentence": "The frangible glassware did not survive the toddler's birthday party."
+  },
+  {
+    "word": "frowsty",
+    "partOfSpeech": "adjective",
+    "definition": "Smelling stale and stuffy.",
+    "etymology": "Of British English dialect origin, related to 'frowsy'.",
+    "exampleSentence": "The hostel room was frowsty enough to merit an immediate window-open."
+  },
+  {
+    "word": "fugacious",
+    "partOfSpeech": "adjective",
+    "definition": "Lasting only a very short time; fleeting.",
+    "etymology": "From Latin 'fugax' (apt to flee).",
+    "exampleSentence": "Cherry blossoms are famously fugacious, which is half the point."
+  },
+  {
+    "word": "fulgurous",
+    "partOfSpeech": "adjective",
+    "definition": "Resembling or characterized by lightning.",
+    "etymology": "From Latin 'fulgur' (lightning).",
+    "exampleSentence": "His temper was fulgurous and brief."
+  },
+  {
+    "word": "gallimaufry",
+    "partOfSpeech": "noun",
+    "definition": "A hodgepodge; a jumbled mixture.",
+    "etymology": "From Old French 'galimafree' (a stew); used in English since the 16th century.",
+    "exampleSentence": "Her closet was a gallimaufry of beach hats and tax records."
+  },
+  {
+    "word": "gasconade",
+    "partOfSpeech": "noun",
+    "definition": "Extravagant boasting.",
+    "etymology": "From French 'gasconnade', from the proverbial bragging of the people of Gascony.",
+    "exampleSentence": "Three drinks in, his fishing stories became pure gasconade."
+  },
+  {
+    "word": "gnomon",
+    "partOfSpeech": "noun",
+    "definition": "The projecting part of a sundial that casts the shadow.",
+    "etymology": "From Greek 'gnomon' (one who knows).",
+    "exampleSentence": "The bronze gnomon split the afternoon into hours of light."
+  },
+  {
+    "word": "gormandize",
+    "partOfSpeech": "verb",
+    "definition": "To eat greedily and to excess.",
+    "etymology": "From French 'gourmandise'; in English since the 16th century.",
+    "exampleSentence": "They settled in to gormandize their way through three courses and a cheese cart."
+  },
+  {
+    "word": "grandiloquent",
+    "partOfSpeech": "adjective",
+    "definition": "Pompous or extravagant in language or manner.",
+    "etymology": "From Latin 'grandiloquus' (speaking loftily).",
+    "exampleSentence": "His grandiloquent toast brought the room to tears, then to suppressed laughter."
+  },
+  {
+    "word": "gravid",
+    "partOfSpeech": "adjective",
+    "definition": "Pregnant; full of meaning or significance.",
+    "etymology": "From Latin 'gravidus' (loaded).",
+    "exampleSentence": "The pause before her answer was gravid with implication."
+  },
+  {
+    "word": "grimoire",
+    "partOfSpeech": "noun",
+    "definition": "A book of magic spells and invocations.",
+    "etymology": "From French 'grammaire', a medieval term blurring grammar and incantation.",
+    "exampleSentence": "The shop's back room was floor-to-ceiling with leather-bound grimoires."
+  },
+  {
+    "word": "guttle",
+    "partOfSpeech": "verb",
+    "definition": "To eat greedily.",
+    "etymology": "Frequentative of English 'gut', from the 17th century.",
+    "exampleSentence": "He guttled the leftover pie without sitting down."
+  },
+  {
+    "word": "hagiography",
+    "partOfSpeech": "noun",
+    "definition": "A biography that idealizes its subject.",
+    "etymology": "From Greek 'hagios' (holy) and 'graphein' (to write).",
+    "exampleSentence": "The new biography read more as hagiography than history."
+  },
+  {
+    "word": "haptic",
+    "partOfSpeech": "adjective",
+    "definition": "Relating to the sense of touch.",
+    "etymology": "From Greek 'haptikos' (able to touch).",
+    "exampleSentence": "The phone's haptic feedback made every notification feel deliberate."
+  },
+  {
+    "word": "haruspex",
+    "partOfSpeech": "noun",
+    "definition": "An ancient Roman religious official who divined the future by inspecting entrails.",
+    "etymology": "From Latin 'haruspex', from Etruscan roots.",
+    "exampleSentence": "He read the team's quarterly numbers with the patient gravity of a haruspex."
+  },
+  {
+    "word": "hebetude",
+    "partOfSpeech": "noun",
+    "definition": "A state of mental dullness or lethargy.",
+    "etymology": "From Latin 'hebes' (blunt).",
+    "exampleSentence": "By Friday afternoon, the team had settled into a comfortable hebetude."
+  },
+  {
+    "word": "heliotrope",
+    "partOfSpeech": "noun",
+    "definition": "A plant whose flowers turn toward the sun; a deep pinkish-purple color.",
+    "etymology": "From Greek 'helios' (sun) and 'tropos' (turning).",
+    "exampleSentence": "She painted the front door a defiant heliotrope."
+  },
+  {
+    "word": "hesternal",
+    "partOfSpeech": "adjective",
+    "definition": "Of or relating to yesterday.",
+    "etymology": "From Latin 'hesternus' (of yesterday).",
+    "exampleSentence": "His hesternal triumphs did him little good in today's meeting."
+  },
+  {
+    "word": "histrionic",
+    "partOfSpeech": "adjective",
+    "definition": "Overly theatrical or melodramatic.",
+    "etymology": "From Latin 'histrionicus', from 'histrio' (actor).",
+    "exampleSentence": "His histrionic farewell at the office Christmas party became local legend."
+  },
+  {
+    "word": "hoary",
+    "partOfSpeech": "adjective",
+    "definition": "Very old and familiar; covered with white or grey hair.",
+    "etymology": "From Old English 'har' (grey, venerable).",
+    "exampleSentence": "He told the hoary joke about the chicken with full conviction."
+  },
+  {
+    "word": "honeyfuggle",
+    "partOfSpeech": "verb",
+    "definition": "To deceive someone with sweet talk and flattery.",
+    "etymology": "American English coinage, mid-19th century, of fanciful origin.",
+    "exampleSentence": "Salesmen used to honeyfuggle widows out of their savings."
+  },
+  {
+    "word": "hubris",
+    "partOfSpeech": "noun",
+    "definition": "Excessive pride leading to downfall.",
+    "etymology": "From Greek 'hybris', a key concept in Athenian tragedy.",
+    "exampleSentence": "His hubris was that he believed his luck was talent."
+  },
+  {
+    "word": "hwyl",
+    "partOfSpeech": "noun",
+    "definition": "A stirring feeling of emotional motivation and energy, especially in speech or song.",
+    "etymology": "From Welsh; originally referred to the sail of a boat.",
+    "exampleSentence": "By the end of the sermon the preacher was in full hwyl."
+  },
+  {
+    "word": "imbroglio",
+    "partOfSpeech": "noun",
+    "definition": "A confused, complicated, or embarrassing situation.",
+    "etymology": "From Italian 'imbrogliare' (to embroil).",
+    "exampleSentence": "The seating chart became an imbroglio rivaling the Treaty of Versailles."
+  },
+  {
+    "word": "ineffable",
+    "partOfSpeech": "adjective",
+    "definition": "Too great to be expressed in words.",
+    "etymology": "From Latin 'ineffabilis' (unutterable).",
+    "exampleSentence": "There was an ineffable sweetness to the light that afternoon."
+  },
+  {
+    "word": "infelicity",
+    "partOfSpeech": "noun",
+    "definition": "An inappropriate or unhappy choice, especially of words.",
+    "etymology": "From Latin 'infelicitas' (unhappiness).",
+    "exampleSentence": "The speech had a few infelicities the editor would have caught."
+  },
+  {
+    "word": "inglenook",
+    "partOfSpeech": "noun",
+    "definition": "A cozy seat or recess beside a fireplace.",
+    "etymology": "From Scots 'ingle' (fire) and 'nook'.",
+    "exampleSentence": "She read all afternoon curled into the inglenook."
+  },
+  {
+    "word": "iridescence",
+    "partOfSpeech": "noun",
+    "definition": "A play of lustrous, rainbow-like colors.",
+    "etymology": "From Latin 'iris' (rainbow); coined in the 18th century.",
+    "exampleSentence": "The hummingbird's throat threw off an iridescence that changed with every angle."
+  },
+  {
+    "word": "isthmus",
+    "partOfSpeech": "noun",
+    "definition": "A narrow strip of land connecting two larger landmasses.",
+    "etymology": "From Greek 'isthmos' (neck of land).",
+    "exampleSentence": "Panama is the textbook isthmus of geography class."
+  },
+  {
+    "word": "jentacular",
+    "partOfSpeech": "adjective",
+    "definition": "Relating to breakfast.",
+    "etymology": "From Latin 'jentaculum' (breakfast).",
+    "exampleSentence": "He had strong jentacular opinions, all of them involving butter."
+  },
+  {
+    "word": "jollification",
+    "partOfSpeech": "noun",
+    "definition": "Lively, merry-making celebration.",
+    "etymology": "From English 'jolly' and Latin '-fication'.",
+    "exampleSentence": "By 10 p.m. the wedding had escalated into pure jollification."
+  },
+  {
+    "word": "kakistocracy",
+    "partOfSpeech": "noun",
+    "definition": "Government by the worst people.",
+    "etymology": "From Greek 'kakistos' (worst) and '-cracy'; coined in English in 1644.",
+    "exampleSentence": "Historians would later call it the kakistocracy years."
+  },
+  {
+    "word": "kismet",
+    "partOfSpeech": "noun",
+    "definition": "Fate; destiny.",
+    "etymology": "From Turkish 'kismet', from Arabic 'qisma'.",
+    "exampleSentence": "Meeting his future wife in a Reykjavik laundromat felt like pure kismet."
+  },
+  {
+    "word": "languor",
+    "partOfSpeech": "noun",
+    "definition": "Pleasant tiredness or relaxation.",
+    "etymology": "From Latin 'languor' (faintness).",
+    "exampleSentence": "August in Rome reduced everyone to a languor that ended only at sundown."
+  },
+  {
+    "word": "lassitude",
+    "partOfSpeech": "noun",
+    "definition": "A state of weariness, listlessness, or diminished energy.",
+    "etymology": "From Latin 'lassitudo' (weariness).",
+    "exampleSentence": "Post-flu lassitude lingered for three weeks."
+  },
+  {
+    "word": "limn",
+    "partOfSpeech": "verb",
+    "definition": "To depict or describe in painting or words.",
+    "etymology": "From Middle English 'limnen' (to illuminate a manuscript).",
+    "exampleSentence": "Her essay limned the neighborhood at dawn with unusual care."
+  },
+  {
+    "word": "lollygag",
+    "partOfSpeech": "verb",
+    "definition": "To dawdle or waste time.",
+    "etymology": "American English, mid-19th century, of obscure origin.",
+    "exampleSentence": "Stop lollygagging in the lobby; the elevator's here."
+  },
+  {
+    "word": "lucubration",
+    "partOfSpeech": "noun",
+    "definition": "Laborious study or writing, especially at night.",
+    "etymology": "From Latin 'lucubratio' (work by lamplight).",
+    "exampleSentence": "The book was the product of fifteen years of lucubration."
+  },
+  {
+    "word": "lunule",
+    "partOfSpeech": "noun",
+    "definition": "A small crescent-shaped mark or area, like the white at the base of a fingernail.",
+    "etymology": "From Latin 'lunula' (little moon).",
+    "exampleSentence": "She polished each lunule into perfect symmetry."
+  },
+  {
+    "word": "maelstrom",
+    "partOfSpeech": "noun",
+    "definition": "A powerful whirlpool; a turbulent situation.",
+    "etymology": "From early modern Dutch, name of a tidal whirlpool off Norway.",
+    "exampleSentence": "The conference call became a maelstrom of overlapping apologies."
+  },
+  {
+    "word": "manumit",
+    "partOfSpeech": "verb",
+    "definition": "To formally release from slavery.",
+    "etymology": "From Latin 'manumittere' (to send from one's hand).",
+    "exampleSentence": "The will manumitted everyone he had once held in bondage."
+  },
+  {
+    "word": "matutinal",
+    "partOfSpeech": "adjective",
+    "definition": "Relating to or happening in the morning.",
+    "etymology": "From Latin 'matutinus' (of the morning), related to Matuta, goddess of dawn.",
+    "exampleSentence": "Her matutinal ritual involved cold water, hot coffee, and absolute silence."
+  },
+  {
+    "word": "meliorism",
+    "partOfSpeech": "noun",
+    "definition": "The belief that the world can be made better through human effort.",
+    "etymology": "From Latin 'melior' (better); coined by George Eliot in 1877.",
+    "exampleSentence": "He held a stubborn meliorism through three recessions."
+  },
+  {
+    "word": "mendacity",
+    "partOfSpeech": "noun",
+    "definition": "The habit of lying.",
+    "etymology": "From Latin 'mendacium' (a lie).",
+    "exampleSentence": "The whole campaign reeked of casual mendacity."
+  },
+  {
+    "word": "mercurial",
+    "partOfSpeech": "adjective",
+    "definition": "Subject to sudden or unpredictable changes of mood.",
+    "etymology": "After the Roman god Mercury, known for his swift changes.",
+    "exampleSentence": "His mercurial temperament made him a brilliant director and a terrible roommate."
+  },
+  {
+    "word": "metanoia",
+    "partOfSpeech": "noun",
+    "definition": "A profound, transformative change of heart or mind.",
+    "etymology": "From Greek 'metanoia' (change of mind); central to Christian and Stoic thought.",
+    "exampleSentence": "Her thirties were a long, slow metanoia about money."
+  },
+  {
+    "word": "miasma",
+    "partOfSpeech": "noun",
+    "definition": "An oppressive or unpleasant atmosphere.",
+    "etymology": "From Greek 'miasma' (pollution).",
+    "exampleSentence": "A miasma of stale coffee and resignation hung over the cubicles."
+  },
+  {
+    "word": "mondegreen",
+    "partOfSpeech": "noun",
+    "definition": "A misheard song lyric.",
+    "etymology": "Coined by Sylvia Wright in 1954 after mishearing 'laid him on the green' as 'Lady Mondegreen'.",
+    "exampleSentence": "Her favorite mondegreen was 'Excuse me while I kiss this guy'."
+  },
+  {
+    "word": "moue",
+    "partOfSpeech": "noun",
+    "definition": "A pout or grimace, often of dismay or flirtation.",
+    "etymology": "From French 'moue' (pout).",
+    "exampleSentence": "She gave a small moue when the waiter brought the wrong wine."
+  },
+  {
+    "word": "myrmidon",
+    "partOfSpeech": "noun",
+    "definition": "A loyal follower who carries out orders without question.",
+    "etymology": "From the Myrmidons of Greek myth, warriors who followed Achilles.",
+    "exampleSentence": "Each cabinet minister arrived with three identical myrmidons in tow."
+  },
+  {
+    "word": "natter",
+    "partOfSpeech": "verb",
+    "definition": "To chat casually for a long time.",
+    "etymology": "From British dialect, of imitative origin.",
+    "exampleSentence": "The neighbors nattered over the fence until the kettle whistled."
+  },
+  {
+    "word": "nebbish",
+    "partOfSpeech": "noun",
+    "definition": "A timid, ineffectual person.",
+    "etymology": "From Yiddish 'nebekh' (poor thing).",
+    "exampleSentence": "He played the cinematic nebbish so well that audiences worried for him."
+  },
+  {
+    "word": "nepenthe",
+    "partOfSpeech": "noun",
+    "definition": "A drink or drug capable of erasing grief.",
+    "etymology": "From Greek 'nepenthes' (banishing pain), mentioned in Homer's Odyssey.",
+    "exampleSentence": "Three weeks at the coast served as her nepenthe."
+  },
+  {
+    "word": "nimiety",
+    "partOfSpeech": "noun",
+    "definition": "Excess; an overabundance.",
+    "etymology": "From Latin 'nimius' (too much).",
+    "exampleSentence": "The buffet had a nimiety of desserts that defeated even the children."
+  },
+  {
+    "word": "noctambulist",
+    "partOfSpeech": "noun",
+    "definition": "A sleepwalker; one who walks at night.",
+    "etymology": "From Latin 'nox' (night) and 'ambulare' (to walk).",
+    "exampleSentence": "Their grandmother had been a celebrated noctambulist in her youth."
+  },
+  {
+    "word": "noctilucent",
+    "partOfSpeech": "adjective",
+    "definition": "Glowing at night, especially of high-altitude clouds visible after sunset.",
+    "etymology": "From Latin 'nox' (night) and 'lucens' (shining).",
+    "exampleSentence": "The noctilucent clouds drifted over the Baltic like silver lace."
+  },
+  {
+    "word": "noumenon",
+    "partOfSpeech": "noun",
+    "definition": "A thing as it is in itself, independent of perception.",
+    "etymology": "From Greek 'noumenon'; a key term in Kantian philosophy.",
+    "exampleSentence": "The seminar argued for two hours about whether any noumenon was knowable."
+  },
+  {
+    "word": "obstreperous",
+    "partOfSpeech": "adjective",
+    "definition": "Noisy and difficult to control.",
+    "etymology": "From Latin 'obstrepere' (to make a noise against).",
+    "exampleSentence": "The obstreperous toddler had to be carried out under one arm."
+  },
+  {
+    "word": "oneiric",
+    "partOfSpeech": "adjective",
+    "definition": "Relating to dreams; dreamlike.",
+    "etymology": "From Greek 'oneiros' (dream).",
+    "exampleSentence": "The film had an oneiric pacing that polarized audiences."
+  },
+  {
+    "word": "opsimath",
+    "partOfSpeech": "noun",
+    "definition": "One who begins to learn or study late in life.",
+    "etymology": "From Greek 'opse' (late) and 'manthanein' (to learn).",
+    "exampleSentence": "She took up Latin at seventy and called herself a proud opsimath."
+  },
+  {
+    "word": "orphic",
+    "partOfSpeech": "adjective",
+    "definition": "Mysterious, oracular, entrancing.",
+    "etymology": "After Orpheus, the mythical Greek poet and musician.",
+    "exampleSentence": "Her late poems had an orphic quality her early work only hinted at."
+  },
+  {
+    "word": "ostinato",
+    "partOfSpeech": "noun",
+    "definition": "A musical motif that is persistently repeated.",
+    "etymology": "From Italian 'ostinato' (obstinate).",
+    "exampleSentence": "The bass line ran as a steady ostinato beneath the improvisation."
+  },
+  {
+    "word": "otiose",
+    "partOfSpeech": "adjective",
+    "definition": "Serving no practical purpose; idle.",
+    "etymology": "From Latin 'otiosus' (at leisure).",
+    "exampleSentence": "The third subcommittee turned out to be entirely otiose."
+  },
+  {
+    "word": "paean",
+    "partOfSpeech": "noun",
+    "definition": "A song of praise or triumph.",
+    "etymology": "From Greek 'paian', a hymn to Apollo.",
+    "exampleSentence": "The review was less critique than paean."
+  },
+  {
+    "word": "palimpsest",
+    "partOfSpeech": "noun",
+    "definition": "A manuscript whose original text has been scraped off and overwritten, traces remaining.",
+    "etymology": "From Greek 'palimpsestos' (scraped again).",
+    "exampleSentence": "The city was a palimpsest of empires."
+  },
+  {
+    "word": "panegyric",
+    "partOfSpeech": "noun",
+    "definition": "A formal speech in praise of someone or something.",
+    "etymology": "From Greek 'panegyrikos' (festal).",
+    "exampleSentence": "He delivered a panegyric for his mentor that left the auditorium silent."
+  },
+  {
+    "word": "panoply",
+    "partOfSpeech": "noun",
+    "definition": "A splendid display or array.",
+    "etymology": "From Greek 'panoplia' (full armor).",
+    "exampleSentence": "The market spread out in a panoply of color and noise."
+  },
+  {
+    "word": "paramnesia",
+    "partOfSpeech": "noun",
+    "definition": "A memory disorder marked by confusion of imagined and real events; deja vu in clinical form.",
+    "etymology": "From Greek 'para-' (beside) and 'mnesia' (memory); coined in the 19th century.",
+    "exampleSentence": "A wave of paramnesia hit her as she walked into the hotel for the first time."
+  },
+  {
+    "word": "parley",
+    "partOfSpeech": "noun",
+    "definition": "A conference between opponents, especially to discuss terms.",
+    "etymology": "From Old French 'parlee' (a talk).",
+    "exampleSentence": "The two co-founders held a tense parley over coffee."
+  },
+  {
+    "word": "parsimony",
+    "partOfSpeech": "noun",
+    "definition": "Extreme reluctance to spend money or use resources.",
+    "etymology": "From Latin 'parsimonia' (sparingness).",
+    "exampleSentence": "Her parsimony with adjectives was the secret of her prose."
+  },
+  {
+    "word": "pastiche",
+    "partOfSpeech": "noun",
+    "definition": "A work composed in the style of another or assembled from various sources.",
+    "etymology": "From French 'pastiche'; ultimately from Italian 'pasticcio' (pie).",
+    "exampleSentence": "The film was a loving pastiche of 1970s American cinema."
+  },
+  {
+    "word": "patavinity",
+    "partOfSpeech": "noun",
+    "definition": "The use of a provincial dialect or local style in writing.",
+    "etymology": "From Latin 'Patavinus' (of Padua); a charge once leveled at the historian Livy.",
+    "exampleSentence": "His patavinity was no flaw; it was the music of the book."
+  },
+  {
+    "word": "peccadillo",
+    "partOfSpeech": "noun",
+    "definition": "A small, relatively unimportant offense.",
+    "etymology": "From Spanish diminutive of 'pecado' (sin).",
+    "exampleSentence": "His one peccadillo was the third coffee at four o'clock."
+  },
+  {
+    "word": "pellucid",
+    "partOfSpeech": "adjective",
+    "definition": "Translucently clear; easily understood.",
+    "etymology": "From Latin 'pellucidus' (transparent).",
+    "exampleSentence": "Her arguments were pellucid even at the end of a long day."
+  },
+  {
+    "word": "penumbra",
+    "partOfSpeech": "noun",
+    "definition": "The partially shaded outer region of a shadow.",
+    "etymology": "From Latin 'paene' (almost) and 'umbra' (shadow); coined by Kepler in 1604.",
+    "exampleSentence": "The garden lay in a soft penumbra by late afternoon."
+  },
+  {
+    "word": "perambulate",
+    "partOfSpeech": "verb",
+    "definition": "To walk or travel about, especially leisurely.",
+    "etymology": "From Latin 'perambulare' (to walk through).",
+    "exampleSentence": "They perambulated the park until the gates closed."
+  },
+  {
+    "word": "perspicacity",
+    "partOfSpeech": "noun",
+    "definition": "Keenness of insight; the ability to understand things clearly.",
+    "etymology": "From Latin 'perspicax' (sharp-sighted).",
+    "exampleSentence": "His perspicacity in negotiations was matched only by his patience."
+  },
+  {
+    "word": "perspicuity",
+    "partOfSpeech": "noun",
+    "definition": "Clarity of expression.",
+    "etymology": "From Latin 'perspicuitas' (transparency).",
+    "exampleSentence": "She praised the textbook for its near-mathematical perspicuity."
+  },
+  {
+    "word": "petrifaction",
+    "partOfSpeech": "noun",
+    "definition": "The process of turning to stone, or becoming rigid with fear.",
+    "etymology": "From Latin 'petra' (stone) and '-faction'.",
+    "exampleSentence": "Petrifaction set in the moment he saw the audience."
+  },
+  {
+    "word": "philippic",
+    "partOfSpeech": "noun",
+    "definition": "A bitter verbal attack or denunciation.",
+    "etymology": "From Greek 'philippikos', after Demosthenes' speeches against Philip of Macedon.",
+    "exampleSentence": "Her resignation letter was a six-page philippic."
+  },
+  {
+    "word": "plangent",
+    "partOfSpeech": "adjective",
+    "definition": "Resounding loudly and mournfully.",
+    "etymology": "From Latin 'plangere' (to lament).",
+    "exampleSentence": "The plangent cry of the bagpipes carried across the loch."
+  },
+  {
+    "word": "plenipotentiary",
+    "partOfSpeech": "noun",
+    "definition": "A diplomat with full authority to act.",
+    "etymology": "From Latin 'plenus' (full) and 'potens' (powerful).",
+    "exampleSentence": "The treaty was signed by the plenipotentiary in Berlin."
+  },
+  {
+    "word": "prelapsarian",
+    "partOfSpeech": "adjective",
+    "definition": "Relating to the time before the Fall of Man; innocent.",
+    "etymology": "From Latin 'prae-' (before) and 'lapsus' (fall).",
+    "exampleSentence": "Childhood photos always evoke a prelapsarian Sunday afternoon."
+  },
+  {
+    "word": "preprandial",
+    "partOfSpeech": "adjective",
+    "definition": "Done before a meal, especially dinner.",
+    "etymology": "From Latin 'prae-' (before) and 'prandium' (meal).",
+    "exampleSentence": "A preprandial walk had become their oldest ritual."
+  },
+  {
+    "word": "presbyopic",
+    "partOfSpeech": "adjective",
+    "definition": "Far-sighted due to the aging of the eyes.",
+    "etymology": "From Greek 'presbys' (old man) and '-opia'.",
+    "exampleSentence": "She was newly presbyopic and constantly searching for reading glasses."
+  },
+  {
+    "word": "prevaricate",
+    "partOfSpeech": "verb",
+    "definition": "To speak or act evasively to avoid telling the truth.",
+    "etymology": "From Latin 'praevaricari' (to deviate).",
+    "exampleSentence": "He prevaricated until the journalist finally moved on."
+  },
+  {
+    "word": "prolix",
+    "partOfSpeech": "adjective",
+    "definition": "Tediously wordy.",
+    "etymology": "From Latin 'prolixus' (poured forth).",
+    "exampleSentence": "His emails were courteous, accurate, and exhaustingly prolix."
+  },
+  {
+    "word": "puissant",
+    "partOfSpeech": "adjective",
+    "definition": "Powerful; mighty.",
+    "etymology": "From Old French 'puissant'.",
+    "exampleSentence": "She kept the puissant little dog on a startlingly thin leash."
+  },
+  {
+    "word": "pulchritude",
+    "partOfSpeech": "noun",
+    "definition": "Physical beauty.",
+    "etymology": "From Latin 'pulchritudo' (beauty).",
+    "exampleSentence": "The valley's pulchritude in early autumn was worth the hike."
+  },
+  {
+    "word": "quincunx",
+    "partOfSpeech": "noun",
+    "definition": "An arrangement of five objects, four at the corners of a square and one at the center.",
+    "etymology": "From Latin 'quinque' (five) and 'uncia' (twelfth part); used for Roman coins.",
+    "exampleSentence": "The orchard was planted in a precise quincunx."
+  },
+  {
+    "word": "quintessence",
+    "partOfSpeech": "noun",
+    "definition": "The most perfect or typical example of a quality.",
+    "etymology": "From medieval Latin 'quinta essentia' (fifth essence), the heavenly element.",
+    "exampleSentence": "The bakery's croissant was the quintessence of Paris."
+  },
+  {
+    "word": "raconteur",
+    "partOfSpeech": "noun",
+    "definition": "A skilled, entertaining storyteller.",
+    "etymology": "From French 'raconter' (to tell).",
+    "exampleSentence": "Three families had hired him as the wedding's official raconteur."
+  },
+  {
+    "word": "rapprochement",
+    "partOfSpeech": "noun",
+    "definition": "The reestablishment of friendly relations.",
+    "etymology": "From French 'rapprocher' (to bring near).",
+    "exampleSentence": "A long-delayed rapprochement followed the brothers' winter together."
+  },
+  {
+    "word": "rara avis",
+    "partOfSpeech": "phrase",
+    "definition": "A rare or unique person or thing.",
+    "etymology": "From Latin, literally 'rare bird'; used by the poet Juvenal.",
+    "exampleSentence": "An honest mechanic in this town is a rara avis."
+  },
+  {
+    "word": "rebarbative",
+    "partOfSpeech": "adjective",
+    "definition": "Repellent; tending to repulse.",
+    "etymology": "From French 'rebarbatif'; literally beard-against-beard.",
+    "exampleSentence": "His manner was rebarbative, but his work was indisputable."
+  },
+  {
+    "word": "rede",
+    "partOfSpeech": "noun",
+    "definition": "Advice or counsel.",
+    "etymology": "From Old English 'raed' (counsel).",
+    "exampleSentence": "His grandmother's rede had served him better than any consultant."
+  },
+  {
+    "word": "refulgent",
+    "partOfSpeech": "adjective",
+    "definition": "Shining brightly; radiant.",
+    "etymology": "From Latin 'refulgens' (shining).",
+    "exampleSentence": "She emerged from the kitchen refulgent with flour and victory."
+  },
+  {
+    "word": "rigmarole",
+    "partOfSpeech": "noun",
+    "definition": "A long, complicated, and tedious procedure.",
+    "etymology": "Possibly from 'Ragman roll', a 14th-century catalogue of Scottish nobles.",
+    "exampleSentence": "Getting the permit involved a full afternoon of rigmarole."
+  },
+  {
+    "word": "roborant",
+    "partOfSpeech": "adjective",
+    "definition": "Restoring strength; tonic.",
+    "etymology": "From Latin 'roborare' (to make strong).",
+    "exampleSentence": "A roborant pot of beef stew put the table back on its feet."
+  },
+  {
+    "word": "ructions",
+    "partOfSpeech": "noun",
+    "definition": "A noisy disturbance or argument.",
+    "etymology": "British English, of Irish origin, possibly from 'insurrection'.",
+    "exampleSentence": "There would be ructions if anyone touched her good pen."
+  },
+  {
+    "word": "saturnine",
+    "partOfSpeech": "adjective",
+    "definition": "Gloomy and slow-tempered; brooding.",
+    "etymology": "After the planet Saturn, in medieval astrology associated with melancholy.",
+    "exampleSentence": "His saturnine demeanor evaporated only around horses."
+  },
+  {
+    "word": "scintilla",
+    "partOfSpeech": "noun",
+    "definition": "A tiny trace or spark.",
+    "etymology": "From Latin 'scintilla' (spark).",
+    "exampleSentence": "She showed not a scintilla of remorse."
+  },
+  {
+    "word": "sedulous",
+    "partOfSpeech": "adjective",
+    "definition": "Showing dedication and diligence.",
+    "etymology": "From Latin 'sedulus' (zealous).",
+    "exampleSentence": "Her sedulous notes filled three notebooks per semester."
+  },
+  {
+    "word": "sempiternal",
+    "partOfSpeech": "adjective",
+    "definition": "Everlasting; eternal.",
+    "etymology": "From Latin 'semper' (always) and 'aeternus' (eternal).",
+    "exampleSentence": "The mountain looked sempiternal at sunrise."
+  },
+  {
+    "word": "shibboleth",
+    "partOfSpeech": "noun",
+    "definition": "A custom or word used to distinguish one group from another.",
+    "etymology": "From Hebrew 'shibboleth', in the biblical book of Judges; a word used to identify the enemy by accent.",
+    "exampleSentence": "Pronouncing the chef's name correctly was the local foodie shibboleth."
+  },
+  {
+    "word": "sibilance",
+    "partOfSpeech": "noun",
+    "definition": "A hissing or hush-like sound in speech or writing.",
+    "etymology": "From Latin 'sibilare' (to hiss).",
+    "exampleSentence": "The closing line had a sibilance that made it stick."
+  },
+  {
+    "word": "skirl",
+    "partOfSpeech": "noun",
+    "definition": "The shrill, wailing sound of bagpipes.",
+    "etymology": "From Middle English 'skirlen' (to shriek); Scottish origin.",
+    "exampleSentence": "The skirl of the pipes opened the festival every year."
+  },
+  {
+    "word": "skullduggery",
+    "partOfSpeech": "noun",
+    "definition": "Underhanded or unscrupulous behavior.",
+    "etymology": "Scots English, 19th century, of obscure origin.",
+    "exampleSentence": "The election was decided by paperwork and a little skullduggery."
+  },
+  {
+    "word": "slumgullion",
+    "partOfSpeech": "noun",
+    "definition": "A cheap, watery stew or beverage.",
+    "etymology": "American English, 1840s, of obscure origin.",
+    "exampleSentence": "The diner served a passable slumgullion on Tuesdays."
+  },
+  {
+    "word": "solipsism",
+    "partOfSpeech": "noun",
+    "definition": "The philosophical view that only the self can be known to exist.",
+    "etymology": "From Latin 'solus' (alone) and 'ipse' (self).",
+    "exampleSentence": "Adolescence is one long flirtation with solipsism."
+  },
+  {
+    "word": "somnambulist",
+    "partOfSpeech": "noun",
+    "definition": "A sleepwalker.",
+    "etymology": "From Latin 'somnus' (sleep) and 'ambulare' (to walk); coined in the 18th century.",
+    "exampleSentence": "He was a celebrated somnambulist in the boarding house's lore."
+  },
+  {
+    "word": "soporific",
+    "partOfSpeech": "adjective",
+    "definition": "Inducing drowsiness or sleep.",
+    "etymology": "From Latin 'sopor' (deep sleep).",
+    "exampleSentence": "His lectures were soporific in the sweetest possible way."
+  },
+  {
+    "word": "sough",
+    "partOfSpeech": "noun",
+    "definition": "A soft murmuring or rustling sound, especially of wind.",
+    "etymology": "From Old English 'swogan' (to make a sound).",
+    "exampleSentence": "All night the sough of the pines kept her company."
+  },
+  {
+    "word": "spindrift",
+    "partOfSpeech": "noun",
+    "definition": "Sea spray blown along the surface of the water.",
+    "etymology": "Scottish English, from 'spind' (spin) and 'drift'.",
+    "exampleSentence": "Spindrift coated the windshield as the ferry rounded the point."
+  },
+  {
+    "word": "stentorian",
+    "partOfSpeech": "adjective",
+    "definition": "Extremely loud and powerful in tone.",
+    "etymology": "After Stentor, a herald in Homer's Iliad with a voice like fifty men.",
+    "exampleSentence": "The conductor's stentorian rebuke shook the wind section."
+  },
+  {
+    "word": "stochastic",
+    "partOfSpeech": "adjective",
+    "definition": "Randomly determined; having a probability distribution.",
+    "etymology": "From Greek 'stochastikos' (skilled in guessing).",
+    "exampleSentence": "Their dinner plans were stochastic at best."
+  },
+  {
+    "word": "stridulate",
+    "partOfSpeech": "verb",
+    "definition": "To make a shrill sound by rubbing body parts together, as crickets do.",
+    "etymology": "From Latin 'stridulus' (creaking).",
+    "exampleSentence": "All summer the cicadas stridulated from the eaves."
+  },
+  {
+    "word": "supercilious",
+    "partOfSpeech": "adjective",
+    "definition": "Haughty and disdainful.",
+    "etymology": "From Latin 'supercilium' (eyebrow); from raising the brow in disdain.",
+    "exampleSentence": "The maitre d's supercilious glance had ended dinners before they began."
+  },
+  {
+    "word": "susurration",
+    "partOfSpeech": "noun",
+    "definition": "A whispering or rustling sound.",
+    "etymology": "From Latin 'susurratio'; a variant of susurrus.",
+    "exampleSentence": "A susurration of papers signaled the exam was almost over."
+  },
+  {
+    "word": "swithering",
+    "partOfSpeech": "adjective",
+    "definition": "Hesitating; being uncertain.",
+    "etymology": "From Scots 'swither' (to be undecided).",
+    "exampleSentence": "He stood swithering at the gate, holding both his cap and his nerve."
+  },
+  {
+    "word": "sylph",
+    "partOfSpeech": "noun",
+    "definition": "A slim, graceful woman or girl; in folklore, a spirit of the air.",
+    "etymology": "Coined by Paracelsus in the 16th century from Greek and Latin roots.",
+    "exampleSentence": "She moved through the gallery like a sylph in linen."
+  },
+  {
+    "word": "syzygy",
+    "partOfSpeech": "noun",
+    "definition": "A conjunction or opposition of celestial bodies; a pairing.",
+    "etymology": "From Greek 'syzygia' (yoking).",
+    "exampleSentence": "The eclipse offered a rare syzygy worth setting an alarm for."
+  },
+  {
+    "word": "tatterdemalion",
+    "partOfSpeech": "noun",
+    "definition": "A person in ragged clothing.",
+    "etymology": "Early 17th century, of fanciful origin.",
+    "exampleSentence": "A tatterdemalion of a stray cat curled into the bookshop window."
+  },
+  {
+    "word": "tenebrous",
+    "partOfSpeech": "adjective",
+    "definition": "Dark, shadowy, or obscure.",
+    "etymology": "From Latin 'tenebrosus' (dark).",
+    "exampleSentence": "The tenebrous corridor smelled faintly of beeswax."
+  },
+  {
+    "word": "thaumaturgy",
+    "partOfSpeech": "noun",
+    "definition": "The working of wonders or miracles.",
+    "etymology": "From Greek 'thauma' (marvel) and 'ergon' (work).",
+    "exampleSentence": "Restoring the engine in two days felt like minor thaumaturgy."
+  },
+  {
+    "word": "tintinnabulation",
+    "partOfSpeech": "noun",
+    "definition": "A ringing or tinkling sound, as of bells.",
+    "etymology": "From Latin 'tintinnabulum' (bell); popularized by Edgar Allan Poe.",
+    "exampleSentence": "A tintinnabulation rose from the cathedral at noon."
+  },
+  {
+    "word": "tittynope",
+    "partOfSpeech": "noun",
+    "definition": "A small leftover quantity of food.",
+    "etymology": "British dialect, 19th century.",
+    "exampleSentence": "The fridge contained a tittynope of pesto and ambition."
+  },
+  {
+    "word": "tortuous",
+    "partOfSpeech": "adjective",
+    "definition": "Full of twists; excessively complicated.",
+    "etymology": "From Latin 'tortus' (twisted).",
+    "exampleSentence": "The expense form took a tortuous path through three departments."
+  },
+  {
+    "word": "transmogrify",
+    "partOfSpeech": "verb",
+    "definition": "To transform in a surprising or magical way.",
+    "etymology": "Mid-17th century English; of fanciful origin.",
+    "exampleSentence": "A pair of glasses transmogrified him into an entirely new person at parties."
+  },
+  {
+    "word": "tristesse",
+    "partOfSpeech": "noun",
+    "definition": "A state of melancholy or sadness.",
+    "etymology": "From French 'tristesse'.",
+    "exampleSentence": "Sunday evenings carried a tristesse she could neither name nor cure."
+  },
+  {
+    "word": "truckle",
+    "partOfSpeech": "verb",
+    "definition": "To submit obsequiously; to act in a servile way.",
+    "etymology": "From 'truckle bed', the lower bed pushed under a higher one.",
+    "exampleSentence": "He refused to truckle to investors even when broke."
+  },
+  {
+    "word": "tutelary",
+    "partOfSpeech": "adjective",
+    "definition": "Serving as a protector or guardian.",
+    "etymology": "From Latin 'tutelaris' (protective).",
+    "exampleSentence": "An old fig tree was the tutelary spirit of the courtyard."
+  },
+  {
+    "word": "ululate",
+    "partOfSpeech": "verb",
+    "definition": "To howl or wail, especially in grief or celebration.",
+    "etymology": "From Latin 'ululare', imitative of the sound.",
+    "exampleSentence": "The women began to ululate as the procession turned the corner."
+  },
+  {
+    "word": "umbra",
+    "partOfSpeech": "noun",
+    "definition": "The fully shaded inner region of a shadow.",
+    "etymology": "From Latin 'umbra' (shade).",
+    "exampleSentence": "During the eclipse, the umbra raced across the cornfields at 1,500 miles per hour."
+  },
+  {
+    "word": "umbrage",
+    "partOfSpeech": "noun",
+    "definition": "Offense or annoyance.",
+    "etymology": "From Latin 'umbra' (shadow); in English since the 15th century.",
+    "exampleSentence": "He took umbrage at the polite suggestion to use a coaster."
+  },
+  {
+    "word": "unctuous",
+    "partOfSpeech": "adjective",
+    "definition": "Excessively flattering or smooth in manner.",
+    "etymology": "From Latin 'unctuosus' (greasy).",
+    "exampleSentence": "The unctuous estate agent smiled at the wallpaper as if it were his own child."
+  },
+  {
+    "word": "uxorious",
+    "partOfSpeech": "adjective",
+    "definition": "Excessively fond of or submissive to one's wife.",
+    "etymology": "From Latin 'uxor' (wife).",
+    "exampleSentence": "He was uxorious in a way the office found charming and the gym did not."
+  },
+  {
+    "word": "vagary",
+    "partOfSpeech": "noun",
+    "definition": "An unexpected or unpredictable change.",
+    "etymology": "From Latin 'vagari' (to wander).",
+    "exampleSentence": "The vagaries of the housing market made forecasting useless."
+  },
+  {
+    "word": "vatic",
+    "partOfSpeech": "adjective",
+    "definition": "Prophetic; like that of a seer.",
+    "etymology": "From Latin 'vates' (prophet).",
+    "exampleSentence": "Her newsletter had a quietly vatic tone that scared her editor."
+  },
+  {
+    "word": "velleity",
+    "partOfSpeech": "noun",
+    "definition": "A wish or inclination too weak to lead to action.",
+    "etymology": "From medieval Latin 'velleitas', from 'velle' (to wish).",
+    "exampleSentence": "He had a lifelong velleity to learn cello."
+  },
+  {
+    "word": "verisimilitude",
+    "partOfSpeech": "noun",
+    "definition": "The appearance of being true or real.",
+    "etymology": "From Latin 'verisimilitudo' (likeness to truth).",
+    "exampleSentence": "The novel's dialogue had a verisimilitude rare in airport thrillers."
+  },
+  {
+    "word": "vespertine",
+    "partOfSpeech": "adjective",
+    "definition": "Relating to or active in the evening.",
+    "etymology": "From Latin 'vespertinus', from 'vesper' (evening).",
+    "exampleSentence": "Owls and certain flowers share a vespertine habit."
+  },
+  {
+    "word": "viaticum",
+    "partOfSpeech": "noun",
+    "definition": "Provisions or money for a journey.",
+    "etymology": "From Latin 'viaticum' (travel money).",
+    "exampleSentence": "His grandmother slipped him a viaticum of fresh socks and folded bills."
+  },
+  {
+    "word": "vivify",
+    "partOfSpeech": "verb",
+    "definition": "To enliven or animate.",
+    "etymology": "From Latin 'vivificare' (to make alive).",
+    "exampleSentence": "A coat of paint vivified the whole storefront."
+  },
+  {
+    "word": "vorfreude",
+    "partOfSpeech": "noun",
+    "definition": "The joy felt in anticipation of a coming pleasure.",
+    "etymology": "From German, combining 'vor-' (before) and 'Freude' (joy).",
+    "exampleSentence": "The vorfreude of vacation often outshone the trip itself."
+  },
+  {
+    "word": "vulpine",
+    "partOfSpeech": "adjective",
+    "definition": "Resembling or characteristic of a fox; cunning.",
+    "etymology": "From Latin 'vulpinus' (of a fox).",
+    "exampleSentence": "Her vulpine grin meant she had already won the negotiation."
+  },
+  {
+    "word": "welkin",
+    "partOfSpeech": "noun",
+    "definition": "The sky; the vault of heaven.",
+    "etymology": "From Old English 'wolcen' (cloud).",
+    "exampleSentence": "A meteor cut a long line across the welkin."
+  },
+  {
+    "word": "whilom",
+    "partOfSpeech": "adjective",
+    "definition": "Former; once upon a time.",
+    "etymology": "From Old English 'hwilum' (at times).",
+    "exampleSentence": "He recounted his whilom days as a touring trumpeter."
+  },
+  {
+    "word": "winsome",
+    "partOfSpeech": "adjective",
+    "definition": "Attractive or appealing in a fresh, innocent way.",
+    "etymology": "From Old English 'wynsum' (pleasant).",
+    "exampleSentence": "The puppy's winsome head-tilt won her the room."
+  },
+  {
+    "word": "wuthering",
+    "partOfSpeech": "adjective",
+    "definition": "Characterized by a strong, blustering wind.",
+    "etymology": "From Yorkshire dialect; popularized by Emily Bronte in 1847.",
+    "exampleSentence": "It was a wuthering October across the moors."
+  },
+  {
+    "word": "xenial",
+    "partOfSpeech": "adjective",
+    "definition": "Relating to hospitality, especially to strangers.",
+    "etymology": "From Greek 'xenios' (hospitable).",
+    "exampleSentence": "The xenial customs of the Greek village made every stranger a relative by Wednesday."
+  },
+  {
+    "word": "yare",
+    "partOfSpeech": "adjective",
+    "definition": "Quick, agile, nimble, especially of a ship.",
+    "etymology": "From Old English 'gearu' (ready).",
+    "exampleSentence": "She kept her sailboat yare even into her seventies."
+  },
+  {
+    "word": "yclept",
+    "partOfSpeech": "adjective",
+    "definition": "Called or named.",
+    "etymology": "From Old English 'gecliepod' (named); a deliberate archaism in English since the 17th century.",
+    "exampleSentence": "He owned a one-eyed cat yclept Admiral."
+  },
+  {
+    "word": "yonderly",
+    "partOfSpeech": "adjective",
+    "definition": "Distracted, distant, or absent-minded.",
+    "etymology": "British dialect, 19th century.",
+    "exampleSentence": "She was yonderly all afternoon, watching crows out the window."
+  },
+  {
+    "word": "zaftig",
+    "partOfSpeech": "adjective",
+    "definition": "Pleasantly plump; full-figured.",
+    "etymology": "From Yiddish 'zaftik' (juicy), from German 'Saft' (juice).",
+    "exampleSentence": "The portraits in the upstairs hall featured a zaftig and amused great-aunt."
+  },
+  {
+    "word": "zephyr",
+    "partOfSpeech": "noun",
+    "definition": "A gentle, mild breeze.",
+    "etymology": "After Zephyrus, Greek god of the west wind.",
+    "exampleSentence": "A zephyr lifted the tablecloth corner and dropped it again."
+  },
+  {
+    "word": "zugzwang",
+    "partOfSpeech": "noun",
+    "definition": "A situation in which any move one makes will worsen one's position.",
+    "etymology": "From German, originally a chess term meaning 'compulsion to move'.",
+    "exampleSentence": "Negotiating with both his ex and his landlord put him in textbook zugzwang."
+  },
+  {
+    "word": "zwischenzug",
+    "partOfSpeech": "noun",
+    "definition": "An unexpected move that interrupts the expected sequence.",
+    "etymology": "From German, another chess term meaning 'in-between move'.",
+    "exampleSentence": "Her counter-offer was a brilliant zwischenzug nobody saw coming."
+  },
+  {
+    "word": "aestival",
+    "partOfSpeech": "adjective",
+    "definition": "Relating to or occurring in summer.",
+    "etymology": "From Latin 'aestivalis', from 'aestas' (summer).",
+    "exampleSentence": "Her aestival uniform was linen and very dark sunglasses."
+  },
+  {
+    "word": "amaranthine",
+    "partOfSpeech": "adjective",
+    "definition": "Undying; everlastingly beautiful.",
+    "etymology": "From the mythical amaranth flower, said never to fade.",
+    "exampleSentence": "His memory of that summer was amaranthine and slightly fictional."
+  },
+  {
+    "word": "antediluvian",
+    "partOfSpeech": "adjective",
+    "definition": "Ridiculously old-fashioned; literally, from before the biblical flood.",
+    "etymology": "From Latin 'ante-' (before) and 'diluvium' (flood); coined in the 17th century.",
+    "exampleSentence": "Her antediluvian flip phone outlived three smartphones."
+  },
+  {
+    "word": "apothegm",
+    "partOfSpeech": "noun",
+    "definition": "A short, pithy saying.",
+    "etymology": "From Greek 'apophthegma' (something uttered).",
+    "exampleSentence": "His grandfather had an apothegm for every kitchen disaster."
+  },
+  {
+    "word": "argosy",
+    "partOfSpeech": "noun",
+    "definition": "A large merchant ship; a richly laden fleet.",
+    "etymology": "From Italian 'ragusea', a ship of Ragusa (now Dubrovnik).",
+    "exampleSentence": "The library felt like an argosy of paper bound for some distant century."
+  },
+  {
+    "word": "asseverate",
+    "partOfSpeech": "verb",
+    "definition": "To declare solemnly or emphatically.",
+    "etymology": "From Latin 'asseverare' (to affirm seriously).",
+    "exampleSentence": "He asseverated his innocence with notarized vigor."
+  },
+  {
+    "word": "athenaeum",
+    "partOfSpeech": "noun",
+    "definition": "A literary or scientific association; a library.",
+    "etymology": "After Athena, Greek goddess of wisdom.",
+    "exampleSentence": "The town's athenaeum kept a fire burning in the reading room all winter."
+  },
+  {
+    "word": "auld lang syne",
+    "partOfSpeech": "phrase",
+    "definition": "Days long past; old times, fondly remembered.",
+    "etymology": "From Scots, popularized by Robert Burns in 1788.",
+    "exampleSentence": "They raised a glass for auld lang syne and the worse winters."
+  },
+  {
+    "word": "aureate",
+    "partOfSpeech": "adjective",
+    "definition": "Gilded; brilliant in language.",
+    "etymology": "From Latin 'aureatus' (golden).",
+    "exampleSentence": "His aureate prose dazzled at first and tired quickly."
+  },
+  {
+    "word": "ballyhoo",
+    "partOfSpeech": "noun",
+    "definition": "Extravagant publicity or commotion.",
+    "etymology": "American English, late 19th century, of obscure origin.",
+    "exampleSentence": "After all the ballyhoo, the film opened to twelve people."
+  },
+  {
+    "word": "beatitude",
+    "partOfSpeech": "noun",
+    "definition": "Supreme blessedness or contentment.",
+    "etymology": "From Latin 'beatitudo', from 'beatus' (blessed).",
+    "exampleSentence": "Sleeping cats achieve a beatitude no human meditator can match."
+  },
+  {
+    "word": "bedizen",
+    "partOfSpeech": "verb",
+    "definition": "To dress or decorate gaudily.",
+    "etymology": "From English 'be-' and 'dizen' (to dress up); 17th century.",
+    "exampleSentence": "The float had been bedizened beyond reason for the parade."
+  },
+  {
+    "word": "beleaguer",
+    "partOfSpeech": "verb",
+    "definition": "To beset with troubles; besiege.",
+    "etymology": "From Dutch 'belegeren' (to camp around).",
+    "exampleSentence": "Beleaguered by deadlines, she canceled three meetings and slept."
+  },
+  {
+    "word": "belletrist",
+    "partOfSpeech": "noun",
+    "definition": "A writer of literary essays, especially of a graceful kind.",
+    "etymology": "From French 'belles-lettres' (fine letters).",
+    "exampleSentence": "He was the last belletrist on staff at the magazine."
+  },
+  {
+    "word": "blandishment",
+    "partOfSpeech": "noun",
+    "definition": "A flattering or coaxing remark.",
+    "etymology": "From Latin 'blandiri' (to flatter).",
+    "exampleSentence": "No blandishment could persuade the cat off the chair."
+  },
+  {
+    "word": "boondoggle",
+    "partOfSpeech": "noun",
+    "definition": "A wasteful or impractical project.",
+    "etymology": "American English, 1930s; popularized during the New Deal.",
+    "exampleSentence": "The committee's new logo took eight months and counted as a boondoggle."
+  },
+  {
+    "word": "bricolage",
+    "partOfSpeech": "noun",
+    "definition": "Construction or creation from whatever is available.",
+    "etymology": "From French 'bricoler' (to tinker); popularized in anthropology by Levi-Strauss.",
+    "exampleSentence": "Her studio was a happy bricolage of thrift-store finds."
+  },
+  {
+    "word": "bumbershoot",
+    "partOfSpeech": "noun",
+    "definition": "An umbrella.",
+    "etymology": "American English coinage, late 19th century, fanciful elaboration of 'umbrella'.",
+    "exampleSentence": "He grabbed his bumbershoot and disappeared into the rain."
+  },
+  {
+    "word": "cachinnate",
+    "partOfSpeech": "verb",
+    "definition": "To laugh loudly or immoderately.",
+    "etymology": "From Latin 'cachinnare' (to laugh loudly).",
+    "exampleSentence": "The audience cachinnated through the whole second act."
+  },
+  {
+    "word": "cafune",
+    "partOfSpeech": "noun",
+    "definition": "The act of tenderly running one's fingers through someone's hair.",
+    "etymology": "From Brazilian Portuguese, with possible West African roots.",
+    "exampleSentence": "He fell asleep mid-cafune on the couch."
+  },
+  {
+    "word": "calumny",
+    "partOfSpeech": "noun",
+    "definition": "A false, malicious statement intended to harm someone's reputation.",
+    "etymology": "From Latin 'calumnia' (false accusation).",
+    "exampleSentence": "Their feud was now mostly calumny by group chat."
+  },
+  {
+    "word": "celerity",
+    "partOfSpeech": "noun",
+    "definition": "Swiftness of action.",
+    "etymology": "From Latin 'celeritas' (speed).",
+    "exampleSentence": "He answered with a celerity that suggested rehearsal."
+  },
+  {
+    "word": "chimerical",
+    "partOfSpeech": "adjective",
+    "definition": "Imaginary; wildly fanciful.",
+    "etymology": "From Greek 'Chimaira', the fire-breathing hybrid monster.",
+    "exampleSentence": "Her business plan was bright, ambitious, and partly chimerical."
+  },
+  {
+    "word": "chrysalis",
+    "partOfSpeech": "noun",
+    "definition": "The pupal stage of an insect; a transitional state.",
+    "etymology": "From Greek 'chrysallis' (gold-colored sheath).",
+    "exampleSentence": "Her second year of grad school was a chrysalis nobody, including her, recognized."
+  },
+  {
+    "word": "circumlocution",
+    "partOfSpeech": "noun",
+    "definition": "The use of many words where fewer would do.",
+    "etymology": "From Latin 'circumlocutio' (talking around).",
+    "exampleSentence": "Diplomatic circumlocution kept the conversation alive for an hour without saying anything."
+  },
+  {
+    "word": "claque",
+    "partOfSpeech": "noun",
+    "definition": "A group of fans hired to applaud at a performance.",
+    "etymology": "From French 'claquer' (to clap).",
+    "exampleSentence": "Every podcast launch comes with its own quiet claque."
+  },
+  {
+    "word": "collywobbles",
+    "partOfSpeech": "noun",
+    "definition": "An upset stomach; a feeling of butterflies and nerves.",
+    "etymology": "British English, 19th century, fanciful elaboration of 'colic'.",
+    "exampleSentence": "She had a fine case of pre-interview collywobbles."
+  },
+  {
+    "word": "concinnity",
+    "partOfSpeech": "noun",
+    "definition": "A harmonious arrangement of parts; elegant style.",
+    "etymology": "From Latin 'concinnitas' (skillful arrangement).",
+    "exampleSentence": "The room had a concinnity that resisted any single redecoration."
+  },
+  {
+    "word": "confabulate",
+    "partOfSpeech": "verb",
+    "definition": "To converse informally; in psychology, to invent stories to fill gaps in memory.",
+    "etymology": "From Latin 'confabulari' (to talk together).",
+    "exampleSentence": "The old men confabulated for hours under the awning."
+  },
+  {
+    "word": "contumacious",
+    "partOfSpeech": "adjective",
+    "definition": "Stubbornly disobedient to authority.",
+    "etymology": "From Latin 'contumax' (insolent).",
+    "exampleSentence": "The contumacious puppy ate the rulebook, twice."
+  },
+  {
+    "word": "corybantic",
+    "partOfSpeech": "adjective",
+    "definition": "Wild, frenzied, or unrestrained.",
+    "etymology": "After the Corybantes, ecstatic dancers of ancient Phrygia.",
+    "exampleSentence": "By midnight the dance floor was corybantic."
+  },
+  {
+    "word": "cromulent",
+    "partOfSpeech": "adjective",
+    "definition": "Acceptable or legitimate, though made-up.",
+    "etymology": "Coined for 'The Simpsons' in 1996; widely adopted in modern English.",
+    "exampleSentence": "His justification was cromulent enough to end the argument."
+  },
+  {
+    "word": "crepuscular",
+    "partOfSpeech": "adjective",
+    "definition": "Relating to or resembling twilight; active at dusk.",
+    "etymology": "From Latin 'crepusculum' (twilight).",
+    "exampleSentence": "The crepuscular hush was broken only by the owls."
+  },
+  {
+    "word": "deliquesce",
+    "partOfSpeech": "verb",
+    "definition": "To become liquid by absorbing moisture from the air; to dissolve into nothing.",
+    "etymology": "From Latin 'deliquescere' (to melt away).",
+    "exampleSentence": "His resolve deliquesced the moment he saw the dessert cart."
+  },
+  {
+    "word": "denouement",
+    "partOfSpeech": "noun",
+    "definition": "The final resolution of a complex sequence or narrative.",
+    "etymology": "From French 'denouer' (to untie).",
+    "exampleSentence": "The denouement of the trip arrived in a small bistro in Lyon."
+  },
+  {
+    "word": "deracinate",
+    "partOfSpeech": "verb",
+    "definition": "To uproot.",
+    "etymology": "From French 'deraciner' (to uproot), from Latin 'radix' (root).",
+    "exampleSentence": "Three moves in five years had deracinated him in ways he was still measuring."
+  },
+  {
+    "word": "diatribe",
+    "partOfSpeech": "noun",
+    "definition": "A forceful, bitter verbal attack.",
+    "etymology": "From Greek 'diatribe' (a wearing away with words).",
+    "exampleSentence": "His Twitter diatribe lasted longer than the actual issue."
+  },
+  {
+    "word": "disport",
+    "partOfSpeech": "verb",
+    "definition": "To amuse oneself, often playfully.",
+    "etymology": "From Old French 'desporter' (to carry away).",
+    "exampleSentence": "The otters disported themselves in the river for hours."
+  },
+  {
+    "word": "doff",
+    "partOfSpeech": "verb",
+    "definition": "To remove an item of clothing, especially a hat.",
+    "etymology": "Contraction of 'do off'; in English since the 14th century.",
+    "exampleSentence": "He doffed his cap to the choir as they passed."
+  },
+  {
+    "word": "dotage",
+    "partOfSpeech": "noun",
+    "definition": "The period of life in which a person is old and weak.",
+    "etymology": "From Middle English 'doten' (to be foolish).",
+    "exampleSentence": "Even in her dotage she remembered every grudge in alphabetical order."
+  },
+  {
+    "word": "ebon",
+    "partOfSpeech": "adjective",
+    "definition": "Of or like ebony; deep black.",
+    "etymology": "From Latin 'ebenus' (ebony).",
+    "exampleSentence": "Her hair was ebon against the white of the pillow."
+  },
+  {
+    "word": "echolalia",
+    "partOfSpeech": "noun",
+    "definition": "The meaningless repetition of another's words.",
+    "etymology": "From Greek 'echo' and 'lalia' (speech).",
+    "exampleSentence": "The cable-news debate decayed into mutual echolalia."
+  },
+  {
+    "word": "edify",
+    "partOfSpeech": "verb",
+    "definition": "To instruct or improve someone morally or intellectually.",
+    "etymology": "From Latin 'aedificare' (to build).",
+    "exampleSentence": "The exhibit was meant to edify, but mostly it astonished."
+  },
+  {
+    "word": "effleurage",
+    "partOfSpeech": "noun",
+    "definition": "A light stroking massage of the skin.",
+    "etymology": "From French 'effleurer' (to skim, lightly touch).",
+    "exampleSentence": "She began with effleurage along the shoulders to set the pace."
+  },
+  {
+    "word": "effulgent",
+    "partOfSpeech": "adjective",
+    "definition": "Shining brightly; radiant.",
+    "etymology": "From Latin 'effulgens' (shining forth).",
+    "exampleSentence": "The bride was effulgent in the late-afternoon light."
+  },
+  {
+    "word": "egregious",
+    "partOfSpeech": "adjective",
+    "definition": "Outstandingly bad; shocking.",
+    "etymology": "From Latin 'egregius' (outstanding, towering above).",
+    "exampleSentence": "The typo on the cover was egregious enough to make the printer apologize."
+  },
+  {
+    "word": "elan",
+    "partOfSpeech": "noun",
+    "definition": "Energy, style, and enthusiasm.",
+    "etymology": "From French 'elan' (rush, spring).",
+    "exampleSentence": "She moved into the new role with characteristic elan."
+  },
+  {
+    "word": "encomium",
+    "partOfSpeech": "noun",
+    "definition": "A formal expression of high praise.",
+    "etymology": "From Greek 'enkomion' (eulogy at a festival).",
+    "exampleSentence": "His retirement dinner included three encomia and four roast lines."
+  },
+  {
+    "word": "epicurean",
+    "partOfSpeech": "adjective",
+    "definition": "Devoted to refined sensuous pleasure, especially food and drink.",
+    "etymology": "After the Greek philosopher Epicurus, though stretched far from his actual ethics.",
+    "exampleSentence": "He had an epicurean weakness for cold soups in summer."
+  },
+  {
+    "word": "ephemera",
+    "partOfSpeech": "noun",
+    "definition": "Things that exist or are used for only a short time.",
+    "etymology": "From Greek 'ephemeros' (lasting a day).",
+    "exampleSentence": "The drawer was full of ephemera from a long-defunct theater."
+  },
+  {
+    "word": "epistolary",
+    "partOfSpeech": "adjective",
+    "definition": "Carried out or written in the form of letters.",
+    "etymology": "From Greek 'epistole' (letter).",
+    "exampleSentence": "Their epistolary romance lasted longer than most marriages of their friends."
+  },
+  {
+    "word": "erudition",
+    "partOfSpeech": "noun",
+    "definition": "Deep, extensive learning.",
+    "etymology": "From Latin 'eruditio' (instruction).",
+    "exampleSentence": "His erudition was lightly worn, almost concealed under the joke."
+  },
+  {
+    "word": "etiolated",
+    "partOfSpeech": "adjective",
+    "definition": "Pale and drawn out from lack of light or vitality.",
+    "etymology": "From French 'etioler' (to blanch plants).",
+    "exampleSentence": "After three weeks of finals he looked etiolated and apologetic."
+  },
+  {
+    "word": "extemporize",
+    "partOfSpeech": "verb",
+    "definition": "To speak or perform without preparation.",
+    "etymology": "From Latin 'ex tempore' (out of the moment).",
+    "exampleSentence": "He extemporized a toast in three languages and brought down the house."
+  },
+  {
+    "word": "facetious",
+    "partOfSpeech": "adjective",
+    "definition": "Treating serious issues with deliberate inappropriate humor.",
+    "etymology": "From Latin 'facetus' (witty); contains all five vowels in order.",
+    "exampleSentence": "Her facetious answer in court did not help her case."
+  },
+  {
+    "word": "factotum",
+    "partOfSpeech": "noun",
+    "definition": "A person hired to do all kinds of work.",
+    "etymology": "From medieval Latin 'fac totum' (do everything).",
+    "exampleSentence": "He was the gallery's factotum, fixing lights and writing labels."
+  },
+  {
+    "word": "famulus",
+    "partOfSpeech": "noun",
+    "definition": "An attendant or assistant, especially of a scholar or magician.",
+    "etymology": "From Latin 'famulus' (servant); popularized in 19th-century literature.",
+    "exampleSentence": "The professor's famulus carried three folders and a thermos."
+  },
+  {
+    "word": "farrago",
+    "partOfSpeech": "noun",
+    "definition": "A confused mixture; a hodgepodge.",
+    "etymology": "From Latin 'farrago' (mixed fodder).",
+    "exampleSentence": "The op-ed was a farrago of half-remembered statistics."
+  },
+  {
+    "word": "feculent",
+    "partOfSpeech": "adjective",
+    "definition": "Of or containing dirt or impurities; turbid.",
+    "etymology": "From Latin 'faeculentus' (full of dregs).",
+    "exampleSentence": "The river had grown feculent after the storms."
+  },
+  {
+    "word": "fey",
+    "partOfSpeech": "adjective",
+    "definition": "Strange and otherworldly; having an air of unreality.",
+    "etymology": "From Old English 'fæge' (fated to die).",
+    "exampleSentence": "She had a fey way of always finding lost dogs."
+  },
+  {
+    "word": "filigree",
+    "partOfSpeech": "noun",
+    "definition": "Delicate, ornamental work in fine wire of gold or silver.",
+    "etymology": "From Italian 'filigrana' (wire-grained work).",
+    "exampleSentence": "The pendant was a single piece of silver filigree."
+  },
+  {
+    "word": "finical",
+    "partOfSpeech": "adjective",
+    "definition": "Excessively particular or fussy.",
+    "etymology": "From English 'fine' with diminutive ending; 16th century.",
+    "exampleSentence": "He was finical about his typography to the last point size."
+  },
+  {
+    "word": "florilegium",
+    "partOfSpeech": "noun",
+    "definition": "A collection of choice literary extracts; an anthology.",
+    "etymology": "From Latin 'flos' (flower) and 'legere' (to gather).",
+    "exampleSentence": "She kept a private florilegium of consoling sentences."
+  },
+  {
+    "word": "forlorn",
+    "partOfSpeech": "adjective",
+    "definition": "Pitifully sad and abandoned.",
+    "etymology": "From Old English 'forloren' (utterly lost).",
+    "exampleSentence": "A forlorn bicycle leaned against the gate."
+  },
+  {
+    "word": "fossick",
+    "partOfSpeech": "verb",
+    "definition": "To rummage or search, especially for something useful.",
+    "etymology": "Australian English, gold-rush era, possibly from Cornish dialect.",
+    "exampleSentence": "She fossicked in the drawer for a working pen."
+  },
+  {
+    "word": "froward",
+    "partOfSpeech": "adjective",
+    "definition": "Habitually disposed to disobedience; perverse.",
+    "etymology": "From Old English 'fromweard' (turned away).",
+    "exampleSentence": "He had a froward streak that no employer could quite tame."
+  },
+  {
+    "word": "frumious",
+    "partOfSpeech": "adjective",
+    "definition": "Fuming and furious; a portmanteau of the two.",
+    "etymology": "Coined by Lewis Carroll in 'Jabberwocky' (1871).",
+    "exampleSentence": "She arrived to the meeting frumious and uncaffeinated."
+  },
+  {
+    "word": "fulminant",
+    "partOfSpeech": "adjective",
+    "definition": "Severe and sudden in onset.",
+    "etymology": "From Latin 'fulminans' (thundering).",
+    "exampleSentence": "The fulminant headache sent her straight back to bed."
+  },
+  {
+    "word": "fungible",
+    "partOfSpeech": "adjective",
+    "definition": "Mutually interchangeable; replaceable with an identical item.",
+    "etymology": "From Latin 'fungi' (to perform).",
+    "exampleSentence": "Money is fungible; love is not."
+  },
+  {
+    "word": "furbelow",
+    "partOfSpeech": "noun",
+    "definition": "A gathered strip or pleated border of cloth; an ornament.",
+    "etymology": "From French 'falbala', of obscure origin.",
+    "exampleSentence": "The dress had a furbelow at the hem that swayed when she danced."
+  },
+  {
+    "word": "fustian",
+    "partOfSpeech": "noun",
+    "definition": "Pompous, pretentious speech or writing.",
+    "etymology": "From Old French 'fustaigne'; originally a type of coarse cloth.",
+    "exampleSentence": "His resignation letter was three pages of fustian and one sentence of news."
+  },
+  {
+    "word": "gainsay",
+    "partOfSpeech": "verb",
+    "definition": "To deny or contradict.",
+    "etymology": "From Old English 'gegn' (against) and 'say'.",
+    "exampleSentence": "No one would gainsay the bread; it was perfect."
+  },
+  {
+    "word": "gambol",
+    "partOfSpeech": "verb",
+    "definition": "To run or jump about playfully.",
+    "etymology": "From Old French 'gambade' (a leap).",
+    "exampleSentence": "The lambs gamboled in the field as if auditioning for a calendar."
+  },
+  {
+    "word": "garrulous",
+    "partOfSpeech": "adjective",
+    "definition": "Excessively talkative, especially on trivial matters.",
+    "etymology": "From Latin 'garrulus' (chattering).",
+    "exampleSentence": "Her garrulous uncle could fill a long drive with no help from anyone."
+  },
+  {
+    "word": "gasthof",
+    "partOfSpeech": "noun",
+    "definition": "A small inn or guesthouse, typically German-speaking.",
+    "etymology": "From German, combining 'Gast' (guest) and 'Hof' (court).",
+    "exampleSentence": "They booked a gasthof in the Tyrol for the New Year."
+  },
+  {
+    "word": "gelid",
+    "partOfSpeech": "adjective",
+    "definition": "Icy; extremely cold.",
+    "etymology": "From Latin 'gelidus' (icy).",
+    "exampleSentence": "A gelid wind cut across the lake."
+  },
+  {
+    "word": "germane",
+    "partOfSpeech": "adjective",
+    "definition": "Relevant to a subject under consideration.",
+    "etymology": "From Latin 'germanus' (closely related); used in this sense by Shakespeare.",
+    "exampleSentence": "He stuck strictly to remarks germane to the agenda."
+  },
+  {
+    "word": "gewgaw",
+    "partOfSpeech": "noun",
+    "definition": "A showy trinket of little value.",
+    "etymology": "Middle English, of obscure origin.",
+    "exampleSentence": "The drawer was packed with gewgaws from a dozen vacations."
+  },
+  {
+    "word": "gimcrack",
+    "partOfSpeech": "adjective",
+    "definition": "Showy but flimsy or poorly made.",
+    "etymology": "Middle English 'gibecrake', of obscure origin.",
+    "exampleSentence": "The hotel lobby was full of gimcrack chandeliers."
+  },
+  {
+    "word": "girandole",
+    "partOfSpeech": "noun",
+    "definition": "A branched candleholder or wall ornament.",
+    "etymology": "From Italian 'girandola' (whirligig).",
+    "exampleSentence": "A pair of antique girandoles flanked the fireplace."
+  },
+  {
+    "word": "glabrous",
+    "partOfSpeech": "adjective",
+    "definition": "Smooth; hairless.",
+    "etymology": "From Latin 'glaber' (smooth).",
+    "exampleSentence": "The glabrous leaves shone in the morning light."
+  },
+  {
+    "word": "glaikit",
+    "partOfSpeech": "adjective",
+    "definition": "Stupid, foolish, or vacant-looking.",
+    "etymology": "Scots, of obscure origin.",
+    "exampleSentence": "He gave her a glaikit smile and dropped the keys."
+  },
+  {
+    "word": "glaucous",
+    "partOfSpeech": "adjective",
+    "definition": "Of a dull grayish-green or blue color, often with a powdery bloom.",
+    "etymology": "From Greek 'glaukos' (bluish-gray).",
+    "exampleSentence": "The glaucous leaves of the eucalyptus made the hillside look almost silver."
+  },
+  {
+    "word": "gormless",
+    "partOfSpeech": "adjective",
+    "definition": "Lacking sense; foolish.",
+    "etymology": "From English dialect 'gaum' (understanding); 19th century.",
+    "exampleSentence": "He had a gormless way of agreeing with everyone in the room at once."
+  },
+  {
+    "word": "grimalkin",
+    "partOfSpeech": "noun",
+    "definition": "An old female cat; an ill-tempered old woman.",
+    "etymology": "From English 'grey' and 'Malkin', a diminutive of Matilda.",
+    "exampleSentence": "The bookshop's grimalkin glared at everyone under thirty."
+  },
+  {
+    "word": "grith",
+    "partOfSpeech": "noun",
+    "definition": "Peace, security, or protection, especially under law.",
+    "etymology": "From Old Norse 'grith' (truce).",
+    "exampleSentence": "The library offered a kind of urban grith from his email."
+  },
+  {
+    "word": "gustatory",
+    "partOfSpeech": "adjective",
+    "definition": "Relating to the sense of taste.",
+    "etymology": "From Latin 'gustare' (to taste).",
+    "exampleSentence": "The wine writer had gustatory recall most people reserved for grudges."
+  },
+  {
+    "word": "habiliments",
+    "partOfSpeech": "noun",
+    "definition": "Clothing, especially appropriate for an occasion.",
+    "etymology": "From Old French 'abillement' (clothing).",
+    "exampleSentence": "He arrived in the habiliments of a Victorian undertaker."
+  },
+  {
+    "word": "halidom",
+    "partOfSpeech": "noun",
+    "definition": "A holy thing or place; a sanctuary.",
+    "etymology": "From Old English 'haligdom' (holiness).",
+    "exampleSentence": "The kitchen had become her private halidom."
+  },
+  {
+    "word": "handsel",
+    "partOfSpeech": "noun",
+    "definition": "A gift given for luck at the start of a new venture.",
+    "etymology": "From Old English 'handselen' (delivery into the hand).",
+    "exampleSentence": "Her aunt slipped her a handsel before the first day of work."
+  },
+  {
+    "word": "hapax legomenon",
+    "partOfSpeech": "phrase",
+    "definition": "A word that occurs only once within a body of text.",
+    "etymology": "From Greek, literally 'said once'; used in textual scholarship.",
+    "exampleSentence": "The strange verb was a hapax legomenon in the Hittite corpus."
+  },
+  {
+    "word": "harridan",
+    "partOfSpeech": "noun",
+    "definition": "A scolding, bad-tempered old woman.",
+    "etymology": "Probably from French 'haridelle' (worn-out horse).",
+    "exampleSentence": "The novel's harridan turned out to be its hero."
+  },
+  {
+    "word": "hebdomadal",
+    "partOfSpeech": "adjective",
+    "definition": "Weekly.",
+    "etymology": "From Greek 'hebdomas' (week).",
+    "exampleSentence": "Their hebdomadal phone call survived four decades."
+  },
+  {
+    "word": "henotic",
+    "partOfSpeech": "adjective",
+    "definition": "Promoting unity or harmony.",
+    "etymology": "From Greek 'hen' (one).",
+    "exampleSentence": "The dean's henotic memo only inflamed the department."
+  },
+  {
+    "word": "hereward",
+    "partOfSpeech": "adjective",
+    "definition": "Pertaining to this place or direction.",
+    "etymology": "Old English 'her' (here) and 'weard' (toward).",
+    "exampleSentence": "The map had a hereward arrow that meant nothing without context."
+  },
+  {
+    "word": "hermeneutic",
+    "partOfSpeech": "adjective",
+    "definition": "Concerning the interpretation of texts.",
+    "etymology": "From Greek 'hermeneutikos', after Hermes the interpreter.",
+    "exampleSentence": "The seminar took a hermeneutic turn around lunchtime."
+  },
+  {
+    "word": "hexerei",
+    "partOfSpeech": "noun",
+    "definition": "Witchcraft, sorcery.",
+    "etymology": "From German 'Hexerei' (witchcraft).",
+    "exampleSentence": "Locals still attributed the missing chickens to hexerei."
+  },
+  {
+    "word": "histaminic",
+    "partOfSpeech": "adjective",
+    "definition": "Relating to histamine or its effects.",
+    "etymology": "From 'histamine', a chemical compound named in 1907.",
+    "exampleSentence": "A histaminic flush spread across her cheeks."
+  },
+  {
+    "word": "hortatory",
+    "partOfSpeech": "adjective",
+    "definition": "Aimed at exhorting or encouraging.",
+    "etymology": "From Latin 'hortari' (to urge).",
+    "exampleSentence": "The coach's hortatory speech doubled the team's energy."
+  },
+  {
+    "word": "hubristic",
+    "partOfSpeech": "adjective",
+    "definition": "Excessively proud or self-confident in a way that invites disaster.",
+    "etymology": "From Greek 'hybris' (insolence).",
+    "exampleSentence": "His hubristic forecast aged badly within a quarter."
+  },
+  {
+    "word": "iconoclast",
+    "partOfSpeech": "noun",
+    "definition": "A person who attacks cherished beliefs or institutions.",
+    "etymology": "From Greek 'eikonoklastes' (image-breaker).",
+    "exampleSentence": "She was the office iconoclast, and the office secretly loved her for it."
+  },
+  {
+    "word": "idoneous",
+    "partOfSpeech": "adjective",
+    "definition": "Suitable; appropriate.",
+    "etymology": "From Latin 'idoneus' (apt).",
+    "exampleSentence": "He gave an idoneous answer that committed him to nothing."
+  },
+  {
+    "word": "ignis fatuus",
+    "partOfSpeech": "phrase",
+    "definition": "A delusive hope or aim; literally, a will-o'-the-wisp.",
+    "etymology": "From Latin, 'foolish fire'; medieval term for swamp lights.",
+    "exampleSentence": "Her perfect novel had become an ignis fatuus that fled with each draft."
+  },
+  {
+    "word": "imbricate",
+    "partOfSpeech": "adjective",
+    "definition": "Overlapping, as roof tiles or scales.",
+    "etymology": "From Latin 'imbricare' (to cover with tiles).",
+    "exampleSentence": "The artichoke's imbricate leaves resisted the knife."
+  },
+  {
+    "word": "imprecation",
+    "partOfSpeech": "noun",
+    "definition": "A spoken curse.",
+    "etymology": "From Latin 'imprecari' (to invoke).",
+    "exampleSentence": "His grandmother muttered imprecations at her ancient sewing machine."
+  },
+  {
+    "word": "incarnadine",
+    "partOfSpeech": "adjective",
+    "definition": "Blood red; flesh-colored.",
+    "etymology": "From Italian 'incarnadino' (flesh tint); used by Shakespeare in Macbeth.",
+    "exampleSentence": "The sunset turned the sea incarnadine."
+  },
+  {
+    "word": "incunabulum",
+    "partOfSpeech": "noun",
+    "definition": "A book printed before 1501; the early stages of something.",
+    "etymology": "From Latin 'incunabula' (cradle).",
+    "exampleSentence": "The library kept its incunabula behind glass and a humidity sensor."
+  },
+  {
+    "word": "ineluctable",
+    "partOfSpeech": "adjective",
+    "definition": "Unable to be resisted or avoided.",
+    "etymology": "From Latin 'ineluctabilis' (inescapable).",
+    "exampleSentence": "August in Phoenix is an ineluctable furnace."
+  },
+  {
+    "word": "inexpugnable",
+    "partOfSpeech": "adjective",
+    "definition": "Impossible to take by force; unconquerable.",
+    "etymology": "From Latin 'inexpugnabilis'.",
+    "exampleSentence": "Her position on punctuation was inexpugnable."
+  },
+  {
+    "word": "infundibulum",
+    "partOfSpeech": "noun",
+    "definition": "A funnel-shaped cavity or organ.",
+    "etymology": "From Latin 'infundibulum' (funnel).",
+    "exampleSentence": "The professor pointed to the infundibulum of the pituitary on the diagram."
+  },
+  {
+    "word": "innominate",
+    "partOfSpeech": "adjective",
+    "definition": "Having no name; unnamed.",
+    "etymology": "From Latin 'innominatus'.",
+    "exampleSentence": "The dish was an innominate triumph of leftovers."
+  },
+  {
+    "word": "ineffaceable",
+    "partOfSpeech": "adjective",
+    "definition": "Impossible to forget or remove.",
+    "etymology": "From Latin 'in-' and 'effacere' (to wipe out).",
+    "exampleSentence": "Her first review of him left an ineffaceable impression."
+  },
+  {
+    "word": "jactitation",
+    "partOfSpeech": "noun",
+    "definition": "Restless tossing in bed; a false boast.",
+    "etymology": "From Latin 'jactare' (to throw).",
+    "exampleSentence": "Three jet-lagged nights of jactitation made her useless by Friday."
+  },
+  {
+    "word": "jubilate",
+    "partOfSpeech": "verb",
+    "definition": "To rejoice openly and loudly.",
+    "etymology": "From Latin 'jubilare' (to shout for joy).",
+    "exampleSentence": "The whole town jubilated when the dam finally held."
+  },
+  {
+    "word": "junket",
+    "partOfSpeech": "noun",
+    "definition": "An extravagant trip taken at someone else's expense.",
+    "etymology": "From Italian 'giuncata' (cream cheese in a rush basket); meaning shifted to feasts.",
+    "exampleSentence": "The press junket featured more sushi than journalism."
+  },
+  {
+    "word": "kerf",
+    "partOfSpeech": "noun",
+    "definition": "The slit made by a saw cutting through wood.",
+    "etymology": "From Old English 'cyrf' (a cutting).",
+    "exampleSentence": "He measured the kerf before resawing the board."
+  },
+  {
+    "word": "kibitzer",
+    "partOfSpeech": "noun",
+    "definition": "A spectator who offers unwanted advice.",
+    "etymology": "From Yiddish 'kibitsen' (to look on at cards).",
+    "exampleSentence": "Every chess park has its resident kibitzer."
+  },
+  {
+    "word": "kvell",
+    "partOfSpeech": "verb",
+    "definition": "To be extraordinarily proud, especially of family.",
+    "etymology": "From Yiddish 'kveln' (to be delighted).",
+    "exampleSentence": "His grandmother kvelled visibly when he ordered in Yiddish."
+  },
+  {
+    "word": "lachrymose",
+    "partOfSpeech": "adjective",
+    "definition": "Tearful; tending to cause tears.",
+    "etymology": "From Latin 'lacrima' (tear).",
+    "exampleSentence": "The lachrymose final scene undid even the cynics in the audience."
+  },
+  {
+    "word": "laconic",
+    "partOfSpeech": "adjective",
+    "definition": "Using very few words.",
+    "etymology": "From Greek 'Lakonikos', referring to the famously terse Spartans.",
+    "exampleSentence": "His laconic answer ended the press conference."
+  },
+  {
+    "word": "lambent",
+    "partOfSpeech": "adjective",
+    "definition": "Softly glowing or flickering.",
+    "etymology": "From Latin 'lambens' (licking).",
+    "exampleSentence": "Candles cast a lambent light across the tablecloth."
+  },
+  {
+    "word": "lapidary",
+    "partOfSpeech": "adjective",
+    "definition": "Engraved on stone; relating to elegant, polished expression.",
+    "etymology": "From Latin 'lapis' (stone).",
+    "exampleSentence": "Her lapidary sentences could survive any translation."
+  },
+  {
+    "word": "lapsus linguae",
+    "partOfSpeech": "phrase",
+    "definition": "A slip of the tongue.",
+    "etymology": "From Latin, literally 'slip of the tongue'.",
+    "exampleSentence": "The lapsus linguae cost him a chairmanship he had been promised for months."
+  },
+  {
+    "word": "lassi",
+    "partOfSpeech": "noun",
+    "definition": "A traditional South Asian yogurt drink, sweet or salty.",
+    "etymology": "From Punjabi/Hindi.",
+    "exampleSentence": "A mango lassi rescued the afternoon."
+  },
+  {
+    "word": "lauwarm",
+    "partOfSpeech": "adjective",
+    "definition": "Lukewarm; tepid.",
+    "etymology": "From German 'lauwarm'.",
+    "exampleSentence": "He responded to the proposal in the most lauwarm of voices."
+  },
+  {
+    "word": "leitmotif",
+    "partOfSpeech": "noun",
+    "definition": "A recurring theme in a literary or musical work.",
+    "etymology": "From German, combining 'leit-' (leading) and 'Motiv' (motif).",
+    "exampleSentence": "Loneliness was the quiet leitmotif of her debut album."
+  },
+  {
+    "word": "leptodactylous",
+    "partOfSpeech": "adjective",
+    "definition": "Having slender toes or fingers.",
+    "etymology": "From Greek 'leptos' (slender) and 'daktylos' (finger).",
+    "exampleSentence": "His leptodactylous hands made the cello look smaller."
+  },
+  {
+    "word": "levigate",
+    "partOfSpeech": "verb",
+    "definition": "To reduce to a fine powder or paste.",
+    "etymology": "From Latin 'levigare' (to make smooth).",
+    "exampleSentence": "The pharmacist levigated the herbs before mixing the salve."
+  },
+  {
+    "word": "limpid",
+    "partOfSpeech": "adjective",
+    "definition": "Completely clear and transparent.",
+    "etymology": "From Latin 'limpidus' (clear).",
+    "exampleSentence": "The water in the well was limpid and ice-cold."
+  },
+  {
+    "word": "lissome",
+    "partOfSpeech": "adjective",
+    "definition": "Slim, graceful, and supple.",
+    "etymology": "Variant of 'lithesome'; in English since the 18th century.",
+    "exampleSentence": "The lissome dancer crossed the stage in three steps."
+  },
+  {
+    "word": "lithic",
+    "partOfSpeech": "adjective",
+    "definition": "Relating to or made of stone.",
+    "etymology": "From Greek 'lithos' (stone).",
+    "exampleSentence": "The museum's lithic exhibits filled an entire wing."
+  },
+  {
+    "word": "logomachy",
+    "partOfSpeech": "noun",
+    "definition": "A dispute about words rather than substance.",
+    "etymology": "From Greek 'logos' (word) and 'mache' (battle).",
+    "exampleSentence": "The town meeting collapsed into pure logomachy by the second hour."
+  },
+  {
+    "word": "longueur",
+    "partOfSpeech": "noun",
+    "definition": "A tedious passage in a book, play, or activity.",
+    "etymology": "From French 'longueur' (length).",
+    "exampleSentence": "The novel had a few longueurs in the middle but recovered for the finale."
+  },
+  {
+    "word": "lucent",
+    "partOfSpeech": "adjective",
+    "definition": "Bright or luminous.",
+    "etymology": "From Latin 'lucens' (shining).",
+    "exampleSentence": "Lucent rain coated the boulevard."
+  },
+  {
+    "word": "macaronic",
+    "partOfSpeech": "adjective",
+    "definition": "Mixing vernacular with Latin or other languages, often comically.",
+    "etymology": "From Italian 'maccarone', for a 15th-century burlesque verse form.",
+    "exampleSentence": "His macaronic toast had Latin, Italian, and a startling line of Greek."
+  },
+  {
+    "word": "maladroit",
+    "partOfSpeech": "adjective",
+    "definition": "Inefficient or bungling; clumsy.",
+    "etymology": "From French 'maladroit' (not skillful).",
+    "exampleSentence": "His maladroit apology made things worse for a full week."
+  },
+  {
+    "word": "malarkey",
+    "partOfSpeech": "noun",
+    "definition": "Foolish, meaningless talk.",
+    "etymology": "American English, 1920s, of obscure origin.",
+    "exampleSentence": "He cut the meeting short, calling the proposal pure malarkey."
+  },
+  {
+    "word": "manticore",
+    "partOfSpeech": "noun",
+    "definition": "A mythical creature with a lion's body, human head, and scorpion's tail.",
+    "etymology": "From Old Persian via Greek 'martichoras' (man-eater).",
+    "exampleSentence": "The medieval bestiary devoted three pages to the manticore."
+  },
+  {
+    "word": "matachin",
+    "partOfSpeech": "noun",
+    "definition": "A masked sword dancer in elaborate costume.",
+    "etymology": "From Spanish 'matachin', possibly of Arabic origin.",
+    "exampleSentence": "The festival's matachines danced from sunrise to noon."
+  },
+  {
+    "word": "matutolypea",
+    "partOfSpeech": "noun",
+    "definition": "Ill humor on waking; getting out of the wrong side of the bed.",
+    "etymology": "A 19th-century coinage from Latin Matuta (morning goddess) and Greek 'lype' (sorrow).",
+    "exampleSentence": "Her matutolypea passed only after the second cup of coffee."
+  },
+  {
+    "word": "metempsychosis",
+    "partOfSpeech": "noun",
+    "definition": "The transmigration of a soul from one body to another after death.",
+    "etymology": "From Greek 'metempsychosis'; central to Pythagorean and Hindu thought.",
+    "exampleSentence": "He half-believed his terrier was the metempsychosis of his grandfather."
+  },
+  {
+    "word": "metonymy",
+    "partOfSpeech": "noun",
+    "definition": "A figure of speech in which one thing is referred to by the name of something closely associated.",
+    "etymology": "From Greek 'metonymia' (a change of name).",
+    "exampleSentence": "'The crown decided' is classic metonymy for the monarch."
+  },
+  {
+    "word": "milquetoast",
+    "partOfSpeech": "noun",
+    "definition": "A timid, ineffectual person.",
+    "etymology": "From the 1924 American comic strip character Caspar Milquetoast.",
+    "exampleSentence": "He was no milquetoast in the kitchen, however quiet he was elsewhere."
+  },
+  {
+    "word": "minatory",
+    "partOfSpeech": "adjective",
+    "definition": "Threatening or menacing.",
+    "etymology": "From Latin 'minari' (to threaten).",
+    "exampleSentence": "The clouds gathered in a minatory line above the harbor."
+  },
+  {
+    "word": "minutiae",
+    "partOfSpeech": "noun",
+    "definition": "Small, precise, often trivial details.",
+    "etymology": "From Latin 'minutiae' (trifles).",
+    "exampleSentence": "He bored everyone with the minutiae of his commute."
+  },
+  {
+    "word": "mirador",
+    "partOfSpeech": "noun",
+    "definition": "A turret or balcony commanding a fine view.",
+    "etymology": "From Spanish 'mirar' (to look).",
+    "exampleSentence": "She took her morning coffee in the mirador above the bay."
+  },
+  {
+    "word": "misprision",
+    "partOfSpeech": "noun",
+    "definition": "A misunderstanding or wrongful interpretation; in law, concealment of a crime.",
+    "etymology": "From Old French 'mesprision' (mistake).",
+    "exampleSentence": "His memo was a small masterpiece of misprision."
+  },
+  {
+    "word": "moiety",
+    "partOfSpeech": "noun",
+    "definition": "A half; one of two parts.",
+    "etymology": "From Old French 'moitie' (half).",
+    "exampleSentence": "Each twin inherited a clean moiety of the apartment."
+  },
+  {
+    "word": "moil",
+    "partOfSpeech": "verb",
+    "definition": "To work hard; to drudge.",
+    "etymology": "From Old French 'moillier' (to wet, to drudge).",
+    "exampleSentence": "He moiled at the manuscript until dawn."
+  },
+  {
+    "word": "moonglade",
+    "partOfSpeech": "noun",
+    "definition": "The bright track of moonlight reflected on water.",
+    "etymology": "Modern English literary compound.",
+    "exampleSentence": "A moonglade unrolled across the bay like a runway."
+  },
+  {
+    "word": "moonraker",
+    "partOfSpeech": "noun",
+    "definition": "A simpleton, or someone who attempts the impossible.",
+    "etymology": "From an English folk tale of Wiltshire villagers attempting to rake the moon's reflection.",
+    "exampleSentence": "He was a charming moonraker of an entrepreneur."
+  },
+  {
+    "word": "mopery",
+    "partOfSpeech": "noun",
+    "definition": "Aimless idling or moping.",
+    "etymology": "American English, mid-20th century.",
+    "exampleSentence": "Sunday morning was reserved for unapologetic mopery."
+  },
+  {
+    "word": "moue de degout",
+    "partOfSpeech": "phrase",
+    "definition": "A grimace of distaste.",
+    "etymology": "From French, combining 'moue' (pout) and 'degout' (disgust).",
+    "exampleSentence": "The wine inspired a small moue de degout from the sommelier."
+  },
+  {
+    "word": "mumblecrust",
+    "partOfSpeech": "noun",
+    "definition": "An old toothless person.",
+    "etymology": "16th-century English; from the character Mumblecrust in 'Ralph Roister Doister'.",
+    "exampleSentence": "The novel's narrator was a sharp-tongued mumblecrust of ninety."
+  },
+  {
+    "word": "mundungus",
+    "partOfSpeech": "noun",
+    "definition": "Foul-smelling tobacco or other noxious stuff.",
+    "etymology": "From Spanish 'mondongo' (tripe); used in English since the 17th century.",
+    "exampleSentence": "His pipe was packed with the cheapest mundungus the corner shop sold."
+  },
+  {
+    "word": "namby-pamby",
+    "partOfSpeech": "adjective",
+    "definition": "Lacking energy or character; insipidly sentimental.",
+    "etymology": "Coined as a mocking nickname for poet Ambrose Philips in 1726.",
+    "exampleSentence": "The proposal was too namby-pamby to win the contract."
+  },
+  {
+    "word": "nascent",
+    "partOfSpeech": "adjective",
+    "definition": "Just beginning to develop.",
+    "etymology": "From Latin 'nascens' (being born).",
+    "exampleSentence": "The nascent band rehearsed in a converted garage."
+  },
+  {
+    "word": "natant",
+    "partOfSpeech": "adjective",
+    "definition": "Swimming or floating in water.",
+    "etymology": "From Latin 'natare' (to swim).",
+    "exampleSentence": "Natant lilies covered the pond by August."
+  },
+  {
+    "word": "necropolis",
+    "partOfSpeech": "noun",
+    "definition": "A large, ancient cemetery, especially one belonging to a city.",
+    "etymology": "From Greek 'nekros' (corpse) and 'polis' (city).",
+    "exampleSentence": "The Etruscan necropolis lay terraced into the hillside."
+  },
+  {
+    "word": "nephelococcygia",
+    "partOfSpeech": "noun",
+    "definition": "The act of finding shapes in clouds.",
+    "etymology": "From Greek, literally 'cloud-cuckoo-land', after Aristophanes' play 'The Birds'.",
+    "exampleSentence": "Long afternoons in the park were dedicated to amateur nephelococcygia."
+  },
+  {
+    "word": "nidify",
+    "partOfSpeech": "verb",
+    "definition": "To build a nest.",
+    "etymology": "From Latin 'nidificare', from 'nidus' (nest).",
+    "exampleSentence": "Swallows nidified under the eaves every May."
+  },
+  {
+    "word": "nidor",
+    "partOfSpeech": "noun",
+    "definition": "The smell of cooking or burning meat.",
+    "etymology": "From Latin 'nidor'.",
+    "exampleSentence": "A weekend nidor floated through the neighborhood."
+  },
+  {
+    "word": "nigrescent",
+    "partOfSpeech": "adjective",
+    "definition": "Becoming dark or black; blackish.",
+    "etymology": "From Latin 'nigrescere' (to grow black).",
+    "exampleSentence": "Storm clouds turned the sky nigrescent in minutes."
+  },
+  {
+    "word": "nikhedonia",
+    "partOfSpeech": "noun",
+    "definition": "The pleasure derived from anticipating victory.",
+    "etymology": "Modern coinage from Greek 'nike' (victory) and 'hedonia' (pleasure).",
+    "exampleSentence": "He suffered the special nikhedonia of someone watching a slow horse with a lead."
+  },
+  {
+    "word": "noisome",
+    "partOfSpeech": "adjective",
+    "definition": "Having an extremely offensive smell.",
+    "etymology": "From Middle English 'noy' (annoyance).",
+    "exampleSentence": "A noisome wind blew off the canal."
+  },
+  {
+    "word": "nostrum",
+    "partOfSpeech": "noun",
+    "definition": "A pet scheme or remedy, often quack.",
+    "etymology": "From Latin 'noster' (ours); used of patent medicines.",
+    "exampleSentence": "His political nostrum for the housing crisis fit on a business card."
+  },
+  {
+    "word": "nugatory",
+    "partOfSpeech": "adjective",
+    "definition": "Of no value or importance.",
+    "etymology": "From Latin 'nugatorius' (worthless).",
+    "exampleSentence": "The amendment was politely declared nugatory."
+  },
+  {
+    "word": "nullibicity",
+    "partOfSpeech": "noun",
+    "definition": "The state of being nowhere.",
+    "etymology": "From Latin 'nullibi' (nowhere).",
+    "exampleSentence": "The airport lounge had a curious nullibicity that he came to crave."
+  },
+  {
+    "word": "obelize",
+    "partOfSpeech": "verb",
+    "definition": "To mark a text as spurious or doubtful.",
+    "etymology": "From Greek 'obelos' (a mark, lit. spit).",
+    "exampleSentence": "Two scholars obelized half the chapter as a later interpolation."
+  },
+  {
+    "word": "obloquy",
+    "partOfSpeech": "noun",
+    "definition": "Strong public criticism or verbal abuse.",
+    "etymology": "From Latin 'obloqui' (to speak against).",
+    "exampleSentence": "The retraction came too late to stop the obloquy."
+  },
+  {
+    "word": "obnubilate",
+    "partOfSpeech": "verb",
+    "definition": "To darken or obscure, as with clouds.",
+    "etymology": "From Latin 'obnubilare' (to cover with clouds).",
+    "exampleSentence": "The jargon obnubilated what should have been a simple notice."
+  },
+  {
+    "word": "obsequious",
+    "partOfSpeech": "adjective",
+    "definition": "Obedient or attentive to an excessive degree.",
+    "etymology": "From Latin 'obsequiosus'.",
+    "exampleSentence": "His obsequious laugh followed every joke by ten seconds."
+  },
+  {
+    "word": "obtund",
+    "partOfSpeech": "verb",
+    "definition": "To dull or deaden.",
+    "etymology": "From Latin 'obtundere' (to beat against).",
+    "exampleSentence": "Late-night browsing obtunded any remaining energy."
+  },
+  {
+    "word": "obviate",
+    "partOfSpeech": "verb",
+    "definition": "To remove a difficulty or anticipate it in advance.",
+    "etymology": "From Latin 'obviare' (to go in the way of).",
+    "exampleSentence": "A clear FAQ would obviate half the emails."
+  },
+  {
+    "word": "officinal",
+    "partOfSpeech": "adjective",
+    "definition": "Used in medicine or pharmacy; kept in stock by druggists.",
+    "etymology": "From medieval Latin 'officinalis'.",
+    "exampleSentence": "The garden contained more officinal herbs than ornamental ones."
+  },
+  {
+    "word": "olid",
+    "partOfSpeech": "adjective",
+    "definition": "Foul-smelling; rank.",
+    "etymology": "From Latin 'olidus' (stinking).",
+    "exampleSentence": "The fridge produced an olid surprise on Monday morning."
+  },
+  {
+    "word": "omphaloskepsis",
+    "partOfSpeech": "noun",
+    "definition": "Navel-gazing; excessive self-reflection.",
+    "etymology": "From Greek 'omphalos' (navel) and 'skepsis' (looking).",
+    "exampleSentence": "The conference dissolved into elegant omphaloskepsis."
+  },
+  {
+    "word": "onomatopoeia",
+    "partOfSpeech": "noun",
+    "definition": "The formation of a word from a sound associated with the thing named.",
+    "etymology": "From Greek 'onomatopoiia' (word-making).",
+    "exampleSentence": "Comic books are a parade of onomatopoeia."
+  },
+  {
+    "word": "opalescent",
+    "partOfSpeech": "adjective",
+    "definition": "Showing a play of colors like an opal.",
+    "etymology": "From Latin 'opalus' (opal).",
+    "exampleSentence": "The pond was opalescent in the morning fog."
+  },
+  {
+    "word": "operose",
+    "partOfSpeech": "adjective",
+    "definition": "Requiring much labor; tedious.",
+    "etymology": "From Latin 'operosus' (laborious).",
+    "exampleSentence": "The translation was operose but oddly meditative."
+  },
+  {
+    "word": "ophidian",
+    "partOfSpeech": "adjective",
+    "definition": "Relating to or resembling snakes.",
+    "etymology": "From Greek 'ophis' (snake).",
+    "exampleSentence": "Her ophidian sense of timing made her a brilliant lawyer."
+  },
+  {
+    "word": "orotund",
+    "partOfSpeech": "adjective",
+    "definition": "Full, round, and resonant in tone; pompous.",
+    "etymology": "From Latin 'ore rotundo' (with round mouth).",
+    "exampleSentence": "His orotund delivery suited weddings and not much else."
+  },
+  {
+    "word": "ostentatious",
+    "partOfSpeech": "adjective",
+    "definition": "Designed to impress others, in a flashy way.",
+    "etymology": "From Latin 'ostentare' (to display).",
+    "exampleSentence": "The ostentatious watch undid all the careful tailoring."
+  },
+  {
+    "word": "ouroboros",
+    "partOfSpeech": "noun",
+    "definition": "An ancient symbol of a serpent eating its own tail.",
+    "etymology": "From Greek 'oura' (tail) and 'boros' (eating).",
+    "exampleSentence": "The cycle of meetings about meetings was a perfect ouroboros."
+  },
+  {
+    "word": "overmorrow",
+    "partOfSpeech": "noun",
+    "definition": "The day after tomorrow.",
+    "etymology": "From Middle English; long obsolete, recently revived.",
+    "exampleSentence": "The package would arrive on the overmorrow."
+  },
+  {
+    "word": "palilalia",
+    "partOfSpeech": "noun",
+    "definition": "The involuntary repetition of one's own words.",
+    "etymology": "From Greek 'palin' (again) and 'lalia' (speech).",
+    "exampleSentence": "His palilalia made phone calls oddly intimate."
+  },
+  {
+    "word": "panjandrum",
+    "partOfSpeech": "noun",
+    "definition": "A pompous, self-important official.",
+    "etymology": "Coined by Samuel Foote in 1755 as nonsense doggerel.",
+    "exampleSentence": "The local panjandrum opened every meeting with a salute."
+  },
+  {
+    "word": "paronomasia",
+    "partOfSpeech": "noun",
+    "definition": "A play on words; punning.",
+    "etymology": "From Greek 'paronomazein' (to call by a similar name).",
+    "exampleSentence": "His paronomasia was legendary and forgiven only on Fridays."
+  },
+  {
+    "word": "parturient",
+    "partOfSpeech": "adjective",
+    "definition": "About to give birth; bringing forth.",
+    "etymology": "From Latin 'parturire' (to be in labor).",
+    "exampleSentence": "The mountain seemed parturient with thunder."
+  },
+  {
+    "word": "pasquinade",
+    "partOfSpeech": "noun",
+    "definition": "A satire or lampoon, especially one posted in a public place.",
+    "etymology": "After Pasquino, a Roman statue used for political mockery.",
+    "exampleSentence": "An anonymous pasquinade appeared on the bulletin board overnight."
+  },
+  {
+    "word": "pavonine",
+    "partOfSpeech": "adjective",
+    "definition": "Resembling a peacock; iridescent.",
+    "etymology": "From Latin 'pavoninus', from 'pavo' (peacock).",
+    "exampleSentence": "The scarf had a pavonine sheen in the lamplight."
+  },
+  {
+    "word": "peripatetic",
+    "partOfSpeech": "adjective",
+    "definition": "Traveling from place to place, especially for work.",
+    "etymology": "From Greek 'peripatetikos', after Aristotle's habit of teaching while walking.",
+    "exampleSentence": "Her peripatetic year took her through four countries and a divorce."
+  },
+  {
+    "word": "perorate",
+    "partOfSpeech": "verb",
+    "definition": "To deliver a long, often pompous speech.",
+    "etymology": "From Latin 'perorare' (to speak to the end).",
+    "exampleSentence": "He perorated for forty minutes on a single budget line."
+  },
+  {
+    "word": "perspicillus",
+    "partOfSpeech": "noun",
+    "definition": "A pair of spectacles; an old-fashioned magnifying device.",
+    "etymology": "From Latin 'perspicillum' (eyeglass).",
+    "exampleSentence": "He polished his perspicillus on his sleeve and squinted again."
+  },
+  {
+    "word": "phantasmagoria",
+    "partOfSpeech": "noun",
+    "definition": "A sequence of constantly shifting images, as in a dream.",
+    "etymology": "Coined in 1801 for a magic-lantern show in London.",
+    "exampleSentence": "The festival was a happy phantasmagoria of food and fire."
+  },
+  {
+    "word": "philomath",
+    "partOfSpeech": "noun",
+    "definition": "A lover of learning.",
+    "etymology": "From Greek 'philos' (loving) and 'manthanein' (to learn).",
+    "exampleSentence": "She was a philomath in the truest sense, taking notes on her own dreams."
+  },
+  {
+    "word": "pilcrow",
+    "partOfSpeech": "noun",
+    "definition": "The typographic mark used to denote a paragraph.",
+    "etymology": "From Middle English, from Old French 'paragraphe'.",
+    "exampleSentence": "The proofreader scattered pilcrows across the page like seeds."
+  },
+  {
+    "word": "plinth",
+    "partOfSpeech": "noun",
+    "definition": "The base supporting a column or statue.",
+    "etymology": "From Greek 'plinthos' (a brick or tile).",
+    "exampleSentence": "The plinth was empty after the storm; the statue had wandered into the bushes."
+  },
+  {
+    "word": "pogonotrophy",
+    "partOfSpeech": "noun",
+    "definition": "The cultivation or growing of a beard.",
+    "etymology": "From Greek 'pogon' (beard) and 'trophe' (nourishment).",
+    "exampleSentence": "His sabbatical was dedicated to long walks and serious pogonotrophy."
+  },
+  {
+    "word": "polestar",
+    "partOfSpeech": "noun",
+    "definition": "A guiding principle; a focal point.",
+    "etymology": "From English 'pole' and 'star', referring to the North Star.",
+    "exampleSentence": "Curiosity had been the polestar of her career."
+  },
+  {
+    "word": "polysemous",
+    "partOfSpeech": "adjective",
+    "definition": "Having multiple meanings.",
+    "etymology": "From Greek 'poly-' (many) and 'sema' (sign).",
+    "exampleSentence": "The most polysemous word in English may be 'set'."
+  },
+  {
+    "word": "pother",
+    "partOfSpeech": "noun",
+    "definition": "A commotion or fuss.",
+    "etymology": "Of obscure origin, 17th-century English.",
+    "exampleSentence": "There was a fine pother in the kitchen over who had used the last lemon."
+  },
+  {
+    "word": "preternatural",
+    "partOfSpeech": "adjective",
+    "definition": "Beyond what is normal or natural.",
+    "etymology": "From medieval Latin 'praeternaturalis'.",
+    "exampleSentence": "He had a preternatural memory for license plates."
+  },
+  {
+    "word": "psalmody",
+    "partOfSpeech": "noun",
+    "definition": "The singing of psalms in worship.",
+    "etymology": "From Greek 'psalmodia'.",
+    "exampleSentence": "The monastery's psalmody could be heard across the valley at dawn."
+  }
+]

@@ -1,0 +1,3187 @@
+[
+  {
+    "fact": "Dunbar's number, proposed by anthropologist Robin Dunbar in the 1990s, suggests humans can maintain only about 150 stable social relationships.",
+    "explanation": "Dunbar correlated neocortex size to group size across primates and extrapolated the figure to humans.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The IKEA effect, named by Norton, Mochon, and Ariely (2012), shows people place disproportionately high value on products they have partially assembled themselves.",
+    "explanation": "Effort invested in building something increases its perceived worth, even when the result is objectively inferior.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Dunning-Kruger effect, first documented by Justin Kruger and David Dunning in 1999, describes how people with low ability in a domain tend to overestimate their competence.",
+    "explanation": "Lacking expertise also means lacking the meta-cognitive tools to recognize one's own incompetence.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Stanford prison experiment (Zimbardo, 1971) is now widely considered methodologically flawed, with later analyses showing guards were coached toward cruel behavior.",
+    "explanation": "Audio recordings revealed Zimbardo's team gave guards explicit instructions to be tough, undermining the original 'situational' interpretation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Darley and Latané's 1968 bystander effect experiments showed people were less likely to help in an emergency as the number of bystanders increased.",
+    "explanation": "Diffusion of responsibility leads each onlooker to assume someone else will act.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Colin Cherry's 1953 'cocktail party effect' research found that people can selectively attend to one conversation in a noisy room while filtering out others.",
+    "explanation": "The auditory system prioritizes signals carrying personal relevance, like one's own name.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The bouba/kiki effect, first observed by Wolfgang Kohler in 1929 and replicated by Ramachandran and Hubbard in 2001, shows people across cultures pair rounded shapes with 'bouba' and spiky shapes with 'kiki.'",
+    "explanation": "Cross-modal correspondences between sound and shape suggest non-arbitrary links between phonology and visual form.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robert Zajonc's mere-exposure effect (1968) demonstrated that repeated exposure to a stimulus increases liking for it, even when exposure is below conscious awareness.",
+    "explanation": "Familiarity reduces processing effort, which the brain interprets as positive feeling.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The endowment effect, identified by Richard Thaler in 1980, shows people demand more to give up an object than they would pay to acquire it.",
+    "explanation": "Ownership creates a reference point against which loss looms larger than equivalent gain.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Gilovich, Medvec, and Savitsky's 2000 spotlight effect studies showed people overestimate how much others notice their appearance or behavior.",
+    "explanation": "Self-focus biases our estimates of how much attention others actually direct at us.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Elliot Aronson's 1966 pratfall effect found competent people become more likable after a minor blunder, while incompetent people become less likable.",
+    "explanation": "A small flaw humanizes high performers without undermining perceptions of their ability.",
+    "category": "psychology"
+  },
+  {
+    "fact": "In Solomon Asch's 1951 conformity experiments, about 75% of participants conformed to an obviously wrong group answer at least once.",
+    "explanation": "Social pressure can override clear perceptual evidence when the dissenter stands alone.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Kahneman and Tversky's prospect theory (1979) shows losses are psychologically about twice as powerful as equivalent gains.",
+    "explanation": "Loss aversion explains why people avoid risk for gains but seek risk to avoid losses.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The halo effect, coined by Edward Thorndike in 1920, shows a single positive trait such as attractiveness biases judgments of unrelated qualities like intelligence.",
+    "explanation": "Global impressions leak into specific evaluations, making them less independent than people assume.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Confirmation bias, studied by Peter Wason in 1960, leads people to seek and remember information that supports existing beliefs.",
+    "explanation": "Wason's 2-4-6 task showed participants rarely tried to falsify their hypotheses about a numerical rule.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Harry McGurk and John MacDonald's 1976 study showed that what we see can override what we hear, making 'ba' sound like 'da' when paired with a video of 'ga.'",
+    "explanation": "The brain integrates audio and visual speech, so conflicting lip movements alter perceived sounds.",
+    "category": "psychology"
+  },
+  {
+    "fact": "J. Ridley Stroop's 1935 experiment found that naming the ink color of a word like 'RED' printed in blue is significantly slower than naming a neutral color.",
+    "explanation": "Automatic word reading interferes with the slower task of identifying ink color.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Stanley Milgram's 1963 obedience experiments found about 65% of participants administered the maximum 450-volt shock when ordered by an authority figure.",
+    "explanation": "Perceived legitimate authority can override personal moral objection, though later analyses note many participants resisted in subtler ways.",
+    "category": "psychology"
+  },
+  {
+    "fact": "George Miller's 1956 paper 'The Magical Number Seven, Plus or Minus Two' argued short-term memory holds about 7 chunks of information.",
+    "explanation": "Later work by Nelson Cowan revised the figure down to roughly 4 chunks for genuinely independent items.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Hermann Ebbinghaus, in 1885, mapped the forgetting curve and showed memory for nonsense syllables drops sharply within the first hour before leveling off.",
+    "explanation": "Without rehearsal, recall falls roughly exponentially with time after learning.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Elizabeth Loftus's 'Lost in the Mall' study (1995) successfully implanted false childhood memories of being lost in a shopping center in about 25% of participants.",
+    "explanation": "Suggestion combined with familiar context can produce vivid but entirely fabricated autobiographical memories.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The misinformation effect, demonstrated by Loftus and Palmer in 1974, showed that wording a question with 'smashed' versus 'hit' changed eyewitness speed estimates of a car crash.",
+    "explanation": "Post-event language can subtly alter the contents of memory itself, not just the report of it.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Simons and Chabris's 1999 'invisible gorilla' experiment found about 50% of viewers counting basketball passes failed to notice a person in a gorilla suit walking through.",
+    "explanation": "Inattentional blindness shows that attention dramatically restricts what we consciously perceive.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Change blindness research by Simons and Levin (1998) showed that more than half of people fail to notice when a stranger they are speaking to is swapped for a different person mid-conversation.",
+    "explanation": "We retain far less visual detail across glances than introspection suggests.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Bargh, Chen, and Burrows's 1996 priming study where elderly-related words slowed walking has largely failed to replicate.",
+    "explanation": "Behavioral priming was a centerpiece of social psychology but has been weakened by the replication crisis.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Baumeister's 'ego depletion' theory, that willpower runs on a limited daily resource, has weakened substantially after large-scale replications failed.",
+    "explanation": "Effects shrunk near zero in pre-registered multi-lab studies, suggesting motivation rather than depletion drives the original results.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Power posing, popularized by Carney, Cuddy, and Yap (2010), has not held up: hormonal effects failed to replicate, though small mood effects sometimes appear.",
+    "explanation": "Cuddy herself and co-author Carney later acknowledged the strong original claims overstated the evidence.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Cocktail Party Effect was first formally described by Colin Cherry at MIT in 1953 using dichotic listening tasks.",
+    "explanation": "Participants could shadow one ear's audio while remaining unaware of detailed content in the other ear.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Walter Mischel's marshmallow experiments (1972) found that preschoolers who delayed gratification longer had better outcomes years later, though a 2018 replication found the effect was largely explained by socioeconomic status.",
+    "explanation": "The original headline effect shrank dramatically when family background was statistically controlled.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Roger Shepard and Jacqueline Metzler's 1971 mental rotation experiments showed reaction time to compare 3D shapes increases linearly with angle of rotation.",
+    "explanation": "People appear to rotate mental images at a roughly constant angular speed, like an internal simulation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Stroop effect is so robust it has been reproduced in countless variants since 1935, including emotional, numerical, and spatial Stroop tasks.",
+    "explanation": "Automatic processing of one dimension reliably interferes with naming a competing dimension.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Bibb Latané and John Darley's 1968 'smoke-filled room' study showed people were slower to react to smoke when other passive bystanders were present.",
+    "explanation": "Other people's apparent calm provides a social cue that nothing is wrong, suppressing personal alarm.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Festinger and Carlsmith's 1959 cognitive dissonance study showed people paid $1 to lie about a boring task later rated it as more enjoyable than those paid $20.",
+    "explanation": "With insufficient external justification, participants changed their attitudes to match their behavior.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Muzafer Sherif's 1954 Robbers Cave experiment showed that conflict between two groups of boys quickly emerged from competition and was reduced through superordinate goals.",
+    "explanation": "Cooperative tasks that required both groups dissolved inter-group hostility better than mere contact.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Henri Tajfel's minimal group experiments (1971) showed people favored their own group over others even when groups were assigned by trivial criteria like coin flips.",
+    "explanation": "Mere categorization is sufficient to produce in-group favoritism, the foundation of social identity theory.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Albert Bandura's 1961 Bobo doll experiment showed that children who watched adults aggressively attack a doll later imitated the aggression.",
+    "explanation": "Observational learning can transmit complex behaviors without direct reinforcement.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Harry Harlow's 1958 rhesus monkey studies showed infants preferred a cloth surrogate mother over a wire one that provided food.",
+    "explanation": "Contact comfort, not nutrition, drives the formation of early attachment bonds.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Mary Ainsworth's 'Strange Situation' (1969) identified secure, anxious-ambivalent, and avoidant attachment patterns in infants.",
+    "explanation": "Children's responses to brief separations from caregivers predict relational patterns later in life.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Jean Piaget's stages of cognitive development identified conservation tasks where young children believe a tall thin glass holds more water than a short wide one of equal volume.",
+    "explanation": "Concrete operational thinking, including conservation, typically emerges around age 7.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Lev Vygotsky's Zone of Proximal Development describes the gap between what a learner can do alone and what they can do with guidance.",
+    "explanation": "Scaffolded learning targets this zone for the steepest gains in skill.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Carol Dweck's research on growth versus fixed mindsets shows praising effort tends to produce more persistence in children than praising innate ability, though effect sizes are debated.",
+    "explanation": "Believing intelligence is malleable correlates with greater willingness to engage challenging tasks.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The McGurk effect persists even when observers are explicitly told about it.",
+    "explanation": "Audiovisual integration of speech is largely automatic and does not yield to conscious knowledge.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Endel Tulving's 1972 distinction between episodic and semantic memory separates memory for personal events from memory for general facts.",
+    "explanation": "These systems can dissociate, as in amnesic patients who lose episodic recall but retain general knowledge.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Patient H.M., who underwent hippocampal removal in 1953, could learn new motor skills despite being unable to form new conscious memories.",
+    "explanation": "His case revealed that procedural and declarative memory rely on different brain systems.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Eleanor Maguire's 2000 study of London taxi drivers found enlarged posterior hippocampi compared with controls.",
+    "explanation": "Years of spatial navigation through London streets appear to produce measurable structural change in memory-related brain regions.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Schacter's seven 'sins of memory' (1999) classify memory errors including transience, bias, persistence, and suggestibility.",
+    "explanation": "These errors are byproducts of useful memory features rather than design flaws.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The serial position effect, first identified by Ebbinghaus, shows that items at the beginning and end of a list are recalled better than those in the middle.",
+    "explanation": "Primacy reflects long-term encoding while recency reflects short-term store availability.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Tversky and Kahneman's 1973 availability heuristic shows people judge probability by how easily examples come to mind.",
+    "explanation": "Vivid or recent events are overweighted in probability estimates.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The representativeness heuristic, from Kahneman and Tversky (1972), leads people to judge probability by similarity to a prototype rather than base rates.",
+    "explanation": "It explains why people commit the conjunction fallacy, as in the famous 'Linda the bank teller' problem.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Anchoring, demonstrated by Tversky and Kahneman in 1974, shows estimates are biased toward arbitrary numbers presented just before judgment.",
+    "explanation": "Even spinning a wheel of fortune before asking factual questions shifts the answers given.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Hindsight bias, often called the 'I-knew-it-all-along' effect, was demonstrated by Baruch Fischhoff in 1975.",
+    "explanation": "After learning an outcome, people overestimate the prior probability they assigned to it.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Leon Festinger's 1957 theory of cognitive dissonance predicts that mismatch between beliefs and behavior produces tension that motivates attitude change.",
+    "explanation": "People will often change beliefs to match difficult-to-reverse actions, rather than vice versa.",
+    "category": "psychology"
+  },
+  {
+    "fact": "B. F. Skinner's variable-ratio reinforcement schedules produce the most persistent operant behavior, with extinction occurring slowly.",
+    "explanation": "Unpredictable rewards keep responses going, which is one mechanism behind gambling persistence.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Pavlov's 1897 demonstrations of classical conditioning in dogs showed neutral stimuli paired with food eventually elicited salivation alone.",
+    "explanation": "Repeated pairings allow a previously meaningless cue to predict a biologically significant event.",
+    "category": "psychology"
+  },
+  {
+    "fact": "John Watson and Rosalie Rayner's 1920 'Little Albert' study conditioned an infant to fear a white rat, with fear generalizing to other furry objects.",
+    "explanation": "Classical conditioning can produce emotional responses that generalize broadly, especially in early life.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Garcia and Koelling's 1966 study showed rats learn taste aversions after a single pairing with illness, even with a delay of hours.",
+    "explanation": "Evolution has prepared certain stimulus-outcome links for rapid learning, violating equipotentiality assumptions.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Martin Seligman's learned helplessness experiments (1967) showed dogs exposed to inescapable shock later failed to escape when escape became possible.",
+    "explanation": "Perceived lack of control can generalize and produce passive, depression-like behavior.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The fundamental attribution error, named by Lee Ross in 1977, describes the tendency to attribute others' behavior to disposition while attributing one's own to situation.",
+    "explanation": "We see ourselves as buffeted by context but see others as expressing fixed character traits.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The actor-observer bias, related to the fundamental attribution error, shows we explain our own actions by circumstances and others' by personality.",
+    "explanation": "Different vantage points and information access produce systematically different causal explanations.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Gilbert and colleagues' research on affective forecasting shows people overestimate the duration and intensity of their future emotional reactions.",
+    "explanation": "The psychological immune system adapts to outcomes faster than people predict, dampening both highs and lows.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Ed Diener's hedonic adaptation research shows lottery winners and accident victims return toward baseline life satisfaction faster than intuition predicts.",
+    "explanation": "Humans normalize to new circumstances rapidly, a phenomenon often called the 'hedonic treadmill.'",
+    "category": "psychology"
+  },
+  {
+    "fact": "Mihaly Csikszentmihalyi's flow research describes optimal experience as a state of focused absorption when skill matches challenge.",
+    "explanation": "Flow is reported as intrinsically rewarding and time-distorting, with reduced self-reflective thought.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Aaron Beck's cognitive therapy research showed that depression is maintained by systematic distortions like overgeneralization and catastrophizing.",
+    "explanation": "Restructuring these thought patterns can reliably reduce depressive symptoms in many patients.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Albert Ellis's rational emotive behavior therapy framework identifies irrational beliefs like 'I must be loved by everyone' as drivers of distress.",
+    "explanation": "Disputing absolute demands and replacing them with preferences reduces emotional intensity.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Cohen and Williamson's 1988 work on the Perceived Stress Scale showed that subjective appraisal of stress predicts health outcomes more strongly than objective stressor counts.",
+    "explanation": "How threatening events feel often matters more than how many occur.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Hans Selye's General Adaptation Syndrome (1936) describes alarm, resistance, and exhaustion phases of the body's stress response.",
+    "explanation": "Prolonged activation of the HPA axis can lead to wear-and-tear effects across organ systems.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Yerkes-Dodson law (1908) posits an inverted-U relationship between arousal and performance.",
+    "explanation": "Too little arousal causes underperformance, too much causes choking, and a moderate level is optimal.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Roy Baumeister's 2001 review titled 'Bad Is Stronger Than Good' synthesizes evidence that negative events have larger psychological impact than positive ones of equal magnitude.",
+    "explanation": "Negativity bias likely evolved because avoiding loss was more critical to survival than capturing gain.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Gottman's research on couples shows that a ratio of about 5 positive interactions per negative one predicts stable relationships.",
+    "explanation": "His 'magic ratio' emerged from coding thousands of hours of couple interactions.",
+    "category": "psychology"
+  },
+  {
+    "fact": "John Bowlby's attachment theory proposes that human infants are biologically predisposed to form bonds with caregivers for survival.",
+    "explanation": "Bowlby drew on ethology, especially Lorenz's imprinting work, to ground attachment in evolutionary biology.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Konrad Lorenz's 1935 imprinting research showed that goslings follow the first moving object they see during a critical period.",
+    "explanation": "Critical periods constrain when certain learning is possible, with later experience having weaker effects.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Eric Kandel's research with Aplysia sea slugs revealed the cellular basis of habituation and sensitization, earning a Nobel Prize in 2000.",
+    "explanation": "Simple invertebrate nervous systems display learning principles conserved in humans.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Donald Hebb's 1949 principle, often summarized as 'cells that fire together wire together,' anticipated decades of synaptic plasticity research.",
+    "explanation": "Co-activation strengthens synaptic connections, a mechanism central to learning at the neural level.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Antonio Damasio's somatic marker hypothesis proposes that bodily feelings guide rapid decision-making, especially under uncertainty.",
+    "explanation": "Patients with ventromedial prefrontal damage make poor real-life decisions despite intact reasoning.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Phineas Gage's 1848 accident, in which an iron rod destroyed much of his ventromedial prefrontal cortex, altered his social judgment while leaving language and motor function intact.",
+    "explanation": "His case helped establish the role of frontal cortex in personality and social cognition.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Paul Broca's 1861 patient 'Tan' showed that damage to the left inferior frontal gyrus produces expressive aphasia.",
+    "explanation": "Broca's area is involved in speech production, while comprehension can remain relatively spared.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Carl Wernicke's 1874 work identified posterior temporal damage as producing fluent but meaningless speech.",
+    "explanation": "Wernicke's area is critical for language comprehension and meaningful word retrieval.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Roger Sperry's 1960s split-brain experiments revealed lateralized functions but did not justify pop-psych 'left-brain/right-brain personality' claims.",
+    "explanation": "While certain tasks lateralize, everyday cognition involves both hemispheres extensively.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Benjamin Libet's 1983 experiments showed brain activity preceded conscious awareness of the decision to move by several hundred milliseconds.",
+    "explanation": "His findings ignited debate about free will, though many philosophers dispute the interpretation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Wegner's research on the illusion of conscious will argues we infer authorship of our actions rather than directly experience it.",
+    "explanation": "Apparent mental causation depends on consistency, priority, and exclusivity of the thought relative to the action.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Joseph LeDoux's research on the amygdala showed a fast subcortical 'low road' for fear processing that bypasses conscious awareness.",
+    "explanation": "This pathway allows rapid threat detection before the cortex finishes analyzing the stimulus.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Paul Ekman's cross-cultural research identified six basic facial expressions of emotion (anger, fear, surprise, disgust, sadness, happiness) that are recognized worldwide.",
+    "explanation": "Even isolated tribal cultures recognized these expressions, suggesting an evolved facial repertoire.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robert Plutchik's wheel of emotions arranges eight primary emotions around a wheel with adjacent ones combining into secondary emotions.",
+    "explanation": "His model emphasizes that emotions blend and vary in intensity rather than fall into discrete bins.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Magda Arnold's appraisal theory of emotion (1960) holds that emotions arise from cognitive evaluation of events, not from events themselves.",
+    "explanation": "How a situation is interpreted determines which emotion arises and how intense it is.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Walter Cannon and Philip Bard's theory of emotion (1927) argued that bodily and emotional responses occur simultaneously rather than sequentially.",
+    "explanation": "They challenged the James-Lange view that emotions arise from interpreting bodily changes.",
+    "category": "psychology"
+  },
+  {
+    "fact": "William James and Carl Lange's 1880s theory of emotion held that we feel afraid because we run, not the reverse.",
+    "explanation": "Bodily responses to a stimulus precede and constitute the emotional experience in their model.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Stanley Schachter and Jerome Singer's 1962 two-factor theory of emotion proposed that arousal plus cognitive labeling produces specific emotional experience.",
+    "explanation": "Participants injected with epinephrine reported emotions matching social context cues.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Dutton and Aron's 1974 'shaky bridge' study found men interviewed on a high suspension bridge were more likely to call an attractive female interviewer afterward.",
+    "explanation": "Arousal from the bridge was misattributed to attraction, supporting two-factor emotion theory.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The just-world hypothesis, studied by Melvin Lerner in the 1960s, shows people often blame victims to maintain the belief that the world is fair.",
+    "explanation": "Believing bad things happen to bad people preserves a sense of personal safety.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The mere ownership effect, demonstrated by Beggan in 1992, showed people rate objects more positively after merely being told they own them.",
+    "explanation": "Even brief ownership inflates perceived value, related to the endowment effect.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Status quo bias, named by Samuelson and Zeckhauser in 1988, leads people to prefer current arrangements over change.",
+    "explanation": "Loss aversion and inertia bias people toward defaults even when other options are objectively better.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Default effects in organ donation, documented by Johnson and Goldstein (2003), show countries with opt-out systems have much higher consent rates than opt-in countries.",
+    "explanation": "Small changes to defaults can produce massive behavioral differences with no coercion involved.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The framing effect, demonstrated by Tversky and Kahneman in 1981, shows people choose differently when outcomes are framed as gains versus losses.",
+    "explanation": "Identical statistical information triggers different risk preferences depending on linguistic framing.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The sunk cost fallacy refers to the tendency to continue investing in a losing course because of past investment.",
+    "explanation": "Rational decision-making should ignore unrecoverable costs and consider only future expected value.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Tversky's 1972 'elimination by aspects' model describes how people make multi-attribute decisions by sequentially eliminating options that fail key features.",
+    "explanation": "This simplifying heuristic conserves cognitive effort at the cost of optimality.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Herbert Simon's concept of 'bounded rationality' (1955) argued people 'satisfice' rather than optimize given cognitive limits.",
+    "explanation": "We accept options that are 'good enough' rather than searching exhaustively for the best one.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Schwartz's 2004 'paradox of choice' research suggests more options can reduce satisfaction and increase regret.",
+    "explanation": "Iyengar and Lepper's jam-tasting study found a small selection produced more purchases than a large one.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The peak-end rule, identified by Kahneman, shows people judge past experiences by their peak intensity and ending rather than the overall average.",
+    "explanation": "Colonoscopy studies found extending the procedure with a gentler ending improved overall ratings.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Duration neglect, a corollary of the peak-end rule, shows the length of an experience contributes little to retrospective evaluation.",
+    "explanation": "Memory of an experience is dominated by salient moments rather than total minutes.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Kahneman distinguishes the 'experiencing self' from the 'remembering self,' showing the two can disagree about the same event.",
+    "explanation": "We mostly act on memories of experiences, which can diverge sharply from how the experience felt moment to moment.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Implicit memory, demonstrated through priming paradigms, allows past experience to influence behavior without conscious recollection.",
+    "explanation": "Patients with severe amnesia still show normal priming, dissociating implicit from explicit memory.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Procedural memory for skills like riding a bicycle relies heavily on the basal ganglia and cerebellum.",
+    "explanation": "These structures support automatic, motor learning that survives even severe hippocampal damage.",
+    "category": "psychology"
+  },
+  {
+    "fact": "George Sperling's 1960 partial-report experiments demonstrated iconic memory, a brief visual buffer holding most of a scene for under a second.",
+    "explanation": "Subjects could report any row of a flashed grid if cued quickly, showing the entire array was momentarily available.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Echoic memory, the auditory analogue of iconic memory, holds sound information for roughly 3 to 4 seconds.",
+    "explanation": "This buffer is why you can sometimes 'replay' a question you missed when first asked.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Baddeley and Hitch's 1974 working memory model includes a phonological loop, visuospatial sketchpad, and central executive.",
+    "explanation": "Different short-term subsystems handle verbal and visual information separately.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The phonological similarity effect shows that lists of similar-sounding letters (B, D, G) are harder to recall than dissimilar ones (W, R, X).",
+    "explanation": "Verbal working memory codes by sound, so similarly sounding items confuse each other.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Brown-Peterson task research shows verbal items decay rapidly within 18 seconds when rehearsal is prevented.",
+    "explanation": "Working memory traces fade fast without active maintenance.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Eichenbaum's research links the hippocampus to relational binding, not just spatial mapping.",
+    "explanation": "The hippocampus appears to support flexible, associative memory across many domains.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Long-term potentiation, discovered by Bliss and Lomo in 1973 in rabbit hippocampi, is the leading cellular candidate for memory storage.",
+    "explanation": "Repeated stimulation strengthens synaptic responses for extended periods.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sleep-dependent memory consolidation research by Stickgold and colleagues shows declarative memories benefit from slow-wave sleep while procedural skills benefit from REM.",
+    "explanation": "Different memory systems appear to be consolidated by different sleep stages.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Matthew Walker's research links sleep deprivation to amyloid-beta accumulation, a hallmark of Alzheimer's disease.",
+    "explanation": "The glymphatic system clears metabolic waste from the brain during deep sleep.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sleep spindles during stage 2 NREM sleep are correlated with overnight motor skill improvement, as shown by Walker and colleagues.",
+    "explanation": "Spindle activity is thought to gate hippocampal-cortical communication critical for consolidation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "REM sleep is associated with vivid dreaming and emotional memory processing.",
+    "explanation": "Neuroimaging shows the amygdala is highly active and the dorsolateral prefrontal cortex is suppressed during REM.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robert Stickgold's research suggests that targeted memory reactivation during sleep can enhance recall.",
+    "explanation": "Playing learning-associated sounds during slow-wave sleep selectively strengthens that material.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Karl Lashley's search for the 'engram' in the 1920s by lesioning rat cortex found memory was distributed rather than localized.",
+    "explanation": "His principle of mass action argued memory capacity declined with total cortical loss, not with specific sites.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Wilder Penfield's intraoperative cortical stimulations in epilepsy patients elicited vivid memories from temporal lobe sites.",
+    "explanation": "His work suggested rich autobiographical traces could be electrically reactivated.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The misattribution of arousal, related to Schachter-Singer theory, can intensify romantic attraction during exciting activities.",
+    "explanation": "Arousal from one source can be wrongly assigned to another, magnifying feelings toward a present person.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robert Sternberg's triangular theory of love identifies intimacy, passion, and commitment as the components of love.",
+    "explanation": "Different combinations of these produce empty love, infatuation, companionate love, and consummate love.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Helen Fisher's neuroimaging research distinguishes lust, attraction, and attachment as separable brain systems.",
+    "explanation": "Different neural circuits and neurotransmitter systems underpin each phase of romantic bonding.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Aron and colleagues' '36 questions' study (1997) found that escalating self-disclosure between strangers can produce strong feelings of closeness.",
+    "explanation": "Mutual vulnerability and gradual deepening of disclosure accelerates intimacy.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The propinquity effect, studied by Festinger, Schachter, and Back in 1950, showed that physical proximity strongly predicted friendship formation in a college dorm.",
+    "explanation": "Mere exposure and shared environment trigger relationship formation in surprising ways.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Anchoring effects persist even when participants know the anchor was random and irrelevant.",
+    "explanation": "Mere consideration of a number influences subsequent estimates, regardless of awareness.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Schacter's research distinguishes 'remember' versus 'know' responses, capturing whether retrieval includes contextual detail.",
+    "explanation": "We can recognize that something is familiar without recalling when or where we encountered it.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Roediger and McDermott's 1995 DRM paradigm reliably produces false memories of words never presented but semantically related to a list.",
+    "explanation": "Semantic associations during encoding generate strong gist memories that masquerade as verbatim ones.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Wegner's white bear experiments (1987) showed trying not to think about something makes intrusive thoughts more likely.",
+    "explanation": "An ironic monitoring process keeps checking for the unwanted thought, paradoxically activating it.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Zeigarnik effect, named after Bluma Zeigarnik (1927), shows people remember interrupted tasks better than completed ones.",
+    "explanation": "Open goals appear to remain cognitively active until they are closed.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Roy Baumeister and Mark Leary's 1995 'need to belong' paper synthesized evidence that humans require frequent positive interactions in lasting relationships.",
+    "explanation": "Social exclusion produces consequences for cognition, mood, and physical health.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Eisenberger, Lieberman, and Williams's 2003 fMRI study showed that social rejection activates the dorsal anterior cingulate cortex, also linked to physical pain.",
+    "explanation": "Their findings support the metaphor of social pain as 'hurting' in a neural sense.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Stanley Milgram's 'six degrees of separation' study (1967) found average chain lengths of about 5 to 6 acquaintances connecting strangers across the US.",
+    "explanation": "Though the studies had methodological issues, follow-up work suggests small-world structure is real.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Cialdini's six principles of influence (reciprocity, commitment, social proof, authority, liking, scarcity) summarize core levers of persuasion based on decades of research.",
+    "explanation": "Each principle exploits a heuristic we normally use to shortcut effortful evaluation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Foot-in-the-door technique, demonstrated by Freedman and Fraser in 1966, shows agreeing to a small request increases compliance with a larger one.",
+    "explanation": "Self-perception drives consistency between initial commitment and later behavior.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Door-in-the-face technique, demonstrated by Cialdini and colleagues in 1975, shows refusing a large request makes a follow-up moderate request more likely to be accepted.",
+    "explanation": "Reciprocal concessions and contrast effects drive the increased compliance.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The low-ball technique, where favorable terms are offered then changed, exploits commitment.",
+    "explanation": "Once people commit to a decision, they tend to maintain it even after costs increase.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Pluralistic ignorance, defined by Floyd Allport, occurs when people privately disagree with a norm but conform because they believe others endorse it.",
+    "explanation": "Misreading others' opinions can preserve unpopular norms.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Self-fulfilling prophecy was demonstrated by Rosenthal and Jacobson's 1968 Pygmalion study, where teachers' expectations affected student performance.",
+    "explanation": "Expectations alter subtle behaviors that, in turn, shape the targeted person's outcomes.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Stereotype threat, identified by Steele and Aronson in 1995, occurs when awareness of negative stereotypes harms performance in stereotyped domains.",
+    "explanation": "The cognitive load of monitoring and worry reduces working memory available for the task.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Implicit Association Tests, introduced by Greenwald, McGhee, and Schwartz in 1998, measure automatic associations between concepts.",
+    "explanation": "Reaction times to pair social categories with attribute words reveal implicit attitudes, though predictive validity is debated.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Hawthorne effect refers to changes in behavior simply because participants know they are being observed.",
+    "explanation": "The original 1920s factory studies were methodologically weak, but observational reactivity is real in research broadly.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Henry Murray's Thematic Apperception Test (1935) uses ambiguous images to elicit stories thought to reveal hidden motives.",
+    "explanation": "It is a projective measure with mixed psychometric properties but historically influential.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Rorschach inkblot test was developed by Hermann Rorschach in 1921 and is now largely scored using the Comprehensive System.",
+    "explanation": "Despite popular reputation, it has limited and contested validity outside specific narrow uses.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Big Five personality traits (openness, conscientiousness, extraversion, agreeableness, neuroticism) emerged from factor analyses of trait adjectives by researchers including Goldberg and Costa.",
+    "explanation": "These dimensions replicate broadly across languages and cultures.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Conscientiousness predicts lifespan, job performance, and academic achievement more strongly than most other personality traits.",
+    "explanation": "Roberts and colleagues' meta-analyses link it to health behaviors, persistence, and order.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Neuroticism is a strong predictor of depression, anxiety, and other internalizing disorders.",
+    "explanation": "The trait reflects threat sensitivity and emotional reactivity.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Myers-Briggs Type Indicator lacks the test-retest reliability and predictive validity of the Big Five despite its commercial popularity.",
+    "explanation": "Roughly half of takers receive a different type within weeks on retest.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Walter Mischel's 1968 critique of trait theory argued behavior is heavily situation-dependent, sparking the person-situation debate.",
+    "explanation": "Modern interactionist views see traits as predicting average behavior, with situations adding variance.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Brent Roberts's research shows personality continues to develop across the lifespan, with people becoming more conscientious and agreeable on average.",
+    "explanation": "The 'maturity principle' describes consistent trait changes through adulthood.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Twin studies estimate that roughly 40 to 50 percent of variance in Big Five personality traits is heritable.",
+    "explanation": "Shared environment contributes surprisingly little, with non-shared environment explaining most of the rest.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Flynn effect describes the rise in measured IQ across the 20th century by about three points per decade.",
+    "explanation": "Causes are debated and may include education, nutrition, test familiarity, and abstraction in modern life.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Recent data suggest the Flynn effect has slowed, stalled, or reversed in several wealthy countries.",
+    "explanation": "Bratsberg and Rogeberg's 2018 Norwegian data show within-family IQ declines, pointing to environmental causes.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Charles Spearman's 1904 discovery of the positive manifold across mental tests led to the construct of general intelligence, or g.",
+    "explanation": "Performance on diverse cognitive tasks correlates positively, supporting a common factor.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Raymond Cattell distinguished fluid intelligence (novel problem solving) from crystallized intelligence (acquired knowledge).",
+    "explanation": "Fluid intelligence peaks in young adulthood and declines, while crystallized rises through middle age.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Howard Gardner's multiple intelligences theory has limited empirical support, although it remains popular in education.",
+    "explanation": "Most psychometric research finds his proposed 'intelligences' load on the general factor.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robert Sternberg's triarchic theory distinguishes analytical, creative, and practical intelligence.",
+    "explanation": "Critics argue separating practical intelligence from g lacks strong empirical justification.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Working memory capacity correlates strongly with fluid intelligence, as documented by Engle and Kane.",
+    "explanation": "The ability to maintain goal-relevant information against distraction appears central to reasoning ability.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Brain training games like Lumosity have largely failed to produce transfer to broader cognitive abilities in rigorous studies.",
+    "explanation": "Improvement tends to remain specific to the trained task rather than generalizing.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Anders Ericsson's 'deliberate practice' research found expert performance requires extensive structured practice with feedback, though the 10,000-hour rule is an oversimplification.",
+    "explanation": "Quality and structure of practice matter more than raw hours, and innate factors also contribute.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Angela Duckworth's 'grit' construct correlates with achievement, but meta-analyses suggest most of its predictive power overlaps with conscientiousness.",
+    "explanation": "Grit may be a narrow facet of an established Big Five trait rather than a wholly distinct factor.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Confirmation bias affects scientists too, as illustrated by Klayman and Ha's positive test strategy account.",
+    "explanation": "People prefer tests that would confirm rather than disconfirm a hypothesis under uncertainty.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Belief perseverance, demonstrated by Lord, Ross, and Lepper in 1979, shows people maintain beliefs even after the evidence for them is discredited.",
+    "explanation": "Once a belief becomes integrated with other knowledge, removing original support fails to dislodge it.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Backfire effects, in which corrections strengthen misperceptions, are smaller than once thought and inconsistent across replications.",
+    "explanation": "Most pre-registered studies find corrections reduce rather than reinforce false beliefs on average.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The illusion of explanatory depth, described by Rozenblit and Keil in 2002, shows people believe they understand how everyday objects work until asked to explain.",
+    "explanation": "Trying to articulate causal mechanisms exposes gaps that introspection alone misses.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Forer effect, also called the Barnum effect, shows people accept vague personality descriptions as uniquely applicable to themselves.",
+    "explanation": "Bertram Forer's 1948 demonstration used a single horoscope-like profile to fool an entire class.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Cold reading techniques exploit the Barnum effect, confirmation bias, and rapid feedback to give an illusion of supernatural insight.",
+    "explanation": "Predictions are kept general and adjusted based on the target's reactions.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Pollyanna principle, identified by Boucher and Osgood in 1969, shows people use positive words more frequently and judge them more positively than negative words.",
+    "explanation": "Language and cognition are systematically tilted toward the positive end of evaluation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The negativity bias is robust across attention, memory, decision-making, and interpersonal interactions.",
+    "explanation": "Negative information receives more weight and is processed more thoroughly than positive information.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Cognitive load theory, developed by John Sweller in the 1980s, distinguishes intrinsic, extraneous, and germane load on working memory.",
+    "explanation": "Effective instruction minimizes extraneous load to leave capacity for productive learning.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The testing effect, documented by Roediger and Karpicke in 2006, shows retrieval practice produces better long-term retention than restudy.",
+    "explanation": "Generating answers strengthens memory more than passive review.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Spaced repetition, studied since Ebbinghaus, produces better long-term retention than massed study, across many domains.",
+    "explanation": "Distributing learning across time leverages the spacing effect in consolidation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Interleaving practice, as shown by Rohrer and Taylor (2007), improves problem-solving by mixing problem types rather than blocking by type.",
+    "explanation": "Interleaving requires learners to identify which strategy applies, reinforcing discrimination.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Generation effect research, by Slamecka and Graf (1978), shows information self-generated is better remembered than information read.",
+    "explanation": "Effortful production deepens encoding compared to passive reception.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The encoding specificity principle, from Tulving and Thomson (1973), holds that retrieval is best when cues match the encoding context.",
+    "explanation": "Context-dependent memory effects emerge in both physical and internal state contexts.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Godden and Baddeley's 1975 deep-sea diving study found that words learned underwater were better recalled underwater than on land.",
+    "explanation": "Environmental context becomes part of the memory trace and aids retrieval.",
+    "category": "psychology"
+  },
+  {
+    "fact": "State-dependent memory effects, demonstrated for caffeine, alcohol, and mood, show recall improves when internal state matches that during learning.",
+    "explanation": "Internal cues function similarly to external context cues in memory retrieval.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Mood-congruent memory research by Gordon Bower shows positive moods favor recall of positive memories, and negative moods recall negative ones.",
+    "explanation": "Emotion biases the activation of associated content in memory networks.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Tip-of-the-tongue states involve high feeling-of-knowing despite retrieval failure, often with partial information available.",
+    "explanation": "Phonological access can fail even when semantic representation is intact.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Flashbulb memories for emotionally significant events feel vivid and accurate but are not actually more accurate than ordinary memories.",
+    "explanation": "Talarico and Rubin (2003) showed confidence in 9/11 memories remained high while accuracy decayed.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The cross-race effect in face recognition, documented by Meissner and Brigham (2001), shows people recognize own-race faces better than other-race faces.",
+    "explanation": "Experience with own-race features tunes perceptual learning during development.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Visual perception research by James Gibson emphasized affordances, the actionable possibilities the environment offers.",
+    "explanation": "We perceive the world in terms of what we can do with it, not raw features.",
+    "category": "psychology"
+  },
+  {
+    "fact": "David Marr's three levels of analysis (computational, algorithmic, implementational) provide a framework for explaining cognitive systems.",
+    "explanation": "Each level addresses a different question: what is computed, how, and where in the brain.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Karl Duncker's 1945 candle problem demonstrates functional fixedness, the tendency to use objects only in their typical way.",
+    "explanation": "Solving the problem requires reconceiving a box of tacks as a candle holder.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Maier's 1931 two-string problem showed insight often requires reframing objects as tools, like using pliers as a pendulum weight.",
+    "explanation": "Subtle environmental cues sometimes prompt the breakthrough below conscious awareness.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Janet Metcalfe's research on insight shows people fail to predict 'aha' solutions, suggesting they arise outside ordinary problem-solving monitoring.",
+    "explanation": "Insight problems show flat feeling-of-warmth curves until solution emerges abruptly.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Dual-process theories, including Kahneman's System 1 and System 2, propose fast automatic and slow deliberate modes of thought.",
+    "explanation": "Many cognitive errors arise when intuitive System 1 answers go unchecked by System 2 monitoring.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Cognitive Reflection Test items, like the 'bat and ball' problem, distinguish people who suppress intuitive wrong answers from those who don't.",
+    "explanation": "Performance correlates with rationality, openness to evidence, and certain demographic factors.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Mental models theory by Philip Johnson-Laird argues people reason by constructing concrete representations of described situations.",
+    "explanation": "Reasoning errors often reflect model-building shortcuts rather than rule-application failures.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Wason's 1966 selection task showed people perform poorly on abstract conditional reasoning but well on isomorphic social contracts.",
+    "explanation": "Cosmides and Tooby argued evolved cheater-detection mechanisms underlie the contextual advantage.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robin Dunbar's 'social brain hypothesis' links primate neocortex size to group size.",
+    "explanation": "Larger groups require more sophisticated tracking of social relationships and alliances.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The illusion of transparency, studied by Gilovich, Savitsky, and Medvec (1998), is the overestimation of how clearly one's internal states are visible to others.",
+    "explanation": "Speakers think audiences detect their nervousness much more easily than they actually do.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The false consensus effect, identified by Ross, Greene, and House (1977), shows people overestimate how widely their views are shared.",
+    "explanation": "Our own beliefs feel obvious, which we mistake for evidence that most people share them.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The false uniqueness effect leads people to underestimate how common their positive abilities are.",
+    "explanation": "We prize traits we possess and assume them rarer than they really are.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Self-serving bias makes people attribute successes to themselves and failures to external factors.",
+    "explanation": "It protects self-esteem at the cost of accurate self-assessment.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Above-average effect studies, like Svenson's 1981 driving study, find about 80% of drivers rate themselves above the median in skill.",
+    "explanation": "This statistical impossibility is a hallmark of motivated self-evaluation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Cross-cultural research by Heine and colleagues finds Western self-enhancement bias is weaker or reversed in East Asian samples.",
+    "explanation": "Self-criticism is more normative in cultures emphasizing interdependence.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Markus and Kitayama's 1991 'culture and the self' paper distinguishes independent and interdependent self-construals.",
+    "explanation": "These construals shape cognition, motivation, and emotion across many domains.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Joseph Henrich and colleagues' 2010 paper argued that most psychology research uses WEIRD samples (Western, Educated, Industrialized, Rich, Democratic), limiting generalizability.",
+    "explanation": "Findings on visual illusions, fairness, and reasoning vary substantially across cultures.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Muller-Lyer illusion, where arrowed lines appear different lengths, is much weaker in people from non-carpentered environments.",
+    "explanation": "Visual experience with rectangular structures appears to tune the illusion.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Gestalt psychologists like Wertheimer and Koffka described laws of perceptual organization including proximity, similarity, and closure.",
+    "explanation": "These principles describe how the brain groups elements into coherent forms.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The phi phenomenon, described by Max Wertheimer in 1912, is the perception of motion from successively flashed static stimuli.",
+    "explanation": "It motivated Gestalt theory and underlies film and animation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Color constancy allows objects to appear the same color under different lighting conditions, as demonstrated in Edwin Land's retinex theory.",
+    "explanation": "The brain computes color from the relative reflectance across the scene, not absolute wavelengths.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Size constancy lets us perceive a person walking away as the same size despite their shrinking retinal image.",
+    "explanation": "Depth cues lead the brain to scale retinal size by perceived distance.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Binocular disparity provides one of the strongest cues to depth, used in random-dot stereograms by Bela Julesz in 1960.",
+    "explanation": "Small differences between left and right retinal images are computed into 3D structure.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Ponzo illusion shows that converging lines make a distant-looking object appear larger than an identical near-looking one.",
+    "explanation": "Perspective cues lead the brain to scale apparent size accordingly.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The hollow face illusion, studied by Richard Gregory, shows the inside of a mask appears convex despite contrary cues.",
+    "explanation": "Strong priors for convex faces override unusual stimulus geometry.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Pareidolia, the perception of faces in random patterns, reflects a hyperactive face-detection system tuned for false positives.",
+    "explanation": "Missing a real face is more costly than seeing an illusory one, biasing detection toward over-perception.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The fusiform face area, identified by Nancy Kanwisher and colleagues in 1997, responds selectively to faces.",
+    "explanation": "Damage to this region causes prosopagnosia, the inability to recognize familiar faces.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Prosopagnosia can affect about 2% of the general population in milder developmental forms.",
+    "explanation": "Some people fail to recognize even close family members despite intact general vision.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Thatcher illusion, described by Peter Thompson in 1980, shows we have difficulty seeing inverted faces with locally flipped features as grotesque.",
+    "explanation": "Face processing is configural, and inversion disrupts the holistic system that normally detects oddities.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The composite face effect demonstrates that aligned face halves are processed holistically, making top-half identification slower when paired with new bottom halves.",
+    "explanation": "Faces are processed as integrated wholes rather than as collections of features.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Babies as young as a few days old prefer to look at face-like patterns over scrambled ones, as shown by Goren, Sarty, and Wu (1975).",
+    "explanation": "Face preference appears to be present from birth and supports early social bonding.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Infants reliably distinguish their mother's voice from a stranger's within days of birth.",
+    "explanation": "DeCasper and Fifer (1980) showed newborns alter their sucking patterns to hear mom's voice.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Andrew Meltzoff and Keith Moore's 1977 work showed neonates imitate facial gestures like tongue protrusion.",
+    "explanation": "Though debated and partially failed in replication, the finding suggests early intersubjective wiring.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Renee Baillargeon's habituation studies show infants as young as 3.5 months respond to violations of object permanence.",
+    "explanation": "Looking-time methods reveal abilities earlier than Piaget's sensorimotor tasks suggested.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Theory of mind, the understanding that others have different beliefs, typically develops by age 4 to 5 in neurotypical children.",
+    "explanation": "False-belief tasks like Wimmer and Perner's 1983 Sally-Anne test diagnose this milestone.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Simon Baron-Cohen's research suggested theory of mind impairments contribute to autism spectrum conditions.",
+    "explanation": "His 'mindblindness' account influenced theory though it does not fully explain autism.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Joint attention, where infants follow caregivers' gaze around 9-12 months, predicts later language development.",
+    "explanation": "Shared attention scaffolds vocabulary learning by linking referents to words.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Noam Chomsky's poverty of the stimulus argument holds that language input is too sparse to support purely associative learning.",
+    "explanation": "He proposed an innate language acquisition device, though this remains contested.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Critical period research by Lenneberg suggests first-language acquisition becomes much harder after puberty.",
+    "explanation": "Genie, a child raised in extreme isolation, never achieved typical syntactic mastery despite intensive training.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Children acquire vocabulary at a rate of around 10 words per day during the early years.",
+    "explanation": "Fast mapping allows them to attach meanings to new words after a single exposure.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Patricia Kuhl's research on the 'magnet effect' shows infants begin tuning to native-language phonemes by 6 months.",
+    "explanation": "Universal sensitivity narrows as the brain commits to relevant categories.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Vygotsky distinguished private speech in children from socialized speech, arguing it scaffolds self-regulation.",
+    "explanation": "Inner speech evolves from external dialogue and supports complex cognition.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Sapir-Whorf hypothesis, in its strong form, holds that language determines thought, while modern weaker versions hold that language influences certain cognitive habits.",
+    "explanation": "Studies on color naming, spatial frames, and number find subtle but real linguistic effects on cognition.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Speakers of languages without distinct number words above three perform poorly on exact numerosity tasks above three.",
+    "explanation": "Pierre Pica's work with the Munduruku shows language affects exact arithmetic abilities.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Stephen Levinson's research on speakers of Guugu Yimithirr found they use cardinal directions instead of egocentric left/right.",
+    "explanation": "Habitual use of absolute frames is associated with strong dead-reckoning skill.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Berlin and Kay's 1969 research found a regular hierarchy of basic color terms across languages.",
+    "explanation": "Languages with two color terms divide warm/cool, while those with more add fixed sequences.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Russian speakers, with separate words for light and dark blue, discriminate certain blue shades faster than English speakers.",
+    "explanation": "Winawer and colleagues' 2007 study confirms language-dependent categorical perception in color.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The bilingual advantage in executive function, much debated, shows mixed results in pre-registered studies.",
+    "explanation": "Initial findings of robust cognitive benefits have not held up consistently in larger samples.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Bilinguals show comparable native-like processing of their dominant language, with weaker performance in less-used languages.",
+    "explanation": "Frequency and recency of use shape automaticity in each language.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Gestures help speakers retrieve words and reduce cognitive load during speaking, as shown by Susan Goldin-Meadow.",
+    "explanation": "Restricting hand movements measurably impairs speech production in many tasks.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Embodied cognition research argues thinking is grounded in bodily states and sensorimotor simulations.",
+    "explanation": "Studies show reading action words activates corresponding motor cortex regions.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Lakoff and Johnson's conceptual metaphor theory holds we understand abstract domains via embodied metaphors like 'argument is war.'",
+    "explanation": "Patterns of inference and language reflect these underlying metaphorical mappings.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Williams and Bargh's 2008 study found people holding a warm beverage rated others as warmer in personality, though replication has been mixed.",
+    "explanation": "If real, physical warmth metaphors influence social cognition automatically.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Botvinick and Cohen's 1998 rubber hand illusion shows that synchronous brushstrokes can make a fake hand feel like one's own.",
+    "explanation": "Multisensory integration is willing to remap body ownership based on consistent signals.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Vilayanur Ramachandran's mirror box therapy uses visual feedback to relieve phantom limb pain in amputees.",
+    "explanation": "Seeing the intact hand in a mirror tricks the brain into 'moving' the missing limb.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Phantom limb sensations occur in most amputees and were systematically documented by Mitchell in the 19th century.",
+    "explanation": "Cortical reorganization preserves a body map that can outlive the corresponding limb.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The McCollough effect, an orientation-contingent color aftereffect, can persist for hours or days after exposure.",
+    "explanation": "Unlike most aftereffects, it shows extremely long-lasting perceptual adaptation in early visual cortex.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Motion aftereffects like the 'waterfall illusion' arise after staring at one-direction motion for a minute, after which static scenes appear to drift the opposite way.",
+    "explanation": "Adaptation in motion-sensitive neurons unmasks the response of oppositely tuned cells.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Helen Bee's neuroscientific work shows reaction time decreases steadily into adolescence and starts increasing in middle age.",
+    "explanation": "Processing speed peaks in the early 20s and declines slowly afterward.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Salthouse's 'processing speed theory' (1996) attributes most age-related cognitive decline to slower information processing.",
+    "explanation": "Many tasks become harder simply because operations no longer happen quickly enough to support working memory.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Aging produces declines in episodic memory and processing speed but typically preserves vocabulary and semantic knowledge.",
+    "explanation": "These divergent trajectories reflect different brain systems aging at different rates.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Carstensen's socioemotional selectivity theory shows older adults prioritize emotionally meaningful goals over knowledge acquisition.",
+    "explanation": "Perceived limited time shifts attention toward positive and close relationships.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The 'positivity effect' in aging shows older adults remember positive stimuli relatively better than negative ones.",
+    "explanation": "Emotion regulation strategies and attentional priorities shift across the lifespan.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Tanya Chartrand and John Bargh's 1999 'chameleon effect' research showed people unconsciously mimic the gestures of interaction partners.",
+    "explanation": "Behavioral mimicry increases rapport and is itself increased by affiliative motives.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Mirror neurons, discovered in macaque ventral premotor cortex by Rizzolatti's lab in the 1990s, fire both during action and observation of action.",
+    "explanation": "Whether humans have a homologous system and what it does remains debated.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The chameleon effect is stronger toward people we like and increases liking in turn.",
+    "explanation": "Subtle mirroring functions as social glue in everyday interactions.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robert Cialdini's research found waiters who repeated customers' orders verbatim received larger tips.",
+    "explanation": "Linguistic mimicry triggers liking and reciprocity in service interactions.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Pygmalion effect can affect not just academic but military and workplace settings, as documented by Eden's manager-expectancy studies.",
+    "explanation": "Higher expectations influence subtle communication, training, and feedback patterns.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Golem effect is the negative counterpart of Pygmalion: low expectations depress performance.",
+    "explanation": "Self-fulfilling prophecies work in both directions.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Babad's research on teachers' nonverbal behavior shows they emit subtle warmth cues differently to high- and low-expectancy students.",
+    "explanation": "Brief silent video clips of teachers contain enough information to predict expectancy.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Ambady and Rosenthal's 'thin slices' research showed brief video clips predict ratings of teachers and physicians.",
+    "explanation": "Snap impressions converge with longer judgments more than introspection predicts.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Nalini Ambady showed surgeons' tone of voice in 40-second clips predicted malpractice claims.",
+    "explanation": "Affective qualities of communication shape patients' decisions to sue after errors.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Albert Mehrabian's '7-38-55' rule about communication is widely misquoted; the original study only applied to inconsistent affect cues.",
+    "explanation": "It does not mean 93% of communication is nonverbal in general settings.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Cuddy, Fiske, and Glick's stereotype content model classifies groups along warmth and competence dimensions.",
+    "explanation": "Different combinations elicit pity, admiration, envy, or contempt.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Greene and colleagues' fMRI moral dilemma studies showed personal moral dilemmas engage emotion-related regions more than impersonal ones.",
+    "explanation": "Dual-process moral judgment combines automatic emotional reactions with deliberate utilitarian calculation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Joshua Greene's research on the trolley problem suggests we judge pushing a man off a footbridge as worse than redirecting a trolley despite identical body count.",
+    "explanation": "Direct physical contact triggers stronger automatic moral aversion.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Jonathan Haidt's moral foundations theory proposes care, fairness, loyalty, authority, sanctity, and liberty as cross-cultural moral pillars.",
+    "explanation": "Political differences map onto differing weights placed on each foundation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Haidt's social intuitionist model argues that moral reasoning typically rationalizes intuitions arrived at quickly.",
+    "explanation": "The dog (intuition) wags the tail (reasoning) more often than the reverse.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Lawrence Kohlberg's stages of moral reasoning emerged from his analysis of how people reason about dilemmas like the Heinz dilemma.",
+    "explanation": "His stages move from preconventional self-interest to postconventional principle-based reasoning.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Carol Gilligan's 1982 work challenged Kohlberg's male-centered framework and emphasized an 'ethics of care.'",
+    "explanation": "She argued moral reasoning grounded in relationships was systematically undervalued.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Felicia Pratto and Jim Sidanius's social dominance orientation predicts support for hierarchical intergroup relations.",
+    "explanation": "Individual differences in tolerance for inequality help explain support for ideologies that legitimize hierarchy.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Bob Altemeyer's Right-Wing Authoritarianism scale predicts ethnocentrism, prejudice, and submission to authority.",
+    "explanation": "RWA captures a personality syndrome distinct from political conservatism per se.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Cooperation in n-person public goods games tends to erode without punishment, as shown by Fehr and Gachter (2002).",
+    "explanation": "Allowing players to punish free-riders restores high cooperation rates.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Henrich and colleagues' Ultimatum Game data across cultures show large variability in fairness norms.",
+    "explanation": "Equal splits aren't universal; smaller-scale societies sometimes accept extreme offers.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Ernst Fehr's research demonstrates that people will pay personal costs to punish unfair behavior, called altruistic punishment.",
+    "explanation": "This may stabilize cooperation in large groups beyond kin or repeated interaction.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robert Axelrod's tournaments showed 'tit for tat' to be remarkably effective in iterated prisoner's dilemmas.",
+    "explanation": "A nice, retaliatory, forgiving, and clear strategy outcompeted complex rivals.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Batson's empathy-altruism hypothesis argues that empathic concern motivates genuine altruism beyond self-benefit.",
+    "explanation": "Several experiments showed empathic participants helped even when they could escape the situation costlessly.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Latane and Darley's 'kitty Genovese'-inspired bystander research grew from misreporting of the 1964 murder case.",
+    "explanation": "The original story of 38 unresponsive witnesses was later shown to be exaggerated.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Paul Slovic's 'identifiable victim effect' research shows people donate more to a single named child than to statistical victims.",
+    "explanation": "Concrete individuals trigger empathy more reliably than abstract numbers.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Kahneman warns of 'WYSIATI' (What You See Is All There Is) in System 1 judgments, leading us to underweight missing information.",
+    "explanation": "Confidence depends more on coherence of available information than on its completeness.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The conjunction fallacy was illustrated in Kahneman and Tversky's 'Linda the bank teller' problem.",
+    "explanation": "Many participants judge 'Linda is a bank teller and a feminist' more probable than 'Linda is a bank teller.'",
+    "category": "psychology"
+  },
+  {
+    "fact": "Risk perception research by Paul Slovic shows familiarity and control strongly affect how dangerous an activity feels.",
+    "explanation": "We tolerate risks we choose more readily than statistically smaller imposed ones.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Optimism bias, studied by Sharot, is the tendency to expect personally good outcomes and avoid bad ones.",
+    "explanation": "Neuroimaging shows asymmetric updating: people incorporate good news more than bad news about themselves.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Defensive pessimism, by contrast, involves setting low expectations to motivate preparation, as studied by Norem and Cantor.",
+    "explanation": "This style can be effective for anxious individuals if it does not generalize to depression.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Suzanne Segerstrom's research links dispositional optimism to better health outcomes including immune function.",
+    "explanation": "Optimists engage more in problem-focused coping and maintain social support.",
+    "category": "psychology"
+  },
+  {
+    "fact": "George Vaillant's Grand Study of Adult Development, tracking Harvard men since 1938, identified mature defenses like sublimation as predictors of healthy aging.",
+    "explanation": "Close relationships consistently emerge as the strongest predictor of wellbeing over decades.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The Dunedin Multidisciplinary Health and Development Study, following over 1,000 New Zealanders since 1972, links childhood self-control to adult outcomes across health, finance, and crime.",
+    "explanation": "Childhood self-control measured by age 10 predicts middle-age outcomes even controlling for IQ and class.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Avshalom Caspi and Terrie Moffitt's work shows gene-environment interactions, like the MAOA gene and child maltreatment, predicting antisocial behavior.",
+    "explanation": "Genes appear to moderate environmental effects rather than acting in isolation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robert Hare's Psychopathy Checklist-Revised distinguishes the affective and antisocial components of psychopathy.",
+    "explanation": "Glib charm, callousness, and parasitic lifestyle features each contribute to the construct.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Joshua Buckholtz's neuroimaging shows hyper-responsivity of the nucleus accumbens in psychopaths anticipating reward.",
+    "explanation": "Dysregulation of reward valuation may underlie impulsive antisocial behavior.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Adrian Raine's neurocriminology research links reduced prefrontal volume to antisocial behavior in some samples.",
+    "explanation": "Impaired top-down control may translate to poor regulation of aggression.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Approximately 30% of variance in subjective wellbeing is associated with heritable factors, per Lykken and Tellegen (1996).",
+    "explanation": "Twin studies show wellbeing has a partly genetic 'set point.'",
+    "category": "psychology"
+  },
+  {
+    "fact": "Roughly 50% of identical twin variance in depression is shared, indicating substantial heritability.",
+    "explanation": "Family and adoption studies converge on partly genetic risk.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The catastrophizing component of depression involves predicting worst-case outcomes far more often than warranted.",
+    "explanation": "Cognitive therapy specifically targets this distortion alongside personalization and all-or-nothing thinking.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Ruminative response styles, identified by Susan Nolen-Hoeksema, predict longer depressive episodes.",
+    "explanation": "Repeatedly turning over negative thoughts intensifies and prolongs low mood.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Generalized anxiety disorder is characterized by chronic worry that is difficult to control about multiple domains.",
+    "explanation": "Borkovec's theory frames worry as cognitive avoidance of more vivid emotional imagery.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Exposure therapy for phobias, developed from Joseph Wolpe's systematic desensitization, remains the most effective treatment.",
+    "explanation": "Gradual confrontation while preventing escape allows extinction learning.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Edna Foa's prolonged exposure therapy for PTSD reliably reduces symptoms in many patients.",
+    "explanation": "Repeated, structured engagement with trauma memories supports emotional processing.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Eye Movement Desensitization and Reprocessing (EMDR), developed by Francine Shapiro, shows efficacy for PTSD though the eye-movement component appears unnecessary.",
+    "explanation": "Active ingredients seem to be exposure and processing, not the bilateral stimulation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Cognitive-behavioral therapy is the most empirically supported psychotherapy across many disorders.",
+    "explanation": "Hundreds of RCTs and meta-analyses establish moderate to large effects across anxiety and depressive conditions.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Behavioral activation, a CBT component, treats depression by scheduling rewarding activities and reducing avoidance.",
+    "explanation": "Engagement with reinforcing activities counters the inertia of low mood.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Steven Hayes's acceptance and commitment therapy emphasizes psychological flexibility through acceptance and values-based action.",
+    "explanation": "Avoiding emotional experience often increases distress, while committed action can reduce it.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Marsha Linehan's dialectical behavior therapy was developed to treat borderline personality disorder and is highly effective for self-harm.",
+    "explanation": "DBT combines acceptance and change strategies with skills training in emotion regulation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "John Norcross's research on therapy effectiveness identifies common factors like alliance, empathy, and goal consensus as major drivers.",
+    "explanation": "Specific techniques matter, but relational factors account for substantial outcome variance.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Lambert's outcome research suggests roughly 30% of therapy variance comes from client factors, 30% from the alliance, and the rest from technique and expectancy.",
+    "explanation": "Effective therapy is multifactorial rather than driven by any single ingredient.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The dodo bird verdict, named after Saul Rosenzweig in 1936, observes that different therapies yield roughly equivalent outcomes for many conditions.",
+    "explanation": "It implies common factors carry more weight than specific orientations.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Hans Eysenck's controversial 1952 analysis claimed psychotherapy was no better than spontaneous remission.",
+    "explanation": "Later meta-analyses by Smith and Glass (1977) showed clear positive effects on average.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Random-assignment psychotherapy outcome studies typically show effect sizes around 0.8 over no-treatment controls.",
+    "explanation": "This is a large effect compared with many medical interventions.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Placebo effects in depression trials are large and have grown over decades, as documented by Kirsch and others.",
+    "explanation": "Expectancy alone produces substantial mood improvement, making drug-versus-placebo differences modest on average.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Color of placebo pills systematically affects perceived effects: red and warm colors are seen as stimulating, blue and cool as calming.",
+    "explanation": "Schapira and colleagues' research showed strong expectancy effects from pill aesthetics.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Open-label placebos, where patients know they are receiving inert pills, still produce significant symptom relief.",
+    "explanation": "Kaptchuk and colleagues showed conditioning and ritual matter independently of deception.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sarah Jayne Blakemore's research shows the adolescent brain undergoes substantial change in prefrontal regions linked to social cognition.",
+    "explanation": "Risk-taking and peer sensitivity peak alongside continued maturation of regulatory networks.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Laurence Steinberg's dual systems model of adolescence sees reward sensitivity peaking before cognitive control matures.",
+    "explanation": "This developmental mismatch helps explain teen risk-taking.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Adolescents are particularly sensitive to peer presence: Chein, Steinberg, and others find risky driving increases when peers are watching.",
+    "explanation": "Reward circuitry activates more strongly in social contexts during adolescence.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Bjork and Bjork's 'desirable difficulties' research shows certain learning conditions slow performance but improve retention.",
+    "explanation": "Effortful, varied, and spaced practice often beats easier study modes for long-term knowledge.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robert Bjork's 'new theory of disuse' distinguishes storage strength from retrieval strength, helping explain why forgotten material can be relearned quickly.",
+    "explanation": "Information is rarely lost outright; it becomes temporarily inaccessible.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Dan Schwartz's 'time for telling' research suggests struggling productively before instruction enhances later learning.",
+    "explanation": "Initial failure primes learners to extract more from subsequent explanations.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sheena Iyengar's choice overload research found that more options can paradoxically reduce action, like fewer 401(k) enrollments under more fund choices.",
+    "explanation": "Decision difficulty grows nonlinearly with options, increasing avoidance.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Eldar Shafir and Anuj Shah's 'scarcity' research shows poverty taxes cognitive bandwidth.",
+    "explanation": "Mental load from financial scarcity reduces performance on unrelated cognitive tasks.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Mullainathan and Shafir's experiments show scarcity narrows attention productively in the short term but can crowd out long-term planning.",
+    "explanation": "Tunneling on immediate needs is functional but costly for non-urgent decisions.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Implementation intentions, studied by Peter Gollwitzer, dramatically increase follow-through on goals.",
+    "explanation": "Specifying 'when X happens, I will do Y' creates automatic cues that bypass willpower.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Mental contrasting with implementation intentions, or MCII, developed by Gabriele Oettingen, outperforms positive thinking alone in goal pursuit.",
+    "explanation": "Pairing imagined success with imagined obstacles activates instrumental action.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Carol Dweck's growth mindset interventions show modest but real effects on academic performance, with effect sizes refined downward in larger studies.",
+    "explanation": "Effects appear strongest for at-risk students and in specific contexts.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The endowment effect requires owning or feeling ownership and disappears for some 'exchange-only' goods.",
+    "explanation": "Tokens with no consumption value show smaller endowment effects than coffee mugs.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Gilbert's research on 'mistakes about emotions' shows people misremember how they felt during past events.",
+    "explanation": "Beliefs about how one ought to have felt shape memory of how one did feel.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Eric Klinger's research on daydream content shows people spend roughly half their waking time on task-unrelated thought.",
+    "explanation": "Mind-wandering is the brain's default state, ebbing during demanding tasks.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Killingsworth and Gilbert's 2010 experience-sampling study found people report being less happy when their minds wander, regardless of activity.",
+    "explanation": "A 'wandering mind is an unhappy mind' across most everyday contexts in their data.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Default mode network activity, identified by Marcus Raichle, is high during rest and mind-wandering and suppressed during external task focus.",
+    "explanation": "Self-referential thought and mental time travel rely on this network.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Stoll, Pickering, and colleagues' research on interbrain synchrony shows aligned neural rhythms during cooperative conversation.",
+    "explanation": "Successful communication appears to involve more than turn-taking; brains synchronize during exchange.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Wolpert's research argues that the brain's primary purpose is to control movement rather than to think or perceive.",
+    "explanation": "Organisms without movement, like sea squirts, dissolve their nervous systems after settling.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The cerebellum was once thought purely motor but is now implicated in language and cognition, especially via cerebellar-cortical loops.",
+    "explanation": "Cerebellar damage produces subtle cognitive deficits known as cerebellar cognitive affective syndrome.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Stanislas Dehaene's research on the number sense identifies an approximate magnitude system shared with infants and other animals.",
+    "explanation": "Exact arithmetic builds on this evolutionarily ancient system through cultural learning.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Dehaene's 'neuronal recycling' hypothesis argues reading repurposes circuits originally evolved for visual object recognition.",
+    "explanation": "The visual word form area shows consistent location across cultures despite reading being too recent for dedicated evolution.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Brian Wansink's food-environment research has been retracted in many cases due to data problems, weakening the literature on portion-size effects.",
+    "explanation": "The general principle that environmental cues affect eating remains, but specific quantitative claims should be treated cautiously.",
+    "category": "psychology"
+  },
+  {
+    "fact": "James Pennebaker's expressive writing studies show that writing about emotional events for 15-20 minutes over several days can produce health benefits.",
+    "explanation": "Constructing narrative meaning around stress reduces rumination and is associated with immune-function improvements.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Kelly McGonigal and Alia Crum's research on stress mindsets shows believing stress is enhancing can shift its physical effects.",
+    "explanation": "Reframing arousal as fuel rather than threat affects cardiovascular response and performance.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Pomerantz and Skinner's research on parenting shows perceived parental warmth predicts children's wellbeing more strongly than structure alone.",
+    "explanation": "Children integrate parental availability as a model for self-worth and relationships.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Diana Baumrind's parenting styles distinguish authoritative, authoritarian, permissive, and uninvolved approaches.",
+    "explanation": "Authoritative parenting, high in warmth and structure, predicts the best child outcomes on average.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Eleanor Maccoby's longitudinal work refined the parenting-style framework and emphasized goodness of fit between parent style and child temperament.",
+    "explanation": "What works depends partly on the child's reactivity and self-regulation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Judith Rich Harris's 'group socialization theory' argued peers shape personality more than parents within the same culture.",
+    "explanation": "Behavior-genetic data show shared environment, including parenting, accounts for less than commonly assumed.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Adoption studies show adopted siblings raised together do not resemble each other more than strangers on most personality traits in adulthood.",
+    "explanation": "This finding remains striking and has shaped behavior-genetic theory.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sandra Scarr's 'gene-environment correlation' framework explains how children evoke and select environments matching their genetic predispositions.",
+    "explanation": "Active gene-environment correlations grow stronger as children take more control of their environments.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robert Plomin's 'Blueprint' research argues genetic influences on behavior strengthen, not weaken, with age in many traits.",
+    "explanation": "Cumulative effects of trait-related environmental selection appear to drive this trend.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Jerome Kagan's research on temperament identified high-reactive infants who become behaviorally inhibited children at higher rates.",
+    "explanation": "Amygdala reactivity patterns measured in infancy predict later social wariness.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Hans Eysenck's biological theory of personality linked extraversion to cortical arousal, with introverts being more easily aroused.",
+    "explanation": "Modern psychophysiology offers partial but not complete support for this account.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Approach and avoidance temperaments, related to Jeffrey Gray's BAS/BIS systems, predict differences in reward and punishment sensitivity.",
+    "explanation": "These systems show partial mapping onto extraversion and neuroticism in the Big Five.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Marc Brackett's emotional intelligence research emphasizes the RULER skills: recognize, understand, label, express, and regulate emotion.",
+    "explanation": "Schools using RULER show improved climate and student outcomes in evaluated programs.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Empathy can be cognitive (understanding others' states) or affective (sharing them), and the two dissociate in conditions like autism.",
+    "explanation": "Different neural systems support these aspects of empathy.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sympathetic nervous system activation in response to social rejection mirrors physical threat responses, with elevated cortisol and adrenaline.",
+    "explanation": "Naomi Eisenberger's work documents convergence between physical and social pain responses.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Tylenol (acetaminophen) was shown by DeWall and colleagues to reduce daily reports of social pain, suggesting overlap in mechanism.",
+    "explanation": "The effect is modest but consistent in pre-registered follow-ups.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Holly Williams's research on awe shows experiences of vastness can reduce self-focus and increase prosocial behavior.",
+    "explanation": "Awe shifts attention outward and reorganizes goals around bigger frames.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Dacher Keltner's 'awe walks' research found 15-minute weekly nature walks emphasizing awe-seeking improved older adults' emotional wellbeing.",
+    "explanation": "Awe was associated with smaller daily 'selfie' size, marking reduced self-focus.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Barbara Fredrickson's 'broaden-and-build' theory argues positive emotions widen attention and build durable personal resources.",
+    "explanation": "Brief positive states encourage exploration and social connection that pay off long-term.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Loving-kindness meditation studies show short-term increases in positive emotion and feelings of social connection.",
+    "explanation": "Fredrickson and others have replicated the effect with brief interventions.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Mindfulness-based stress reduction, developed by Jon Kabat-Zinn, has shown reliable benefits for anxiety, depression, and pain.",
+    "explanation": "Meta-analyses estimate moderate effect sizes, with smaller effects than once claimed but still meaningful.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Cognitive behavioral therapy for insomnia (CBT-I) outperforms hypnotic medications for long-term improvement.",
+    "explanation": "Stimulus control, sleep restriction, and cognitive restructuring durably improve sleep.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Kripke's research links long-term hypnotic use to higher mortality risk, supporting non-pharmacological insomnia treatment.",
+    "explanation": "While confounded by indication, the data argue for caution with chronic sedative use.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Circadian misalignment from shift work is linked to higher rates of mood disorder and metabolic dysfunction.",
+    "explanation": "Out-of-phase activity disrupts melatonin, cortisol, and metabolic rhythms.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Morningness-eveningness, or 'chronotype,' is partly heritable and influences cognitive performance timing.",
+    "explanation": "Larks and owls show peak alertness at different points of day, with implications for school schedules.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Frances Jensen's research on adolescent brains shows enhanced learning capacity alongside vulnerability to substance effects.",
+    "explanation": "Heightened plasticity is a double-edged sword in adolescent development.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Allen Frances's critique of DSM-5 expansion warned about overdiagnosis in conditions like bereavement-related depression.",
+    "explanation": "Diagnostic boundaries directly affect rates, reimbursement, and pharmaceutical markets.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Thomas Insel, former NIMH director, advocated moving toward Research Domain Criteria (RDoC) to map psychiatry to brain circuits and dimensions.",
+    "explanation": "RDoC complements DSM categories with continuous dimensions tied to biology.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Network theories of psychopathology, advanced by Borsboom, conceptualize disorders as causally interacting symptom networks rather than latent diseases.",
+    "explanation": "Insomnia, fatigue, and depressed mood may directly cause one another rather than reflecting a single underlying entity.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Effective treatments for obsessive-compulsive disorder include exposure with response prevention (ERP) and SSRIs.",
+    "explanation": "Refusing rituals during exposure allows extinction of conditioned anxiety.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Hoarding disorder was separated from OCD in DSM-5 because of distinct cognitive features and treatment response.",
+    "explanation": "Excessive acquisition and difficulty discarding reflect different cognitive mechanisms than typical OCD.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Tom Insel's APPS study estimated that mental disorders cost the global economy trillions annually in lost productivity.",
+    "explanation": "Untreated illness drives economic burden through workplace absenteeism and presenteeism.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Jaak Panksepp identified seven primary emotional systems in mammals, including SEEKING, FEAR, RAGE, and CARE.",
+    "explanation": "His affective neuroscience grounds emotion in conserved subcortical circuits.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The SEEKING system, associated with mesolimbic dopamine, drives goal-directed exploration and anticipatory pleasure.",
+    "explanation": "Anhedonia in depression may reflect dampened SEEKING activity.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Kent Berridge's research distinguishes 'wanting' (incentive salience) from 'liking' (hedonic pleasure) in the brain.",
+    "explanation": "Addictive behaviors often show heightened wanting with diminished liking.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robert Sapolsky's research on baboons documents the health costs of low social status, including elevated stress hormones.",
+    "explanation": "Chronic social stress measurably erodes health in both monkeys and humans.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sheldon Cohen's 'common cold' research showed people with diverse social networks were less likely to catch a cold after exposure.",
+    "explanation": "Social integration appears to bolster immune resistance, controlling for many confounds.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Julianne Holt-Lunstad's meta-analyses estimate that social isolation increases mortality risk comparably to smoking.",
+    "explanation": "Loneliness is a public health risk on par with major lifestyle factors.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Cacioppo's research on loneliness shows it heightens threat surveillance and biases attention toward social danger.",
+    "explanation": "Chronic loneliness can become self-perpetuating through hypervigilance.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Bessel van der Kolk's research on trauma emphasizes its embodied effects, though some specific clinical claims remain debated.",
+    "explanation": "PTSD involves persistent altered arousal and intrusive re-experiencing, with widespread effects.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Yehuda's research showed children of Holocaust survivors had altered cortisol patterns, suggesting intergenerational stress transmission.",
+    "explanation": "Epigenetic mechanisms are proposed but not yet conclusively shown in humans.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Childhood adversity, measured by the ACE study (Felitti and Anda), predicts numerous adult health and psychological outcomes.",
+    "explanation": "Dose-response relationships between adverse experiences and disease are robust across many datasets.",
+    "category": "psychology"
+  },
+  {
+    "fact": "George Bonanno's research on grief shows resilience is the most common trajectory after loss, contrary to stage theories.",
+    "explanation": "Many bereaved individuals maintain functioning without prolonged disruption.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Stage theories of grief (Kubler-Ross) describe common feelings but lack empirical support as a sequence.",
+    "explanation": "Grief is more variable and recursive than the famous five-stage model implies.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Posttraumatic growth, studied by Tedeschi and Calhoun, refers to positive changes some people report after adversity.",
+    "explanation": "Reports of growth must be interpreted carefully given self-reporting limitations.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Lieberman's research argues exercise produces antidepressant effects partly through endocannabinoids rather than primarily endorphins.",
+    "explanation": "The 'runner's high' has been better characterized biochemically in recent years.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Exercise has been shown to reduce depressive symptoms with effect sizes comparable to many antidepressants in some trials.",
+    "explanation": "Cooney and colleagues' meta-analyses note methodological limitations but support clinical benefit.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Aerobic exercise produces measurable hippocampal volume increases in older adults, per Kirk Erickson's randomized trials.",
+    "explanation": "BDNF and vascular factors are leading candidate mechanisms.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Neurogenesis in the adult human hippocampus was confirmed by Eriksson and colleagues in 1998 in patients given BrdU tracers.",
+    "explanation": "Adult brain plasticity extends beyond synaptic changes to genuine new neuron production in specific regions.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Henrietta Boldemann's research on outdoor preschool play shows children with more outdoor time get better sleep and have better attention.",
+    "explanation": "Daylight exposure and physical activity both contribute.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Stephen Kaplan's attention restoration theory holds that natural environments restore directed attention better than urban ones.",
+    "explanation": "Natural scenes engage 'soft fascination' that allows top-down attention to recover.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Roger Ulrich's 1984 study found surgical patients with window views of trees recovered faster than those facing a brick wall.",
+    "explanation": "The finding launched substantial work on the health effects of natural environments.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Floyd Allport's classic 1924 work documented 'social facilitation,' showing presence of others can improve simple task performance.",
+    "explanation": "Zajonc later refined the theory to account for impairment on complex tasks.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Norman Triplett's 1898 bicycling study is often cited as the first experiment in social psychology, showing cyclists ride faster when racing.",
+    "explanation": "Social presence energizes performance on well-learned tasks.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Max Ringelmann's 1913 'social loafing' experiments found people pulled less hard on a rope as group size grew.",
+    "explanation": "Diffusion of responsibility and reduced accountability undermine group effort.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Latane's social impact theory mathematically models how social influence depends on strength, immediacy, and number of others.",
+    "explanation": "His equations capture diminishing returns as more people are added.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Groupthink, identified by Irving Janis (1972), describes consensus pressures that suppress dissent in cohesive decision-making groups.",
+    "explanation": "Janis analyzed Bay of Pigs and other policy disasters as illustrations.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Group polarization research, by Moscovici and Zavalloni (1969), shows discussion among like-minded people moves opinions toward more extreme positions.",
+    "explanation": "Hearing supporting arguments and shifting norms drives the move toward extremity.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Anthony Pratkanis's research on undercover persuasion shows scammers exploit reciprocity, scarcity, and authority deliberately.",
+    "explanation": "Fraud often runs on the same heuristics legitimate marketing leverages.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Mark Snyder's self-monitoring research distinguishes people who adapt their behavior heavily to social cues from those who don't.",
+    "explanation": "High self-monitors are flexible but less consistent across situations.",
+    "category": "psychology"
+  },
+  {
+    "fact": "James Pennebaker's linguistic research showed function-word use, like pronoun frequency, reveals more about personality than topic words.",
+    "explanation": "Style of expression carries persistent individual signatures.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Roy Baumeister's research suggests writing about meaningful life events helps consolidate identity and well-being.",
+    "explanation": "Narrative identity supports coherent self-understanding over time.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Dan McAdams's life-story research distinguishes 'redemption' from 'contamination' narratives, with redemption stories linked to generativity.",
+    "explanation": "How we frame past difficulties shapes future motivation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Erik Erikson's eight stages of psychosocial development pair age-specific crises like 'identity versus role confusion' with virtues.",
+    "explanation": "Each stage centers a developmental tension whose resolution shapes later life.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Identity statuses, developed by James Marcia from Erikson, distinguish achievement, moratorium, foreclosure, and diffusion based on exploration and commitment.",
+    "explanation": "Different identity processes predict different mental health and relational outcomes.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Erikson's concept of 'generativity' in midlife captures concern for guiding the next generation.",
+    "explanation": "High generativity in midlife predicts well-being and meaning in later years.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Theodor Adorno and colleagues' authoritarian personality work (1950) hypothesized harsh upbringing as a root of authoritarian beliefs.",
+    "explanation": "Modern research separates the personality construct from its developmental origins, which remain debated.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Karen Stenner's authoritarian dynamic theory argues normative threat activates latent authoritarian preferences.",
+    "explanation": "Threat to social cohesion shifts a portion of the population toward conformity and intolerance.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robert Cialdini's 1990 research distinguished injunctive norms (what is approved) from descriptive norms (what is done), each carrying different persuasive force.",
+    "explanation": "Anti-littering signs work best when they emphasize that most people don't litter.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Goldstein, Cialdini, and Griskevicius's 2008 study found hotel towel reuse rose when guests were told most prior guests in the same room had reused theirs.",
+    "explanation": "Local descriptive norms move behavior more than generic environmental appeals.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Crum and Langer's 2007 'work as exercise' study showed hotel attendants improved their health metrics after being told their work counted as exercise.",
+    "explanation": "Mindset alone produced measurable changes in blood pressure and weight beyond placebo.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Solomon Asch's 1946 'warm/cold' study found a single trait word could shift overall impressions of a target person.",
+    "explanation": "Central traits like warmth disproportionately organize impressions of personality.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Primacy effects in impression formation, demonstrated by Asch, show early information weighs more heavily than later information.",
+    "explanation": "Once we form an initial impression, subsequent cues are interpreted to fit it.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Edward Tolman's 1948 'cognitive maps' research with rats challenged strict stimulus-response behaviorism.",
+    "explanation": "Rats appeared to learn the spatial layout of mazes even without explicit reward.",
+    "category": "psychology"
+  },
+  {
+    "fact": "John O'Keefe discovered place cells in the rat hippocampus in 1971, earning a Nobel Prize in 2014.",
+    "explanation": "Place cells fire when an animal is in a specific location, supporting spatial maps.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Edvard and May-Britt Moser discovered grid cells in the entorhinal cortex in 2005, providing a hexagonal coordinate system for navigation.",
+    "explanation": "Grid cells complement place cells in supporting cognitive maps of space.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Schacter's constructive memory framework argues that memory is fundamentally reconstructive and supports future-oriented thinking.",
+    "explanation": "The brain reuses memory systems to imagine future scenarios, explaining their overlap.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Endel Tulving's research on 'mental time travel' argues episodic memory is unique in allowing reliving of past experiences.",
+    "explanation": "This capacity may be linked to consciousness of self in time.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Cherry's dichotic listening tasks showed semantic content of an unattended channel goes largely unprocessed beyond gross physical features.",
+    "explanation": "Attended channels are processed for meaning; unattended channels mostly for low-level features.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Donald Broadbent's 1958 filter theory of attention proposed early selection based on physical features.",
+    "explanation": "Later research, like Treisman's attenuation theory, suggested filtering is graded rather than all-or-none.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Anne Treisman's feature integration theory (1980) explains how the brain binds features like color and shape into coherent objects through focused attention.",
+    "explanation": "Pre-attentive feature maps allow parallel detection, while binding requires focal attention.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Visual search tasks show 'pop-out' for unique features but require effortful serial search for conjunctions, supporting feature integration theory.",
+    "explanation": "Reaction time grows with set size only when targets share features with distractors.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Kahneman's pupillometry research found pupil size tracks mental effort across diverse tasks.",
+    "explanation": "Cognitive load produces measurable autonomic dilation, a marker of attention demand.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Neisser's 1976 'analysis-by-synthesis' model framed perception as a cyclical interaction between schemas and bottom-up data.",
+    "explanation": "Expectations shape what we look for and what we extract from input.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Eleanor Rosen's research on categories showed prototype-based rather than feature-list structures, with graded membership.",
+    "explanation": "Some category members (robins) are 'better' birds than others (penguins).",
+    "category": "psychology"
+  },
+  {
+    "fact": "Basic-level categories like 'chair' are processed faster than superordinate (furniture) or subordinate (rocking chair) categories.",
+    "explanation": "Basic levels maximize within-category similarity and between-category difference.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Susan Carey's 'conceptual change' research argues that children's concepts undergo radical restructuring as they develop.",
+    "explanation": "Children's naive theories of biology and physics evolve through qualitative shifts, not just adding information.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Spelke's 'core knowledge' systems propose innate domains for object permanence, number, agency, and geometry.",
+    "explanation": "Infants show evidence of these representations earlier than learning could plausibly account for.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Karen Wynn's 1992 study showed 5-month-olds detect violations of simple arithmetic with toy objects.",
+    "explanation": "Infants look longer at outcomes inconsistent with 1+1=2, suggesting basic numerical expectations.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Jean Decety's research on empathic neural responses shows overlap between observing and experiencing pain in the brain.",
+    "explanation": "However, observers' responses differ in detail from first-person pain processing.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Tania Singer's brain imaging research demonstrated empathy training (loving-kindness, compassion) produces different neural signatures from empathic distress.",
+    "explanation": "Compassion training reduces aversive responses while preserving care motivation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Stephanie Preston and Frans de Waal's 'perception-action model' of empathy locates its evolutionary roots in motor mimicry and emotional contagion.",
+    "explanation": "Empathy is built on conserved capacities shared with many mammals.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Frans de Waal's chimpanzee studies show 'consolation' behavior toward distressed conspecifics, suggesting empathic precursors in great apes.",
+    "explanation": "Targeted affiliative behaviors track another's distress in a flexible manner.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sarah Brosnan and de Waal's 2003 capuchin monkey study showed unequal-pay reactions akin to fairness sensitivity.",
+    "explanation": "Monkeys refused cucumbers when peers received grapes for the same work.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Felix Warneken and Michael Tomasello's research shows toddlers as young as 14 months help adults achieve goals without prompting.",
+    "explanation": "Early prosocial behavior appears robust across cultures and emerges without explicit training.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Tomasello's 'shared intentionality' theory argues uniquely human cognition depends on cooperative goal-sharing.",
+    "explanation": "Humans engage in joint plans and roles in ways other apes appear not to.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The 'overimitation' phenomenon shows children copy even causally irrelevant steps in adult demonstrations.",
+    "explanation": "This overcopy supports cultural transmission of opaque practices like rituals.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Cristine Legare's research shows overimitation is more common in children with strong adult ties.",
+    "explanation": "Faithful copying enables cumulative cultural learning across generations.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Joseph Henrich's 'cultural brain hypothesis' argues that the size of the human brain partly tracks the difficulty of cultural learning.",
+    "explanation": "Larger brains support acquiring complex socially transmitted knowledge.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robert Boyd and Peter Richerson's gene-culture coevolution theory shows cultural inheritance can shape selection on genes, as in lactose tolerance.",
+    "explanation": "Dairy farming selected for lactase persistence in some populations.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Roy D'Andrade's cultural cognition research describes shared mental models like 'getting ahead' that organize behavior in a society.",
+    "explanation": "Cultural schemas operate below explicit awareness yet structure daily life.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Geoffrey Cohen's value-affirmation interventions reduce achievement gaps by buffering students against stereotype threat.",
+    "explanation": "Brief writing about personal values shows replicated effects on long-term performance.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Greg Walton and David Yeager's brief social-belonging interventions reduce college dropout among at-risk students.",
+    "explanation": "Normalizing belonging struggles changes interpretations of future setbacks.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Tetlock's 'superforecasters' research identifies traits like open-mindedness and probabilistic thinking as predictors of accurate prediction.",
+    "explanation": "Calibrated forecasters update on small pieces of evidence and avoid overconfidence.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Tetlock's hedgehog-vs-fox distinction, after Isaiah Berlin, finds 'foxes' who know many small things outperform 'hedgehogs' who know one big idea.",
+    "explanation": "Cognitive flexibility predicts forecasting accuracy better than expertise.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Joshua Knobe's 'side-effect effect' research shows people attribute intentionality differently based on moral valence.",
+    "explanation": "Harmful side effects are deemed more intentional than identically described helpful ones.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Fiery Cushman's research on causal versus intentional moral judgment finds different inputs to harm-doing versus consent-violation evaluations.",
+    "explanation": "Multiple processes contribute to moral judgments rather than a single intuition.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Norm violation detection appears to be a fast, automatic process, as shown by ERP studies revealing N400 components to norm-incongruent statements.",
+    "explanation": "The brain responds to social norm violations within hundreds of milliseconds.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Kurt Gray and Daniel Wegner's mind-perception research identifies agency and experience as two key dimensions of mind attribution.",
+    "explanation": "Different patterns of attribution underlie how we treat ethically distinct beings.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Heider and Simmel's 1944 animation study showed people spontaneously narrate moving geometric shapes as if they had goals and emotions.",
+    "explanation": "Agency detection is automatic and easily triggered by motion cues.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Mind-attribution biases extend to robots, with people attributing more mental states to humanoid forms.",
+    "explanation": "Appearance and behavior cues drive automatic mind perception.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Justin Barrett's hyperactive agency detection theory proposes that humans evolved to overdetect agency, contributing to religious beliefs.",
+    "explanation": "False positives are evolutionarily cheaper than missed predators or rivals.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Religious participation correlates with health and longevity benefits in many large studies, controlling for known confounds.",
+    "explanation": "Social support, meaning, and structured routines are leading candidate mechanisms.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Studies by Andrew Newberg find sustained meditation and prayer alter activity in the parietal cortex, associated with reduced self-other distinction.",
+    "explanation": "Subjective experiences of unity correlate with measurable neural changes.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Jordan Grafman's research on penetrating brain injuries showed lesions to ventromedial prefrontal cortex were associated with reduced religious commitment.",
+    "explanation": "Specific brain regions appear to modulate dispositional religiosity in some patient samples.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daryl Bem's 'precognition' studies (2011) failed to replicate in pre-registered follow-ups.",
+    "explanation": "The episode helped trigger the broader psychology replication crisis.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Brian Nosek's Open Science Collaboration found in 2015 that only 36% of selected psychology studies replicated with significant effects.",
+    "explanation": "Their large effort sparked widespread methodological reform across psychology.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The 'Many Labs' replication projects show some classic findings replicate strongly (Stroop, anchoring) while others do not.",
+    "explanation": "Effect sizes vary by paradigm but are often smaller than originally reported.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Pre-registration and registered reports have grown rapidly since 2014 as tools to combat hindsight selection in psychology research.",
+    "explanation": "Specifying hypotheses and analyses in advance reduces flexibility that inflates false positives.",
+    "category": "psychology"
+  },
+  {
+    "fact": "P-hacking, defined by Simmons, Nelson, and Simonsohn in 2011, refers to flexible analysis until statistically significant results appear.",
+    "explanation": "Even small flexibility can dramatically increase Type I error rates.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Publication bias against null results inflates published effect sizes, as documented in many meta-analyses.",
+    "explanation": "Selective reporting means the literature overrepresents positive findings.",
+    "category": "psychology"
+  },
+  {
+    "fact": "John Ioannidis's 2005 paper 'Why Most Published Research Findings Are False' applied to psychology has driven methodological reform.",
+    "explanation": "Combining low power, flexibility, and publication bias produces unreliable literatures.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Many-analysts research, such as Silberzahn et al. (2018), shows different reasonable analyses of the same data can yield divergent conclusions.",
+    "explanation": "Analytic choices contribute meaningfully to variability in findings.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Schimmack's research on multi-study replication probabilities (R-Index) suggests many classic psychology findings are not robust.",
+    "explanation": "Statistical patterns across published studies can diagnose underlying replicability.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Lupien and Maheu's research on cortisol effects shows acute stress can enhance memory encoding while chronic stress impairs it.",
+    "explanation": "Stress hormones interact with the hippocampus in time- and dose-dependent ways.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Bruce McEwen's allostatic load framework explains how cumulative stress wears physiological systems beyond their adaptive range.",
+    "explanation": "Long-term wear includes hypertension, immune changes, and cognitive decline.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Pixel-level analysis of facial micro-expressions by Paul Ekman identifies brief leaks of suppressed emotion lasting under a second.",
+    "explanation": "Even trained observers detect micro-expressions only slightly above chance, despite popular impressions.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Polygraph 'lie detection' has known weaknesses: accuracy is well below the rates often claimed in popular media.",
+    "explanation": "Physiological measures conflate anxiety with deception and miss skilled deceivers.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Aldert Vrij's research finds that cognitive-load interview techniques outperform traditional cues for distinguishing liars from truth-tellers.",
+    "explanation": "Increasing cognitive demand exposes deceptive responses more reliably than nonverbal observation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Dan Ariely's 'cheating' research suggests small lapses arise when people can rationalize honesty while bending it.",
+    "explanation": "However, some of his specific data have been retracted due to integrity concerns; the general phenomenon persists in other labs.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Francesca Gino's research on signing-at-the-top forms has been retracted, weakening that specific finding while broader honesty-cue research continues.",
+    "explanation": "Several of her papers have been withdrawn due to suspected data fabrication.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Carey Morewedge's research on imagined consumption shows mentally simulating eating something multiple times reduces actual desire for it.",
+    "explanation": "Habituation works in imagination as well as in reality, within limits.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Ethan Kross's research on 'self-distancing' shows using your name when self-talking reduces emotional arousal.",
+    "explanation": "Stepping outside the first-person view supports better regulation of intense feelings.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Pennebaker's analysis of 9/11 trauma showed survivors who used moderate amounts of cognitive-process words in writing showed better adjustment.",
+    "explanation": "Constructing coherent narrative, not simply venting, helps process traumatic experience.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Decision fatigue, popularized by Roy Baumeister, is supported by smaller and less consistent effects than initially reported.",
+    "explanation": "Effects of repeated choosing on subsequent decisions are real but smaller than once claimed.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Galak and Meyvis's research on hedonic adaptation shows variety can be a powerful tool against satiation in pleasurable activities.",
+    "explanation": "Interrupting consumption resets pleasure, often improving the overall experience.",
+    "category": "psychology"
+  },
+  {
+    "fact": "George Loewenstein's research on the 'hot-cold empathy gap' shows people in calm states underestimate the influence of hot states like hunger or anger.",
+    "explanation": "Predictions about future drug cravings or sexual decisions systematically err when made in cool states.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Walter Mischel's 'hot-cool system' model distinguishes affective and cognitive systems that compete for control.",
+    "explanation": "Self-regulation strategies often translate hot temptations into cool, abstract representations.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Albert Bandura's self-efficacy research shows beliefs about one's capabilities predict performance across domains.",
+    "explanation": "Self-efficacy expectations influence effort, persistence, and resilience independently of objective skill.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Bandura's social cognitive theory updates behaviorism by emphasizing observational learning, self-regulation, and forethought.",
+    "explanation": "Humans learn many behaviors by watching and anticipating consequences, not just by direct reinforcement.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Edward Deci and Richard Ryan's self-determination theory identifies autonomy, competence, and relatedness as universal psychological needs.",
+    "explanation": "Environments that support these needs foster intrinsic motivation and well-being.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Lepper, Greene, and Nisbett's 1973 'overjustification' study showed external rewards can reduce intrinsic interest in activities children initially enjoyed.",
+    "explanation": "Tangible rewards can shift attribution from interest to incentive.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Mark Lepper's expanded research on rewards shows tangible expected rewards are most likely to undermine intrinsic motivation, while informational praise can support it.",
+    "explanation": "The form and contingency of reward matter, not the mere presence.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Carol Ryff's psychological well-being framework distinguishes six dimensions including autonomy, purpose, and personal growth.",
+    "explanation": "These dimensions complement hedonic well-being with eudaimonic considerations.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Martin Seligman's PERMA model of well-being centers positive emotion, engagement, relationships, meaning, and accomplishment.",
+    "explanation": "PERMA serves as a framework for positive psychology interventions.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Random kindness interventions, studied by Sonja Lyubomirsky, can produce small but reliable boosts to subjective well-being.",
+    "explanation": "Performing varied acts of kindness over weeks outperforms repeating the same act.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Gratitude journaling studies by Emmons and McCullough find modest but real benefits for well-being and sleep.",
+    "explanation": "Listing things one is grateful for shifts attention toward positive aspects of life.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Three-good-things exercises, a Seligman intervention, durably reduce depression symptoms in some samples.",
+    "explanation": "The practice changes habitual attention patterns over weeks.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Wegner's 1994 'ironic process' research showed under cognitive load, suppression efforts backfire most strongly.",
+    "explanation": "The monitor that checks for suppressed thoughts becomes the loudest voice when control is depleted.",
+    "category": "psychology"
+  },
+  {
+    "fact": "John Gottman's research identifies criticism, contempt, defensiveness, and stonewalling as 'four horsemen' that predict divorce.",
+    "explanation": "Contempt is the strongest single predictor of relationship dissolution.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robert Cialdini's classic 1976 'basking in reflected glory' study showed students wore school colors more often after football wins.",
+    "explanation": "We strategically associate with successful groups to enhance our identity.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Diener and Seligman's research on 'very happy people' found extremely happy individuals all had close, satisfying relationships.",
+    "explanation": "Strong social ties may be a near-necessary condition for sustained high subjective well-being.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The 'Mere Measurement effect,' shown by Morwitz and colleagues, demonstrates that asking about future intentions increases the likelihood of performing the behavior.",
+    "explanation": "Self-prediction can serve as a commitment device.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Asch's conformity rates dropped substantially when even a single ally dissented from the unanimous group.",
+    "explanation": "Group pressure to conform depends heavily on unanimity.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Stanley Milgram's later variations of his obedience study showed compliance dropped sharply when authority was nearby an objecting peer.",
+    "explanation": "Conflicting authority cues weaken obedience considerably.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Goldstein and Gerd Gigerenzer's recognition heuristic research shows naive ratings can outperform expert ones when grounded in mere recognition.",
+    "explanation": "Recognizing one item but not another gives information about likely importance.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Gerd Gigerenzer's 'fast and frugal heuristics' program argues that simple decision rules often perform well in real-world environments.",
+    "explanation": "Less computation can produce better predictions outside laboratory settings due to overfitting risk.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Mark Allen Bedell and colleagues' research on chess intuition shows masters use pattern recognition more than calculation in fast play.",
+    "explanation": "Extensive practice builds large repertoires of recognizable board configurations.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Chase and Simon's 1973 study showed chess experts remembered real board positions better than novices, but the advantage disappeared for random board configurations.",
+    "explanation": "Expertise relies on familiar patterns rather than raw memory capacity.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Allen Newell and Herbert Simon's 1972 'human problem solving' work used think-aloud protocols to map cognitive steps in problem solving.",
+    "explanation": "Their general problem solver framework grounded modern cognitive modeling.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Pat Langley and colleagues' BACON program reproduced scientific discoveries like Kepler's laws by applying simple heuristics to data.",
+    "explanation": "Some scientific discovery can be modeled as a search through hypothesis space.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Bor's 'ravenous brain' framework emphasizes chunking as the brain's central engine of intelligence.",
+    "explanation": "Forming larger units from smaller ones underlies expertise across domains.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Eric Kandel's research on synaptic plasticity shows long-term memory requires gene expression and new protein synthesis.",
+    "explanation": "Brief learning experiences trigger cascades that consolidate memories at the molecular level.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Karim Nader's reconsolidation research showed reactivated memories briefly become labile and can be modified or erased.",
+    "explanation": "Each retrieval may re-stabilize the memory with new information added.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Translational reconsolidation work by Schiller and others has aimed at safely weakening fear memories through brief retrieval-extinction protocols.",
+    "explanation": "Disrupting reconsolidation could in principle treat phobias and PTSD, though clinical translation is still uncertain.",
+    "category": "psychology"
+  },
+  {
+    "fact": "James Olds and Peter Milner's 1954 self-stimulation studies showed rats would press a lever thousands of times per hour for electrical stimulation of the medial forebrain bundle.",
+    "explanation": "The discovery identified central reward pathways in the brain.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Wolfram Schultz's research showed dopamine neurons signal reward prediction errors, not reward per se.",
+    "explanation": "Dopamine fires when outcomes exceed expectations and pauses when they fall short.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Read Montague and colleagues' work linked the reinforcement learning algorithm 'temporal difference' to dopamine signaling.",
+    "explanation": "Brains may implement a computational form of reinforcement learning.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Trevor Robbins's research distinguishes goal-directed from habitual action control, with progressive dorsolateral striatum involvement in habits.",
+    "explanation": "With repetition, behavior transitions from explicit goal pursuit to stimulus-driven routines.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Ann Graybiel's research on habit formation in the basal ganglia shows how 'chunked' action sequences become automatic.",
+    "explanation": "Specific neural ensembles bracket the start and end of habitual sequences.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Wendy Wood's research shows habits explain a substantial fraction of daily behavior, more than introspection suggests.",
+    "explanation": "Most everyday choices occur in stable contexts that trigger learned routines automatically.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Phillippa Lally's 2010 research found average habit formation takes about 66 days, with wide individual variation.",
+    "explanation": "The often-cited '21 days' figure has no empirical basis; real timelines depend on behavior and person.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Roy Baumeister and colleagues' 1998 'thought suppression' studies showed that suppression of a target thought made it more accessible afterward.",
+    "explanation": "Rebound effects appear when monitoring relaxes.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Walter Mischel's research showed children who used 'cool' representations (think of the marshmallow as a cloud) waited longer than those focused on 'hot' features.",
+    "explanation": "Reappraisal strategies harness cognitive control more reliably than willpower.",
+    "category": "psychology"
+  },
+  {
+    "fact": "James Gross's process model of emotion regulation distinguishes situation selection, modification, attentional deployment, reappraisal, and response modulation.",
+    "explanation": "Earlier-stage strategies like reappraisal are generally more effective than later suppression.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Suppression of emotional expression has been linked to greater physiological cost and worse memory for the suppressed event, per Richards and Gross.",
+    "explanation": "Trying to hide feelings is mentally demanding and impairs concurrent cognitive tasks.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daryl Bem's self-perception theory (1967) argues we infer our attitudes by observing our own behavior, particularly when internal cues are weak.",
+    "explanation": "Self-perception offers an alternative to cognitive dissonance to explain attitude change after behavior.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Nisbett and Wilson's 1977 'telling more than we can know' paper argued people often confabulate explanations for their behavior.",
+    "explanation": "Introspective reports about influences on judgment are frequently inaccurate.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Petter Johansson's 'choice blindness' research showed people often fail to notice when their original choice has been swapped, and confabulate justifications for the new one.",
+    "explanation": "Our reasons for choices can be reconstructed after the fact rather than recalled from the moment of choice.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Wegner and Wheatley's 'I Spy' experiment (1999) showed participants believed they had decided actions actually caused by an accomplice when timing and thought content aligned.",
+    "explanation": "The illusion of conscious will arises from inferences about coincidence between thought and action.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Carl Rogers's person-centered therapy emphasized congruence, empathy, and unconditional positive regard.",
+    "explanation": "These conditions, he argued, foster client self-actualization more than directive techniques.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Abraham Maslow's hierarchy of needs (1943) has not been confirmed as a strict order, but its components remain important descriptions of human motivation.",
+    "explanation": "Cross-cultural data suggest needs can be pursued in flexible orders.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Erving Goffman's dramaturgical sociology, though not strictly psychology, influenced impression management research by framing social life as performance.",
+    "explanation": "His analysis of front-stage and back-stage behavior shaped self-presentation theory.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Roy Baumeister's review of self-esteem found it does not reliably cause academic or life outcomes, despite popular assumption.",
+    "explanation": "Self-esteem is more often a consequence than a cause of success.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Self-compassion research by Kristin Neff suggests it predicts well-being more strongly than self-esteem.",
+    "explanation": "Treating oneself with kindness during failure avoids the brittleness of self-esteem dependent on success.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Albert Bandura's reciprocal determinism describes mutual influence among person, behavior, and environment.",
+    "explanation": "Causation in psychology runs in many directions simultaneously, not just from environment to person.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Lewin's field theory introduced 'force fields' and the formula B = f(P, E): behavior is a function of person and environment.",
+    "explanation": "Lewin's framework anchored experimental social psychology in the 20th century.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Kurt Lewin's 1947 group dynamics research showed group decisions changed behavior more durably than lectures, in WWII food-rationing studies.",
+    "explanation": "Active participation generates commitment that passive learning does not.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Norman Maier's 1939 research on functional fixedness in problem solving showed minor cues often prompt insight unconsciously.",
+    "explanation": "External cues can guide solution discovery without entering conscious awareness.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sue Savage-Rumbaugh's work with bonobo Kanzi demonstrated symbolic communication abilities through lexigrams.",
+    "explanation": "Comprehension of spoken English commands suggested complex linguistic processing in apes.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Irene Pepperberg's research with the African grey parrot Alex revealed remarkable categorical learning in birds.",
+    "explanation": "Alex could identify objects, colors, and numbers up to about six.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Frans de Waal's research on chimpanzee politics documents alliance formation and reconciliation behaviors.",
+    "explanation": "Social cognition in primates includes managing complex coalitions over time.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Marc Hauser's animal cognition research was tainted by misconduct, but the broader field of animal cognition remains vibrant.",
+    "explanation": "Replication and methodological scrutiny have strengthened the field overall.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Nicky Clayton's scrub-jay research shows the birds remember what, where, and when they cached food, suggesting episodic-like memory.",
+    "explanation": "Birds adjust caching strategies based on observers, indicating awareness of competitors' knowledge.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Alex Kacelnik's work on New Caledonian crows demonstrates spontaneous tool manufacture comparable to great apes.",
+    "explanation": "Tool use does not require primate brain anatomy and can evolve independently.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Self-recognition tests with mirrors have been passed by chimpanzees, orangutans, dolphins, magpies, and elephants.",
+    "explanation": "Mirror self-recognition is one operationalization of self-awareness across species.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Gordon Gallup's 1970 mirror test placed a mark on anesthetized chimpanzees and observed mark-directed behavior on awakening.",
+    "explanation": "The methodology became a standard, though its interpretation is debated.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Children typically pass the mirror self-recognition test between 18 and 24 months of age.",
+    "explanation": "Mirror recognition is a developmental milestone coinciding with use of personal pronouns.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Lisa Feldman Barrett's theory of constructed emotion challenges the view that emotions are discrete biological packets, arguing they are constructed from interoception and concepts.",
+    "explanation": "Brain imaging shows no consistent fingerprint for individual basic emotions in her framework.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Interoception, the perception of internal bodily states, has been linked to emotion regulation and decision-making.",
+    "explanation": "Sarah Garfinkel's research connects heartbeat detection accuracy to emotional sensitivity.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Hugo Critchley's research links the insula to interoceptive awareness and emotional experience.",
+    "explanation": "Insular activity covaries with subjective intensity of feelings.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Antonio Damasio's iowa gambling task shows healthy participants generate anticipatory skin conductance responses to risky decks before conscious recognition.",
+    "explanation": "Patients with ventromedial damage make poor decisions and lack these autonomic signals.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Tania Singer's research found cognitive empathy training led to different neural and behavioral effects than emotional empathy training.",
+    "explanation": "Distinct training programs yield distinct outcomes, supporting differentiated empathy.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Lieberman and Eisenberger's research on social pain and physical pain shows overlapping neural circuitry in the anterior cingulate.",
+    "explanation": "Language metaphors of pain reflect deeper functional convergence.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Russell Fazio's MODE model describes attitudes as automatic when activated rapidly and deliberate when activated slowly.",
+    "explanation": "Automatically activated attitudes most strongly predict spontaneous behavior.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Allport's 1954 'contact hypothesis' proposed that intergroup contact under specific conditions can reduce prejudice.",
+    "explanation": "Meta-analyses by Pettigrew and Tropp confirm modest reductions, especially with equal status and common goals.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Linda Tropp and Thomas Pettigrew's meta-analyses show contact effects extend beyond the specific outgroup contacted.",
+    "explanation": "Reduced prejudice often generalizes to other outgroups, suggesting broad attitude change.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Reicher and Haslam's 2002 BBC Prison Study, partly modeled on Zimbardo, found participants did not fall into rigid roles automatically.",
+    "explanation": "Group identification, not roles, drove the most consequential behavior.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Eichmann's banality of evil thesis, popularized by Hannah Arendt, was illustrated experimentally by Milgram's obedience work.",
+    "explanation": "Ordinary people, not just monsters, can be led to harmful actions under perceived authority.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Philip Zimbardo's later 'Heroic Imagination Project' emphasizes situational training to foster prosocial intervention.",
+    "explanation": "If situations powerfully shape behavior, training can prepare people to resist negative ones.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Festinger's social comparison theory (1954) holds that people evaluate themselves by comparing to others, especially when objective standards are absent.",
+    "explanation": "Upward and downward comparisons shape self-evaluation and motivation differently.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Abraham Tesser's self-evaluation maintenance model shows comparisons with close others on relevant dimensions can threaten self-esteem.",
+    "explanation": "We often distance from outperforming close others on identity-relevant traits.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Mark Snyder and William Swann's 1978 self-verification research showed people seek feedback that confirms their self-views, even negative ones.",
+    "explanation": "Self-verification motives can compete with self-enhancement motives.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Bem's 1981 gender schema theory emphasized how cultural gender categories shape memory and perception.",
+    "explanation": "Children sort information through gender lenses they have absorbed from their environments.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Stereotype threat effects on women's math performance, demonstrated by Steele and colleagues, have been replicated and also shown to be context-sensitive.",
+    "explanation": "Cues about gender salience in testing situations affect performance.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Cohen and Steele's 2002 'wise feedback' research found framing critiques as 'high standards plus belief in capability' reduced racial achievement gaps.",
+    "explanation": "Belonging cues moderate how feedback is received.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Tetlock and Mitchell's 2009 critique noted that IAT scores do not strongly predict individual discrimination behavior.",
+    "explanation": "Implicit measures show group-level patterns more reliably than individual prediction.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Patricia Devine's research distinguishes activation of stereotypes from their application, with motivation moderating the latter.",
+    "explanation": "Even people aware of cultural stereotypes can refuse to use them when motivated.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Devine's 'habit-breaking' interventions reduce implicit racial bias durably over months in some samples.",
+    "explanation": "Structured strategies like stereotype replacement and individuation can change automatic associations.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Lerner and Tetlock's 'accountability' research shows that anticipating having to justify choices changes how people decide.",
+    "explanation": "When the audience's views are known, people pre-comply; when unknown, they think more thoroughly.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robert Cialdini's 'unity' principle, added later to his six classics, captures the persuasive power of shared identity.",
+    "explanation": "We are more easily influenced by people we consider part of our group.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Wegner's transactive memory research describes how groups distribute knowledge across members rather than each holding everything.",
+    "explanation": "Long-term couples and teams divide cognitive labor based on shared knowledge of who knows what.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Hutchins's distributed cognition framework, illustrated in ship navigation studies, emphasizes how cognitive work spans tools and people.",
+    "explanation": "Many real cognitive systems exist beyond individual heads.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Andy Clark's 'extended mind' thesis argues tools like notebooks can become part of cognitive processes when reliably integrated.",
+    "explanation": "Where mind ends and tool begins becomes a practical, not metaphysical, question in his view.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sara Lazar's neuroimaging research showed meditators had greater cortical thickness in attention-related regions.",
+    "explanation": "Long-term practice may produce measurable structural changes, though causal direction is unclear.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Yi-Yuan Tang's integrative body-mind training showed even short meditation programs improve attention and reduce cortisol.",
+    "explanation": "Brief, daily practice can produce measurable changes within weeks.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Mindfulness-Based Cognitive Therapy, developed by Segal, Williams, and Teasdale, reduces depression relapse in patients with multiple prior episodes.",
+    "explanation": "Decentering from depressive thoughts disrupts rumination patterns.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sleep deprivation impairs emotional regulation, with amygdala hyperreactivity to negative stimuli after a night without sleep.",
+    "explanation": "Walker and colleagues' fMRI work links lost sleep to emotional volatility.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sleep loss biases social judgment toward perceiving threat, as shown by Goldstein-Piekarski and others.",
+    "explanation": "Tired observers detect more anger in neutral faces.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Acute sleep deprivation impairs creative insight problem solving, as shown by Wagner et al. (2004).",
+    "explanation": "REM-rich sleep particularly supports recombination of memories into novel solutions.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Penelope Lewis's 'targeted memory reactivation' studies use sound cues during sleep to selectively enhance specific memories.",
+    "explanation": "Reactivating learning-associated cues during slow-wave sleep can improve retention.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Brain rhythms during slow-wave sleep, particularly slow oscillations and sleep spindles, are tightly linked to memory consolidation.",
+    "explanation": "Coupling between hippocampal sharp-wave ripples and cortical spindles is thought to transfer memories.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Lucid dreaming, in which the dreamer becomes aware they are dreaming, has been validated by intentional eye-movement signaling during REM.",
+    "explanation": "Stephen LaBerge's 1981 work proved lucid dreaming exists as a verifiable phenomenon.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Allan Hobson's activation-synthesis hypothesis proposes dreams arise from cortical interpretation of random brainstem activity during REM.",
+    "explanation": "Updated models emphasize functional roles for dreaming in emotion processing and creativity.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Mark Solms's research argues against pure REM-based theories of dreaming, noting brainstem-damaged patients can still dream.",
+    "explanation": "Dreams appear to depend more on mesolimbic dopamine systems than on REM specifically.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sleep paralysis episodes, accompanied by vivid hallucinations, occur in 8-30% of people at least once, depending on sampling.",
+    "explanation": "Persistence of REM motor atonia into wakefulness produces the experience.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Antrobus's research on dreams shows dream content correlates with waking concerns and pre-sleep stress.",
+    "explanation": "Daily preoccupations are reworked during sleep in continuity hypotheses of dreaming.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Calvin Hall's dream content analysis of thousands of dreams documented stable themes including being chased, falling, and unprepared exams.",
+    "explanation": "Common themes recur cross-culturally though specific content varies.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Antti Revonsuo's threat simulation theory proposes dreams evolved to rehearse responses to threats.",
+    "explanation": "Dreams are biased toward negative scenarios, consistent with simulation training.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sleep duration recommendations by the National Sleep Foundation suggest 7-9 hours for adults, with risk increasing for chronic restriction below 6.",
+    "explanation": "Both short and very long sleep correlate with poorer health outcomes.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daytime naps of 10-20 minutes improve alertness without producing sleep inertia, per Brooks and Lack (2006).",
+    "explanation": "Short naps avoid entering deep sleep stages that cause grogginess on waking.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Microsleeps, brief lapses lasting seconds, occur in sleep-deprived individuals and contribute to accidents.",
+    "explanation": "EEG signs of sleep can intrude on apparent wakefulness in fatigued states.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Driving while sleep-deprived can produce impairments comparable to legal alcohol intoxication.",
+    "explanation": "AAA and CDC research links extended wakefulness to elevated crash risk.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Wilse Webb's research showed individual differences in basal sleep need are stable and partly heritable.",
+    "explanation": "Short-sleeper genetic variants exist but are very rare in the population.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Ying-Hui Fu's research identified DEC2 mutations associated with familial natural short sleep.",
+    "explanation": "Carriers function well on six hours or fewer with no apparent cost.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Cohen and Pressman's review found laughter and humor are associated with stress reduction, though effect sizes vary.",
+    "explanation": "Humor may shift appraisals and elicit physiological relaxation responses.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robert Provine's research on laughter shows it is largely a social signal, occurring 30 times more often in groups than alone.",
+    "explanation": "Laughter functions as a bonding behavior in human groups.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sophie Scott's neuroimaging research distinguishes spontaneous from volitional laughter, with different brain pathways.",
+    "explanation": "We unconsciously distinguish genuine from forced laughter, even cross-culturally.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Mark Frank and colleagues' research on smiles distinguishes Duchenne smiles (involving eye muscles) from social smiles.",
+    "explanation": "Duchenne smiles are more reliably associated with felt positive emotion.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Strack, Martin, and Stepper's 1988 'pen in mouth' facial feedback study failed to replicate in a multi-lab attempt by Wagenmakers and colleagues.",
+    "explanation": "Facial feedback effects on humor judgment, originally robust, did not appear in pre-registered replications.",
+    "category": "psychology"
+  },
+  {
+    "fact": "However, broader meta-analyses by Coles and colleagues find facial feedback does have small but reliable effects across many studies.",
+    "explanation": "The specific Strack paradigm was fragile while the general phenomenon persists.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Eckman's micro-expression training programs have shown modest improvements in deception detection accuracy.",
+    "explanation": "Training can lift performance from near chance to slightly above, though gains diminish over time.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robert Plutchik's research shows mixed emotions can be experienced simultaneously rather than alternating.",
+    "explanation": "Self-report studies confirm reliable reports of bittersweet experiences.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Mihaly Csikszentmihalyi's flow research highlights flow's association with intense concentration and loss of self-consciousness.",
+    "explanation": "Flow requires clear goals, immediate feedback, and skill matched to challenge.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Csikszentmihalyi's experience-sampling research found people most frequently report flow during demanding work tasks rather than during leisure.",
+    "explanation": "Television viewing rarely produces flow despite being widely chosen as relaxation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Self-affirmation theory by Claude Steele proposes that affirming core values buffers against identity threats.",
+    "explanation": "Brief affirmation interventions can produce surprisingly durable downstream effects in some samples.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Margie Lachman's research on midlife shows perceived control over one's environment is a robust predictor of well-being.",
+    "explanation": "Subjective control buffers against the effects of stressors.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Ellen Langer's classic 1976 nursing-home study found residents given more choices and responsibility had better health outcomes.",
+    "explanation": "Even modest restoration of agency improved mood, activity, and survival.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sheldon Cohen's psychosocial vulnerability research links chronic stress to immune suppression in randomized exposure trials.",
+    "explanation": "Cohen's controlled cold-virus studies provide unusually rigorous data on stress-immunity.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sapolsky's primate cortisol research shows stable troops with low social tension have lower basal stress markers.",
+    "explanation": "Sustained troop change after a forest fire altered baboon stress physiology.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Holt-Lunstad's meta-analysis found loneliness, social isolation, and living alone all increased mortality risk by roughly 26-32%.",
+    "explanation": "Social factors rival lifestyle factors as health predictors.",
+    "category": "psychology"
+  },
+  {
+    "fact": "John Cacioppo's loneliness research showed lonely people show elevated peripheral resistance and inflammation.",
+    "explanation": "Subjective social isolation has measurable physiological consequences.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Steve Cole's research on conserved transcriptional response to adversity (CTRA) shows social adversity shifts gene expression toward inflammation.",
+    "explanation": "Loneliness and threat alter immune cell gene profiles consistently.",
+    "category": "psychology"
+  },
+  {
+    "fact": "James House's research on social ties and mortality became foundational for the field of social epidemiology in the 1980s.",
+    "explanation": "Social networks predict mortality across many cohorts and confounds.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Eli Finkel's research on marriage shows modern marriages place higher demands on partners than ever before.",
+    "explanation": "Couples increasingly expect spouses to provide self-actualization, increasing the stakes of partnership.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Esther Perel's clinical writing emphasizes the tension between security and desire as a core challenge in long-term partnership.",
+    "explanation": "Erotic attraction often requires novelty and distance that conflict with attachment goals.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sue Johnson's emotionally focused therapy uses adult attachment theory to restructure couple interactions.",
+    "explanation": "Stuck negative cycles often reflect unmet attachment needs rather than character flaws.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Phil Shaver and Cindy Hazan's 1987 adult attachment research extended Bowlby and Ainsworth's framework to romantic relationships.",
+    "explanation": "Adult attachment styles predict relationship behaviors, jealousy, and breakup outcomes.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Insecure attachment styles correlate with elevated cortisol responses to relationship conflict.",
+    "explanation": "Mismatched expectations of partner availability amplify stress signaling.",
+    "category": "psychology"
+  },
+  {
+    "fact": "John Bowlby's monotropy claim has been refined; children form multiple attachments hierarchically.",
+    "explanation": "Modern attachment theory accommodates several caregivers with one often primary.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Jennifer Beer and others showed that ventromedial prefrontal cortex contributes to self-relevant value computation.",
+    "explanation": "Decisions weighing personal preferences track activity in these regions.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Matthew Lieberman's research on neural correlates of social pain extended Eisenberger's work into broader social cognition.",
+    "explanation": "His 'X-system' and 'C-system' divide automatic from controlled social cognition.",
+    "category": "psychology"
+  },
+  {
+    "fact": "John Cacioppo's evaluation space model proposes that positive and negative affect are not endpoints of one dimension but separate systems.",
+    "explanation": "Mixed feelings are possible because positive and negative evaluations are processed in parallel.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Kahneman's research on objective happiness used day reconstruction methods to track moment-to-moment emotion.",
+    "explanation": "Findings showed work commutes and childcare scored unexpectedly low on hedonic ratings.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Kahneman and Krueger's 2006 day reconstruction work found that intimate relations, socializing, and eating top the list of pleasurable activities.",
+    "explanation": "Aggregate happiness depends heavily on time allocated to high-reward activities.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Killingsworth's 2010 mind-wandering study (with Gilbert) used real-time iPhone sampling of thousands of participants.",
+    "explanation": "Smartphone-based research enables large naturalistic samples not possible in lab settings.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Tim Wilson and Daniel Gilbert's 'just think' studies (2014) found many participants chose mild electric shocks over sitting alone with their thoughts.",
+    "explanation": "Unstructured introspection appears aversive for many people.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Jonathan Schooler's research on verbal overshadowing showed describing a face in detail can impair later recognition of it.",
+    "explanation": "Verbal encoding sometimes interferes with intact visual memory.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Olshausen and Field's natural image statistics research showed visual cortex neurons match efficient coding of natural scenes.",
+    "explanation": "Visual systems appear adapted to the statistics of real environments.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Mountcastle's columnar organization of cortex showed neurons in vertical columns share preferred stimulus features.",
+    "explanation": "Cortical microcircuits repeat a similar functional unit across many areas.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Hubel and Wiesel's 1959 research found primary visual cortex neurons tuned to specific orientations.",
+    "explanation": "Their work won the Nobel Prize and grounded modern visual neuroscience.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Critical period research by Hubel and Wiesel showed monocular deprivation in kittens permanently weakened the deprived eye's cortical representation.",
+    "explanation": "Early experience shapes neural wiring in time-limited windows.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Stryker and others extended critical period research into adulthood, showing limited but real plasticity remains.",
+    "explanation": "Cortical maps can reorganize after deafferentation even in adult animals.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Brain-machine interface research by Miguel Nicolelis and others showed monkeys can learn to control robotic limbs via cortical recordings.",
+    "explanation": "Neural plasticity supports rapid mapping between brain signals and external effectors.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Krakauer's research on motor learning shows skill improvement involves both adaptation and policy change.",
+    "explanation": "Brief fast adaptation differs from slower, durable improvements in motor representations.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Wolpert and Mehrdad Jazayeri argue the brain implements internal models that predict sensory consequences of action.",
+    "explanation": "Forward models allow rapid online control without waiting for sensory feedback.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Sensory attenuation explains why people cannot tickle themselves; predicted sensory consequences are dampened.",
+    "explanation": "Self-generated touch is reduced because the brain anticipates its own movement.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Karl Friston's free-energy principle frames the brain as minimizing prediction error across multiple levels.",
+    "explanation": "Perception, action, and learning can all be modeled as forms of error reduction.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Predictive coding accounts of perception, advanced by Rao and Ballard, treat perception as inference based on prior expectations and sensory input.",
+    "explanation": "Top-down predictions and bottom-up signals interact at every level of the visual hierarchy.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Anil Seth describes perception as 'controlled hallucination,' emphasizing the brain's predictive role.",
+    "explanation": "Visual experience is constructed from priors as much as from incoming signal.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Jeff Hawkins's 'thousand brains' theory proposes that neocortical columns each construct models of the world.",
+    "explanation": "Cortex may be many parallel modelers rather than one centralized representation.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Roediger and McDermott's DRM lists reliably induce false recognition of unstudied 'lure' words like 'sleep.'",
+    "explanation": "Semantic gist memories produce confident but inaccurate familiarity.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Daniel Schacter's neuroimaging research shows true and false memories activate similar but distinguishable brain patterns.",
+    "explanation": "Neural differences exist on average but are not reliable enough for forensic use.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Ulric Neisser's analysis of John Dean's testimony showed even confidently recalled conversations differed substantially from tape recordings.",
+    "explanation": "Detailed memories can preserve gist while distorting specifics.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Robert Buckhout's eyewitness research showed reliability declines with poor lighting, distance, stress, and weapon focus.",
+    "explanation": "These factors are now widely incorporated into legal eyewitness reform.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Gary Wells's lineup research showed sequential, double-blind procedures improve eyewitness identification accuracy.",
+    "explanation": "Reform of police lineups has measurably reduced wrongful identification.",
+    "category": "psychology"
+  },
+  {
+    "fact": "The cross-race effect in eyewitness identification appears robust across many laboratory and field studies.",
+    "explanation": "It is a significant contributor to wrongful convictions tied to mistaken identification.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Saul Kassin's research on false confessions shows that innocents will sometimes confess under sleep deprivation and confrontational interrogation.",
+    "explanation": "Reid technique-style interrogation has been linked to documented false confession cases.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Henry Wells and others' research finds that confidence and accuracy in eyewitness identification correlate weakly under typical conditions.",
+    "explanation": "However, immediate confidence after a fair lineup is more predictive than later, post-feedback confidence.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Itiel Dror's research on forensic bias shows fingerprint examiners can be biased by extraneous case information.",
+    "explanation": "Even experienced analysts are influenced by knowing whether a suspect was previously identified.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Wundt's 1879 laboratory in Leipzig is often cited as the birth of experimental psychology as a discipline.",
+    "explanation": "Reaction time studies and introspection methods grounded the field's experimental tradition.",
+    "category": "psychology"
+  },
+  {
+    "fact": "William James's 1890 'Principles of Psychology' framed many lasting psychological questions, including the stream of consciousness.",
+    "explanation": "James championed functional analysis of mind centuries ahead of cognitive science.",
+    "category": "psychology"
+  },
+  {
+    "fact": "John Watson's 1913 'Psychology as the Behaviorist Views It' founded behaviorism, calling for psychology to study only observable behavior.",
+    "explanation": "Behaviorism dominated American psychology for decades.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Edward Tolman's purposive behaviorism, despite the label, accepted internal cognitive maps.",
+    "explanation": "His rat experiments anticipated cognitive psychology's resurgence.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Noam Chomsky's 1959 review of Skinner's 'Verbal Behavior' helped catalyze the cognitive revolution.",
+    "explanation": "He argued behaviorism could not account for the generativity of language.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Ulric Neisser's 1967 book 'Cognitive Psychology' helped establish the field by name.",
+    "explanation": "He synthesized information-processing approaches into a coherent discipline.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Allen Newell's 'You can't play 20 questions with nature and win' (1973) argued for unified theories of cognition.",
+    "explanation": "His critique pushed the field toward broader integrative models.",
+    "category": "psychology"
+  },
+  {
+    "fact": "John Anderson's ACT-R cognitive architecture has been used to model performance on diverse tasks from algebra to driving.",
+    "explanation": "Production-rule systems with declarative and procedural memory have proven flexible computational tools.",
+    "category": "psychology"
+  },
+  {
+    "fact": "David Rumelhart and James McClelland's 1986 PDP volumes launched modern connectionism in cognitive science.",
+    "explanation": "Parallel distributed processing models showed how cognition might emerge from neuron-like units.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Recent deep learning research has revived debates about cognitive architecture, with neural networks matching some human performance.",
+    "explanation": "Modern AI both inspires and challenges traditional psychological theories.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Joshua Tenenbaum's Bayesian models of cognition show many inductive inferences can be modeled as rational under uncertainty.",
+    "explanation": "Children's word learning and physical reasoning fit Bayesian probabilistic frameworks well.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Tom Griffiths's research on probabilistic cognition compares human intuitions with rational benchmarks.",
+    "explanation": "Even apparent biases are often optimal given resource constraints.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Resource-rational analysis, advanced by Lieder and Griffiths, frames bounded rationality as optimal under cognitive cost.",
+    "explanation": "Heuristics make sense given the costs of computation, not just limits of capacity.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Computational psychiatry, an emerging field, uses formal models to characterize disorders as failures of inference or learning.",
+    "explanation": "Schizophrenia, depression, and anxiety are modeled in terms of altered Bayesian priors or learning rates.",
+    "category": "psychology"
+  },
+  {
+    "fact": "Paul Fletcher's predictive coding work on schizophrenia frames hallucinations as overweighted priors and delusions as failure to update.",
+    "explanation": "These accounts link symptoms to specific computational mechanisms.",
+    "category": "psychology"
+  }
+]

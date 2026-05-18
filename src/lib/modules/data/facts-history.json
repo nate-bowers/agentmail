@@ -1,0 +1,2707 @@
+[
+  {
+    "fact": "Cleopatra lived closer in time to the Moon landing (1969) than to the construction of the Great Pyramid of Giza (around 2560 BC).",
+    "explanation": "She died in 30 BC, roughly 2,500 years after the pyramid was built but only about 2,000 years before Apollo 11.",
+    "category": "history"
+  },
+  {
+    "fact": "Oxford University was already teaching students before the Aztec Empire was founded; teaching at Oxford began around 1096, while Tenochtitlan was founded in 1325.",
+    "explanation": "Oxford predates one of the great pre-Columbian American empires by more than two centuries.",
+    "category": "history"
+  },
+  {
+    "fact": "Harvard University was founded in 1636, before Isaac Newton was born in 1643.",
+    "explanation": "America's oldest university predates the era of classical physics.",
+    "category": "history"
+  },
+  {
+    "fact": "The last execution by guillotine in France took place on September 10, 1977, when Hamida Djandoubi was put to death in Marseille.",
+    "explanation": "France abolished the death penalty in 1981, but the guillotine remained in use until that final execution.",
+    "category": "history"
+  },
+  {
+    "fact": "Woolly mammoths still roamed Wrangel Island in the Arctic Ocean as late as around 1650 BC, while the Great Pyramid of Giza had already stood for nearly 1,000 years.",
+    "explanation": "A small isolated population survived long after mammoths went extinct on the mainland.",
+    "category": "history"
+  },
+  {
+    "fact": "The Ottoman Empire lasted from 1299 until 1922, more than 600 years, ending only after World War I.",
+    "explanation": "It ended within the lifetime of people who lived to see the moon landing.",
+    "category": "history"
+  },
+  {
+    "fact": "The shortest war in recorded history was the Anglo-Zanzibar War on August 27, 1896, lasting roughly 38 minutes.",
+    "explanation": "Britain bombarded the palace of a sultan it refused to recognize, ending the conflict almost as soon as it began.",
+    "category": "history"
+  },
+  {
+    "fact": "The Aztec, Mexica, and Inca empires existed at the same time as Henry VIII of England, who reigned from 1509 to 1547.",
+    "explanation": "Cortes conquered Tenochtitlan in 1521 and Pizarro defeated the Inca in 1533, both during Henry VIII's reign.",
+    "category": "history"
+  },
+  {
+    "fact": "The Eiffel Tower was built as a temporary structure for the 1889 World's Fair in Paris and was originally intended to be dismantled after 20 years.",
+    "explanation": "It was saved because it proved useful as a radio transmission tower.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman Emperor Caligula made his favorite horse, Incitatus, a priest and reportedly planned to make him a consul, according to Suetonius.",
+    "explanation": "The story is used by ancient historians to illustrate Caligula's instability and contempt for the Senate.",
+    "category": "history"
+  },
+  {
+    "fact": "The fax machine was patented in 1843 by Alexander Bain, decades before the telephone (1876) or the lightbulb (1879).",
+    "explanation": "Bain's device used a pendulum to transmit images over telegraph wires.",
+    "category": "history"
+  },
+  {
+    "fact": "Anne Frank and Martin Luther King Jr. were both born in 1929.",
+    "explanation": "Their parallel birth year highlights how 20th-century history compressed dramatic global events into single lifetimes.",
+    "category": "history"
+  },
+  {
+    "fact": "The Hundred Years' War between England and France actually lasted 116 years, from 1337 to 1453.",
+    "explanation": "It was a series of conflicts rather than a single continuous war.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman Colosseum could be flooded for staged naval battles called naumachiae, particularly in its earliest years under Emperor Titus around AD 80.",
+    "explanation": "Romans dug a complex system of underground passages later, which made flooding more difficult.",
+    "category": "history"
+  },
+  {
+    "fact": "The Pony Express, a fast mail service across the American West, lasted only 18 months, from April 1860 to October 1861.",
+    "explanation": "It was made obsolete by the completion of the transcontinental telegraph.",
+    "category": "history"
+  },
+  {
+    "fact": "The last veteran of the American Civil War, Albert Woolson, died in 1956.",
+    "explanation": "He served as a drummer boy for the Union and lived to see the dawn of the atomic age.",
+    "category": "history"
+  },
+  {
+    "fact": "Construction on Cologne Cathedral began in 1248 and was not completed until 1880, a span of 632 years.",
+    "explanation": "Work was halted for centuries before being resumed in the 19th century.",
+    "category": "history"
+  },
+  {
+    "fact": "The Spanish Inquisition was not formally abolished until 1834, more than three centuries after it was established in 1478.",
+    "explanation": "It outlived the Spanish empire in much of the Americas.",
+    "category": "history"
+  },
+  {
+    "fact": "Queen Elizabeth II served as a mechanic and military truck driver in the Auxiliary Territorial Service during World War II.",
+    "explanation": "She was the only female member of the British royal family ever to have entered the armed forces as a full-time active member.",
+    "category": "history"
+  },
+  {
+    "fact": "The Wright Brothers' first powered flight on December 17, 1903 lasted 12 seconds and covered 120 feet, less than the wingspan of a Boeing 747.",
+    "explanation": "Their fourth and final flight that day lasted 59 seconds.",
+    "category": "history"
+  },
+  {
+    "fact": "Julius Caesar was never an emperor of Rome; the first Roman emperor was his great-nephew Augustus, who took power in 27 BC.",
+    "explanation": "Caesar held the title of dictator perpetuo before his assassination in 44 BC.",
+    "category": "history"
+  },
+  {
+    "fact": "Saudi Arabia was founded as a unified kingdom in 1932, making it younger than many modern automobile companies.",
+    "explanation": "Ford Motor Company, founded in 1903, predates the modern Saudi state by nearly three decades.",
+    "category": "history"
+  },
+  {
+    "fact": "The Titanic's wreck was not located until 1985, 73 years after it sank on April 15, 1912.",
+    "explanation": "Robert Ballard's expedition used a deep-sea sled with cameras to find the wreck two and a half miles down.",
+    "category": "history"
+  },
+  {
+    "fact": "The word 'salary' comes from the Latin word for salt, 'sal,' because Roman soldiers were sometimes given salt allowances.",
+    "explanation": "Salt was essential for food preservation in the ancient world and was a valuable commodity.",
+    "category": "history"
+  },
+  {
+    "fact": "The Great Fire of London in September 1666 destroyed about 13,200 houses and 87 churches, but officially killed only six people.",
+    "explanation": "Historians believe the actual death toll, especially among the poor, was much higher but went unrecorded.",
+    "category": "history"
+  },
+  {
+    "fact": "Genghis Khan died in 1227, and his burial location remains unknown to this day.",
+    "explanation": "His escort reportedly killed anyone they encountered to keep the site secret.",
+    "category": "history"
+  },
+  {
+    "fact": "The first crossword puzzle was published on December 21, 1913, in the New York World newspaper.",
+    "explanation": "It was created by Arthur Wynne, a journalist from Liverpool, England.",
+    "category": "history"
+  },
+  {
+    "fact": "The Olympic Games were banned by Roman Emperor Theodosius I in AD 393 and not held again until 1896 in Athens.",
+    "explanation": "The 1,500-year hiatus ended with Pierre de Coubertin's modern Olympic movement.",
+    "category": "history"
+  },
+  {
+    "fact": "The first message sent over the ARPANET, the predecessor of the internet, on October 29, 1969 was supposed to be 'LOGIN' but only 'LO' was transmitted before the system crashed.",
+    "explanation": "The connection was between UCLA and Stanford Research Institute.",
+    "category": "history"
+  },
+  {
+    "fact": "Pope Gregory XIII introduced the Gregorian calendar in October 1582, and 10 days were skipped: October 4 was followed by October 15.",
+    "explanation": "The change corrected the drift in the Julian calendar.",
+    "category": "history"
+  },
+  {
+    "fact": "Great Britain did not adopt the Gregorian calendar until 1752, skipping 11 days that September.",
+    "explanation": "The transition led to widespread confusion but, contrary to legend, did not cause major riots.",
+    "category": "history"
+  },
+  {
+    "fact": "Russia did not adopt the Gregorian calendar until February 1918, after the Bolshevik Revolution.",
+    "explanation": "The 'October Revolution' of 1917 actually occurred in November by the Gregorian calendar.",
+    "category": "history"
+  },
+  {
+    "fact": "The first traffic light was installed outside the Houses of Parliament in London on December 9, 1868, more than 25 years before the first practical automobile.",
+    "explanation": "It exploded a month later and killed a police officer, leading to its removal.",
+    "category": "history"
+  },
+  {
+    "fact": "The world's oldest known recipe is for beer, recorded on a Sumerian clay tablet around 1800 BC, known as the Hymn to Ninkasi.",
+    "explanation": "Ninkasi was the Sumerian goddess of beer.",
+    "category": "history"
+  },
+  {
+    "fact": "The Berlin Wall was constructed beginning on August 13, 1961, and stood for 28 years before falling on November 9, 1989.",
+    "explanation": "It divided East and West Berlin throughout much of the Cold War.",
+    "category": "history"
+  },
+  {
+    "fact": "The Soviet Union officially dissolved on December 26, 1991, when the Supreme Soviet voted itself out of existence.",
+    "explanation": "The hammer-and-sickle flag had been lowered from the Kremlin the day before.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman Empire technically lasted until 1453 in the form of the Byzantine Empire, when Constantinople fell to the Ottoman Turks.",
+    "explanation": "The Eastern Roman Empire considered itself the direct continuation of Rome for nearly 1,000 years after the fall of the western half.",
+    "category": "history"
+  },
+  {
+    "fact": "The Statue of Liberty was a gift from France, dedicated on October 28, 1886.",
+    "explanation": "It was designed by Frederic Auguste Bartholdi with an internal iron framework by Gustave Eiffel.",
+    "category": "history"
+  },
+  {
+    "fact": "The Statue of Liberty's original color was a shiny copper, but it turned green over the course of about three decades due to oxidation.",
+    "explanation": "The green patina actually protects the underlying copper from further corrosion.",
+    "category": "history"
+  },
+  {
+    "fact": "Pluto, discovered in 1930 by Clyde Tombaugh, had not completed a full orbit around the Sun by the time it was reclassified as a dwarf planet in 2006.",
+    "explanation": "Pluto takes about 248 Earth years to orbit the Sun once.",
+    "category": "history"
+  },
+  {
+    "fact": "The Eiffel Tower was the tallest man-made structure in the world from 1889 until 1930, when the Chrysler Building in New York surpassed it.",
+    "explanation": "The Chrysler Building's reign as tallest ended within a year when the Empire State Building topped out in 1931.",
+    "category": "history"
+  },
+  {
+    "fact": "The longest reigning monarch in history was Louis XIV of France, who ruled for 72 years and 110 days, from 1643 to 1715.",
+    "explanation": "Queen Elizabeth II of the United Kingdom came close, reigning 70 years and 214 days.",
+    "category": "history"
+  },
+  {
+    "fact": "The first photograph ever taken, View from the Window at Le Gras by Joseph Nicephore Niepce, was captured around 1826 or 1827 with an exposure time of about eight hours.",
+    "explanation": "The image still exists at the Harry Ransom Center at the University of Texas at Austin.",
+    "category": "history"
+  },
+  {
+    "fact": "Constantinople was renamed Istanbul officially only in 1930, more than 470 years after the Ottoman conquest.",
+    "explanation": "Although Turks had long called the city Istanbul, the formal name change came under Ataturk's modernization.",
+    "category": "history"
+  },
+  {
+    "fact": "The Library of Congress was burned by British forces during the War of 1812 in August 1814, prompting Thomas Jefferson to sell his personal library to rebuild it.",
+    "explanation": "Jefferson's 6,487 books became the new foundation of the Library of Congress.",
+    "category": "history"
+  },
+  {
+    "fact": "Slavery was not abolished in Brazil until May 13, 1888, with the Lei Aurea, making it the last country in the Americas to abolish the practice.",
+    "explanation": "Princess Isabel of Brazil signed the law, which freed roughly 700,000 slaves.",
+    "category": "history"
+  },
+  {
+    "fact": "The Magna Carta, signed in 1215, was annulled by Pope Innocent III just 10 weeks later.",
+    "explanation": "It was reissued in modified form after King John's death in 1216 and gradually became a foundational document.",
+    "category": "history"
+  },
+  {
+    "fact": "Coca-Cola contained trace amounts of cocaine until about 1903, when the company switched to using spent coca leaves with the cocaine removed.",
+    "explanation": "Coca leaves are still used today as a flavoring after the cocaine is extracted.",
+    "category": "history"
+  },
+  {
+    "fact": "Albert Einstein was offered the presidency of Israel in 1952 after the death of Chaim Weizmann, but he declined.",
+    "explanation": "Einstein said he lacked the natural aptitude and experience to deal with people.",
+    "category": "history"
+  },
+  {
+    "fact": "The Tiananmen Square protests of 1989 ended on June 4, when the Chinese government deployed troops and tanks against the demonstrators.",
+    "explanation": "The exact death toll remains officially unknown and disputed.",
+    "category": "history"
+  },
+  {
+    "fact": "The Suez Canal opened on November 17, 1869, after 10 years of construction.",
+    "explanation": "It dramatically reduced the maritime route between Europe and Asia by removing the need to sail around Africa.",
+    "category": "history"
+  },
+  {
+    "fact": "The Panama Canal opened to traffic on August 15, 1914, the same month World War I began in Europe.",
+    "explanation": "The opening was overshadowed by the outbreak of war.",
+    "category": "history"
+  },
+  {
+    "fact": "Operation Mincemeat in 1943 used a corpse with false documents to deceive Nazi Germany about the Allied invasion of Sicily.",
+    "explanation": "The body, dressed as a British officer, was released off the coast of Spain and successfully fooled German intelligence.",
+    "category": "history"
+  },
+  {
+    "fact": "The Hindenburg disaster on May 6, 1937 killed 36 people, effectively ending the era of passenger airships.",
+    "explanation": "The German airship was attempting to dock at Lakehurst, New Jersey, when it caught fire.",
+    "category": "history"
+  },
+  {
+    "fact": "The U.S. Civil War's bloodiest single day was the Battle of Antietam on September 17, 1862, with about 22,700 casualties.",
+    "explanation": "The battle prompted Lincoln to issue the preliminary Emancipation Proclamation.",
+    "category": "history"
+  },
+  {
+    "fact": "The Mayflower brought the Pilgrims to Plymouth, Massachusetts in 1620, and roughly half of the original 102 passengers died that first winter.",
+    "explanation": "Many remained on the ship through the harsh New England winter.",
+    "category": "history"
+  },
+  {
+    "fact": "The first transatlantic cable telegraph message was sent on August 16, 1858, from Queen Victoria to President James Buchanan.",
+    "explanation": "The cable failed within weeks, and a permanent cable was not laid until 1866.",
+    "category": "history"
+  },
+  {
+    "fact": "Henry VIII of England had six wives in this order: divorced, beheaded, died, divorced, beheaded, survived.",
+    "explanation": "His marital history reshaped religious and political institutions in England.",
+    "category": "history"
+  },
+  {
+    "fact": "The Black Death pandemic killed an estimated 30 to 50 percent of Europe's population between 1347 and 1351.",
+    "explanation": "The plague is now known to have been caused by the bacterium Yersinia pestis, carried by fleas on rats.",
+    "category": "history"
+  },
+  {
+    "fact": "The Treaty of Versailles, which formally ended World War I, was signed exactly five years after the assassination of Archduke Franz Ferdinand on June 28, 1919.",
+    "explanation": "Franz Ferdinand was killed in Sarajevo on June 28, 1914, sparking the war.",
+    "category": "history"
+  },
+  {
+    "fact": "The League of Nations, the precursor to the United Nations, was founded in 1920 but never included the United States as a member.",
+    "explanation": "The U.S. Senate rejected the Treaty of Versailles, blocking American participation.",
+    "category": "history"
+  },
+  {
+    "fact": "The Spanish flu pandemic of 1918-1920 killed an estimated 50 million people worldwide, more than World War I itself.",
+    "explanation": "Despite its name, the flu likely did not originate in Spain; Spain reported on it because it was neutral and had no wartime censorship.",
+    "category": "history"
+  },
+  {
+    "fact": "Mount Vesuvius erupted in AD 79, burying Pompeii and Herculaneum.",
+    "explanation": "Recent evidence including charcoal graffiti suggests the eruption was in October rather than August, as long thought.",
+    "category": "history"
+  },
+  {
+    "fact": "The Tunguska event of June 30, 1908 flattened roughly 800 square miles of Siberian forest, likely caused by a meteor or comet airburst.",
+    "explanation": "Despite the enormous scale of destruction, no impact crater was ever found.",
+    "category": "history"
+  },
+  {
+    "fact": "Alexander the Great died on June 10 or 11 of 323 BC at the age of 32 in Babylon.",
+    "explanation": "Theories about his cause of death range from typhoid fever to poisoning, but the question remains unresolved.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman poet Ovid was exiled in AD 8 to a town called Tomis on the Black Sea, where he lived the rest of his life.",
+    "explanation": "The exact reason for his exile remains unknown; Ovid himself blamed 'a poem and a mistake.'",
+    "category": "history"
+  },
+  {
+    "fact": "George Washington was inaugurated as the first U.S. president on April 30, 1789, in New York City, not Washington, D.C.",
+    "explanation": "The U.S. capital moved to Philadelphia in 1790 and to Washington, D.C. in 1800.",
+    "category": "history"
+  },
+  {
+    "fact": "The Treaty of Tordesillas in 1494 divided the newly discovered lands outside Europe between Spain and Portugal along a meridian west of the Cape Verde Islands.",
+    "explanation": "It helps explain why Brazil speaks Portuguese while most of Latin America speaks Spanish.",
+    "category": "history"
+  },
+  {
+    "fact": "The first U.S. patent was granted on July 31, 1790, to Samuel Hopkins for a process of making potash.",
+    "explanation": "President George Washington personally signed the patent.",
+    "category": "history"
+  },
+  {
+    "fact": "Joan of Arc was burned at the stake at Rouen, France, on May 30, 1431, at about age 19.",
+    "explanation": "She was posthumously declared innocent in 1456 and canonized as a saint in 1920.",
+    "category": "history"
+  },
+  {
+    "fact": "The Vikings reached North America around AD 1000, nearly 500 years before Columbus, establishing a settlement at L'Anse aux Meadows in Newfoundland.",
+    "explanation": "The settlement was discovered and verified by archaeologists beginning in 1960.",
+    "category": "history"
+  },
+  {
+    "fact": "The Easter Rising in Dublin began on April 24, 1916, and helped catalyze the path to Irish independence in 1922.",
+    "explanation": "British executions of the rebellion's leaders shifted Irish public opinion toward independence.",
+    "category": "history"
+  },
+  {
+    "fact": "Sliced bread was first sold commercially in Chillicothe, Missouri, on July 7, 1928, by Otto Frederick Rohwedder.",
+    "explanation": "The phrase 'best thing since sliced bread' refers to this invention.",
+    "category": "history"
+  },
+  {
+    "fact": "The first official FIFA World Cup was held in Uruguay in 1930, with Uruguay defeating Argentina 4-2 in the final.",
+    "explanation": "Only 13 nations competed in the tournament.",
+    "category": "history"
+  },
+  {
+    "fact": "The original 13 American colonies adopted the Declaration of Independence on July 4, 1776, but most signed the parchment copy on August 2.",
+    "explanation": "Only John Hancock and Charles Thomson are known to have signed it on July 4 itself.",
+    "category": "history"
+  },
+  {
+    "fact": "Thomas Jefferson and John Adams both died on July 4, 1826, exactly 50 years after the adoption of the Declaration of Independence.",
+    "explanation": "Adams' last words reportedly included 'Thomas Jefferson survives,' though Jefferson had died hours earlier.",
+    "category": "history"
+  },
+  {
+    "fact": "James Monroe also died on July 4, in 1831, making him the third U.S. president to die on Independence Day.",
+    "explanation": "No other president has died on July 4 since.",
+    "category": "history"
+  },
+  {
+    "fact": "Calvin Coolidge was the only U.S. president born on July 4, in 1872.",
+    "explanation": "He inherited the presidency in 1923 after President Harding died suddenly.",
+    "category": "history"
+  },
+  {
+    "fact": "The U.S. Constitution was signed on September 17, 1787, by 39 of the 55 delegates to the Constitutional Convention.",
+    "explanation": "Three delegates refused to sign, partly because it lacked a Bill of Rights.",
+    "category": "history"
+  },
+  {
+    "fact": "The Bill of Rights was ratified on December 15, 1791, four years after the Constitution.",
+    "explanation": "It comprises the first ten amendments to the U.S. Constitution.",
+    "category": "history"
+  },
+  {
+    "fact": "The first nuclear weapon was tested at the Trinity site in New Mexico on July 16, 1945.",
+    "explanation": "Lead scientist J. Robert Oppenheimer later recalled the line from the Bhagavad Gita: 'Now I am become Death, the destroyer of worlds.'",
+    "category": "history"
+  },
+  {
+    "fact": "Hiroshima was struck by the first atomic bomb used in war on August 6, 1945, killing tens of thousands of people instantly.",
+    "explanation": "Nagasaki was struck three days later, on August 9, leading to Japan's surrender on August 15.",
+    "category": "history"
+  },
+  {
+    "fact": "The United Nations was established on October 24, 1945, with 51 founding member states.",
+    "explanation": "It replaced the League of Nations, which had failed to prevent World War II.",
+    "category": "history"
+  },
+  {
+    "fact": "The Berlin Airlift, from June 1948 to May 1949, delivered more than 2.3 million tons of supplies to West Berlin during a Soviet blockade.",
+    "explanation": "At its peak, Allied planes were landing in West Berlin every few minutes.",
+    "category": "history"
+  },
+  {
+    "fact": "Nelson Mandela was imprisoned for 27 years, from 1962 to 1990, before becoming South Africa's first Black president in 1994.",
+    "explanation": "He spent 18 of those years on Robben Island.",
+    "category": "history"
+  },
+  {
+    "fact": "The Vietnam War effectively ended on April 30, 1975, with the fall of Saigon to North Vietnamese forces.",
+    "explanation": "It was the longest war the United States had fought up to that time.",
+    "category": "history"
+  },
+  {
+    "fact": "The Korean War (1950-1953) ended with an armistice but no peace treaty, meaning the two Koreas are still technically at war.",
+    "explanation": "The Demilitarized Zone separating them is one of the most heavily fortified borders in the world.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman aqueducts brought water to Rome from as far as 50 miles away, and some still function today.",
+    "explanation": "The Aqua Virgo, completed in 19 BC, still supplies water to Rome's Trevi Fountain.",
+    "category": "history"
+  },
+  {
+    "fact": "Julius Caesar was assassinated on March 15 (the Ides of March) in 44 BC, stabbed many times by a group of senators.",
+    "explanation": "His death sparked civil wars that ended the Roman Republic.",
+    "category": "history"
+  },
+  {
+    "fact": "Constantine the Great moved the capital of the Roman Empire from Rome to Byzantium in AD 330, renaming the city Constantinople.",
+    "explanation": "This shift effectively moved the empire's center of power eastward for the next 1,000 years.",
+    "category": "history"
+  },
+  {
+    "fact": "The first underground railway in the world, the Metropolitan Railway in London, opened on January 10, 1863.",
+    "explanation": "It ran from Paddington to Farringdon and was initially steam-powered.",
+    "category": "history"
+  },
+  {
+    "fact": "The first FIFA Women's World Cup was held in China in 1991 and was won by the United States.",
+    "explanation": "It was originally branded with M&M's as a sponsor.",
+    "category": "history"
+  },
+  {
+    "fact": "The Apollo 11 mission launched on July 16, 1969, and Neil Armstrong and Buzz Aldrin walked on the Moon on July 20.",
+    "explanation": "Michael Collins remained in orbit aboard the Command Module Columbia.",
+    "category": "history"
+  },
+  {
+    "fact": "Only 12 people have walked on the Moon, all between 1969 and 1972 during the Apollo program.",
+    "explanation": "Eugene Cernan was the last in December 1972 during Apollo 17.",
+    "category": "history"
+  },
+  {
+    "fact": "The Hubble Space Telescope, launched on April 24, 1990, was deployed with a flawed mirror that had to be corrected by astronauts in 1993.",
+    "explanation": "The repair mission restored Hubble's sharp vision and enabled decades of discoveries.",
+    "category": "history"
+  },
+  {
+    "fact": "The first message sent via electric telegraph by Samuel Morse was 'What hath God wrought,' transmitted from Washington to Baltimore on May 24, 1844.",
+    "explanation": "The phrase was chosen by Annie Ellsworth, the daughter of the U.S. patent commissioner.",
+    "category": "history"
+  },
+  {
+    "fact": "Alexander Graham Bell's first telephone call, on March 10, 1876, was to his assistant: 'Mr. Watson, come here, I want to see you.'",
+    "explanation": "Watson was in an adjacent room in their Boston workshop.",
+    "category": "history"
+  },
+  {
+    "fact": "Thomas Edison did not invent the lightbulb but developed the first commercially practical incandescent bulb in 1879.",
+    "explanation": "Earlier bulbs existed but burned out quickly; Edison's design lasted much longer.",
+    "category": "history"
+  },
+  {
+    "fact": "The Suez Crisis of 1956 saw Britain, France, and Israel invade Egypt after Egyptian President Nasser nationalized the canal.",
+    "explanation": "U.S. and Soviet pressure forced the withdrawal of invading forces, marking the decline of Britain as a top-tier global power.",
+    "category": "history"
+  },
+  {
+    "fact": "The Cuban Missile Crisis lasted 13 days in October 1962 and is widely considered the closest the world came to nuclear war.",
+    "explanation": "It ended when the Soviet Union agreed to withdraw missiles from Cuba in exchange for U.S. concessions, including the secret removal of missiles from Turkey.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman emperor Nero blamed the Great Fire of Rome in AD 64 on Christians, leading to the empire's first major persecution of them.",
+    "explanation": "Historians remain divided on whether Nero himself was responsible for starting the fire.",
+    "category": "history"
+  },
+  {
+    "fact": "Pompeii was rediscovered in 1748, more than 1,600 years after it was buried by the eruption of Vesuvius.",
+    "explanation": "Excavations have been ongoing ever since, revealing much about Roman daily life.",
+    "category": "history"
+  },
+  {
+    "fact": "Tutankhamun's tomb was discovered nearly intact in November 1922 by British archaeologist Howard Carter in the Valley of the Kings.",
+    "explanation": "Tutankhamun was a relatively minor pharaoh, but the discovery made him the most famous of all.",
+    "category": "history"
+  },
+  {
+    "fact": "The Rosetta Stone was discovered in 1799 by French soldiers during Napoleon's campaign in Egypt.",
+    "explanation": "It allowed scholars to finally decipher Egyptian hieroglyphs by comparing them with Greek and Demotic scripts.",
+    "category": "history"
+  },
+  {
+    "fact": "Jean-Francois Champollion decoded Egyptian hieroglyphs in 1822 using the Rosetta Stone.",
+    "explanation": "He demonstrated that hieroglyphs combined phonetic and ideographic elements.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman Empire reached its greatest territorial extent under Emperor Trajan in AD 117.",
+    "explanation": "It stretched from Britain to Mesopotamia.",
+    "category": "history"
+  },
+  {
+    "fact": "The Magna Carta was signed by King John at Runnymede on June 15, 1215, after his barons rebelled against him.",
+    "explanation": "It established the principle that the king was subject to the law.",
+    "category": "history"
+  },
+  {
+    "fact": "Marco Polo traveled to Asia in the late 13th century and lived in or near Yuan-dynasty China for about 17 years, returning to Venice around 1295.",
+    "explanation": "His book influenced European understanding of Asia for centuries.",
+    "category": "history"
+  },
+  {
+    "fact": "Christopher Columbus made four voyages to the Americas between 1492 and 1504, but never set foot on the North American mainland.",
+    "explanation": "His voyages were to the Caribbean and the coasts of Central and South America.",
+    "category": "history"
+  },
+  {
+    "fact": "The first European to circumnavigate the globe was Juan Sebastian Elcano, not Ferdinand Magellan, who was killed in the Philippines in 1521.",
+    "explanation": "Elcano completed the voyage in 1522 with only one ship and a handful of crewmen.",
+    "category": "history"
+  },
+  {
+    "fact": "The Aztec capital of Tenochtitlan had a population estimated in the hundreds of thousands in 1519, comparable to or larger than the biggest European cities at the time.",
+    "explanation": "It was built on an island in Lake Texcoco and connected to the mainland by causeways.",
+    "category": "history"
+  },
+  {
+    "fact": "Machu Picchu was built around 1450 and abandoned only about 100 years later, near the time of the Spanish conquest of the Inca.",
+    "explanation": "It was largely forgotten by the outside world until American historian Hiram Bingham brought it to international attention in 1911.",
+    "category": "history"
+  },
+  {
+    "fact": "The Inca Empire had no wheels for transportation, no draft animals, and no written language, yet built thousands of miles of roads and ran a complex bureaucracy.",
+    "explanation": "They used a system of knotted strings called quipu to record information.",
+    "category": "history"
+  },
+  {
+    "fact": "Smallpox killed enormous portions of the indigenous population of the Americas after European contact.",
+    "explanation": "The introduction of European diseases was a major factor in the conquest of the Americas.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman Empire's western half officially ended in AD 476 when the Germanic chieftain Odoacer deposed Emperor Romulus Augustulus.",
+    "explanation": "Romulus Augustulus shared his name with both Rome's mythical founder and its first emperor.",
+    "category": "history"
+  },
+  {
+    "fact": "Charlemagne was crowned Emperor of the Romans by Pope Leo III on Christmas Day in AD 800.",
+    "explanation": "His coronation revived the idea of a Roman empire in Western Europe.",
+    "category": "history"
+  },
+  {
+    "fact": "The Holy Roman Empire was, as Voltaire famously quipped in 1756, neither holy, nor Roman, nor an empire.",
+    "explanation": "It was a complex confederation of states centered in Germany that lasted from 800 to 1806.",
+    "category": "history"
+  },
+  {
+    "fact": "Napoleon Bonaparte was exiled twice: first to Elba in 1814 and then to Saint Helena in 1815 after his defeat at Waterloo.",
+    "explanation": "He died on Saint Helena in 1821 at age 51.",
+    "category": "history"
+  },
+  {
+    "fact": "The French Revolution began on July 14, 1789, with the storming of the Bastille prison in Paris.",
+    "explanation": "At the time, the Bastille held only seven prisoners.",
+    "category": "history"
+  },
+  {
+    "fact": "King Louis XVI of France was executed by guillotine on January 21, 1793, during the French Revolution.",
+    "explanation": "His wife Marie Antoinette was executed nine months later, on October 16, 1793.",
+    "category": "history"
+  },
+  {
+    "fact": "The Reign of Terror during the French Revolution killed thousands of people by official execution between 1793 and 1794.",
+    "explanation": "Many more died in prisons or during civil conflicts.",
+    "category": "history"
+  },
+  {
+    "fact": "The first manned hot air balloon flight took place in Paris on November 21, 1783, by Jean-Francois Pilatre de Rozier and the Marquis d'Arlandes.",
+    "explanation": "The balloon was built by the Montgolfier brothers.",
+    "category": "history"
+  },
+  {
+    "fact": "Napoleon's army invaded Russia in 1812 with about 600,000 troops; only a small fraction returned.",
+    "explanation": "Most died from starvation, disease, freezing temperatures, and Russian attacks.",
+    "category": "history"
+  },
+  {
+    "fact": "The Battle of Waterloo took place on June 18, 1815, ending Napoleon's rule and the Napoleonic Wars.",
+    "explanation": "He was defeated by allied forces led by the Duke of Wellington and Field Marshal Blucher.",
+    "category": "history"
+  },
+  {
+    "fact": "The Congress of Vienna, from 1814 to 1815, redrew the map of Europe after the Napoleonic Wars.",
+    "explanation": "Its diplomatic framework helped preserve relative peace among European great powers for nearly a century.",
+    "category": "history"
+  },
+  {
+    "fact": "The first transcontinental railroad in the United States was completed on May 10, 1869, when a ceremonial golden spike was driven at Promontory Summit, Utah.",
+    "explanation": "It connected the Central Pacific from the west with the Union Pacific from the east.",
+    "category": "history"
+  },
+  {
+    "fact": "Karl Benz patented his three-wheeled Motorwagen on January 29, 1886, in Germany, and it is widely considered the first true automobile.",
+    "explanation": "His wife Bertha Benz made the first long-distance automobile journey in 1888.",
+    "category": "history"
+  },
+  {
+    "fact": "Henry Ford introduced the Model T on October 1, 1908.",
+    "explanation": "He drastically cut production time using moving assembly-line techniques.",
+    "category": "history"
+  },
+  {
+    "fact": "The Crusades began in 1096 with the First Crusade and continued in various forms for nearly 200 years.",
+    "explanation": "Pope Urban II called for the First Crusade at the Council of Clermont in 1095.",
+    "category": "history"
+  },
+  {
+    "fact": "The Knights Templar were arrested en masse on Friday, October 13, 1307, by order of King Philip IV of France.",
+    "explanation": "Many were tortured and executed; the order was officially dissolved by the pope in 1312.",
+    "category": "history"
+  },
+  {
+    "fact": "The Gutenberg Bible, printed around 1455, was the first major book produced with movable type in Europe.",
+    "explanation": "About 49 copies survive today, fully or partially.",
+    "category": "history"
+  },
+  {
+    "fact": "Johannes Gutenberg likely went bankrupt shortly after printing the Bible due to a lawsuit by his investor Johann Fust.",
+    "explanation": "Fust took over the press, leaving Gutenberg in obscurity for years.",
+    "category": "history"
+  },
+  {
+    "fact": "The First Council of Nicaea in AD 325 produced the original Nicene Creed and helped standardize the date of Easter.",
+    "explanation": "It was called by Roman Emperor Constantine to settle disputes within early Christianity.",
+    "category": "history"
+  },
+  {
+    "fact": "The First Crusade's siege of Jerusalem ended on July 15, 1099, with the city falling to European forces.",
+    "explanation": "The conquest was followed by widespread massacres of the city's inhabitants.",
+    "category": "history"
+  },
+  {
+    "fact": "Saladin retook Jerusalem from the Crusaders on October 2, 1187, shortly after his decisive victory at the Battle of Hattin.",
+    "explanation": "His relatively merciful treatment of the city's Christian inhabitants was widely noted by his contemporaries.",
+    "category": "history"
+  },
+  {
+    "fact": "Constantinople fell to Sultan Mehmed II's Ottoman forces on May 29, 1453, ending the Byzantine Empire.",
+    "explanation": "The conquest is often cited as marking the end of the Middle Ages.",
+    "category": "history"
+  },
+  {
+    "fact": "The Spanish Armada was defeated in 1588 not primarily by the English navy but by a combination of English ships, storms, and poor planning.",
+    "explanation": "Many surviving ships were wrecked off the Scottish and Irish coasts on the return voyage.",
+    "category": "history"
+  },
+  {
+    "fact": "The Gunpowder Plot of November 5, 1605, was a failed attempt by English Catholics to blow up Parliament and assassinate King James I.",
+    "explanation": "Guy Fawkes was caught guarding the explosives beneath the House of Lords.",
+    "category": "history"
+  },
+  {
+    "fact": "The Thirty Years' War (1618-1648) was one of the most destructive conflicts in European history.",
+    "explanation": "It ended with the Peace of Westphalia, which established the principle of state sovereignty.",
+    "category": "history"
+  },
+  {
+    "fact": "The Salem witch trials of 1692-1693 resulted in 20 executions and the imprisonment of more than 150 people in colonial Massachusetts.",
+    "explanation": "Massachusetts formally apologized for the trials in 1957.",
+    "category": "history"
+  },
+  {
+    "fact": "Peter the Great, Tsar of Russia from 1682 to 1725, imposed a tax on beards as part of his Westernization efforts.",
+    "explanation": "Those who paid the tax received a token to carry as proof.",
+    "category": "history"
+  },
+  {
+    "fact": "St. Petersburg was founded by Peter the Great in 1703 on swampy land conquered from Sweden.",
+    "explanation": "Tens of thousands of laborers died building the new Russian capital.",
+    "category": "history"
+  },
+  {
+    "fact": "Catherine the Great of Russia reigned from 1762 to 1796 after her husband Peter III was overthrown and killed.",
+    "explanation": "She greatly expanded Russian territory and culture during her reign.",
+    "category": "history"
+  },
+  {
+    "fact": "The first census in the modern United States was conducted in 1790, counting about 3.9 million people.",
+    "explanation": "The Constitution required a census every 10 years to apportion representation in Congress.",
+    "category": "history"
+  },
+  {
+    "fact": "The Louisiana Purchase of 1803 roughly doubled the size of the United States, costing about $15 million from France.",
+    "explanation": "It included land that became all or part of 15 future states.",
+    "category": "history"
+  },
+  {
+    "fact": "Lewis and Clark led their expedition across the western United States from 1804 to 1806.",
+    "explanation": "Sacagawea, a Shoshone woman, played a crucial role as guide and interpreter.",
+    "category": "history"
+  },
+  {
+    "fact": "The first ironclad warships fought each other at the Battle of Hampton Roads on March 8-9, 1862, during the American Civil War.",
+    "explanation": "The USS Monitor and the CSS Virginia (formerly Merrimack) fought to a draw, ending the era of wooden warships.",
+    "category": "history"
+  },
+  {
+    "fact": "The American Civil War lasted from April 12, 1861, to April 9, 1865, with an estimated 620,000 to 750,000 military deaths.",
+    "explanation": "It remains one of the deadliest conflicts in American history.",
+    "category": "history"
+  },
+  {
+    "fact": "Abraham Lincoln was shot by John Wilkes Booth at Ford's Theatre in Washington on April 14, 1865, just five days after Lee's surrender at Appomattox.",
+    "explanation": "He died the following morning on April 15.",
+    "category": "history"
+  },
+  {
+    "fact": "The 13th Amendment to the U.S. Constitution, ratified in December 1865, abolished slavery in the United States.",
+    "explanation": "It was passed by Congress on January 31, 1865, less than three months before Lincoln's death.",
+    "category": "history"
+  },
+  {
+    "fact": "The first telephone directory was published in New Haven, Connecticut, in February 1878, listing only about 50 names.",
+    "explanation": "It had no numbers; callers asked operators for connections by name.",
+    "category": "history"
+  },
+  {
+    "fact": "The Eiffel Tower's iron framework expands and contracts with temperature, growing about 6 inches taller in summer.",
+    "explanation": "It was completed on March 31, 1889.",
+    "category": "history"
+  },
+  {
+    "fact": "The first modern Olympics were held in Athens in 1896, with athletes from 14 countries competing.",
+    "explanation": "The marathon was added in honor of the legendary Greek runner Pheidippides.",
+    "category": "history"
+  },
+  {
+    "fact": "The Triangle Shirtwaist Factory fire in New York on March 25, 1911, killed 146 workers, most of them young immigrant women.",
+    "explanation": "The tragedy led to major reforms in workplace safety laws.",
+    "category": "history"
+  },
+  {
+    "fact": "The RMS Titanic was the largest ship afloat when it sank on April 15, 1912, killing more than 1,500 people.",
+    "explanation": "It carried fewer than half the lifeboats needed for everyone on board.",
+    "category": "history"
+  },
+  {
+    "fact": "Archduke Franz Ferdinand and his wife Sophie were assassinated in Sarajevo by Gavrilo Princip on June 28, 1914.",
+    "explanation": "The assassination set off the chain of events that led to World War I.",
+    "category": "history"
+  },
+  {
+    "fact": "World War I ended at the 11th hour of the 11th day of the 11th month in 1918 with the signing of the Armistice.",
+    "explanation": "Fighting actually continued in some places, and the formal peace treaty was signed at Versailles in 1919.",
+    "category": "history"
+  },
+  {
+    "fact": "The Bolshevik Revolution in Russia took place in October 1917 by the old Julian calendar, which corresponds to November 7 in the modern Gregorian calendar.",
+    "explanation": "It overthrew the Provisional Government and brought Lenin to power.",
+    "category": "history"
+  },
+  {
+    "fact": "Tsar Nicholas II and his family were executed by Bolshevik forces on July 17, 1918, in Yekaterinburg, Russia.",
+    "explanation": "Their remains were not officially identified until the 1990s.",
+    "category": "history"
+  },
+  {
+    "fact": "Mahatma Gandhi led the Salt March of 1930, walking about 240 miles to the sea to protest the British salt tax in India.",
+    "explanation": "The march galvanized Indian opposition to British rule.",
+    "category": "history"
+  },
+  {
+    "fact": "India gained independence from Britain on August 15, 1947, with Pakistan partitioned off on August 14.",
+    "explanation": "The partition led to one of the largest mass migrations in human history.",
+    "category": "history"
+  },
+  {
+    "fact": "The state of Israel was established on May 14, 1948.",
+    "explanation": "It marked the end of the British Mandate of Palestine.",
+    "category": "history"
+  },
+  {
+    "fact": "The People's Republic of China was proclaimed by Mao Zedong on October 1, 1949, after Communist forces defeated the Nationalists in the civil war.",
+    "explanation": "The Nationalists retreated to Taiwan, where they continued the Republic of China.",
+    "category": "history"
+  },
+  {
+    "fact": "The first kidney transplant between humans, performed in Boston on December 23, 1954, was between identical twins.",
+    "explanation": "The surgery was performed by Joseph Murray, who later won a Nobel Prize for his work.",
+    "category": "history"
+  },
+  {
+    "fact": "Rosa Parks refused to give up her seat on a Montgomery, Alabama bus on December 1, 1955, sparking the Montgomery Bus Boycott.",
+    "explanation": "Parks was a longtime civil rights activist, not the random tired seamstress of popular myth.",
+    "category": "history"
+  },
+  {
+    "fact": "The Soviet satellite Sputnik 1 was launched on October 4, 1957, becoming the first artificial satellite to orbit Earth.",
+    "explanation": "It sparked the space race between the U.S. and U.S.S.R.",
+    "category": "history"
+  },
+  {
+    "fact": "Yuri Gagarin became the first human in space on April 12, 1961, aboard Vostok 1.",
+    "explanation": "His flight lasted 108 minutes and circled Earth once.",
+    "category": "history"
+  },
+  {
+    "fact": "John F. Kennedy was assassinated in Dallas, Texas, on November 22, 1963.",
+    "explanation": "Lyndon B. Johnson was sworn in as president aboard Air Force One about two hours later.",
+    "category": "history"
+  },
+  {
+    "fact": "Martin Luther King Jr. delivered his 'I Have a Dream' speech at the March on Washington on August 28, 1963.",
+    "explanation": "The march drew an estimated 250,000 people to the National Mall.",
+    "category": "history"
+  },
+  {
+    "fact": "Dr. Martin Luther King Jr. was assassinated on April 4, 1968, at the Lorraine Motel in Memphis, Tennessee.",
+    "explanation": "He was in Memphis to support striking sanitation workers.",
+    "category": "history"
+  },
+  {
+    "fact": "President Richard Nixon resigned on August 9, 1974, becoming the only U.S. president to resign from office.",
+    "explanation": "He left to avoid impeachment over the Watergate scandal.",
+    "category": "history"
+  },
+  {
+    "fact": "The Watergate break-in occurred on June 17, 1972, at the Democratic National Committee headquarters in Washington, D.C.",
+    "explanation": "Five burglars were caught attempting to wiretap and steal documents.",
+    "category": "history"
+  },
+  {
+    "fact": "The Camp David Accords in September 1978 led to a peace treaty between Egypt and Israel, signed in March 1979.",
+    "explanation": "Egyptian President Anwar Sadat was later assassinated in 1981, partly in retaliation for the treaty.",
+    "category": "history"
+  },
+  {
+    "fact": "The Iranian Revolution of 1979 overthrew the U.S.-backed Shah Mohammad Reza Pahlavi and established an Islamic Republic under Ayatollah Khomeini.",
+    "explanation": "It led to the Iran hostage crisis, which lasted 444 days.",
+    "category": "history"
+  },
+  {
+    "fact": "The Chernobyl nuclear disaster occurred on April 26, 1986, in the Ukrainian SSR.",
+    "explanation": "It is generally considered the worst nuclear accident in history.",
+    "category": "history"
+  },
+  {
+    "fact": "The Berlin Wall fell on November 9, 1989, after the East German government announced that citizens could cross freely.",
+    "explanation": "The announcement was a confused press conference, but the result was the opening of the border.",
+    "category": "history"
+  },
+  {
+    "fact": "The Maastricht Treaty, signed in 1992, established the European Union as we know it today.",
+    "explanation": "It also paved the way for the euro currency, introduced in 1999.",
+    "category": "history"
+  },
+  {
+    "fact": "South Africa held its first multi-racial democratic elections in April 1994, leading to Nelson Mandela becoming president.",
+    "explanation": "It marked the formal end of apartheid.",
+    "category": "history"
+  },
+  {
+    "fact": "The Rwandan genocide in 1994 killed an estimated 500,000 to one million Tutsi and moderate Hutu over about 100 days.",
+    "explanation": "International intervention came too late to prevent the massacre.",
+    "category": "history"
+  },
+  {
+    "fact": "The Hong Kong handover from Britain to China took place on July 1, 1997, after 156 years of British rule.",
+    "explanation": "The agreement included a 'one country, two systems' framework intended to last 50 years.",
+    "category": "history"
+  },
+  {
+    "fact": "The Hagia Sophia in Istanbul served as a Christian cathedral for nearly 900 years before becoming a mosque in 1453.",
+    "explanation": "It was converted into a museum in 1935 and back into a mosque in 2020.",
+    "category": "history"
+  },
+  {
+    "fact": "The first FA Cup, the world's oldest football competition, was held in the 1871-72 season.",
+    "explanation": "It was won by Wanderers, a now-defunct London amateur club.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman emperor Diocletian voluntarily abdicated the throne in AD 305, the first Roman emperor ever to do so.",
+    "explanation": "He retired to grow cabbages at his palace in modern-day Split, Croatia.",
+    "category": "history"
+  },
+  {
+    "fact": "The Edict of Milan in AD 313 established religious tolerance for Christianity in the Roman Empire.",
+    "explanation": "It was issued jointly by Emperors Constantine and Licinius.",
+    "category": "history"
+  },
+  {
+    "fact": "The Council of Trent, held in three sessions between 1545 and 1563, was a major Catholic response to the Protestant Reformation.",
+    "explanation": "It defined many key Catholic doctrines that remain influential today.",
+    "category": "history"
+  },
+  {
+    "fact": "Martin Luther reportedly nailed his 95 Theses to the door of the Wittenberg Castle Church on October 31, 1517.",
+    "explanation": "The act, whether literal or not, is traditionally seen as the beginning of the Protestant Reformation.",
+    "category": "history"
+  },
+  {
+    "fact": "The Treaty of Westphalia in 1648 ended the Thirty Years' War and effectively created the modern system of sovereign nation-states.",
+    "explanation": "Historians still refer to the international system as 'Westphalian.'",
+    "category": "history"
+  },
+  {
+    "fact": "The British East India Company was founded in 1600 and at its height ruled large portions of the Indian subcontinent.",
+    "explanation": "It was dissolved in 1874 after the British Crown took direct control in 1858.",
+    "category": "history"
+  },
+  {
+    "fact": "The Industrial Revolution began in Britain in the late 1700s, with key inventions including the steam engine and the mechanized loom.",
+    "explanation": "It fundamentally transformed economies, societies, and the global balance of power.",
+    "category": "history"
+  },
+  {
+    "fact": "The first commercial steamboat service was started by Robert Fulton on the Hudson River in 1807.",
+    "explanation": "His ship, the Clermont, made the trip from New York City to Albany in 32 hours.",
+    "category": "history"
+  },
+  {
+    "fact": "The first cracker-style biscuits were originally a hardtack ship's biscuit eaten by sailors over months at sea.",
+    "explanation": "Modern crackers evolved from these ancient long-lasting sailor's foods.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman emperor Hadrian had a wall built across northern Britain starting in AD 122 to mark and defend the empire's edge.",
+    "explanation": "Long stretches of Hadrian's Wall still survive in northern England.",
+    "category": "history"
+  },
+  {
+    "fact": "The Greek mathematician Archimedes was killed during the Roman sack of Syracuse in 212 BC, reportedly while drawing geometric figures in the sand.",
+    "explanation": "He was killed despite Roman general Marcellus's orders to spare him.",
+    "category": "history"
+  },
+  {
+    "fact": "The world's first university in the modern sense, the University of Bologna, was founded in 1088.",
+    "explanation": "It pioneered many features of modern higher education.",
+    "category": "history"
+  },
+  {
+    "fact": "Coffee was first cultivated in Yemen around the 15th century and spread from there across the Islamic world.",
+    "explanation": "Coffeehouses in 16th-century Istanbul became important hubs of social and intellectual life.",
+    "category": "history"
+  },
+  {
+    "fact": "Spain was officially still at war with Denmark from 1657 until 1981 due to a forgotten treaty that was never finalized.",
+    "explanation": "The two nations had simply never bothered to formally end hostilities.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman dictator Sulla, who lived from 138 to 78 BC, voluntarily gave up his absolute power in 79 BC and retired to a country estate.",
+    "explanation": "His unusual peaceful retirement was rare among ancient rulers.",
+    "category": "history"
+  },
+  {
+    "fact": "The city of Rome had over one million inhabitants at its imperial peak and did not return to that population until around the 20th century.",
+    "explanation": "After Rome fell, its population dropped to perhaps 30,000 by the early Middle Ages.",
+    "category": "history"
+  },
+  {
+    "fact": "The Domesday Book, commissioned by William the Conqueror in 1086, is a remarkably detailed survey of land and livestock in England.",
+    "explanation": "It is still occasionally referenced in English legal cases.",
+    "category": "history"
+  },
+  {
+    "fact": "The Black Death is believed to have entered Europe in 1347 through ships docking at the Sicilian port of Messina.",
+    "explanation": "The fleet arrived from the Black Sea carrying infected sailors.",
+    "category": "history"
+  },
+  {
+    "fact": "The Battle of Hastings in October 1066 saw William the Conqueror defeat King Harold II of England.",
+    "explanation": "Harold is said to have been killed by an arrow to the eye, an event depicted in the Bayeux Tapestry.",
+    "category": "history"
+  },
+  {
+    "fact": "The Bayeux Tapestry is actually an embroidery, not a tapestry, and depicts the events leading to the Norman Conquest of England in 1066.",
+    "explanation": "It is roughly 230 feet long and was probably made in England in the 1070s.",
+    "category": "history"
+  },
+  {
+    "fact": "The largest empire in history by land area was the Mongol Empire, which at its height covered roughly 9 million square miles.",
+    "explanation": "It reached its greatest extent in the late 13th century.",
+    "category": "history"
+  },
+  {
+    "fact": "The British Empire was the largest empire by population in history, at one point ruling about a quarter of the world's people.",
+    "explanation": "At its height in the early 20th century, it covered about a quarter of the planet's land area as well.",
+    "category": "history"
+  },
+  {
+    "fact": "The first cookbook printed in English, 'The Forme of Cury,' was published around 1390 and was compiled by the master cooks of King Richard II.",
+    "explanation": "It included recipes featuring exotic spices imported from Asia.",
+    "category": "history"
+  },
+  {
+    "fact": "The first chocolate bar was made in 1847 by Joseph Fry in Bristol, England.",
+    "explanation": "Before that, chocolate had been consumed primarily as a beverage.",
+    "category": "history"
+  },
+  {
+    "fact": "Marie Curie remains the only person to have won Nobel Prizes in two different sciences, Physics in 1903 and Chemistry in 1911.",
+    "explanation": "Her daughter Irene Joliot-Curie also won a Nobel Prize in Chemistry, in 1935.",
+    "category": "history"
+  },
+  {
+    "fact": "The Wright Brothers tossed a coin to decide who would try the first flight; Wilbur won but his attempt failed, so Orville flew first on December 17, 1903.",
+    "explanation": "Wilbur made the longer flight later that day.",
+    "category": "history"
+  },
+  {
+    "fact": "Mount Rushmore was carved between 1927 and 1941, designed by sculptor Gutzon Borglum.",
+    "explanation": "It was originally intended to depict each president from the waist up, but funding ran out.",
+    "category": "history"
+  },
+  {
+    "fact": "The Great Depression began with the U.S. stock market crash starting on Black Thursday, October 24, 1929.",
+    "explanation": "The crash continued through Black Tuesday, October 29, when the market lost an enormous amount of value.",
+    "category": "history"
+  },
+  {
+    "fact": "Prohibition in the United States lasted from January 1920 to December 1933 under the 18th Amendment.",
+    "explanation": "It was repealed by the 21st Amendment, the only constitutional amendment ever to repeal another.",
+    "category": "history"
+  },
+  {
+    "fact": "Sweden was officially neutral throughout both World Wars, though it traded with both sides in World War II.",
+    "explanation": "Its neutrality was a longstanding policy that the country relaxed only in 2024 by joining NATO.",
+    "category": "history"
+  },
+  {
+    "fact": "The first dishwasher was patented in 1886 by Josephine Cochrane, a wealthy Illinois woman who was frustrated by her servants chipping her china.",
+    "explanation": "Her company eventually became part of KitchenAid.",
+    "category": "history"
+  },
+  {
+    "fact": "The first artificial heart was implanted in a human, Barney Clark, on December 2, 1982, at the University of Utah.",
+    "explanation": "Clark lived for 112 days with the Jarvik-7 heart.",
+    "category": "history"
+  },
+  {
+    "fact": "The first successful heart transplant on a human was performed by Dr. Christiaan Barnard in Cape Town, South Africa, on December 3, 1967.",
+    "explanation": "The patient, Louis Washkansky, survived 18 days before dying of pneumonia.",
+    "category": "history"
+  },
+  {
+    "fact": "The Ford Motor Company introduced the 40-hour, 5-day workweek for its factory workers in 1926.",
+    "explanation": "Ford believed that giving workers more leisure time would increase demand for cars.",
+    "category": "history"
+  },
+  {
+    "fact": "The first speeding ticket was issued in 1896 in England to Walter Arnold, who was caught going 8 mph in a 2 mph zone.",
+    "explanation": "He was fined a shilling for his offense.",
+    "category": "history"
+  },
+  {
+    "fact": "The Boston Tea Party occurred on December 16, 1773, when colonists dumped 342 chests of British tea into Boston Harbor.",
+    "explanation": "It was a protest against the Tea Act of 1773.",
+    "category": "history"
+  },
+  {
+    "fact": "Paul Revere's famous ride on April 18, 1775 was not a solo journey; William Dawes and Samuel Prescott also rode that night.",
+    "explanation": "Revere was actually captured before reaching Concord; Prescott was the only one who completed the journey.",
+    "category": "history"
+  },
+  {
+    "fact": "The first battle of the American Revolution was fought at Lexington and Concord on April 19, 1775.",
+    "explanation": "It is the source of the famous 'shot heard round the world.'",
+    "category": "history"
+  },
+  {
+    "fact": "Benjamin Franklin was 70 years old when he signed the Declaration of Independence, making him the oldest signer.",
+    "explanation": "Edward Rutledge of South Carolina was the youngest at age 26.",
+    "category": "history"
+  },
+  {
+    "fact": "The first U.S. Navy ship, the USS Constitution, was launched in 1797 and is still a commissioned warship today.",
+    "explanation": "It is the oldest commissioned naval vessel afloat in the world.",
+    "category": "history"
+  },
+  {
+    "fact": "The Battle of New Orleans on January 8, 1815, was fought two weeks after the Treaty of Ghent had officially ended the War of 1812.",
+    "explanation": "News of the peace had not yet reached the combatants.",
+    "category": "history"
+  },
+  {
+    "fact": "The Trail of Tears in the 1830s forced the relocation of Native American tribes from the southeastern United States to lands west of the Mississippi.",
+    "explanation": "Thousands of Cherokee and other Native Americans died during the journey.",
+    "category": "history"
+  },
+  {
+    "fact": "The Alamo, in San Antonio, Texas, was the site of a 13-day siege ending on March 6, 1836, during the Texas Revolution.",
+    "explanation": "Mexican forces under Santa Anna defeated about 200 Texan defenders.",
+    "category": "history"
+  },
+  {
+    "fact": "The California Gold Rush began with the discovery of gold at Sutter's Mill on January 24, 1848.",
+    "explanation": "Within a few years, San Francisco's population exploded from a few hundred to tens of thousands.",
+    "category": "history"
+  },
+  {
+    "fact": "The Erie Canal opened in 1825, connecting the Great Lakes to the Atlantic Ocean via the Hudson River.",
+    "explanation": "It dramatically reduced shipping costs and helped New York become America's largest city.",
+    "category": "history"
+  },
+  {
+    "fact": "The first hot-air balloon human passengers were a sheep, a duck, and a rooster, sent up by the Montgolfier brothers in September 1783.",
+    "explanation": "The three animals landed safely, paving the way for human flight two months later.",
+    "category": "history"
+  },
+  {
+    "fact": "The first photograph of a person was an accident; Louis Daguerre's 1838 image of Paris's Boulevard du Temple included a man getting his boots polished.",
+    "explanation": "Other people moving on the street did not appear due to the long exposure time.",
+    "category": "history"
+  },
+  {
+    "fact": "The word 'bankrupt' comes from the Italian 'banca rotta,' meaning 'broken bench,' referring to the practice of breaking the table of an insolvent moneychanger.",
+    "explanation": "It dates from medieval Italian banking practices.",
+    "category": "history"
+  },
+  {
+    "fact": "Florence Nightingale's nursing work in the Crimean War (1853-1856) helped establish modern professional nursing.",
+    "explanation": "She also pioneered statistical visualizations like the polar area diagram.",
+    "category": "history"
+  },
+  {
+    "fact": "The phrase 'mind your Ps and Qs' likely originated in printing shops, where typesetters had to distinguish between mirror-image lowercase p and q letters.",
+    "explanation": "It also has competing origin stories from bartending and dance instruction.",
+    "category": "history"
+  },
+  {
+    "fact": "The Brooklyn Bridge, opened in 1883, was at the time the longest suspension bridge in the world.",
+    "explanation": "Its chief engineer, Washington Roebling, supervised much of its construction while bedridden with the bends.",
+    "category": "history"
+  },
+  {
+    "fact": "The Spanish-American War of 1898 lasted only about ten weeks and resulted in the United States gaining Puerto Rico, Guam, and the Philippines.",
+    "explanation": "Cuba was also freed from Spanish rule but became a U.S. protectorate.",
+    "category": "history"
+  },
+  {
+    "fact": "The phrase 'remember the Maine' refers to the USS Maine, which exploded in Havana Harbor on February 15, 1898, helping push the U.S. into war with Spain.",
+    "explanation": "Modern investigations suggest the explosion was probably an accident, not Spanish sabotage.",
+    "category": "history"
+  },
+  {
+    "fact": "Theodore Roosevelt was the youngest person ever to assume the U.S. presidency, becoming president at age 42 in 1901 after the assassination of William McKinley.",
+    "explanation": "John F. Kennedy was the youngest ever elected, at age 43.",
+    "category": "history"
+  },
+  {
+    "fact": "The Wright Brothers ran a bicycle shop in Dayton, Ohio, before turning their attention to flight.",
+    "explanation": "Their experience with light, strong, balanced bicycles informed their approach to aircraft design.",
+    "category": "history"
+  },
+  {
+    "fact": "The first synthesized plastic, Bakelite, was invented by Leo Baekeland in 1907.",
+    "explanation": "It marked the beginning of the modern plastics industry.",
+    "category": "history"
+  },
+  {
+    "fact": "Roald Amundsen's expedition reached the South Pole on December 14, 1911, beating Robert Falcon Scott's British expedition by about a month.",
+    "explanation": "Scott's team reached the pole but died on the return journey.",
+    "category": "history"
+  },
+  {
+    "fact": "Antarctica was the last continent to be discovered, with confirmed sightings beginning in 1820.",
+    "explanation": "The first confirmed landing on the mainland is debated, but occurred in the 1820s or 1890s.",
+    "category": "history"
+  },
+  {
+    "fact": "Vatican City, the world's smallest independent state, was established on February 11, 1929, by the Lateran Treaty between the Holy See and Italy.",
+    "explanation": "It covers about 49 hectares (roughly 121 acres).",
+    "category": "history"
+  },
+  {
+    "fact": "The Empire State Building, completed in 1931, was built in just 410 days during the Great Depression.",
+    "explanation": "It remained the world's tallest building until 1970.",
+    "category": "history"
+  },
+  {
+    "fact": "The Golden Gate Bridge in San Francisco opened to vehicle traffic on May 28, 1937.",
+    "explanation": "It was the longest suspension bridge in the world at the time.",
+    "category": "history"
+  },
+  {
+    "fact": "Pearl Harbor was attacked by Imperial Japan on December 7, 1941, prompting the United States to enter World War II.",
+    "explanation": "President Franklin D. Roosevelt called December 7 'a date which will live in infamy.'",
+    "category": "history"
+  },
+  {
+    "fact": "The D-Day Normandy landings on June 6, 1944, involved more than 156,000 Allied troops.",
+    "explanation": "It was the largest seaborne invasion in history.",
+    "category": "history"
+  },
+  {
+    "fact": "The Battle of the Bulge, fought from December 1944 to January 1945, was the costliest single battle for the U.S. Army in World War II.",
+    "explanation": "More than 19,000 American soldiers were killed.",
+    "category": "history"
+  },
+  {
+    "fact": "The Tehran Conference in November-December 1943 was the first meeting of the 'Big Three' Allied leaders: Roosevelt, Churchill, and Stalin.",
+    "explanation": "It laid plans for the D-Day invasion and post-war boundaries.",
+    "category": "history"
+  },
+  {
+    "fact": "The Yalta Conference in February 1945 saw Roosevelt, Churchill, and Stalin shape the post-war world.",
+    "explanation": "It included controversial decisions about Eastern Europe that would set the stage for the Cold War.",
+    "category": "history"
+  },
+  {
+    "fact": "V-E Day, marking victory in Europe in World War II, fell on May 8, 1945.",
+    "explanation": "V-J Day, marking the formal surrender of Japan, occurred on September 2, 1945.",
+    "category": "history"
+  },
+  {
+    "fact": "The Marshall Plan, announced in 1947, provided about $13 billion in American aid to rebuild Western Europe after World War II.",
+    "explanation": "It is considered one of the most successful foreign aid programs in history.",
+    "category": "history"
+  },
+  {
+    "fact": "The North Atlantic Treaty Organization (NATO) was founded on April 4, 1949, with 12 founding members.",
+    "explanation": "It was created as a collective defense alliance against Soviet expansion.",
+    "category": "history"
+  },
+  {
+    "fact": "The Warsaw Pact was the Soviet-led counterpart to NATO, established in 1955 in response to West Germany joining NATO.",
+    "explanation": "It was formally dissolved in July 1991, shortly before the end of the Soviet Union.",
+    "category": "history"
+  },
+  {
+    "fact": "The Eisenhower Doctrine, announced in 1957, committed the U.S. to assisting Middle Eastern nations resisting communism.",
+    "explanation": "It was triggered by the geopolitical fallout of the Suez Crisis.",
+    "category": "history"
+  },
+  {
+    "fact": "The Hungarian Revolution of 1956 was a popular uprising against Soviet-imposed communist rule.",
+    "explanation": "Soviet forces crushed the revolt within weeks, but the events damaged Soviet legitimacy in Eastern Europe.",
+    "category": "history"
+  },
+  {
+    "fact": "The Prague Spring of 1968 was a brief liberalization in communist Czechoslovakia that was ended by a Warsaw Pact invasion in August.",
+    "explanation": "It became a symbol of resistance to Soviet-style communism.",
+    "category": "history"
+  },
+  {
+    "fact": "The Cultural Revolution in China, launched by Mao Zedong in 1966, lasted until his death in 1976.",
+    "explanation": "It caused massive social and economic upheaval and the persecution of many intellectuals.",
+    "category": "history"
+  },
+  {
+    "fact": "The Great Leap Forward in China (1958-1962) was an attempt at rapid industrialization that led to a devastating famine.",
+    "explanation": "Estimates of the death toll vary widely but are generally in the tens of millions.",
+    "category": "history"
+  },
+  {
+    "fact": "The Six-Day War in June 1967 saw Israel defeat the combined forces of Egypt, Jordan, and Syria.",
+    "explanation": "Israel gained control of the Sinai, Gaza, the West Bank, East Jerusalem, and the Golan Heights.",
+    "category": "history"
+  },
+  {
+    "fact": "The Yom Kippur War began on October 6, 1973, when Egypt and Syria launched a surprise attack on Israel.",
+    "explanation": "It led to the OPEC oil embargo and a major global economic shock.",
+    "category": "history"
+  },
+  {
+    "fact": "The Cambodian genocide under the Khmer Rouge (1975-1979) killed an estimated 1.5 to 2 million people, about a quarter of the population.",
+    "explanation": "Pol Pot's regime aimed to create an agrarian utopia by emptying the cities.",
+    "category": "history"
+  },
+  {
+    "fact": "The Soviet invasion of Afghanistan began in December 1979 and lasted until February 1989.",
+    "explanation": "It became known as the Soviet Union's 'Vietnam' and contributed to its eventual collapse.",
+    "category": "history"
+  },
+  {
+    "fact": "The Falklands War between the United Kingdom and Argentina lasted from April to June 1982.",
+    "explanation": "Britain regained control of the Falkland Islands after Argentine forces had invaded.",
+    "category": "history"
+  },
+  {
+    "fact": "The Persian Gulf War to liberate Kuwait from Iraqi occupation in 1991 lasted six weeks, with the ground campaign taking only 100 hours.",
+    "explanation": "The war was sparked by Iraq's invasion of Kuwait in August 1990.",
+    "category": "history"
+  },
+  {
+    "fact": "The Yugoslav Wars of the 1990s broke up the country of Yugoslavia into seven independent states.",
+    "explanation": "They were the deadliest conflicts in Europe since World War II.",
+    "category": "history"
+  },
+  {
+    "fact": "The Bosnian War (1992-1995) included the Srebrenica massacre in July 1995, in which more than 8,000 Bosniak men and boys were killed.",
+    "explanation": "It is the only event in Europe since WWII formally recognized as genocide by international courts.",
+    "category": "history"
+  },
+  {
+    "fact": "The Channel Tunnel between England and France opened on May 6, 1994, after six years of construction.",
+    "explanation": "It is currently the longest underwater tunnel in the world by sub-sea length.",
+    "category": "history"
+  },
+  {
+    "fact": "The first website was launched on August 6, 1991, by Tim Berners-Lee at CERN in Switzerland.",
+    "explanation": "It explained how the World Wide Web worked.",
+    "category": "history"
+  },
+  {
+    "fact": "IBM unveiled its first personal computer, the IBM 5150, on August 12, 1981.",
+    "explanation": "Its open architecture led to the dominance of IBM-compatible PCs.",
+    "category": "history"
+  },
+  {
+    "fact": "Apple Computer was founded on April 1, 1976, by Steve Jobs, Steve Wozniak, and Ronald Wayne.",
+    "explanation": "Wayne sold his 10% stake for $800 within two weeks of founding.",
+    "category": "history"
+  },
+  {
+    "fact": "Microsoft was founded by Bill Gates and Paul Allen on April 4, 1975, in Albuquerque, New Mexico.",
+    "explanation": "It moved to its current home in the Seattle area in 1979.",
+    "category": "history"
+  },
+  {
+    "fact": "The Macintosh computer was unveiled by Apple on January 24, 1984, with a famous Super Bowl commercial directed by Ridley Scott.",
+    "explanation": "It popularized the graphical user interface and the mouse.",
+    "category": "history"
+  },
+  {
+    "fact": "The CD-ROM, capable of holding far more data than a floppy disk, was introduced commercially in the mid-1980s.",
+    "explanation": "It became standard in personal computers by the mid-1990s.",
+    "category": "history"
+  },
+  {
+    "fact": "The first cell phone call was made by Motorola engineer Martin Cooper on April 3, 1973, in New York City.",
+    "explanation": "He famously called a rival at Bell Labs to brag about the achievement.",
+    "category": "history"
+  },
+  {
+    "fact": "Walt Disney World in Florida opened on October 1, 1971, five years after Walt Disney's death.",
+    "explanation": "It is many times larger than the original Disneyland in California.",
+    "category": "history"
+  },
+  {
+    "fact": "Disneyland in Anaheim, California, opened on July 17, 1955.",
+    "explanation": "The opening was beset with problems and was later called 'Black Sunday' by Disney staff.",
+    "category": "history"
+  },
+  {
+    "fact": "The first McDonald's restaurant opened in 1940 in San Bernardino, California, by Richard and Maurice McDonald.",
+    "explanation": "Ray Kroc began franchising it nationally in the 1950s and eventually bought the company.",
+    "category": "history"
+  },
+  {
+    "fact": "Coca-Cola was invented in 1886 by pharmacist John Pemberton in Atlanta, Georgia.",
+    "explanation": "He died just two years later, before the product became widely successful.",
+    "category": "history"
+  },
+  {
+    "fact": "Pepsi was invented in 1893 by Caleb Bradham in New Bern, North Carolina.",
+    "explanation": "He originally called it 'Brad's Drink' before renaming it Pepsi-Cola in 1898.",
+    "category": "history"
+  },
+  {
+    "fact": "The chocolate chip cookie was invented around 1938 by Ruth Wakefield at the Toll House Inn in Whitman, Massachusetts.",
+    "explanation": "Her recipe became famous when it was printed on Nestle chocolate bars.",
+    "category": "history"
+  },
+  {
+    "fact": "The Slinky was invented in 1943 by Richard James, a naval engineer who knocked some springs off a shelf.",
+    "explanation": "It was first sold at a Gimbels department store in Philadelphia in November 1945.",
+    "category": "history"
+  },
+  {
+    "fact": "The Frisbee evolved from pie tins thrown by Yale students from the Frisbie Pie Company.",
+    "explanation": "Walter Frederick Morrison and Wham-O commercialized the plastic version in 1957.",
+    "category": "history"
+  },
+  {
+    "fact": "Velcro was invented in 1948 by Swiss engineer George de Mestral after he noticed burrs sticking to his dog's fur.",
+    "explanation": "He patented the hook-and-loop fastener in 1955.",
+    "category": "history"
+  },
+  {
+    "fact": "Post-it Notes were invented in 1968 by 3M scientist Spencer Silver, who created a weak adhesive he didn't know what to do with.",
+    "explanation": "Colleague Art Fry used the adhesive on bookmarks for his hymnal, leading to the product launch in 1980.",
+    "category": "history"
+  },
+  {
+    "fact": "The microwave oven was invented in 1945 by Percy Spencer after he noticed a chocolate bar melted in his pocket near a radar magnetron.",
+    "explanation": "The first commercial microwave was sold by Raytheon shortly afterward.",
+    "category": "history"
+  },
+  {
+    "fact": "The Slinky toy has appeared in everything from a Buzz Aldrin sermon to Bart Simpson's hands to a famous TV jingle.",
+    "explanation": "It was eventually inducted into the National Toy Hall of Fame.",
+    "category": "history"
+  },
+  {
+    "fact": "Crayola crayons were first produced in 1903 by Binney & Smith.",
+    "explanation": "The name 'Crayola' was coined by company founder Edwin Binney's wife Alice from the French 'craie' meaning chalk.",
+    "category": "history"
+  },
+  {
+    "fact": "Lego was founded in Billund, Denmark, in 1932 by Ole Kirk Christiansen as a wooden toy company.",
+    "explanation": "The famous plastic interlocking bricks debuted in 1958.",
+    "category": "history"
+  },
+  {
+    "fact": "The first Barbie doll was introduced by Mattel on March 9, 1959, at the American International Toy Fair in New York City.",
+    "explanation": "She was modeled in part on a German doll called Bild Lilli.",
+    "category": "history"
+  },
+  {
+    "fact": "The yo-yo originated in ancient Greece and is one of the oldest known toys, with examples dating back over 2,500 years.",
+    "explanation": "It became a modern craze in the 20th century thanks to Filipino entrepreneur Pedro Flores.",
+    "category": "history"
+  },
+  {
+    "fact": "Chess originated in northern India around the 6th century AD as a game called chaturanga.",
+    "explanation": "It spread westward through Persia and the Islamic world to medieval Europe.",
+    "category": "history"
+  },
+  {
+    "fact": "The card game bridge evolved from whist in the 19th century.",
+    "explanation": "Contract bridge, the modern form, was developed in the 1920s.",
+    "category": "history"
+  },
+  {
+    "fact": "Monopoly, the board game, evolved from 'The Landlord's Game' patented in 1904 by Elizabeth Magie.",
+    "explanation": "Parker Brothers later commercialized it in 1935 without giving Magie much credit.",
+    "category": "history"
+  },
+  {
+    "fact": "The first modern crossword tournament was held in 1978 in Stamford, Connecticut.",
+    "explanation": "It was founded by Will Shortz, later the famous crossword editor at the New York Times.",
+    "category": "history"
+  },
+  {
+    "fact": "Scrabble was invented in 1933 by Alfred Mosher Butts during the Great Depression.",
+    "explanation": "It originally went by the names 'Lexiko' and 'Criss-Crosswords' before being rebranded.",
+    "category": "history"
+  },
+  {
+    "fact": "Atari released Pong, the first commercially successful video game, in 1972.",
+    "explanation": "It helped launch the home video game industry.",
+    "category": "history"
+  },
+  {
+    "fact": "Nintendo was founded in 1889 in Kyoto, Japan, as a maker of hanafuda playing cards.",
+    "explanation": "It branched into electronic games in the 1970s before becoming a global gaming powerhouse.",
+    "category": "history"
+  },
+  {
+    "fact": "The Sony Walkman was introduced in 1979, transforming the way people listened to music.",
+    "explanation": "It made personal portable music a mainstream phenomenon.",
+    "category": "history"
+  },
+  {
+    "fact": "The compact disc was developed jointly by Philips and Sony, with the first commercial CDs released in 1982.",
+    "explanation": "The format's storage capacity was reportedly set so that Beethoven's Ninth Symphony could fit on a single disc.",
+    "category": "history"
+  },
+  {
+    "fact": "The Boeing 747, often called the 'Jumbo Jet,' first entered commercial service in January 1970 with Pan Am.",
+    "explanation": "It revolutionized long-distance air travel.",
+    "category": "history"
+  },
+  {
+    "fact": "The Concorde supersonic airliner began commercial flights in 1976 and was retired in 2003.",
+    "explanation": "It could fly from New York to London in under 3.5 hours.",
+    "category": "history"
+  },
+  {
+    "fact": "The Hindenburg airship was filled with hydrogen rather than helium because the United States had restricted helium exports to Germany.",
+    "explanation": "Hydrogen's flammability contributed to the disaster in 1937.",
+    "category": "history"
+  },
+  {
+    "fact": "The first jet airliner in regular service was the de Havilland Comet, which entered service in 1952.",
+    "explanation": "A series of fatal accidents due to metal fatigue grounded it temporarily.",
+    "category": "history"
+  },
+  {
+    "fact": "The first nonstop solo transatlantic flight was made by Charles Lindbergh on May 20-21, 1927, in the Spirit of St. Louis.",
+    "explanation": "He flew from Long Island to Paris, taking about 33.5 hours.",
+    "category": "history"
+  },
+  {
+    "fact": "Amelia Earhart became the first woman to fly solo across the Atlantic Ocean on May 20-21, 1932.",
+    "explanation": "She vanished over the Pacific in 1937 while attempting to circumnavigate the globe.",
+    "category": "history"
+  },
+  {
+    "fact": "The first to fly nonstop across the Atlantic were British aviators John Alcock and Arthur Brown in June 1919, eight years before Lindbergh.",
+    "explanation": "Their flight was from Newfoundland to Ireland.",
+    "category": "history"
+  },
+  {
+    "fact": "The Spirit of St. Louis is now displayed at the Smithsonian's National Air and Space Museum.",
+    "explanation": "Lindbergh donated the plane to the Smithsonian in 1928.",
+    "category": "history"
+  },
+  {
+    "fact": "The first powered submarine, the Nautilus, was built by Robert Fulton and successfully tested in 1800.",
+    "explanation": "It used a hand-cranked propeller for underwater propulsion.",
+    "category": "history"
+  },
+  {
+    "fact": "The first nuclear-powered submarine, USS Nautilus, was launched in 1954.",
+    "explanation": "It was named in homage to Robert Fulton's much earlier vessel.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman Republic was founded around 509 BC after the overthrow of the last king, Tarquinius Superbus.",
+    "explanation": "It lasted until the rise of Augustus as Rome's first emperor in 27 BC.",
+    "category": "history"
+  },
+  {
+    "fact": "The Etruscans dominated central Italy before the rise of Rome and heavily influenced early Roman culture.",
+    "explanation": "Many features of Roman religion, architecture, and politics had Etruscan roots.",
+    "category": "history"
+  },
+  {
+    "fact": "The Phoenicians invented one of the earliest alphabets around 1050 BC, which became the basis for the Greek and Latin alphabets.",
+    "explanation": "Their script was carried across the Mediterranean by their trading networks.",
+    "category": "history"
+  },
+  {
+    "fact": "Carthage, founded by Phoenicians around 814 BC in modern Tunisia, was the great rival of Rome in the Punic Wars.",
+    "explanation": "The Romans famously destroyed Carthage in 146 BC.",
+    "category": "history"
+  },
+  {
+    "fact": "Hannibal Barca crossed the Alps with his army, including elephants, in 218 BC to attack Rome in the Second Punic War.",
+    "explanation": "Most of his elephants did not survive the crossing.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman politician Cato the Elder ended every speech with 'Carthago delenda est'—'Carthage must be destroyed.'",
+    "explanation": "His persistent rhetoric helped lead to the Third Punic War.",
+    "category": "history"
+  },
+  {
+    "fact": "The Persian Empire under Cyrus the Great in the 6th century BC was the largest empire the world had yet seen.",
+    "explanation": "Cyrus is also famous for releasing the Jews from Babylonian captivity.",
+    "category": "history"
+  },
+  {
+    "fact": "The Battle of Marathon in 490 BC saw Athens defeat a much larger Persian army.",
+    "explanation": "It inspired the modern marathon footrace, named for the legendary runner Pheidippides.",
+    "category": "history"
+  },
+  {
+    "fact": "The Battle of Thermopylae in 480 BC saw a small Greek force, including 300 Spartans, hold off a vast Persian army for three days.",
+    "explanation": "Though Greek forces ultimately lost, the battle has become iconic for its courageous last stand.",
+    "category": "history"
+  },
+  {
+    "fact": "The Greek philosopher Socrates was sentenced to death in 399 BC by drinking hemlock.",
+    "explanation": "He was convicted on charges of impiety and corrupting the youth of Athens.",
+    "category": "history"
+  },
+  {
+    "fact": "Alexander the Great was a student of the philosopher Aristotle.",
+    "explanation": "Aristotle was hired by Alexander's father Philip II of Macedon.",
+    "category": "history"
+  },
+  {
+    "fact": "The Library of Alexandria was founded by Ptolemy I or his son Ptolemy II in the 3rd century BC.",
+    "explanation": "It aimed to collect the world's knowledge.",
+    "category": "history"
+  },
+  {
+    "fact": "Hypatia of Alexandria was one of the foremost philosophers and mathematicians of the late 4th and early 5th centuries.",
+    "explanation": "She was killed by a Christian mob in Alexandria in AD 415, a turning point often cited in histories of intellectual freedom.",
+    "category": "history"
+  },
+  {
+    "fact": "The Mayan civilization developed independently in Mesoamerica, with major cities flourishing from roughly AD 250 to 900.",
+    "explanation": "The Maya developed sophisticated writing, astronomy, and mathematics.",
+    "category": "history"
+  },
+  {
+    "fact": "The Maya used a base-20 number system and were among the first civilizations to develop the concept of zero.",
+    "explanation": "Their calendar was extraordinarily precise.",
+    "category": "history"
+  },
+  {
+    "fact": "Teotihuacan, near modern Mexico City, was one of the largest cities in the world during the period from around AD 100 to 600.",
+    "explanation": "Its name means 'place where the gods were born' in the much later Aztec Nahuatl language.",
+    "category": "history"
+  },
+  {
+    "fact": "The Olmecs, who flourished in southern Mexico from around 1200 to 400 BC, are often called the 'mother culture' of Mesoamerica.",
+    "explanation": "They are famous for their colossal carved stone heads.",
+    "category": "history"
+  },
+  {
+    "fact": "The Indus Valley Civilization, flourishing around 2600-1900 BC, had advanced urban planning including drainage systems.",
+    "explanation": "Its script has not yet been deciphered.",
+    "category": "history"
+  },
+  {
+    "fact": "Mesopotamia, in modern Iraq, is widely considered the cradle of civilization, with Sumerian cities arising around 3500 BC.",
+    "explanation": "The Sumerians developed cuneiform, one of the earliest writing systems.",
+    "category": "history"
+  },
+  {
+    "fact": "The Code of Hammurabi, written around 1754 BC in ancient Babylon, is one of the earliest known law codes.",
+    "explanation": "It established the principle of 'an eye for an eye.'",
+    "category": "history"
+  },
+  {
+    "fact": "Ancient Egypt's history spans about 3,000 years, from the unification of Upper and Lower Egypt around 3100 BC to the death of Cleopatra in 30 BC.",
+    "explanation": "Even within Egypt, more time passed between the building of the Great Pyramid and Cleopatra than between Cleopatra and us.",
+    "category": "history"
+  },
+  {
+    "fact": "King Tutankhamun ruled Egypt for only about nine years, from roughly 1332 to 1323 BC.",
+    "explanation": "He died at about age 19 of causes still debated by scholars.",
+    "category": "history"
+  },
+  {
+    "fact": "Ramesses II, also known as Ramesses the Great, ruled Egypt for 66 years in the 13th century BC.",
+    "explanation": "He had more than 100 children and built monumental structures across Egypt.",
+    "category": "history"
+  },
+  {
+    "fact": "Hatshepsut was one of the most successful pharaohs of Egypt, ruling for about 21 years in the 15th century BC.",
+    "explanation": "She often depicted herself as a man in royal art.",
+    "category": "history"
+  },
+  {
+    "fact": "The Pyramids of Giza were built during the Fourth Dynasty of Egypt, around 2600-2500 BC.",
+    "explanation": "They were originally cased in smooth white limestone that has since been quarried away.",
+    "category": "history"
+  },
+  {
+    "fact": "Building the Great Pyramid of Giza is estimated to have taken about 20 years and tens of thousands of workers.",
+    "explanation": "Most laborers were skilled paid workers, not slaves, contrary to popular myth.",
+    "category": "history"
+  },
+  {
+    "fact": "The Sphinx at Giza is thought to have been built during the reign of Pharaoh Khafre around 2500 BC.",
+    "explanation": "Its nose was lost long before Napoleon's time, contrary to the myth that French soldiers shot it off.",
+    "category": "history"
+  },
+  {
+    "fact": "The Tower of Babel story in Genesis likely refers to a Babylonian ziggurat, possibly the Etemenanki dedicated to the god Marduk.",
+    "explanation": "Ziggurats were stepped pyramid-temples common in Mesopotamia.",
+    "category": "history"
+  },
+  {
+    "fact": "The Hanging Gardens of Babylon, one of the Seven Wonders of the Ancient World, may never have actually existed in Babylon.",
+    "explanation": "Some scholars now believe ancient accounts may have been describing gardens in the Assyrian city of Nineveh instead.",
+    "category": "history"
+  },
+  {
+    "fact": "Of the Seven Wonders of the Ancient World, only the Great Pyramid of Giza still stands.",
+    "explanation": "The others were destroyed by earthquakes, fires, or human action over the centuries.",
+    "category": "history"
+  },
+  {
+    "fact": "The Lighthouse of Alexandria, one of the Seven Wonders, stood for nearly 1,600 years before earthquakes destroyed it in the 14th century.",
+    "explanation": "It guided ships into the harbor of Alexandria.",
+    "category": "history"
+  },
+  {
+    "fact": "The Mausoleum at Halicarnassus, built around 350 BC, is the origin of the word 'mausoleum.'",
+    "explanation": "It was built as a tomb for Mausolus, a satrap of the Persian Empire.",
+    "category": "history"
+  },
+  {
+    "fact": "The Colossus of Rhodes was a giant statue of the sun god Helios completed around 280 BC.",
+    "explanation": "It stood for only about 54 years before being toppled by an earthquake.",
+    "category": "history"
+  },
+  {
+    "fact": "The Statue of Zeus at Olympia, made of ivory and gold by the sculptor Phidias around 435 BC, was 40 feet tall.",
+    "explanation": "It was lost to history sometime in the 5th or 6th century AD.",
+    "category": "history"
+  },
+  {
+    "fact": "The Temple of Artemis at Ephesus was famously burned down in 356 BC by Herostratus, who wanted to be remembered for the act.",
+    "explanation": "His name was banned from being mentioned, but the attempt at suppression failed.",
+    "category": "history"
+  },
+  {
+    "fact": "The original Library of Alexandria suffered partial fires multiple times, including damage during Julius Caesar's siege of the city in 48 BC.",
+    "explanation": "Its complete destruction was a gradual process spanning centuries.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman emperor Marcus Aurelius's reflections, known as the Meditations, were never intended for publication.",
+    "explanation": "They have since become one of the most enduring works of Stoic philosophy.",
+    "category": "history"
+  },
+  {
+    "fact": "The Antonine Plague (AD 165-180) is thought to have killed millions across the Roman Empire.",
+    "explanation": "It may have been smallpox or measles brought back by soldiers from the East.",
+    "category": "history"
+  },
+  {
+    "fact": "The Plague of Justinian struck the Byzantine Empire from AD 541-549 and may have killed a significant share of the empire's population.",
+    "explanation": "It is the first recorded pandemic of the Yersinia pestis bacterium.",
+    "category": "history"
+  },
+  {
+    "fact": "Justinian I's Corpus Juris Civilis, compiled in the 6th century, is the basis for civil law in much of the modern world.",
+    "explanation": "It systematized Roman legal traditions in a form that has lasted to this day.",
+    "category": "history"
+  },
+  {
+    "fact": "The Hagia Sophia in Constantinople was completed in AD 537 under Emperor Justinian I.",
+    "explanation": "It held the title of the world's largest cathedral for nearly a thousand years.",
+    "category": "history"
+  },
+  {
+    "fact": "The Arab conquests of the 7th and 8th centuries created an empire stretching from Spain to the Indus River.",
+    "explanation": "This was one of the fastest territorial expansions in history.",
+    "category": "history"
+  },
+  {
+    "fact": "The Battle of Tours in AD 732 saw Frankish forces under Charles Martel halt the Muslim advance into Western Europe.",
+    "explanation": "It is considered a turning point in European history.",
+    "category": "history"
+  },
+  {
+    "fact": "Baghdad was founded by Caliph Al-Mansur in AD 762 and became the cultural and intellectual center of the Islamic world.",
+    "explanation": "The 'House of Wisdom' there preserved and expanded Greek, Persian, and Indian knowledge.",
+    "category": "history"
+  },
+  {
+    "fact": "The Mongol siege of Baghdad in 1258 destroyed the city and ended the Abbasid Caliphate.",
+    "explanation": "It marked the end of the Islamic Golden Age.",
+    "category": "history"
+  },
+  {
+    "fact": "Kublai Khan, grandson of Genghis Khan, founded the Yuan dynasty in China in 1271.",
+    "explanation": "He was the emperor that Marco Polo claimed to have met.",
+    "category": "history"
+  },
+  {
+    "fact": "The Mongols failed twice to invade Japan, in 1274 and 1281, both attempts being thwarted by typhoons later called kamikaze, or 'divine winds.'",
+    "explanation": "Japanese WWII suicide pilots took their name from these legendary storms.",
+    "category": "history"
+  },
+  {
+    "fact": "Japan's Edo period, from 1603 to 1868, saw the country largely closed off from foreign contact under the Tokugawa shogunate.",
+    "explanation": "It ended with the Meiji Restoration in 1868 and Japan's rapid modernization.",
+    "category": "history"
+  },
+  {
+    "fact": "Commodore Matthew Perry of the U.S. Navy 'opened' Japan to trade with the West in 1853-1854 with a fleet of warships.",
+    "explanation": "The encounter helped trigger Japan's modernization.",
+    "category": "history"
+  },
+  {
+    "fact": "The Boxer Rebellion in China in 1900 was an anti-foreign uprising suppressed by an international alliance of eight nations.",
+    "explanation": "It further weakened the Qing dynasty, which fell in 1912.",
+    "category": "history"
+  },
+  {
+    "fact": "Sun Yat-sen led the revolution that overthrew the Qing dynasty in 1911-1912, ending more than 2,000 years of imperial rule in China.",
+    "explanation": "He is considered the founding father of modern China by both the People's Republic and Taiwan.",
+    "category": "history"
+  },
+  {
+    "fact": "The Long March of Mao Zedong's communist forces in 1934-1935 covered about 6,000 miles in retreat from Nationalist forces.",
+    "explanation": "Only a fraction of the marchers survived the journey.",
+    "category": "history"
+  },
+  {
+    "fact": "The Battle of Stalingrad, fought from August 1942 to February 1943, was one of the largest and bloodiest battles in history.",
+    "explanation": "It marked a major turning point on the Eastern Front of World War II.",
+    "category": "history"
+  },
+  {
+    "fact": "The Battle of Midway in June 1942 turned the tide of the Pacific War in favor of the United States.",
+    "explanation": "Japan lost four aircraft carriers in the battle.",
+    "category": "history"
+  },
+  {
+    "fact": "The Manhattan Project employed over 130,000 people at its height and cost about $2 billion in 1940s dollars.",
+    "explanation": "It produced the world's first nuclear weapons in just a few years.",
+    "category": "history"
+  },
+  {
+    "fact": "The Nuremberg Trials, held from 1945 to 1946, prosecuted major Nazi war criminals after World War II.",
+    "explanation": "They established important precedents in international law.",
+    "category": "history"
+  },
+  {
+    "fact": "Adolf Eichmann, a key architect of the Holocaust, was captured by Israeli agents in Argentina in 1960 and executed in Israel in 1962.",
+    "explanation": "It is the only judicial execution ever carried out by Israel.",
+    "category": "history"
+  },
+  {
+    "fact": "The first international scientific collaboration in space took place in 1975 with the Apollo-Soyuz mission between the U.S. and U.S.S.R.",
+    "explanation": "It marked a brief detente in the space race.",
+    "category": "history"
+  },
+  {
+    "fact": "The International Space Station was launched in 1998 and has been continuously inhabited since November 2000.",
+    "explanation": "It is one of the most expensive engineering projects ever undertaken.",
+    "category": "history"
+  },
+  {
+    "fact": "Mongol Empire founder Genghis Khan was born around 1162 with the name Temujin.",
+    "explanation": "He took the title Genghis Khan, meaning 'Universal Ruler,' in 1206.",
+    "category": "history"
+  },
+  {
+    "fact": "Timur, also known as Tamerlane, founded the Timurid Empire in the late 14th century and conquered vast territories from India to Anatolia.",
+    "explanation": "He claimed descent from Genghis Khan and is one of the most feared conquerors in history.",
+    "category": "history"
+  },
+  {
+    "fact": "Ivan IV of Russia, known as Ivan the Terrible, was crowned the first Tsar of Russia in 1547.",
+    "explanation": "He greatly expanded Russian territory but also created a brutal secret police, the Oprichnina.",
+    "category": "history"
+  },
+  {
+    "fact": "Vlad the Impaler, the Wallachian prince who inspired Bram Stoker's Dracula, ruled in the 15th century.",
+    "explanation": "He earned his nickname from his preferred method of executing enemies.",
+    "category": "history"
+  },
+  {
+    "fact": "Elizabeth I of England reigned from 1558 to 1603 and never married, earning the nickname 'the Virgin Queen.'",
+    "explanation": "The U.S. state of Virginia is named after her.",
+    "category": "history"
+  },
+  {
+    "fact": "William Shakespeare lived from 1564 to 1616 and wrote during the reign of both Elizabeth I and James I.",
+    "explanation": "His birth and death dates are both traditionally observed on April 23.",
+    "category": "history"
+  },
+  {
+    "fact": "The original Globe Theatre, where many of Shakespeare's plays were first performed, burned down in 1613 during a performance of Henry VIII.",
+    "explanation": "A cannon used in the play set fire to the thatched roof.",
+    "category": "history"
+  },
+  {
+    "fact": "Cervantes' 'Don Quixote,' published in 1605 and 1615, is often called the first modern novel.",
+    "explanation": "It satirized the romances of chivalry that had been popular in medieval Europe.",
+    "category": "history"
+  },
+  {
+    "fact": "Galileo Galilei was tried by the Roman Catholic Inquisition in 1633 for supporting heliocentrism.",
+    "explanation": "The Catholic Church formally acknowledged its error against him in 1992.",
+    "category": "history"
+  },
+  {
+    "fact": "Newton's 'Philosophiae Naturalis Principia Mathematica,' published in 1687, laid the foundations of classical mechanics.",
+    "explanation": "It introduced his three laws of motion and the law of universal gravitation.",
+    "category": "history"
+  },
+  {
+    "fact": "Sir Isaac Newton served as Master of the Royal Mint from 1700 until his death in 1727 and personally pursued counterfeiters.",
+    "explanation": "He sent several counterfeiters to the gallows during his time at the Mint.",
+    "category": "history"
+  },
+  {
+    "fact": "The longest war in history is sometimes considered the conflict between the Netherlands and the Isles of Scilly (1651-1986), which produced no casualties.",
+    "explanation": "It was formally ended in 1986 when a Dutch ambassador declared peace.",
+    "category": "history"
+  },
+  {
+    "fact": "Vincent van Gogh sold only one painting during his lifetime, 'The Red Vineyard,' in 1890.",
+    "explanation": "After his death, his work became some of the most valuable in art history.",
+    "category": "history"
+  },
+  {
+    "fact": "Leonardo da Vinci's 'Mona Lisa' was stolen from the Louvre in 1911 by Vincenzo Peruggia, an Italian who hid it for two years.",
+    "explanation": "The theft made the painting world-famous.",
+    "category": "history"
+  },
+  {
+    "fact": "Pablo Picasso was briefly suspected of stealing the Mona Lisa in 1911.",
+    "explanation": "He was questioned by police but quickly cleared.",
+    "category": "history"
+  },
+  {
+    "fact": "The phrase 'OK' likely originated in 1839 from a Boston newspaper joke abbreviation of 'oll korrect,' a deliberate misspelling.",
+    "explanation": "It gained wider use during Martin Van Buren's 'Old Kinderhook' presidential campaign in 1840.",
+    "category": "history"
+  },
+  {
+    "fact": "The word 'quarantine' comes from the Italian 'quaranta giorni,' meaning 40 days, the period ships were isolated during the Black Death.",
+    "explanation": "Venice instituted the practice in the 14th century to prevent plague.",
+    "category": "history"
+  },
+  {
+    "fact": "The Treaty of Paris in 1783 ended the American Revolutionary War and recognized U.S. independence.",
+    "explanation": "Benjamin Franklin, John Adams, and John Jay were the main American negotiators.",
+    "category": "history"
+  },
+  {
+    "fact": "George Washington's false teeth were not made of wood; they were made of ivory, gold, lead, and human and animal teeth.",
+    "explanation": "The wood myth likely arose from staining on his ivory dentures.",
+    "category": "history"
+  },
+  {
+    "fact": "The Pyramid of Khufu (the Great Pyramid) was the tallest man-made structure in the world for nearly 3,800 years.",
+    "explanation": "It was surpassed by the spire of Lincoln Cathedral in England around AD 1311.",
+    "category": "history"
+  },
+  {
+    "fact": "The first Thanksgiving in 1621 lasted three days and was attended by about 50 Pilgrims and 90 Wampanoag.",
+    "explanation": "It did not feature turkey as the main dish; venison and waterfowl were more central.",
+    "category": "history"
+  },
+  {
+    "fact": "Thanksgiving was made a national holiday in the United States by President Abraham Lincoln in 1863.",
+    "explanation": "He set it on the last Thursday of November, later moved to the fourth Thursday by FDR in 1941.",
+    "category": "history"
+  },
+  {
+    "fact": "The earliest known use of paper money was in China during the Tang dynasty in the 7th century.",
+    "explanation": "It spread widely under the Song dynasty in the 11th century.",
+    "category": "history"
+  },
+  {
+    "fact": "The Bank of England, founded in 1694, is the oldest still-operating central bank in the world (though Sweden's Riksbank, founded in 1668, is older).",
+    "explanation": "These institutions established many practices of modern central banking.",
+    "category": "history"
+  },
+  {
+    "fact": "The South Sea Bubble of 1720 was a famous British financial bubble that ruined many investors.",
+    "explanation": "Isaac Newton lost a fortune in it, prompting his quip about being able to calculate the motions of the heavens but not the madness of men.",
+    "category": "history"
+  },
+  {
+    "fact": "Tulip Mania, often called the first speculative bubble, occurred in the Dutch Republic in the 1630s.",
+    "explanation": "At its peak, single tulip bulbs sold for more than the price of a house.",
+    "category": "history"
+  },
+  {
+    "fact": "The Dutch East India Company, founded in 1602, was the first publicly traded company.",
+    "explanation": "Its shares were the first to be traded on a modern stock exchange.",
+    "category": "history"
+  },
+  {
+    "fact": "The world's first stock exchange was in Amsterdam, established in 1602.",
+    "explanation": "The New York Stock Exchange would not be founded until 1792 under a buttonwood tree.",
+    "category": "history"
+  },
+  {
+    "fact": "The U.S. dollar was created by the Coinage Act of 1792, which also established the U.S. Mint.",
+    "explanation": "Its value was originally based on the Spanish silver dollar.",
+    "category": "history"
+  },
+  {
+    "fact": "The phrase 'two bits' for 25 cents derives from the Spanish silver dollar, which was sometimes divided into eight pieces or 'bits.'",
+    "explanation": "Hence 'pieces of eight' and the value of 12.5 cents per 'bit.'",
+    "category": "history"
+  },
+  {
+    "fact": "The Battle of Trafalgar on October 21, 1805 saw Admiral Nelson defeat a combined French and Spanish fleet off the coast of Spain.",
+    "explanation": "Nelson was killed in the battle but his victory cemented British naval supremacy.",
+    "category": "history"
+  },
+  {
+    "fact": "The Battle of Agincourt on October 25, 1415 was a famous English victory in the Hundred Years' War.",
+    "explanation": "It is remembered partly through Shakespeare's play Henry V.",
+    "category": "history"
+  },
+  {
+    "fact": "King Richard III of England was killed at the Battle of Bosworth Field in 1485, the last English king to die in battle.",
+    "explanation": "His remains were rediscovered in a Leicester parking lot in 2012.",
+    "category": "history"
+  },
+  {
+    "fact": "The Tudor dynasty began with Henry VII's victory at Bosworth in 1485 and ended with the death of Elizabeth I in 1603.",
+    "explanation": "It was followed by the Stuart dynasty under James I of England (James VI of Scotland).",
+    "category": "history"
+  },
+  {
+    "fact": "The Glorious Revolution of 1688 saw James II of England replaced by William and Mary in a largely bloodless coup.",
+    "explanation": "It led to a constitutional monarchy and the English Bill of Rights of 1689.",
+    "category": "history"
+  },
+  {
+    "fact": "The Act of Union in 1707 united England and Scotland into the Kingdom of Great Britain.",
+    "explanation": "Ireland was added in 1801, creating the United Kingdom.",
+    "category": "history"
+  },
+  {
+    "fact": "The U.S. flag has had 27 official designs since 1777, the current 50-star version being adopted in 1960.",
+    "explanation": "The current flag was designed by a 17-year-old high school student named Robert Heft.",
+    "category": "history"
+  },
+  {
+    "fact": "The Pledge of Allegiance was written in 1892 by Francis Bellamy, a Christian socialist minister.",
+    "explanation": "The phrase 'under God' was not added until 1954, during the Cold War.",
+    "category": "history"
+  },
+  {
+    "fact": "The Statue of Liberty's full name is 'Liberty Enlightening the World.'",
+    "explanation": "Its torch has been replaced over the years, and the original 1886 torch is displayed in the pedestal museum.",
+    "category": "history"
+  },
+  {
+    "fact": "Ellis Island processed more than 12 million immigrants between 1892 and 1954.",
+    "explanation": "About 40 percent of current Americans can trace at least one ancestor to Ellis Island.",
+    "category": "history"
+  },
+  {
+    "fact": "The first Macy's Thanksgiving Day Parade took place in 1924 and originally featured live animals from the Central Park Zoo.",
+    "explanation": "The famous giant balloons were introduced in 1927.",
+    "category": "history"
+  },
+  {
+    "fact": "The first Rose Parade was held in Pasadena, California, in 1890.",
+    "explanation": "It was created to showcase California's mild winter weather.",
+    "category": "history"
+  },
+  {
+    "fact": "The Empire State Building was struck by a B-25 bomber on a foggy day, July 28, 1945, killing 14 people.",
+    "explanation": "Despite the impact, the building remained structurally sound.",
+    "category": "history"
+  },
+  {
+    "fact": "The first space tourist was Dennis Tito, an American businessman who flew to the International Space Station in April 2001.",
+    "explanation": "He reportedly paid about $20 million for the trip.",
+    "category": "history"
+  },
+  {
+    "fact": "The Burj Khalifa in Dubai, completed in 2010, became the world's tallest building at over 828 meters (2,717 feet).",
+    "explanation": "It was named after the president of the UAE who provided emergency funding during construction.",
+    "category": "history"
+  },
+  {
+    "fact": "The Three Gorges Dam in China, completed in 2006, is the world's largest hydroelectric power station by installed capacity.",
+    "explanation": "Its construction required the relocation of over 1.3 million people.",
+    "category": "history"
+  },
+  {
+    "fact": "Ireland was granted home rule and dominion status as the Irish Free State in 1922.",
+    "explanation": "It became a fully independent republic in 1949.",
+    "category": "history"
+  },
+  {
+    "fact": "The Republic of Singapore became independent on August 9, 1965, after being expelled from the Federation of Malaysia.",
+    "explanation": "Lee Kuan Yew, its leader at the time, famously wept on television about the separation.",
+    "category": "history"
+  },
+  {
+    "fact": "Hawaii became the 50th U.S. state on August 21, 1959, the most recent state to be admitted to the Union.",
+    "explanation": "Alaska had been admitted as the 49th state earlier that same year.",
+    "category": "history"
+  },
+  {
+    "fact": "Alaska was purchased from Russia by the United States in 1867 for $7.2 million, about 2 cents per acre.",
+    "explanation": "Critics at the time called it 'Seward's Folly' after Secretary of State William Seward.",
+    "category": "history"
+  },
+  {
+    "fact": "Texas was an independent republic from 1836 to 1845 before being annexed by the United States.",
+    "explanation": "The annexation contributed to the Mexican-American War of 1846-48.",
+    "category": "history"
+  },
+  {
+    "fact": "The U.S. acquired vast western lands from Mexico after the Mexican-American War via the Treaty of Guadalupe Hidalgo in 1848.",
+    "explanation": "The treaty included most of what is now California, Nevada, Utah, Arizona, and New Mexico.",
+    "category": "history"
+  },
+  {
+    "fact": "Florida was purchased from Spain by the United States in 1819 via the Adams-Onis Treaty.",
+    "explanation": "It officially became a U.S. territory in 1821.",
+    "category": "history"
+  },
+  {
+    "fact": "The Gadsden Purchase of 1854 added about 30,000 square miles of land in present-day Arizona and New Mexico to the U.S. from Mexico.",
+    "explanation": "It was acquired largely to facilitate a southern transcontinental railroad route.",
+    "category": "history"
+  },
+  {
+    "fact": "The Oregon Treaty of 1846 between the U.S. and Britain set the U.S.-Canadian border at the 49th parallel.",
+    "explanation": "It resolved the Oregon boundary dispute peacefully.",
+    "category": "history"
+  },
+  {
+    "fact": "The earliest fully recorded democracy was the city-state of Athens, where democratic reforms began under Solon in 594 BC.",
+    "explanation": "Athenian democracy was further developed by Cleisthenes in 508-507 BC.",
+    "category": "history"
+  },
+  {
+    "fact": "The Spartan king Leonidas I died at the Battle of Thermopylae in 480 BC fighting the Persian invasion.",
+    "explanation": "His name in Greek means 'son of the lion.'",
+    "category": "history"
+  },
+  {
+    "fact": "Pheidippides, the legendary Greek runner, ran approximately 150 miles from Athens to Sparta to ask for help before the Battle of Marathon.",
+    "explanation": "The modern marathon race, however, is based on a different legend about him running from Marathon to Athens.",
+    "category": "history"
+  },
+  {
+    "fact": "The Antikythera mechanism, an ancient Greek analog computer dating to around 100 BC, was discovered in a shipwreck in 1901.",
+    "explanation": "It was used to predict astronomical positions and eclipses.",
+    "category": "history"
+  },
+  {
+    "fact": "Eratosthenes of Cyrene, around 240 BC, calculated the Earth's circumference with remarkable accuracy using shadows in Alexandria and Syene.",
+    "explanation": "His estimate was within a few percent of the modern value.",
+    "category": "history"
+  },
+  {
+    "fact": "The Greek mathematician Euclid wrote 'Elements' around 300 BC, the most influential mathematics textbook in history.",
+    "explanation": "It served as the main geometry textbook for more than 2,000 years.",
+    "category": "history"
+  },
+  {
+    "fact": "The Sicilian tyrant Dionysius II of Syracuse hired the philosopher Plato as a tutor.",
+    "explanation": "Their relationship was famously contentious, leading Plato to be sold into slavery, briefly.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman emperor Trajan was born in Italica, in modern Spain, making him the first emperor born outside Italy.",
+    "explanation": "He ruled from AD 98 to 117 and is remembered as one of Rome's most competent rulers.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman emperor Augustus reorganized the Roman calendar, and the month of August is named after him.",
+    "explanation": "July had been renamed earlier to honor his great-uncle Julius Caesar.",
+    "category": "history"
+  },
+  {
+    "fact": "The shortest reigning Roman emperor was probably Pertinax, who lasted 86 days in AD 193 before being killed by the Praetorian Guard.",
+    "explanation": "Other contenders include emperors who reigned only days during the Year of the Five Emperors.",
+    "category": "history"
+  },
+  {
+    "fact": "The Year of the Four Emperors (AD 69) saw Rome ruled by Galba, Otho, Vitellius, and Vespasian in rapid succession.",
+    "explanation": "Vespasian founded the Flavian dynasty and brought stability.",
+    "category": "history"
+  },
+  {
+    "fact": "The Catholic Inquisition began in the 1180s, not with the more famous Spanish Inquisition in 1478.",
+    "explanation": "Earlier inquisitions targeted heresies like the Cathars in southern France.",
+    "category": "history"
+  },
+  {
+    "fact": "Galileo's house arrest after his 1633 trial lasted for the remaining nine years of his life, until his death in 1642.",
+    "explanation": "Newton was born the year Galileo died.",
+    "category": "history"
+  },
+  {
+    "fact": "The Doomsday Clock, created in 1947 by the Bulletin of the Atomic Scientists, symbolizes how close humanity is to global catastrophe.",
+    "explanation": "It originally started at seven minutes to midnight.",
+    "category": "history"
+  },
+  {
+    "fact": "Albert Einstein's brain was removed without permission at his 1955 autopsy by pathologist Thomas Harvey.",
+    "explanation": "It was preserved and studied for decades after his death.",
+    "category": "history"
+  },
+  {
+    "fact": "Karl Marx is buried in Highgate Cemetery in London, where his grave has been a pilgrimage site for socialists.",
+    "explanation": "He died in 1883 and his current memorial was installed in 1956.",
+    "category": "history"
+  },
+  {
+    "fact": "The earliest known dog domestication occurred more than 15,000 years ago, possibly from gray wolves in Eurasia.",
+    "explanation": "Dogs were the first animals domesticated by humans.",
+    "category": "history"
+  },
+  {
+    "fact": "Cats are believed to have been first domesticated in the Near East about 10,000 years ago alongside the development of agriculture.",
+    "explanation": "They likely came to live with humans to hunt the rodents attracted to grain stores.",
+    "category": "history"
+  },
+  {
+    "fact": "The first known beer recipe and use of hops dates back to ancient Mesopotamia, more than 5,000 years ago.",
+    "explanation": "The 'Hymn to Ninkasi' is the oldest surviving recipe.",
+    "category": "history"
+  },
+  {
+    "fact": "Tea was first cultivated in China and became a major drink during the Tang dynasty (618-907 AD).",
+    "explanation": "It was introduced to Europe in the 17th century.",
+    "category": "history"
+  },
+  {
+    "fact": "The Boston Tea Party protested a tax on tea imported by the British East India Company.",
+    "explanation": "It was less about tea taxes themselves and more about taxation without representation.",
+    "category": "history"
+  },
+  {
+    "fact": "Britain's Opium Wars with China (1839-1842 and 1856-1860) opened China to Western trade.",
+    "explanation": "They were sparked by British efforts to sell opium to the Chinese market.",
+    "category": "history"
+  },
+  {
+    "fact": "Hong Kong was ceded to Britain after the First Opium War via the Treaty of Nanking in 1842.",
+    "explanation": "Britain returned Hong Kong to China in 1997 under the terms of a 99-year lease on adjacent territories.",
+    "category": "history"
+  },
+  {
+    "fact": "The Battle of Saratoga in October 1777 was the turning point of the American Revolutionary War.",
+    "explanation": "Its outcome convinced France to enter the war on the American side.",
+    "category": "history"
+  },
+  {
+    "fact": "The Battle of Yorktown in October 1781 was the last major battle of the American Revolution.",
+    "explanation": "British General Cornwallis surrendered to General Washington, effectively ending the war.",
+    "category": "history"
+  },
+  {
+    "fact": "John Adams was the first U.S. president to live in the White House, moving in on November 1, 1800, while it was still unfinished.",
+    "explanation": "He served only one term, 1797-1801.",
+    "category": "history"
+  },
+  {
+    "fact": "The White House was burned by British forces in August 1814 during the War of 1812.",
+    "explanation": "It was rebuilt under President James Monroe.",
+    "category": "history"
+  },
+  {
+    "fact": "The Trail of Tears was initiated by the Indian Removal Act of 1830, signed by President Andrew Jackson.",
+    "explanation": "Jackson's portrait was for many years on the U.S. $20 bill.",
+    "category": "history"
+  },
+  {
+    "fact": "The Underground Railroad was a network helping enslaved people escape to free states or Canada in the 19th century.",
+    "explanation": "It was neither underground nor a railroad; the name was metaphorical.",
+    "category": "history"
+  },
+  {
+    "fact": "Harriet Tubman led approximately 70 enslaved people to freedom via the Underground Railroad.",
+    "explanation": "She also served as a Union scout and spy during the Civil War.",
+    "category": "history"
+  },
+  {
+    "fact": "The Emancipation Proclamation, issued by Lincoln on January 1, 1863, freed enslaved people in Confederate states.",
+    "explanation": "Slavery in border states was not abolished until the 13th Amendment in 1865.",
+    "category": "history"
+  },
+  {
+    "fact": "Juneteenth commemorates June 19, 1865, when Union troops arrived in Galveston, Texas, announcing the end of slavery.",
+    "explanation": "It became a U.S. federal holiday in 2021.",
+    "category": "history"
+  },
+  {
+    "fact": "The 14th Amendment, ratified in 1868, granted citizenship to all persons born or naturalized in the United States.",
+    "explanation": "It was central to the legal foundations of civil rights.",
+    "category": "history"
+  },
+  {
+    "fact": "The 15th Amendment, ratified in 1870, granted Black men the right to vote.",
+    "explanation": "Practical barriers like poll taxes and literacy tests prevented many from voting until the Voting Rights Act of 1965.",
+    "category": "history"
+  },
+  {
+    "fact": "Women in the United States gained the right to vote with the 19th Amendment, ratified on August 18, 1920.",
+    "explanation": "Tennessee was the deciding state, voting yes by a single legislator.",
+    "category": "history"
+  },
+  {
+    "fact": "New Zealand was the first country to grant women the right to vote, in 1893.",
+    "explanation": "Wyoming had granted women's suffrage as a U.S. territory in 1869.",
+    "category": "history"
+  },
+  {
+    "fact": "Saudi Arabia did not allow women to vote until 2015.",
+    "explanation": "Women were also prohibited from driving in Saudi Arabia until 2018.",
+    "category": "history"
+  },
+  {
+    "fact": "Switzerland did not grant women the federal right to vote until 1971.",
+    "explanation": "The canton of Appenzell Innerrhoden did not allow women to vote in local elections until 1991.",
+    "category": "history"
+  },
+  {
+    "fact": "The first female head of an elected modern government was Sirimavo Bandaranaike, Prime Minister of Ceylon (now Sri Lanka) starting in 1960.",
+    "explanation": "She served three terms as Prime Minister.",
+    "category": "history"
+  },
+  {
+    "fact": "Margaret Thatcher became the first female Prime Minister of the United Kingdom on May 4, 1979.",
+    "explanation": "She served until 1990, the longest-serving British PM of the 20th century.",
+    "category": "history"
+  },
+  {
+    "fact": "Indira Gandhi served as Prime Minister of India from 1966 to 1977 and again from 1980 until her assassination in 1984.",
+    "explanation": "She was the daughter of India's first Prime Minister Jawaharlal Nehru.",
+    "category": "history"
+  },
+  {
+    "fact": "Golda Meir served as Prime Minister of Israel from 1969 to 1974, the fourth woman to hold such an office in modern history.",
+    "explanation": "She was sometimes called 'the Iron Lady of Israeli politics.'",
+    "category": "history"
+  },
+  {
+    "fact": "The Selma to Montgomery marches in March 1965 were pivotal events in the U.S. civil rights movement.",
+    "explanation": "They helped lead to the passage of the Voting Rights Act of 1965.",
+    "category": "history"
+  },
+  {
+    "fact": "The Voting Rights Act was signed into law by President Lyndon Johnson on August 6, 1965.",
+    "explanation": "It outlawed discriminatory voting practices like literacy tests.",
+    "category": "history"
+  },
+  {
+    "fact": "The Civil Rights Act of 1964 banned discrimination based on race, color, religion, sex, or national origin in U.S. employment and public accommodations.",
+    "explanation": "It was signed by President Lyndon Johnson on July 2, 1964.",
+    "category": "history"
+  },
+  {
+    "fact": "Jim Crow laws enforcing racial segregation existed in the U.S. South from the 1870s until they were overturned in the 1960s.",
+    "explanation": "The Brown v. Board of Education Supreme Court decision in 1954 ruled school segregation unconstitutional.",
+    "category": "history"
+  },
+  {
+    "fact": "Apartheid in South Africa was officially in place from 1948 until the early 1990s.",
+    "explanation": "The first multiracial democratic elections were held in 1994.",
+    "category": "history"
+  },
+  {
+    "fact": "The Nazi Party came to power in Germany in January 1933 when Adolf Hitler was appointed Chancellor.",
+    "explanation": "Within months, Hitler consolidated power and Germany became a one-party dictatorship.",
+    "category": "history"
+  },
+  {
+    "fact": "The Reichstag fire on February 27, 1933, helped Hitler consolidate power by allowing him to suspend civil liberties.",
+    "explanation": "The exact identity of the arsonist and motives remain historically debated.",
+    "category": "history"
+  },
+  {
+    "fact": "Kristallnacht, the 'Night of Broken Glass,' occurred November 9-10, 1938, when Nazi forces attacked Jewish people, homes, and businesses across Germany and Austria.",
+    "explanation": "It marked a major escalation of Nazi persecution of Jews.",
+    "category": "history"
+  },
+  {
+    "fact": "Germany invaded Poland on September 1, 1939, starting World War II in Europe.",
+    "explanation": "Britain and France declared war on Germany two days later.",
+    "category": "history"
+  },
+  {
+    "fact": "The Battle of Britain in 1940 was the first major military campaign fought entirely in the air.",
+    "explanation": "RAF pilots became known as 'The Few' after Churchill's famous speech.",
+    "category": "history"
+  },
+  {
+    "fact": "The Dunkirk evacuation from May 26 to June 4, 1940, rescued about 338,000 Allied troops from the French coast.",
+    "explanation": "An armada of military and civilian boats made the rescue possible.",
+    "category": "history"
+  },
+  {
+    "fact": "Adolf Hitler died by suicide in his Berlin bunker on April 30, 1945, as Soviet forces closed in.",
+    "explanation": "Germany surrendered unconditionally just over a week later.",
+    "category": "history"
+  },
+  {
+    "fact": "The Cold War is generally dated from 1947 to 1991 and involved competition between the U.S. and the Soviet Union without direct large-scale warfare.",
+    "explanation": "The term 'Cold War' was popularized by writer Walter Lippmann in 1947.",
+    "category": "history"
+  },
+  {
+    "fact": "The 'Iron Curtain' phrase describing the division of Europe was popularized by Winston Churchill in a speech at Fulton, Missouri, on March 5, 1946.",
+    "explanation": "The phrase had earlier roots but gained worldwide currency from Churchill's address.",
+    "category": "history"
+  },
+  {
+    "fact": "The Truman Doctrine, announced in March 1947, committed the U.S. to supporting nations resisting communist takeover.",
+    "explanation": "It is considered the formal beginning of America's Cold War policy of containment.",
+    "category": "history"
+  },
+  {
+    "fact": "Sputnik 2, launched in November 1957, carried the dog Laika, the first living creature to orbit Earth.",
+    "explanation": "Laika died from heat and stress within hours of launch.",
+    "category": "history"
+  },
+  {
+    "fact": "Valentina Tereshkova became the first woman in space on June 16, 1963, aboard Vostok 6.",
+    "explanation": "It would be another 20 years before the second woman, Svetlana Savitskaya, went to space.",
+    "category": "history"
+  },
+  {
+    "fact": "The first American in space was Alan Shepard on May 5, 1961, in a suborbital flight.",
+    "explanation": "John Glenn became the first American to orbit Earth on February 20, 1962.",
+    "category": "history"
+  },
+  {
+    "fact": "The Space Shuttle Columbia made its first flight on April 12, 1981, exactly 20 years after Yuri Gagarin's spaceflight.",
+    "explanation": "It was the first reusable spacecraft to reach orbit.",
+    "category": "history"
+  },
+  {
+    "fact": "The Space Shuttle Challenger disintegrated 73 seconds after launch on January 28, 1986, killing all seven crew members.",
+    "explanation": "Christa McAuliffe, a teacher chosen to be the first civilian in space, was among them.",
+    "category": "history"
+  },
+  {
+    "fact": "The Space Shuttle Columbia broke apart during re-entry on February 1, 2003, killing all seven crew members.",
+    "explanation": "The disaster led to the eventual retirement of the Space Shuttle program in 2011.",
+    "category": "history"
+  },
+  {
+    "fact": "The Mars rover Sojourner, part of the Pathfinder mission, landed on Mars on July 4, 1997.",
+    "explanation": "It was the first wheeled vehicle to operate on another planet.",
+    "category": "history"
+  },
+  {
+    "fact": "Voyager 1, launched in 1977, became the first human-made object to enter interstellar space in 2012.",
+    "explanation": "It carries the Golden Record, a phonograph record with sounds and images of Earth.",
+    "category": "history"
+  },
+  {
+    "fact": "The Voyager Golden Record was curated by a team led by Carl Sagan and includes 115 images and various greetings in 55 languages.",
+    "explanation": "It also contains the brainwaves of Sagan's wife Ann Druyan.",
+    "category": "history"
+  },
+  {
+    "fact": "The Hubble Space Telescope is named for astronomer Edwin Hubble, who discovered that the universe is expanding.",
+    "explanation": "His 1929 paper established the relationship between galaxy redshift and distance.",
+    "category": "history"
+  },
+  {
+    "fact": "The first manned spacecraft to orbit the Moon was Apollo 8, on Christmas Eve 1968.",
+    "explanation": "The crew read from the book of Genesis in a famous live broadcast.",
+    "category": "history"
+  },
+  {
+    "fact": "Apollo 13 launched on April 11, 1970, and suffered an oxygen tank explosion two days later that almost killed its crew.",
+    "explanation": "All three astronauts safely returned to Earth on April 17.",
+    "category": "history"
+  },
+  {
+    "fact": "The Mir space station was operated by the Soviet Union and then Russia from 1986 to 2001.",
+    "explanation": "It was the first modular space station and orbited Earth for 15 years.",
+    "category": "history"
+  },
+  {
+    "fact": "Skylab, the United States' first space station, was launched in 1973 and fell back to Earth in 1979.",
+    "explanation": "It hosted three crews and was the first space station to be visited by U.S. astronauts.",
+    "category": "history"
+  },
+  {
+    "fact": "The Salyut 1 space station, launched by the Soviet Union in 1971, was the first space station ever placed in orbit.",
+    "explanation": "The crew of Soyuz 11 died during re-entry after their successful stay aboard.",
+    "category": "history"
+  },
+  {
+    "fact": "The fall of the Berlin Wall was sparked by a confused press conference by East German official Gunter Schabowski on November 9, 1989.",
+    "explanation": "He misinterpreted notes about travel reforms, saying the change applied immediately.",
+    "category": "history"
+  },
+  {
+    "fact": "Solidarity, the Polish trade union that helped end communism in Poland, was founded in 1980 at the Lenin Shipyard in Gdansk.",
+    "explanation": "Its leader Lech Walesa later became Poland's president.",
+    "category": "history"
+  },
+  {
+    "fact": "The 1956 Hungarian Revolution lasted only about three weeks before being crushed by Soviet forces.",
+    "explanation": "Roughly 200,000 Hungarians fled to the West after the revolt's failure.",
+    "category": "history"
+  },
+  {
+    "fact": "The Prague Spring of 1968 saw Czechoslovak leader Alexander Dubcek try to introduce 'socialism with a human face.'",
+    "explanation": "The Soviet-led Warsaw Pact invasion ended his reform program.",
+    "category": "history"
+  },
+  {
+    "fact": "The Romanian Revolution of December 1989 ended with the execution of dictator Nicolae Ceausescu and his wife on Christmas Day.",
+    "explanation": "It was the only violent overthrow of a communist government in Eastern Europe that year.",
+    "category": "history"
+  },
+  {
+    "fact": "Mikhail Gorbachev introduced the policies of glasnost (openness) and perestroika (restructuring) in the Soviet Union in the late 1980s.",
+    "explanation": "They contributed unintentionally to the dissolution of the Soviet Union.",
+    "category": "history"
+  },
+  {
+    "fact": "Boris Yeltsin became the first president of the Russian Federation in 1991.",
+    "explanation": "He famously stood on a tank in front of the Russian parliament during the August 1991 coup attempt.",
+    "category": "history"
+  },
+  {
+    "fact": "Vladimir Putin became president of Russia on December 31, 1999, when Boris Yeltsin resigned.",
+    "explanation": "He has been Russia's dominant political figure ever since.",
+    "category": "history"
+  },
+  {
+    "fact": "The Soviet space program launched the first object into Earth orbit (Sputnik), the first animal to orbit Earth (Laika), and the first human (Gagarin), all between 1957 and 1961.",
+    "explanation": "These firsts shocked the United States into accelerating its own program.",
+    "category": "history"
+  },
+  {
+    "fact": "The first photograph of Earth from space was taken on October 24, 1946, from a V-2 rocket launched in New Mexico.",
+    "explanation": "It reached an altitude of about 65 miles.",
+    "category": "history"
+  },
+  {
+    "fact": "The famous 'Earthrise' photo was taken from Apollo 8 on December 24, 1968.",
+    "explanation": "It has been credited with helping to inspire the modern environmental movement.",
+    "category": "history"
+  },
+  {
+    "fact": "Earth Day was first observed on April 22, 1970, organized by Senator Gaylord Nelson.",
+    "explanation": "An estimated 20 million Americans participated in the first Earth Day.",
+    "category": "history"
+  },
+  {
+    "fact": "The 1969 Stonewall riots in New York City are widely considered the catalyst for the modern LGBTQ rights movement.",
+    "explanation": "They began after a police raid at the Stonewall Inn on June 28, 1969.",
+    "category": "history"
+  },
+  {
+    "fact": "The first Pride march was held in New York City on June 28, 1970, on the anniversary of the Stonewall riots.",
+    "explanation": "Similar marches were held in Los Angeles, San Francisco, and Chicago.",
+    "category": "history"
+  },
+  {
+    "fact": "The American Psychiatric Association removed homosexuality from its list of mental disorders in 1973.",
+    "explanation": "The decision marked a major change in social and medical attitudes.",
+    "category": "history"
+  },
+  {
+    "fact": "The first AIDS cases were officially reported in June 1981 by the U.S. Centers for Disease Control.",
+    "explanation": "The HIV virus was identified as the cause in 1983-1984.",
+    "category": "history"
+  },
+  {
+    "fact": "The Iran-Contra affair, a 1980s political scandal, involved senior U.S. officials secretly facilitating the sale of arms to Iran.",
+    "explanation": "Proceeds were diverted to fund Contra rebels in Nicaragua.",
+    "category": "history"
+  },
+  {
+    "fact": "Operation Desert Storm, the U.S.-led liberation of Kuwait, began on January 17, 1991.",
+    "explanation": "The ground war lasted only 100 hours before Iraqi forces were defeated.",
+    "category": "history"
+  },
+  {
+    "fact": "The Oslo Accords, signed in 1993 and 1995, were a major attempt at peace between Israel and the Palestine Liberation Organization.",
+    "explanation": "Israeli Prime Minister Yitzhak Rabin was assassinated in 1995 by an opponent of the accords.",
+    "category": "history"
+  },
+  {
+    "fact": "Yugoslavia broke apart in a series of wars from 1991 to 2001, eventually producing seven independent countries.",
+    "explanation": "The breakup resulted in the worst atrocities in Europe since World War II.",
+    "category": "history"
+  },
+  {
+    "fact": "Czechoslovakia peacefully split into the Czech Republic and Slovakia on January 1, 1993.",
+    "explanation": "It is sometimes called the 'Velvet Divorce' after the earlier 'Velvet Revolution' that ended communist rule.",
+    "category": "history"
+  },
+  {
+    "fact": "The Velvet Revolution in Czechoslovakia in November 1989 ended decades of communist rule.",
+    "explanation": "Playwright Vaclav Havel became the country's first non-communist president.",
+    "category": "history"
+  },
+  {
+    "fact": "Germany reunified on October 3, 1990, less than a year after the fall of the Berlin Wall.",
+    "explanation": "October 3 is now celebrated as German Unity Day.",
+    "category": "history"
+  },
+  {
+    "fact": "The euro was introduced as an accounting currency on January 1, 1999, with notes and coins entering circulation on January 1, 2002.",
+    "explanation": "It replaced national currencies in many European Union member states.",
+    "category": "history"
+  },
+  {
+    "fact": "The North American Free Trade Agreement (NAFTA) took effect on January 1, 1994, creating a trade bloc between the U.S., Canada, and Mexico.",
+    "explanation": "It was replaced by the USMCA in 2020.",
+    "category": "history"
+  },
+  {
+    "fact": "The World Trade Organization was established on January 1, 1995, succeeding the General Agreement on Tariffs and Trade.",
+    "explanation": "It administers global trade rules among most of the world's economies.",
+    "category": "history"
+  },
+  {
+    "fact": "The first Earth Summit, held in Rio de Janeiro in June 1992, was the largest UN conference of its time.",
+    "explanation": "It led to landmark agreements on biodiversity and climate change.",
+    "category": "history"
+  },
+  {
+    "fact": "The first cloned mammal from an adult cell, Dolly the sheep, was born on July 5, 1996, at the Roslin Institute in Scotland.",
+    "explanation": "She was named after country singer Dolly Parton.",
+    "category": "history"
+  },
+  {
+    "fact": "The Human Genome Project, which produced a near-complete sequence of human DNA, was effectively completed in 2003.",
+    "explanation": "It took 13 years and an international team of scientists.",
+    "category": "history"
+  },
+  {
+    "fact": "The first text message was sent on December 3, 1992, by Neil Papworth, who texted 'Merry Christmas' to a Vodafone executive in the UK.",
+    "explanation": "Texting became hugely popular in the late 1990s and 2000s.",
+    "category": "history"
+  },
+  {
+    "fact": "Google was founded by Larry Page and Sergey Brin on September 4, 1998.",
+    "explanation": "It began as a research project at Stanford University.",
+    "category": "history"
+  },
+  {
+    "fact": "Amazon was founded by Jeff Bezos in July 1994 as an online bookstore.",
+    "explanation": "Bezos famously started the company in his garage in Bellevue, Washington.",
+    "category": "history"
+  },
+  {
+    "fact": "eBay was founded by Pierre Omidyar in September 1995, originally called AuctionWeb.",
+    "explanation": "The first item sold was a broken laser pointer for $14.83.",
+    "category": "history"
+  },
+  {
+    "fact": "The dot-com bubble peaked in March 2000 and burst over the following two years.",
+    "explanation": "The Nasdaq Composite lost about 78 percent of its value from peak to trough.",
+    "category": "history"
+  },
+  {
+    "fact": "Wikipedia was launched on January 15, 2001, by Jimmy Wales and Larry Sanger.",
+    "explanation": "It quickly became one of the most visited websites in the world.",
+    "category": "history"
+  },
+  {
+    "fact": "Facebook was launched on February 4, 2004, by Mark Zuckerberg and his college roommates at Harvard.",
+    "explanation": "It was originally restricted to Harvard students.",
+    "category": "history"
+  },
+  {
+    "fact": "YouTube was founded in February 2005 by three former PayPal employees: Chad Hurley, Steve Chen, and Jawed Karim.",
+    "explanation": "The first video uploaded was 'Me at the zoo' on April 23, 2005.",
+    "category": "history"
+  },
+  {
+    "fact": "Twitter was founded in March 2006 by Jack Dorsey, Noah Glass, Biz Stone, and Evan Williams.",
+    "explanation": "Dorsey sent the first tweet on March 21, 2006.",
+    "category": "history"
+  },
+  {
+    "fact": "The iPhone was first introduced by Apple CEO Steve Jobs on January 9, 2007.",
+    "explanation": "It went on sale on June 29, 2007.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman Empire used concrete that has proven more durable than much modern concrete, partly due to seawater interacting with volcanic ash.",
+    "explanation": "Some Roman concrete harbor structures are still standing after 2,000 years.",
+    "category": "history"
+  },
+  {
+    "fact": "Roman roads totaled more than 250,000 miles at the empire's peak, with about 50,000 miles paved.",
+    "explanation": "The phrase 'all roads lead to Rome' reflected the empire's road network.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman Forum was the political, commercial, and judicial heart of ancient Rome.",
+    "explanation": "Excavations have been ongoing for over 200 years.",
+    "category": "history"
+  },
+  {
+    "fact": "The Roman Pantheon, completed around AD 126 under Hadrian, has the world's largest unreinforced concrete dome.",
+    "explanation": "It has been in continuous use since its construction.",
+    "category": "history"
+  },
+  {
+    "fact": "Roman gladiators were sometimes celebrities with merchandise bearing their likenesses sold across the empire.",
+    "explanation": "Their fame somewhat parallels that of modern sports stars.",
+    "category": "history"
+  },
+  {
+    "fact": "Most Roman gladiator fights did not end in death; killing skilled fighters was expensive for their owners.",
+    "explanation": "Many gladiators fought for years, and some retired with savings.",
+    "category": "history"
+  },
+  {
+    "fact": "The Vestal Virgins were a college of priestesses in ancient Rome who tended the sacred fire of Vesta.",
+    "explanation": "They held unusual legal and economic independence for women in Rome.",
+    "category": "history"
+  },
+  {
+    "fact": "Roman emperor Hadrian visited Britain in AD 122 and ordered the construction of Hadrian's Wall.",
+    "explanation": "The wall stretched about 73 miles across northern England.",
+    "category": "history"
+  }
+]
