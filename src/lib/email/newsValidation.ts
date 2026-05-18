@@ -14,13 +14,27 @@ const ARROW_RE = /[←-⇿⟰-⟿⤀-⥿➔➝➞➟➠➢➣➤➥➦➧➨➩�
 //   "[^1]"                            → strip
 //   "(1)" or "[1]" trailing a sentence → strip
 //   "[Reuters]" or "(Source: Reuters)"   → strip
+//   "<cite index=\"22-2\">...</cite>"  → strip the tags but KEEP the inner text
 const CITATION_BRACKETS_RE = /\s?\[\^?\d{1,3}\]/g;
 const TRAILING_SOURCE_PAREN_RE = /\s?\((?:source|src)\s*[:\-]\s*[^)]{0,80}\)/gi;
 const TRAILING_PUB_BRACKET_RE = /\s?\[[A-Z][a-zA-Z .&'-]{1,40}\]\s*$/;
 
+// HTML-style citation tags Claude's web_search tool emits. The most common
+// is <cite index="22-2">sentence</cite>. Strip the tags only — keep the inner
+// text since it is the actual content of the article summary.
+// We match any <cite>/</cite> pair, and also a defensive sweep for any other
+// HTML-like tag in the news text (those should never appear in plain prose).
+const CITE_TAG_OPEN_RE = /<cite\b[^>]*>/gi;
+const CITE_TAG_CLOSE_RE = /<\/cite\s*>/gi;
+// Generic safety net: any tag that starts with a letter (so "5 < 10" is safe).
+const GENERIC_HTML_TAG_RE = /<\/?[a-zA-Z][a-zA-Z0-9-]*(?:\s+[^<>]*)?>/g;
+
 export function stripCitationArtifacts(input: unknown): string {
   if (typeof input !== 'string') return input as unknown as string;
   let s = input;
+  s = s.replace(CITE_TAG_OPEN_RE, '');
+  s = s.replace(CITE_TAG_CLOSE_RE, '');
+  s = s.replace(GENERIC_HTML_TAG_RE, '');
   s = s.replace(ARROW_RE, '');
   s = s.replace(CITATION_BRACKETS_RE, '');
   s = s.replace(TRAILING_SOURCE_PAREN_RE, '');
@@ -56,7 +70,14 @@ export interface NewsValidationOutcome {
 }
 
 function hasResidualArtifacts(s: string): boolean {
-  return ARROW_RE.test(s) || CITATION_BRACKETS_RE.test(s);
+  const r = ARROW_RE.test(s) || CITATION_BRACKETS_RE.test(s) ||
+    CITE_TAG_OPEN_RE.test(s) || CITE_TAG_CLOSE_RE.test(s);
+  // .test() on /g regexes mutates lastIndex; reset to keep behavior stable across calls
+  ARROW_RE.lastIndex = 0;
+  CITATION_BRACKETS_RE.lastIndex = 0;
+  CITE_TAG_OPEN_RE.lastIndex = 0;
+  CITE_TAG_CLOSE_RE.lastIndex = 0;
+  return r;
 }
 
 function isLikelyHomepageOrSearch(url: string): boolean {
