@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import { createClient } from '@/lib/supabase/server';
 import { buildSearchInstructions } from '@/lib/modules';
 import { generateDailyBrief } from '@/lib/email/generate';
+import { prepareBriefBeforeClaude, applyWeatherErrorSection } from '@/lib/email/briefPrep';
 import DailyBriefEmail from '@/components/email/DailyBriefEmail';
 import type { ModuleRow, Profile } from '@/types';
 
@@ -37,10 +38,13 @@ export async function POST(request: Request) {
 
     const emailTheme = themeOverride ?? p.email_theme ?? 'light';
     const moduleInstructions = buildSearchInstructions(enabledModules);
+    const prep = await prepareBriefBeforeClaude(moduleInstructions);
     const generated = await generateDailyBrief(
       { id: p.id, email: p.email, full_name: p.full_name, email_theme: emailTheme },
-      moduleInstructions,
+      prep.claudeInstructions,
+      prep.prefetchedData,
     );
+    generated.sections = applyWeatherErrorSection(generated.sections, prep);
 
     const dateLabel = format(new Date(), 'EEEE, MMMM d, yyyy');
     const html = await render(

@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { adminClient } from '@/lib/supabase/admin';
 import { buildSearchInstructions } from '@/lib/modules';
 import { generateDailyBrief } from '@/lib/email/generate';
+import { prepareBriefBeforeClaude, applyWeatherErrorSection } from '@/lib/email/briefPrep';
 import DailyBriefEmail from '@/components/email/DailyBriefEmail';
 import type { ModuleRow, Profile } from '@/types';
 
@@ -55,6 +56,7 @@ export async function POST(request: Request) {
     // Generate
     const emailTheme = themeOverride ?? p.email_theme ?? 'light';
     const moduleInstructions = buildSearchInstructions(enabledModules);
+    const prep = await prepareBriefBeforeClaude(moduleInstructions);
     const generated = await generateDailyBrief(
       {
         id: p.id,
@@ -63,8 +65,10 @@ export async function POST(request: Request) {
         email_theme: emailTheme,
         email_verbosity: p.email_verbosity,
       },
-      moduleInstructions,
+      prep.claudeInstructions,
+      prep.prefetchedData,
     );
+    generated.sections = applyWeatherErrorSection(generated.sections, prep);
 
     const dateLabel = format(new Date(), 'EEEE, MMMM d, yyyy');
     console.log('[generate-preview] Rendering HTML...');
