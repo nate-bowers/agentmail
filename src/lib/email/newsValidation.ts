@@ -42,11 +42,9 @@ const articleSchema = z.object({
 
 export type NewsArticle = z.infer<typeof articleSchema>;
 
-const newsSectionSchema = z.object({
-  articles: z.array(articleSchema),
-});
-
-export type NewsSectionData = z.infer<typeof newsSectionSchema>;
+export interface NewsSectionData {
+  articles: NewsArticle[];
+}
 
 // ─────────────────────────────────────────────────────────────
 // Validation pass — runs first, no network
