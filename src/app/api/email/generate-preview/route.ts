@@ -56,7 +56,7 @@ export async function POST(request: Request) {
     // Generate
     const emailTheme = themeOverride ?? p.email_theme ?? 'light';
     const moduleInstructions = buildSearchInstructions(enabledModules);
-    const prep = await prepareBriefBeforeClaude(moduleInstructions);
+    const prep = await prepareBriefBeforeClaude(moduleInstructions, user.id);
     const generated = await generateDailyBrief(
       {
         id: p.id,

@@ -108,7 +108,7 @@ export async function runPipeline(user: {
       }
     }
 
-    const apiData = await prefetchModuleData(moduleInstructions);
+    const apiData = await prefetchModuleData(moduleInstructions, user.id);
     prefetchedData = { ...prefetchedData, ...apiData };
 
     for (const inst of moduleInstructions) {

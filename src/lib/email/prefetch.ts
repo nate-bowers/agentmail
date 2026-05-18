@@ -3,20 +3,29 @@ import { fetchWeather } from '@/lib/fetchers/weather';
 import { fetchMarkets } from '@/lib/fetchers/markets';
 import { fetchCurrency } from '@/lib/fetchers/currency';
 import { fetchHistoryEvents } from '@/lib/fetchers/history';
+import { pickWordOfDay } from '@/lib/modules/data/wordsOfDay';
+import { pickFact } from '@/lib/modules/data/facts';
 import type { ModuleSearchInstruction } from '@/types';
 
 export type PrefetchedData = Record<string, unknown>;
 
 // Returns a map of moduleType -> pre-fetched data for every module that has
-// a reliable external API. Modules not in this map fall through to Claude.
+// a reliable external API or curated data pool. Modules not in this map fall
+// through to Claude.
+//
+// userId is used by curated-pool modules (word_of_day, fact) so each user
+// rotates through the pool independently — preventing the "same word every
+// day" complaint we were seeing from cross-day cache key hits + Claude's
+// tendency to pick the same canonical answers.
 export async function prefetchModuleData(
-  instructions: ModuleSearchInstruction[]
+  instructions: ModuleSearchInstruction[],
+  userId?: string,
 ): Promise<PrefetchedData> {
   const results: PrefetchedData = {};
 
   await Promise.allSettled(
     instructions.map(async (inst) => {
-      const data = await fetchForInstruction(inst);
+      const data = await fetchForInstruction(inst, userId);
       if (data !== null) {
         results[inst.moduleType] = data;
         console.log(`[Prefetch] ${inst.moduleType} — served from ${data === null ? 'miss' : 'API/cache'}`);
@@ -27,7 +36,7 @@ export async function prefetchModuleData(
   return results;
 }
 
-async function fetchForInstruction(inst: ModuleSearchInstruction): Promise<unknown | null> {
+async function fetchForInstruction(inst: ModuleSearchInstruction, userId?: string): Promise<unknown | null> {
   try {
     switch (inst.moduleType) {
 
@@ -88,6 +97,24 @@ async function fetchForInstruction(inst: ModuleSearchInstruction): Promise<unkno
         const data = await fetchHistoryEvents();
         if (data) await setDailyCache(cacheKey, data);
         return data;
+      }
+
+      case 'word_of_day': {
+        // Served from a curated rotation pool — never reaches Claude. Picks
+        // are deterministic per (date, userId) so each user cycles through
+        // the entire pool before any repeat.
+        const difficulty = (inst.config.difficulty as string | undefined) ?? 'advanced';
+        const pick = pickWordOfDay(difficulty, userId ?? 'anon');
+        return pick;
+      }
+
+      case 'fact': {
+        // Same pattern as word_of_day. The customRequest field is ignored
+        // here; users who want a specific fact tone can be re-routed through
+        // Claude in a later pass.
+        const category = (inst.config.category as string | undefined) ?? 'any';
+        const pick = pickFact(category, userId ?? 'anon');
+        return pick;
       }
 
       // ai_tech: cache-after-first-user (handled in pipeline.ts post-generation)

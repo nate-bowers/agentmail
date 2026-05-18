@@ -27,11 +27,12 @@ export interface BriefPrep {
 }
 
 export async function prepareBriefBeforeClaude(
-  moduleInstructions: ModuleSearchInstruction[]
+  moduleInstructions: ModuleSearchInstruction[],
+  userId?: string,
 ): Promise<BriefPrep> {
   let prefetchedData: Record<string, unknown> = {};
   try {
-    prefetchedData = await prefetchModuleData(moduleInstructions);
+    prefetchedData = await prefetchModuleData(moduleInstructions, userId);
   } catch (err) {
     console.error('[briefPrep] Prefetch failed (non-fatal):', err);
   }

@@ -59,7 +59,7 @@ export async function POST() {
     p.email_theme = emailTheme;
 
     const moduleInstructions = buildSearchInstructions(modules as ModuleRow[]);
-    const prep = await prepareBriefBeforeClaude(moduleInstructions);
+    const prep = await prepareBriefBeforeClaude(moduleInstructions, user.id);
     const generated = await generateDailyBrief(p, prep.claudeInstructions, prep.prefetchedData);
     generated.sections = applyWeatherErrorSection(generated.sections, prep);
 
