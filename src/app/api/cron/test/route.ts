@@ -134,7 +134,10 @@ export async function GET(request: NextRequest) {
 
   console.log(`[CronTest] Firing pipeline for ${user.email} → ${overrideRecipient ?? user.delivery_email ?? user.email}`);
 
-  const result = await runPipeline(userForPipeline);
+  // Stamp test sends with a unique time tag so Gmail does not thread/fold
+  // them with each other or with the real daily brief on the same date.
+  const stamp = new Date().toTimeString().slice(0, 5).replace(':', '');
+  const result = await runPipeline(userForPipeline, { subjectSuffix: `(test ${stamp})` });
 
   return NextResponse.json({
     user: user.email,

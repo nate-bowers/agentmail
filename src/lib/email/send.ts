@@ -23,6 +23,7 @@ export interface SendResult {
 export async function sendDailyBrief(
   user: Pick<Profile, 'id' | 'email' | 'full_name' | 'timezone' | 'email_theme' | 'subscription_status'> & { delivery_email?: string | null },
   generated: { intro?: string; sections: GeneratedSection[]; tokensUsed?: number },
+  options?: { subjectSuffix?: string },
 ): Promise<SendResult> {
   try {
     const { id: userId, email, full_name, timezone, email_theme, delivery_email, subscription_status } = user;
@@ -30,7 +31,10 @@ export async function sendDailyBrief(
     const theme = email_theme ?? 'light';
 
     const zonedNow = toZonedTime(new Date(), timezone || 'UTC');
-    const subject = `Your Brief — ${format(zonedNow, 'EEEE, MMMM d')}`;
+    // subjectSuffix is used by test/preview routes to break Gmail's same-subject
+    // thread folding (otherwise repeated test sends collapse under "Show trimmed content").
+    const baseSubject = `Your Brief — ${format(zonedNow, 'EEEE, MMMM d')}`;
+    const subject = options?.subjectSuffix ? `${baseSubject} ${options.subjectSuffix}` : baseSubject;
     const dateLabel = format(zonedNow, 'EEEE, MMMM d, yyyy');
     const unsubscribeToken = generateUnsubscribeToken(userId);
 

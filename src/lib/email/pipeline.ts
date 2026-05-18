@@ -27,16 +27,19 @@ export interface PipelineResult {
 // in final schema and can be injected directly without a Claude call.
 const HISTORY_MODULES = new Set(['on_this_day', 'week_history']);
 
-export async function runPipeline(user: {
-  id: string;
-  email: string;
-  full_name: string | null;
-  email_theme: string;
-  email_verbosity?: string | null;
-  delivery_email?: string | null;
-  timezone: string;
-  subscription_status: SubscriptionStatus;
-}): Promise<PipelineResult> {
+export async function runPipeline(
+  user: {
+    id: string;
+    email: string;
+    full_name: string | null;
+    email_theme: string;
+    email_verbosity?: string | null;
+    delivery_email?: string | null;
+    timezone: string;
+    subscription_status: SubscriptionStatus;
+  },
+  options?: { subjectSuffix?: string },
+): Promise<PipelineResult> {
   const supabase = createAdminClient();
 
   // STAGE 1: Fetch modules
@@ -301,7 +304,7 @@ export async function runPipeline(user: {
   console.log('[Pipeline] Stage 4: Sending via Resend');
   let sendResult;
   try {
-    sendResult = await sendDailyBrief(user, { sections: finalSections, tokensUsed });
+    sendResult = await sendDailyBrief(user, { sections: finalSections, tokensUsed }, options);
     console.log('[Pipeline] Send result:', sendResult);
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);

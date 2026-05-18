@@ -75,7 +75,10 @@ export async function POST() {
     const generated = await generateDailyBrief(p, prep.claudeInstructions, prep.prefetchedData);
     generated.sections = applyWeatherErrorSection(generated.sections, prep);
 
-    const result = await sendDailyBrief(p, generated);
+    // Stamp test sends with a unique time tag so Gmail does not thread them
+    // with each other or with the user's real daily brief.
+    const stamp = new Date().toTimeString().slice(0, 5).replace(':', '');
+    const result = await sendDailyBrief(p, generated, { subjectSuffix: `(test ${stamp})` });
 
     if (!result.success) {
       return NextResponse.json({ error: result.error }, { status: 500 });
