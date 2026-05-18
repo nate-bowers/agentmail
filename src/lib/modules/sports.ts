@@ -3,7 +3,7 @@ import type { ModuleDefinition } from '@/types';
 
 export const configSchema = z.object({
   teams: z.array(z.string().max(50)).max(5).default([]),
-  leagues: z.array(z.string()).min(1, 'Add at least one league').max(3),
+  leagues: z.array(z.string().max(40, 'League name is too long')).min(1, 'Add at least one league').max(3),
   customRequest: z.string().max(200).optional(),
 });
 

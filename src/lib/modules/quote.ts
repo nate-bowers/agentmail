@@ -2,7 +2,8 @@ import { z } from 'zod';
 import type { ModuleDefinition } from '@/types';
 
 export const configSchema = z.object({
-  style: z.string(),
+  // Canonical values pulled from QuoteForm.tsx RadioCards options.
+  style: z.enum(['stoic', 'motivational', 'philosophical', 'funny', 'custom']),
   customPrompt: z.string().max(200).optional(),
   specificPerson: z.string().max(80).optional(),
 });

@@ -32,12 +32,25 @@ async function fetchForInstruction(inst: ModuleSearchInstruction): Promise<unkno
     switch (inst.moduleType) {
 
       case 'weather': {
-        const locations = inst.config.locations as string[] | undefined;
-        if (!locations?.length) return null;
-        const cacheKey = `weather:${[...locations].sort().join('|')}`;
+        // Locations are stored as geocoded objects after the POST/PATCH normalization.
+        // Legacy plain-string entries that haven't been backfilled are skipped here
+        // so we never silently feed garbage to the forecast API; the user is notified
+        // via the dashboard.
+        const rawLocations = inst.config.locations as unknown;
+        const units = (inst.config.units as 'imperial' | 'metric' | undefined) ?? 'imperial';
+        if (!Array.isArray(rawLocations) || rawLocations.length === 0) return null;
+        const geocoded = rawLocations.filter(
+          (l): l is { input: string; display_name: string; latitude: number; longitude: number; timezone: string; country_code?: string } =>
+            !!l && typeof l === 'object' && typeof (l as { latitude?: unknown }).latitude === 'number'
+        );
+        if (geocoded.length === 0) {
+          console.warn('[Prefetch] weather has no geocoded locations — backfill required');
+          return null;
+        }
+        const cacheKey = `weather:${units}:${geocoded.map((g) => `${g.latitude.toFixed(3)},${g.longitude.toFixed(3)}`).sort().join('|')}`;
         const cached = await getDailyCache(cacheKey);
         if (cached) return cached;
-        const data = await fetchWeather(locations);
+        const data = await fetchWeather(geocoded, units);
         if (data) await setDailyCache(cacheKey, data);
         return data;
       }

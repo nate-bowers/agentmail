@@ -2,7 +2,8 @@ import { z } from 'zod';
 import type { ModuleDefinition } from '@/types';
 
 export const configSchema = z.object({
-  style: z.string(),
+  // Canonical values pulled from MindfulnessForm.tsx RadioCards options.
+  style: z.enum(['reflection', 'intention', 'gratitude', 'challenge', 'custom']),
   theme: z.string().max(200).optional(),
   customPrompt: z.string().max(200).optional(),
 });

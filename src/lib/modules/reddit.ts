@@ -2,7 +2,7 @@ import { z } from 'zod';
 import type { ModuleDefinition } from '@/types';
 
 export const configSchema = z.object({
-  subreddits: z.array(z.string().min(1)).min(1, 'Add at least one subreddit').max(5),
+  subreddits: z.array(z.string().min(1).max(40, 'Subreddit name is too long')).min(1, 'Add at least one subreddit').max(5),
   postCount: z.union([z.literal(3), z.literal(5)]).default(3),
   sortBy: z.enum(['hot', 'top']).default('hot'),
 });

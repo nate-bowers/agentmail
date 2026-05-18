@@ -34,6 +34,25 @@ export default function AuthForm({ mode, initialError }: AuthFormProps) {
 
     try {
       if (isSignup) {
+        // Block disposable email providers BEFORE creating a Supabase auth
+        // record. Otherwise an account exists, sends 3 previews / 3 test
+        // sends / 3 welcome tests, then the user vanishes.
+        const checkRes = await fetch('/api/auth/check-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+        if (!checkRes.ok) {
+          const body = await checkRes.json().catch(() => ({}));
+          const msg =
+            typeof body?.message === 'string'
+              ? body.message
+              : 'We could not validate that email. Please try a different address.';
+          setError(msg);
+          setLoading(false);
+          return;
+        }
+
         const { data, error } = await supabase.auth.signUp({ email, password });
         if (error) throw error;
         if (!data.session) {
@@ -80,12 +99,20 @@ export default function AuthForm({ mode, initialError }: AuthFormProps) {
 
   if (checkEmail) {
     return (
-      <div className="rounded-2xl border border-surface-border bg-white p-8 shadow-sm text-center space-y-2">
-        <p className="text-lg font-semibold text-ink">Check your email</p>
-        <p className="text-sm text-ink-muted">
-          We sent a confirmation link to <span className="font-medium text-ink">{email}</span>.
-          Click it to activate your account.
-        </p>
+      <div className="rounded-2xl border border-surface-border bg-white p-8 shadow-sm text-center space-y-4 max-w-md w-full">
+        <div className="space-y-2">
+          <p className="text-lg font-semibold text-ink">Check your email</p>
+          <p className="text-sm text-ink-muted">
+            We sent a confirmation link to <span className="font-medium text-ink">{email}</span>.
+            Click it to activate your account.
+          </p>
+        </div>
+        <div className="rounded-lg border border-brand-purple/20 bg-brand-purple-light px-3 py-2 text-left">
+          <p className="text-xs leading-relaxed text-brand-purple">
+            <span className="font-semibold">Heads up:</span> your first email may land in spam or Promotions.
+            We&rsquo;ll help you fix that in a moment.
+          </p>
+        </div>
       </div>
     );
   }

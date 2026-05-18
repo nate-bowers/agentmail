@@ -13,7 +13,7 @@ import {
   Calendar, ArrowLeftRight, BookMarked, BookOpen, MessageSquare,
   MapPin, Stars, Languages, Heart, Landmark, Zap,
   Check, ChevronDown, ChevronUp, Loader2, CheckCircle2,
-  ArrowLeft, Sparkles,
+  ArrowLeft, Sparkles, Mail, Inbox, AlertCircle,
   type LucideIcon,
 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -838,6 +838,150 @@ function StepDeliveryAndStripe({
   );
 }
 
+// ─── Step: Inbox Setup (spam prevention) ──────────────────────
+
+function StepInboxSetup({
+  onContinue, onBack,
+}: {
+  onContinue: () => void;
+  onBack: () => void;
+}) {
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [remaining, setRemaining] = useState<number | null>(null);
+
+  async function handleSend() {
+    setSending(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/onboarding/send-test-email', { method: 'POST' });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data?.message ?? 'Could not send the test email. Please try again.');
+        return;
+      }
+      setSent(true);
+      if (typeof data?.remaining === 'number') setRemaining(data.remaining);
+    } catch (err) {
+      console.error('[onboarding] test email error:', err);
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setSending(false);
+    }
+  }
+
+  async function handleContinue() {
+    await fetch('/api/user/settings', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ onboarding_test_email_acknowledged: true }),
+    }).catch(() => null);
+    onContinue();
+  }
+
+  return (
+    <div className="w-full max-w-lg mx-auto px-4">
+      <div className="flex flex-col items-center text-center">
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-purple-light">
+          <Inbox className="h-7 w-7 text-brand-purple" />
+        </div>
+        <h2 className="mt-4 text-2xl font-bold text-ink">Make sure you get your brief.</h2>
+        <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+          The first few emails sometimes land in spam or Promotions. Moving our test email
+          to your primary inbox teaches your provider to deliver every future brief to the right place.
+        </p>
+      </div>
+
+      {!sent ? (
+        <div className="mt-7 space-y-3">
+          <Button className="w-full gap-2" onClick={handleSend} disabled={sending}>
+            {sending ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" /> Sending…
+              </>
+            ) : (
+              <>
+                <Mail className="h-4 w-4" /> Send me a test email
+              </>
+            )}
+          </Button>
+          {error && (
+            <div className="flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-left">
+              <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-red-500" />
+              <p className="text-sm text-red-600">{error}</p>
+            </div>
+          )}
+          <button
+            type="button"
+            onClick={handleContinue}
+            className="w-full text-xs text-ink-muted underline underline-offset-2 hover:text-ink"
+          >
+            Skip, I&rsquo;ll set this up later
+          </button>
+        </div>
+      ) : (
+        <div className="mt-7 space-y-4">
+          <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+              <p className="text-sm font-medium text-emerald-900">Test email sent.</p>
+            </div>
+            <p className="mt-1 text-sm text-emerald-800/80">
+              It should arrive in the next minute or two.
+              {remaining !== null && remaining > 0 && (
+                <> You have {remaining} re-send{remaining === 1 ? '' : 's'} left this hour.</>
+              )}
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-surface-border bg-white p-4 text-left">
+            <p className="text-sm font-semibold text-ink mb-2">Do this when it arrives:</p>
+            <ol className="space-y-2 text-sm text-ink-muted">
+              <li className="flex gap-2">
+                <span className="font-semibold text-brand-purple">1.</span>
+                <span>Check your <span className="font-medium text-ink">Spam</span> and <span className="font-medium text-ink">Promotions</span> folders first if you don&rsquo;t see it in your inbox.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="font-semibold text-brand-purple">2.</span>
+                <span>If it&rsquo;s in spam, open it and click <span className="font-medium text-ink">&ldquo;Not spam&rdquo;</span> or <span className="font-medium text-ink">&ldquo;Report not junk&rdquo;</span>.</span>
+              </li>
+              <li className="flex gap-2">
+                <span className="font-semibold text-brand-purple">3.</span>
+                <span>Move it to your <span className="font-medium text-ink">primary inbox</span> by dragging it, or in Gmail tap the three-dot menu and choose <span className="font-medium text-ink">&ldquo;Move to Primary&rdquo;</span>.</span>
+              </li>
+            </ol>
+            <p className="mt-3 text-xs text-ink-muted">
+              On Gmail in particular, doing this once trains your inbox so every future brief lands in the right place.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <Button className="w-full" onClick={handleContinue}>
+              I&rsquo;ve done this, continue
+            </Button>
+            <button
+              type="button"
+              onClick={handleSend}
+              disabled={sending}
+              className="text-xs text-ink-muted underline underline-offset-2 hover:text-ink disabled:opacity-40"
+            >
+              {sending ? 'Sending…' : 'Re-send the test email'}
+            </button>
+            {error && (
+              <p className="text-center text-xs text-red-500">{error}</p>
+            )}
+          </div>
+        </div>
+      )}
+
+      <button type="button" onClick={onBack} className="mt-6 flex items-center gap-1 text-xs text-ink-muted hover:text-ink mx-auto">
+        <ArrowLeft className="h-3 w-3" /> Back
+      </button>
+    </div>
+  );
+}
+
 // ─── Main Modal ───────────────────────────────────────────────
 
 export interface OnboardingModalProps {
@@ -855,7 +999,10 @@ export default function OnboardingModal({ onComplete, onModulesCreated, variant 
   const [savingMessage, setSavingMessage] = useState(SAVING_MESSAGES[0]);
   const [saveError, setSaveError] = useState<string | null>(null);
 
-  const totalSteps = variant === 'pro' ? 4 : 3;
+  // Step counts include the new "Inbox setup" step.
+  // Free: Welcome → Pick → Inbox → Finish
+  // Pro:  Welcome → Pick → Configure → Inbox → Delivery+Stripe
+  const totalSteps = variant === 'pro' ? 5 : 4;
 
   // Cycle saving messages while saving
   useEffect(() => {
@@ -1031,8 +1178,16 @@ export default function OnboardingModal({ onComplete, onModulesCreated, variant 
           />
         )}
 
-        {/* ── Step 2: Configure (Pro) or Finish (Free) ─── */}
+        {/* ── Free Step 2: Inbox setup ─────────────────── */}
         {step === 2 && variant === 'free' && (
+          <StepInboxSetup
+            onContinue={() => setStep(3)}
+            onBack={() => setStep(1)}
+          />
+        )}
+
+        {/* ── Free Step 3: Finish ──────────────────────── */}
+        {step === 3 && variant === 'free' && (
           <StepFinishFree
             selected={selectedTypes}
             isSaving={isSaving}
@@ -1040,9 +1195,11 @@ export default function OnboardingModal({ onComplete, onModulesCreated, variant 
             saveError={saveError}
             onFinish={handleFreeFinish}
             onFinishAndUpgrade={handleFreeFinishAndUpgrade}
-            onBack={() => setStep(1)}
+            onBack={() => setStep(2)}
           />
         )}
+
+        {/* ── Pro Step 2: Configure modules ────────────── */}
         {step === 2 && variant === 'pro' && (
           <StepConfigurePro
             selectedTypes={selectedTypes}
@@ -1052,15 +1209,23 @@ export default function OnboardingModal({ onComplete, onModulesCreated, variant 
           />
         )}
 
-        {/* ── Step 3: Delivery + Stripe (Pro) ─────────── */}
+        {/* ── Pro Step 3: Inbox setup ──────────────────── */}
         {step === 3 && variant === 'pro' && (
+          <StepInboxSetup
+            onContinue={() => setStep(4)}
+            onBack={() => setStep(2)}
+          />
+        )}
+
+        {/* ── Pro Step 4: Delivery + Stripe ────────────── */}
+        {step === 4 && variant === 'pro' && (
           <StepDeliveryAndStripe
             isSaving={isSaving}
             savingMessage={savingMessage}
             saveError={saveError}
             onPay={handleProPay}
             onSkip={handleProSkip}
-            onBack={() => setStep(2)}
+            onBack={() => setStep(3)}
           />
         )}
       </div>

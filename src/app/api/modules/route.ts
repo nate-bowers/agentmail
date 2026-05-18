@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { MODULE_REGISTRY } from '@/lib/modules';
 import { getModulePoints, getPointLimit_ForUser, getTotalPoints } from '@/lib/modules/points';
 import { rateLimit } from '@/lib/security/rateLimit';
+import { normalizeWeatherLocations, geocodeFailureMessage } from '@/lib/modules/weatherGeocode';
 
 const createSchema = z.object({
   module_type: z.string().min(1),
@@ -63,7 +64,28 @@ export async function POST(request: NextRequest) {
       }, { status: 400 });
     }
 
-    const configParsed = MODULE_REGISTRY[module_type].configSchema.safeParse(config);
+    // Weather: geocode every location string before validation so the stored
+    // shape always carries lat/lng/timezone.
+    let configToValidate: Record<string, unknown> = config as Record<string, unknown>;
+    if (module_type === 'weather') {
+      const normalized = await normalizeWeatherLocations(
+        (config as { locations?: unknown })?.locations
+      );
+      if (!normalized.ok) {
+        return NextResponse.json(
+          {
+            error: 'weather_geocode_failed',
+            field: 'locations',
+            failedInput: normalized.failedInput,
+            message: geocodeFailureMessage(normalized.failedInput),
+          },
+          { status: 422 }
+        );
+      }
+      configToValidate = { ...configToValidate, locations: normalized.locations };
+    }
+
+    const configParsed = MODULE_REGISTRY[module_type].configSchema.safeParse(configToValidate);
     if (!configParsed.success) {
       return NextResponse.json({ error: configParsed.error.flatten() }, { status: 422 });
     }

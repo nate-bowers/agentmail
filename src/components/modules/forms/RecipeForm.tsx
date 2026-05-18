@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { configSchema, type RecipeConfig } from '@/lib/modules/recipe';
 import { SegmentedControl, RadioCards, OptionalTextarea } from './FormPrimitives';
+import { SpecificityTooltip } from '@/components/modules/SpecificityTooltip';
 
 const DIETARY_OPTIONS = [
   'Vegetarian', 'Vegan', 'Gluten-free', 'Dairy-free', 'Keto', 'Halal', 'Kosher',
@@ -14,9 +15,10 @@ const DIETARY_OPTIONS = [
 interface Props {
   defaultValues: Record<string, unknown>;
   onSubmit: (data: Record<string, unknown>) => void;
+  disableHints?: boolean;
 }
 
-export function RecipeForm({ defaultValues, onSubmit }: Props) {
+export function RecipeForm({ defaultValues, onSubmit, disableHints }: Props) {
   const form = useForm<RecipeConfig>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(configSchema) as any,
@@ -35,14 +37,20 @@ export function RecipeForm({ defaultValues, onSubmit }: Props) {
         control={form.control}
         name="cuisine"
         render={({ field }) => (
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-ink">Cuisine preference</Label>
-            <Input
-              value={field.value ?? ''}
-              onChange={(e) => field.onChange(e.target.value)}
-              placeholder="e.g. Italian, Japanese, Mexican, any"
-            />
-          </div>
+          <SpecificityTooltip
+            fieldId="recipe.cuisine"
+            disabled={disableHints}
+            message="Narrow down the region. &lsquo;Sichuan&rsquo; or &lsquo;Northern Italian&rsquo; beats &lsquo;Chinese&rsquo; or &lsquo;Italian&rsquo;."
+          >
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-ink">Cuisine preference</Label>
+              <Input
+                value={field.value ?? ''}
+                onChange={(e) => field.onChange(e.target.value)}
+                placeholder="e.g. Italian, Japanese, Mexican, any"
+              />
+            </div>
+          </SpecificityTooltip>
         )}
       />
 
@@ -122,13 +130,19 @@ export function RecipeForm({ defaultValues, onSubmit }: Props) {
         control={form.control}
         name="customRequest"
         render={({ field }) => (
-          <OptionalTextarea
-            label="Anything specific? (optional)"
-            value={field.value ?? ''}
-            onChange={field.onChange}
-            placeholder="e.g. Something I can meal prep on Sunday, or a dish that uses chicken thighs and lemon"
-            maxLength={200}
-          />
+          <SpecificityTooltip
+            fieldId="recipe.customRequest"
+            disabled={disableHints}
+            message="The more specific you are, the better the brief. Mention pantry items, allergies, or the meal occasion."
+          >
+            <OptionalTextarea
+              label="Anything specific? (optional)"
+              value={field.value ?? ''}
+              onChange={field.onChange}
+              placeholder="e.g. Something I can meal prep on Sunday, or a dish that uses chicken thighs and lemon"
+              maxLength={200}
+            />
+          </SpecificityTooltip>
         )}
       />
     </form>

@@ -143,6 +143,17 @@ export default function ModuleModal({
         }
       }
 
+      if (res.status === 422) {
+        const body = await res.json();
+        if (body?.error === 'weather_geocode_failed' && typeof body.message === 'string') {
+          // Specific geocode failure: surface inline so the user can correct
+          // their input rather than seeing a generic save error.
+          setPointsError(body.message);
+          setIsLoading(false);
+          return;
+        }
+      }
+
       if (!res.ok) {
         const body = await res.json();
         throw new Error(typeof body.error === 'string' ? body.error : 'Save failed');
@@ -347,11 +358,11 @@ export default function ModuleModal({
               )}
 
               <div className={isTopicLocked ? 'pointer-events-none opacity-50 select-none' : ''}>
-              {selectedType === 'weather' && <WeatherForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
-              {selectedType === 'news' && <NewsForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
-              {selectedType === 'quote' && <QuoteForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
+              {selectedType === 'weather' && <WeatherForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} disableHints={isTopicLocked} />}
+              {selectedType === 'news' && <NewsForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} disableHints={isTopicLocked} />}
+              {selectedType === 'quote' && <QuoteForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} disableHints={isTopicLocked} />}
               {selectedType === 'markets' && <MarketsForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
-              {selectedType === 'sports' && <SportsForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
+              {selectedType === 'sports' && <SportsForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} disableHints={isTopicLocked} />}
               {selectedType === 'word_of_day' && <WordOfDayForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               {selectedType === 'workout' && <WorkoutForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               {selectedType === 'mindfulness' && <MindfulnessForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
@@ -359,7 +370,7 @@ export default function ModuleModal({
               {selectedType === 'currency' && <CurrencyForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               {selectedType === 'podcast' && <PodcastForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               {selectedType === 'fact' && <FactForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
-              {selectedType === 'recipe' && <RecipeForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
+              {selectedType === 'recipe' && <RecipeForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} disableHints={isTopicLocked} />}
               {selectedType === 'book' && <BookForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               {selectedType === 'reddit' && <RedditForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               {selectedType === 'horoscope' && <HoroscopeForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}

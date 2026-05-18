@@ -2,7 +2,7 @@ import { z } from 'zod';
 import type { ModuleDefinition } from '@/types';
 
 export const configSchema = z.object({
-  genres: z.array(z.string()).default([]),
+  genres: z.array(z.string().max(40, 'Genre name is too long')).max(5, 'Maximum 5 genres').default([]),
   format: z.enum(['fiction', 'nonfiction', 'either']).default('either'),
   length: z.enum(['short', 'medium', 'long', 'any']).default('any'),
   mood: z.string().max(80).default('inspiring'),

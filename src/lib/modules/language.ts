@@ -2,7 +2,7 @@ import { z } from 'zod';
 import type { ModuleDefinition } from '@/types';
 
 export const configSchema = z.object({
-  targetLanguage: z.string().min(1, 'Enter a language').default('Spanish'),
+  targetLanguage: z.string().min(1, 'Enter a language').max(40, 'Language name is too long').default('Spanish'),
   level: z.enum(['beginner', 'intermediate', 'advanced']).default('beginner'),
   focus: z.string().max(80).optional(),
 });

@@ -1,9 +1,14 @@
 import { z } from 'zod';
 import type { ModuleDefinition } from '@/types';
+import { weatherLocationSchema } from './weatherGeocode';
 
+// `locations` items can be the canonical geocoded shape OR a plain string at
+// the boundary (form submits, onboarding, legacy rows). The API route always
+// normalizes to the geocoded shape before persisting, but accepting both here
+// keeps validation forgiving for existing rows.
 export const configSchema = z.object({
   locations: z
-    .array(z.string().min(1))
+    .array(z.union([z.string().min(1).max(80, 'Location name is too long'), weatherLocationSchema]))
     .min(1, 'Add at least one location')
     .max(5, 'Maximum 5 locations'),
   units: z.enum(['imperial', 'metric']).default('imperial'),
@@ -23,17 +28,10 @@ export const weatherModule: ModuleDefinition<typeof configSchema> = {
     extended: false,
   } satisfies WeatherConfig,
   configSchema,
-  buildSearchInstruction(config) {
-    const locationList = config.locations.join(' and ');
-    const unitLabel = config.units === 'metric' ? 'Celsius' : 'Fahrenheit';
-    const forecastType = config.extended
-      ? 'current conditions plus a 5-day forecast'
-      : 'current conditions and today\'s forecast';
-    return (
-      `Search for the current weather in each of these locations: ${locationList}. ` +
-      `Report temperatures in ${unitLabel}. Return ${forecastType} for each location: ` +
-      `temperature, current conditions (e.g. sunny, cloudy, rainy), humidity percentage, ` +
-      `and today's high and low temperatures.`
-    );
+  // Weather no longer goes through Claude. The brief pipeline pulls forecast
+  // data directly from Open-Meteo using stored lat/lng/timezone. This stub
+  // exists only because the ModuleDefinition contract requires it.
+  buildSearchInstruction() {
+    return '';
   },
 };

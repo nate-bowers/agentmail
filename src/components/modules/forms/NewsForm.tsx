@@ -8,13 +8,15 @@ import { X } from 'lucide-react';
 import { configSchema, type NewsConfig } from '@/lib/modules/news';
 import { SegmentedControl } from './FormPrimitives';
 import { getModulePoints } from '@/lib/modules/points';
+import { SpecificityTooltip } from '@/components/modules/SpecificityTooltip';
 
 interface Props {
   defaultValues: Record<string, unknown>;
   onSubmit: (data: Record<string, unknown>) => void;
+  disableHints?: boolean;
 }
 
-export function NewsForm({ defaultValues, onSubmit }: Props) {
+export function NewsForm({ defaultValues, onSubmit, disableHints }: Props) {
   const form = useForm<NewsConfig>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(configSchema) as any,
@@ -38,22 +40,28 @@ export function NewsForm({ defaultValues, onSubmit }: Props) {
         render={({ field, fieldState }) => {
           const topics = field.value as string[];
           return (
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-ink">Topics</Label>
-              <div className="flex min-h-[44px] flex-wrap gap-1.5 rounded-lg border border-surface-border bg-white px-3 py-2">
-                {topics.map((topic) => (
-                  <span key={topic} className="inline-flex items-center gap-1 rounded-full bg-brand-purple-light px-2.5 py-0.5 text-xs font-medium text-brand-purple">
-                    {topic}
-                    <button type="button" onClick={() => field.onChange(topics.filter((t) => t !== topic))}><X className="h-3 w-3" /></button>
-                  </span>
-                ))}
-                {topics.length < 5 && (
-                  <TopicInput onAdd={(t) => { if (!topics.includes(t)) field.onChange([...topics, t]); }} />
-                )}
+            <SpecificityTooltip
+              fieldId="news.topics"
+              disabled={disableHints}
+              message="The more detail you give, the sharper your brief gets. &lsquo;AI chip supply chain&rsquo; beats &lsquo;tech&rsquo;."
+            >
+              <div className="space-y-2">
+                <Label className="text-sm font-medium text-ink">Topics</Label>
+                <div className="flex min-h-[44px] flex-wrap gap-1.5 rounded-lg border border-surface-border bg-white px-3 py-2">
+                  {topics.map((topic) => (
+                    <span key={topic} className="inline-flex items-center gap-1 rounded-full bg-brand-purple-light px-2.5 py-0.5 text-xs font-medium text-brand-purple">
+                      {topic}
+                      <button type="button" onClick={() => field.onChange(topics.filter((t) => t !== topic))}><X className="h-3 w-3" /></button>
+                    </span>
+                  ))}
+                  {topics.length < 5 && (
+                    <TopicInput onAdd={(t) => { if (!topics.includes(t)) field.onChange([...topics, t]); }} />
+                  )}
+                </div>
+                <p className="text-xs text-ink-faint">Press Enter to add. Max 5 topics.</p>
+                {fieldState.error && <p className="text-xs text-red-500">{fieldState.error.message}</p>}
               </div>
-              <p className="text-xs text-ink-faint">Press Enter to add. Max 5 topics.</p>
-              {fieldState.error && <p className="text-xs text-red-500">{fieldState.error.message}</p>}
-            </div>
+            </SpecificityTooltip>
           );
         }}
       />
@@ -62,19 +70,25 @@ export function NewsForm({ defaultValues, onSubmit }: Props) {
         control={form.control}
         name="customQuery"
         render={({ field }) => (
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-ink">Narrow it down <span className="font-normal text-ink-faint">(optional)</span></Label>
-            <div className="relative">
-              <textarea
-                value={field.value ?? ''}
-                onChange={(e) => field.onChange(e.target.value.slice(0, 200))}
-                placeholder="e.g. Only Taiwanese AI GPU supply chain news"
-                rows={2}
-                className="w-full resize-none rounded-lg border border-surface-border bg-white px-3 py-2 text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-brand-purple/30"
-              />
-              <span className="absolute bottom-2 right-3 text-[10px] text-ink-faint">{(field.value ?? '').length}/200</span>
+          <SpecificityTooltip
+            fieldId="news.customQuery"
+            disabled={disableHints}
+            message="The more specific you are, the better. &lsquo;Federal Reserve rate decisions and bond market reaction&rsquo; beats &lsquo;finance&rsquo;."
+          >
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-ink">Narrow it down <span className="font-normal text-ink-faint">(optional)</span></Label>
+              <div className="relative">
+                <textarea
+                  value={field.value ?? ''}
+                  onChange={(e) => field.onChange(e.target.value.slice(0, 200))}
+                  placeholder="e.g. Only Taiwanese AI GPU supply chain news"
+                  rows={2}
+                  className="w-full resize-none rounded-lg border border-surface-border bg-white px-3 py-2 text-sm text-ink placeholder:text-ink-faint focus:outline-none focus:ring-2 focus:ring-brand-purple/30"
+                />
+                <span className="absolute bottom-2 right-3 text-[10px] text-ink-faint">{(field.value ?? '').length}/200</span>
+              </div>
             </div>
-          </div>
+          </SpecificityTooltip>
         )}
       />
 

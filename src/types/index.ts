@@ -77,6 +77,10 @@ export interface Profile {
   test_sends_date: string | null;
   has_onboarded: boolean;
   onboarding_step: number;
+  onboarding_test_email_sent: boolean;
+  onboarding_test_email_acknowledged: boolean;
+  onboarding_test_sends_count: number;
+  onboarding_test_sends_hour: string | null;
   created_at: string;
   updated_at: string;
 }

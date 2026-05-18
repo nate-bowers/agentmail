@@ -3,7 +3,7 @@ import type { ModuleDefinition } from '@/types';
 
 export const configSchema = z.object({
   symbols: z
-    .array(z.string().min(1).toUpperCase())
+    .array(z.string().min(1).max(12, 'Ticker is too long').toUpperCase())
     .min(1, 'Add at least one symbol')
     .max(10, 'Maximum 10 symbols'),
   showCommentary: z.boolean().default(false),

@@ -49,8 +49,9 @@ const ZERO_CONFIG_TYPES = new Set([
 
 function configSummary(moduleType: string, config: Record<string, unknown>): string {
   if (moduleType === 'weather') {
-    const locs = config.locations as string[] | undefined;
-    return locs?.join(' · ') ?? '';
+    const locs = config.locations as Array<string | { input?: string; display_name?: string }> | undefined;
+    if (!locs?.length) return '';
+    return locs.map((l) => (typeof l === 'string' ? l : (l.display_name ?? l.input ?? ''))).join(' · ');
   }
   if (moduleType === 'news') {
     const topics = config.topics as string[] | undefined;
@@ -132,6 +133,14 @@ function SortableModuleCard({ module, onEdit, onDeleteRequest, onToggle, togglin
   const summary = configSummary(module.module_type, module.config);
   const pts = getModulePoints(module.module_type, module.config ?? {});
 
+  // Weather: detect rows that still hold plain-string locations (pre-geocode
+  // legacy data) so the user can re-save and trigger geocoding.
+  const weatherNeedsResave = module.module_type === 'weather' && (() => {
+    const locs = module.config?.locations as unknown;
+    if (!Array.isArray(locs) || locs.length === 0) return false;
+    return locs.some((l) => typeof l === 'string' || (l && typeof l === 'object' && typeof (l as { latitude?: unknown }).latitude !== 'number'));
+  })();
+
   return (
     <div ref={setNodeRef} style={style}>
       <div
@@ -166,6 +175,11 @@ function SortableModuleCard({ module, onEdit, onDeleteRequest, onToggle, togglin
             </div>
             {summary && (
               <p className="text-sm text-ink-muted truncate">{summary}</p>
+            )}
+            {weatherNeedsResave && (
+              <p className="mt-1 text-xs text-amber-700">
+                We couldn&rsquo;t verify your weather location. Please re-enter it.
+              </p>
             )}
           </div>
 

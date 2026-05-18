@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { MODULE_REGISTRY } from '@/lib/modules';
+import { normalizeWeatherLocations, geocodeFailureMessage } from '@/lib/modules/weatherGeocode';
 
 interface RouteContext {
   params: Promise<{ id: string }>;
@@ -56,7 +57,26 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
     if (parsed.data.config !== undefined) {
       const def = MODULE_REGISTRY[existing.module_type];
       if (def) {
-        const configParsed = def.configSchema.safeParse(parsed.data.config);
+        // Weather: geocode every location string before validation.
+        let configToValidate: Record<string, unknown> = parsed.data.config as Record<string, unknown>;
+        if (existing.module_type === 'weather') {
+          const normalized = await normalizeWeatherLocations(
+            (parsed.data.config as { locations?: unknown })?.locations
+          );
+          if (!normalized.ok) {
+            return NextResponse.json(
+              {
+                error: 'weather_geocode_failed',
+                field: 'locations',
+                failedInput: normalized.failedInput,
+                message: geocodeFailureMessage(normalized.failedInput),
+              },
+              { status: 422 }
+            );
+          }
+          configToValidate = { ...configToValidate, locations: normalized.locations };
+        }
+        const configParsed = def.configSchema.safeParse(configToValidate);
         if (!configParsed.success) {
           return NextResponse.json({ error: configParsed.error.flatten() }, { status: 422 });
         }

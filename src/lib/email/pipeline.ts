@@ -8,6 +8,7 @@ import {
   CACHEABLE_MODULES, buildCacheKey, getSearchCache, setSearchCache,
   STATIC_CACHEABLE_MODULES, buildStaticCacheKey, getStaticCache, setStaticCache,
 } from '@/lib/email/cache';
+import { refineNewsSection } from '@/lib/email/newsValidation';
 import type { ModuleRow, ModuleSearchInstruction, SubscriptionStatus } from '@/types';
 import type { GeneratedSection } from '@/lib/email/generate';
 
@@ -154,6 +155,15 @@ export async function runPipeline(user: {
     console.error('[Pipeline] Static cache check failed (non-fatal):', err);
   }
 
+  // Weather is NEVER routed through Claude. If prefetch couldn't fill it
+  // (Open-Meteo down, unbackfilled legacy row), render the section error
+  // fallback so the email stays useful and the rest of the brief still ships.
+  const weatherInst = moduleInstructions.find((i) => i.moduleType === 'weather');
+  if (weatherInst && !resolvedSections.has('weather')) {
+    console.warn('[Pipeline] weather prefetch missing — emitting error fallback');
+    resolvedSections.set('weather', { error: true });
+  }
+
   // Modules Claude still needs to handle: cache misses only
   const claudeInstructions = moduleInstructions.filter((i) => !resolvedSections.has(i.moduleType));
   // History prefetched data (raw Wikipedia events) is the only context Claude needs
@@ -181,6 +191,46 @@ export async function runPipeline(user: {
       const message = err instanceof Error ? err.message : String(err);
       console.error('[Pipeline] Claude generation failed:', err);
       return { success: false, stage: 'generate', error: message, detail: String(err) };
+    }
+
+    // Refine the news section: validate, URL-check, retry up to once if short.
+    // Runs BEFORE we cache or merge so bad articles never get persisted or shipped.
+    const newsSectionIdx = generated.sections.findIndex((s) => s.type === 'news');
+    if (newsSectionIdx !== -1) {
+      const newsInst = claudeInstructions.find((m) => m.moduleType === 'news');
+      const requestedCount = (newsInst?.config.articleCount as number | undefined) ?? 5;
+      const topics = (newsInst?.config.topics as string[] | undefined) ?? [];
+      const customQuery = newsInst?.config.customQuery as string | undefined;
+      const sources = newsInst?.config.sources as string[] | undefined;
+      const excludeTopics = newsInst?.config.excludeTopics as string | undefined;
+
+      console.log(`[Pipeline] News refinement starting — requested ${requestedCount} articles`);
+      try {
+        const refinement = await refineNewsSection({
+          rawSectionData: generated.sections[newsSectionIdx].data,
+          requestedCount,
+          topics,
+          customQuery,
+          sources,
+          excludeTopics,
+        });
+
+        const refinedData: { articles: typeof refinement.finalArticles; editorialNote?: string } = {
+          articles: refinement.finalArticles,
+        };
+        if (refinement.underdelivered && refinement.finalArticles.length > 0) {
+          const n = refinement.finalArticles.length;
+          refinedData.editorialNote = `We found ${n} strong stor${n === 1 ? 'y' : 'ies'} for you today.`;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (generated.sections[newsSectionIdx] as any).data = refinedData;
+        tokensUsed += refinement.retryTokens;
+
+        console.log(`[Pipeline] News refinement done — retried=${refinement.retried} final=${refinement.finalArticles.length}/${requestedCount} extraTokens=${refinement.retryTokens}`);
+      } catch (err) {
+        console.error('[Pipeline] News refinement failed (non-fatal, using raw output):', err);
+      }
     }
 
     // Add Claude's output to the resolved map

@@ -2,7 +2,7 @@ import { z } from 'zod';
 import type { ModuleDefinition } from '@/types';
 
 export const configSchema = z.object({
-  subtopics: z.array(z.string()).min(1, 'Select at least one subtopic').max(4),
+  subtopics: z.array(z.string().max(40, 'Subtopic name is too long')).min(1, 'Select at least one subtopic').max(4),
   depth: z.enum(['headlines', 'analysis']).default('headlines'),
   customFocus: z.string().max(150).optional(),
 });

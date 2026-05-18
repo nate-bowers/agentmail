@@ -2,8 +2,8 @@ import { z } from 'zod';
 import type { ModuleDefinition } from '@/types';
 
 export const configSchema = z.object({
-  cuisine: z.string().default('any'),
-  dietary: z.array(z.string()).default([]),
+  cuisine: z.string().max(80, 'Cuisine description is too long').default('any'),
+  dietary: z.array(z.string().max(40, 'Dietary label is too long')).max(5, 'Maximum 5 dietary restrictions').default([]),
   maxCookTime: z.union([z.literal(15), z.literal(30), z.literal(45), z.literal(60), z.null()]).default(30),
   skillLevel: z.enum(['beginner', 'intermediate', 'advanced']).default('beginner'),
   customRequest: z.string().max(200).optional(),

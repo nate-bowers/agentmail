@@ -2,10 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { adminClient } from '@/lib/supabase/admin';
+import { ianaTimezoneSchema } from '@/lib/validation/timezone';
+import {
+  isDisposableEmail,
+  extractDomain,
+  DISPOSABLE_REJECTION_MESSAGE,
+} from '@/lib/security/disposableEmail';
 
 const settingsSchema = z.object({
   full_name: z.string().max(100).nullable().optional(),
-  timezone: z.string().min(1).max(100).optional(),
+  timezone: ianaTimezoneSchema.optional(),
   // Accept "HH:MM" from the time input; store as "HH:MM:00" for Postgres time type
   send_time: z
     .string()
@@ -23,6 +29,7 @@ const settingsSchema = z.object({
   ]).optional().transform((v) => (v === '' ? null : v)),
   has_onboarded: z.boolean().optional(),
   onboarding_step: z.number().int().min(0).max(10).optional(),
+  onboarding_test_email_acknowledged: z.boolean().optional(),
 });
 
 export async function PATCH(request: NextRequest) {
@@ -41,6 +48,14 @@ export async function PATCH(request: NextRequest) {
     const parsed = settingsSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json({ error: parsed.error.flatten() }, { status: 422 });
+    }
+
+    if (parsed.data.delivery_email && isDisposableEmail(parsed.data.delivery_email)) {
+      console.warn('[user/settings] rejected disposable delivery_email domain:', extractDomain(parsed.data.delivery_email));
+      return NextResponse.json(
+        { error: 'disposable_email', field: 'delivery_email', message: DISPOSABLE_REJECTION_MESSAGE },
+        { status: 422 }
+      );
     }
 
     const { error } = await supabase

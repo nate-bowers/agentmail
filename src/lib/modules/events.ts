@@ -2,8 +2,8 @@ import { z } from 'zod';
 import type { ModuleDefinition } from '@/types';
 
 export const configSchema = z.object({
-  city: z.string().min(1, 'Enter a city'),
-  categories: z.array(z.string()).min(1, 'Select at least one category'),
+  city: z.string().min(1, 'Enter a city').max(80, 'City name is too long'),
+  categories: z.array(z.string().max(40, 'Category name is too long')).min(1, 'Select at least one category').max(5, 'Maximum 5 categories'),
   radius: z.enum(['walking', 'city', 'metro']).default('city'),
   customRequest: z.string().max(150).optional(),
 });

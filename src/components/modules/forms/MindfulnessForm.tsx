@@ -11,11 +11,20 @@ interface Props {
   onSubmit: (data: Record<string, unknown>) => void;
 }
 
+const MINDFULNESS_STYLES = ['reflection', 'intention', 'gratitude', 'challenge', 'custom'] as const;
+type MindfulnessStyle = (typeof MINDFULNESS_STYLES)[number];
+
+function coerceMindfulnessStyle(value: unknown): MindfulnessStyle {
+  return MINDFULNESS_STYLES.includes(value as MindfulnessStyle)
+    ? (value as MindfulnessStyle)
+    : 'reflection';
+}
+
 export function MindfulnessForm({ defaultValues, onSubmit }: Props) {
   const form = useForm<MindfulnessConfig>({
     resolver: zodResolver(configSchema),
     defaultValues: {
-      style: (defaultValues.style as string | undefined) ?? 'reflection',
+      style: coerceMindfulnessStyle(defaultValues.style),
       theme: (defaultValues.theme as string | undefined) ?? (defaultValues.customTheme as string | undefined) ?? '',
       customPrompt: (defaultValues.customPrompt as string | undefined) ?? '',
     },

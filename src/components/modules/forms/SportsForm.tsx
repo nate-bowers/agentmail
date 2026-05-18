@@ -5,15 +5,17 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@/components/ui/label';
 import { configSchema, type SportsConfig } from '@/lib/modules/sports';
 import { MultiInput, OptionalTextarea } from './FormPrimitives';
+import { SpecificityTooltip } from '@/components/modules/SpecificityTooltip';
 
 const LEAGUE_OPTIONS = ['NBA', 'NFL', 'MLB', 'NHL', 'EPL', 'La Liga', 'F1'];
 
 interface Props {
   defaultValues: Record<string, unknown>;
   onSubmit: (data: Record<string, unknown>) => void;
+  disableHints?: boolean;
 }
 
-export function SportsForm({ defaultValues, onSubmit }: Props) {
+export function SportsForm({ defaultValues, onSubmit, disableHints }: Props) {
   const form = useForm<SportsConfig>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(configSchema) as any,
@@ -33,13 +35,19 @@ export function SportsForm({ defaultValues, onSubmit }: Props) {
           const teams = (field.value ?? []) as string[];
           const withEmpty = teams.length === 0 ? [''] : teams;
           return (
-            <MultiInput
-              values={withEmpty}
-              onChange={(v) => field.onChange(v.filter(Boolean))}
-              placeholder="e.g. Lakers, 49ers"
-              max={5}
-              label="Teams (optional)"
-            />
+            <SpecificityTooltip
+              fieldId="sports.teams"
+              disabled={disableHints}
+              message="Use full team names. &lsquo;San Francisco 49ers&rsquo; beats &lsquo;Niners&rsquo;."
+            >
+              <MultiInput
+                values={withEmpty}
+                onChange={(v) => field.onChange(v.filter(Boolean))}
+                placeholder="e.g. Lakers, 49ers"
+                max={5}
+                label="Teams (optional)"
+              />
+            </SpecificityTooltip>
           );
         }}
       />
@@ -83,13 +91,19 @@ export function SportsForm({ defaultValues, onSubmit }: Props) {
         control={form.control}
         name="customRequest"
         render={({ field }) => (
-          <OptionalTextarea
-            label="Anything specific? (optional)"
-            value={field.value ?? ''}
-            onChange={field.onChange}
-            placeholder="e.g. Only show 49ers scores if they won, or include injury reports"
-            maxLength={200}
-          />
+          <SpecificityTooltip
+            fieldId="sports.customRequest"
+            disabled={disableHints}
+            message="Spell out what you actually want. &lsquo;Box scores plus injury report&rsquo; beats &lsquo;more detail&rsquo;."
+          >
+            <OptionalTextarea
+              label="Anything specific? (optional)"
+              value={field.value ?? ''}
+              onChange={field.onChange}
+              placeholder="e.g. Only show 49ers scores if they won, or include injury reports"
+              maxLength={200}
+            />
+          </SpecificityTooltip>
         )}
       />
     </form>

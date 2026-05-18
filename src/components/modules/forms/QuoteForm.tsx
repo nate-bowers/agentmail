@@ -5,17 +5,26 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { configSchema, type QuoteConfig } from '@/lib/modules/quote';
 import { RadioCards, OptionalTextarea, OptionalInput } from './FormPrimitives';
 import { Label } from '@/components/ui/label';
+import { SpecificityTooltip } from '@/components/modules/SpecificityTooltip';
 
 interface Props {
   defaultValues: Record<string, unknown>;
   onSubmit: (data: Record<string, unknown>) => void;
+  disableHints?: boolean;
 }
 
-export function QuoteForm({ defaultValues, onSubmit }: Props) {
+const QUOTE_STYLES = ['stoic', 'motivational', 'philosophical', 'funny', 'custom'] as const;
+type QuoteStyle = (typeof QUOTE_STYLES)[number];
+
+function coerceQuoteStyle(value: unknown): QuoteStyle {
+  return QUOTE_STYLES.includes(value as QuoteStyle) ? (value as QuoteStyle) : 'stoic';
+}
+
+export function QuoteForm({ defaultValues, onSubmit, disableHints }: Props) {
   const form = useForm<QuoteConfig>({
     resolver: zodResolver(configSchema),
     defaultValues: {
-      style: (defaultValues.style as string | undefined) ?? 'stoic',
+      style: coerceQuoteStyle(defaultValues.style),
       customPrompt: (defaultValues.customPrompt as string | undefined) ?? '',
       specificPerson: (defaultValues.specificPerson as string | undefined) ?? '',
     },
@@ -51,13 +60,19 @@ export function QuoteForm({ defaultValues, onSubmit }: Props) {
           control={form.control}
           name="customPrompt"
           render={({ field }) => (
-            <OptionalTextarea
-              label="Your custom prompt"
-              value={field.value ?? ''}
-              onChange={field.onChange}
-              placeholder="e.g. A quote about resilience from a female author, or something from Japanese philosophy"
-              maxLength={200}
-            />
+            <SpecificityTooltip
+              fieldId="quote.customPrompt"
+              disabled={disableHints}
+              message="Specific is better. &lsquo;Stoic philosophers, especially Marcus Aurelius&rsquo; beats &lsquo;inspirational&rsquo;."
+            >
+              <OptionalTextarea
+                label="Your custom prompt"
+                value={field.value ?? ''}
+                onChange={field.onChange}
+                placeholder="e.g. A quote about resilience from a female author, or something from Japanese philosophy"
+                maxLength={200}
+              />
+            </SpecificityTooltip>
           )}
         />
       )}
@@ -66,13 +81,19 @@ export function QuoteForm({ defaultValues, onSubmit }: Props) {
         control={form.control}
         name="specificPerson"
         render={({ field }) => (
-          <OptionalInput
-            label="From a specific person? (optional)"
-            value={field.value ?? ''}
-            onChange={field.onChange}
-            placeholder="e.g. Marcus Aurelius, Maya Angelou, Feynman"
-            maxLength={80}
-          />
+          <SpecificityTooltip
+            fieldId="quote.specificPerson"
+            disabled={disableHints}
+            message="Name a specific author or thinker. &lsquo;Marcus Aurelius&rsquo; beats &lsquo;a philosopher&rsquo;."
+          >
+            <OptionalInput
+              label="From a specific person? (optional)"
+              value={field.value ?? ''}
+              onChange={field.onChange}
+              placeholder="e.g. Marcus Aurelius, Maya Angelou, Feynman"
+              maxLength={80}
+            />
+          </SpecificityTooltip>
         )}
       />
     </form>
