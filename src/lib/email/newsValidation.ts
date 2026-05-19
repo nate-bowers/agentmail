@@ -93,7 +93,10 @@ function isLikelyHomepageOrSearch(url: string): boolean {
   }
 }
 
-export function validateNewsSection(raw: unknown): NewsValidationOutcome {
+export function validateNewsSection(
+  raw: unknown,
+  options: { skipSourceDedup?: boolean } = {},
+): NewsValidationOutcome {
   const rejected: { article: unknown; reason: string }[] = [];
   if (raw === null || typeof raw !== 'object') {
     return { articles: [], rejected: [{ article: raw, reason: 'data is not an object' }] };
@@ -146,8 +149,12 @@ export function validateNewsSection(raw: unknown): NewsValidationOutcome {
   }
 
   // Source diversity: keep only the first article per (case-insensitive) source.
-  // Subsequent ones get pushed into `rejected` so the retry layer fills the
-  // slots with articles from different publications.
+  // Skipped when the caller pinned specific sources (user explicitly chose those
+  // publications and may legitimately want multiple stories from one of them).
+  if (options.skipSourceDedup) {
+    return { articles: valid, rejected };
+  }
+
   const seenSources = new Set<string>();
   const diverse: NewsArticle[] = [];
   for (const article of valid) {
@@ -239,23 +246,30 @@ export async function retryNewsForReplacements(args: {
   const exclude = alreadyUsedUrls.length
     ? `\nDo NOT return any of these URLs (we already have them): ${alreadyUsedUrls.join(', ')}.`
     : '';
-  const excludeSources = alreadyUsedSources && alreadyUsedSources.length
-    ? `\nThe new article(s) MUST come from DIFFERENT publications than these (which we already have): ${alreadyUsedSources.join(', ')}.`
-    : '';
+
+  const hasUserSources = !!sources?.length;
+
+  // Two prompt modes depending on whether the user pinned specific publications.
+  const sourceBlock = hasUserSources
+    ? `\nREQUIRED SOURCES (hard rule): articles MUST come from one of these publications: ${sources!.join(', ')}. ` +
+      `Do not substitute other outlets. If you cannot find fresh stories from these, return fewer articles rather than padding.`
+    : (alreadyUsedSources && alreadyUsedSources.length
+        ? `\nThe new article(s) MUST come from DIFFERENT publications than these (which we already have): ${alreadyUsedSources.join(', ')}.`
+        : ''
+      ) +
+      `\n\nStrongly prefer well-known mainstream outlets: Reuters, Associated Press, BBC, The New York Times, ` +
+      `The Washington Post, The Wall Street Journal, Bloomberg, Financial Times, The Guardian, The Economist, NPR, ` +
+      `CNN, CNBC, Axios, Politico, The Verge, Ars Technica, TechCrunch, Wired, MIT Technology Review.\n` +
+      `Do NOT use small unknown blogs, content-farm aggregators, or "news network" sites with vague names.`;
 
   const prompt =
     `You are filling gaps in a news brief. We need exactly ${missingCount} additional news article${missingCount === 1 ? '' : 's'} from the last 24 hours.\n\n` +
     `Broaden the search beyond the obvious top headlines. Topics: ${topics.join(', ')}.` +
     (customQuery ? ` Specifically focus on: ${customQuery}.` : '') +
-    (sources?.length ? ` Prefer these sources: ${sources.join(', ')}.` : '') +
     (excludeTopics ? ` Exclude any articles about: ${excludeTopics}.` : '') +
     exclude +
-    excludeSources +
-    `\n\nStrongly prefer well-known mainstream outlets: Reuters, Associated Press, BBC, The New York Times, ` +
-    `The Washington Post, The Wall Street Journal, Bloomberg, Financial Times, The Guardian, The Economist, NPR, ` +
-    `CNN, CNBC, Axios, Politico, The Verge, Ars Technica, TechCrunch, Wired, MIT Technology Review.\n` +
-    `Do NOT use small unknown blogs, content-farm aggregators, or "news network" sites with vague names.\n\n` +
-    `Return ONLY valid JSON, no markdown fences, no preface:\n` +
+    sourceBlock +
+    `\n\nReturn ONLY valid JSON, no markdown fences, no preface:\n` +
     `{ "articles": [ { "headline": string, "source": string, "summary": string, "url": string } ] }\n\n` +
     `Strict rules:\n` +
     `- exactly ${missingCount} article${missingCount === 1 ? '' : 's'}\n` +
@@ -291,7 +305,9 @@ export async function retryNewsForReplacements(args: {
 
   try {
     const obj = JSON.parse(rawText.slice(first, last + 1));
-    const validation = validateNewsSection(obj);
+    // When user has pinned sources, skip the diversity-dedup so multiple
+    // articles from one outlet pass through.
+    const validation = validateNewsSection(obj, { skipSourceDedup: hasUserSources });
     return { articles: validation.articles, tokensUsed };
   } catch (err) {
     console.warn('[News:retry] Retry JSON parse failed:', err instanceof Error ? err.message : err);
@@ -328,9 +344,12 @@ export async function refineNewsSection(args: {
   excludeTopics?: string;
 }): Promise<NewsRefinementResult> {
   const { rawSectionData, requestedCount, topics, customQuery, sources, excludeTopics } = args;
+  // When the user pinned specific publications, we honor their list as a
+  // whitelist instead of enforcing the diversity-dedup rule.
+  const hasUserSources = !!sources && sources.length > 0;
 
   // 1. Schema + content validation
-  const initial = validateNewsSection(rawSectionData);
+  const initial = validateNewsSection(rawSectionData, { skipSourceDedup: hasUserSources });
   if (initial.rejected.length) {
     console.warn(`[News] Rejected ${initial.rejected.length} article(s) at validation:`, initial.rejected.map((r) => r.reason));
   }
@@ -364,12 +383,14 @@ export async function refineNewsSection(args: {
       console.warn(`[News] Retry URLs dropped:`, retryCheck.dead.map((d) => `${d.reason} ${d.article.url}`));
     }
 
-    // Dedup against existing urls AND existing sources (diversity is a hard rule)
+    // Dedup against existing URLs. Source dedup only applies when the user
+    // has NOT pinned specific publications — when they have, multiple articles
+    // from a pinned source are legitimate.
     const existingUrls = new Set(final.map((a) => a.url));
     const existingSources = new Set(final.map((a) => a.source.trim().toLowerCase()));
     for (const a of retryCheck.live) {
       if (existingUrls.has(a.url)) continue;
-      if (existingSources.has(a.source.trim().toLowerCase())) continue;
+      if (!hasUserSources && existingSources.has(a.source.trim().toLowerCase())) continue;
       if (final.length >= requestedCount) break;
       final.push(a);
       existingUrls.add(a.url);
