@@ -145,7 +145,22 @@ export function validateNewsSection(raw: unknown): NewsValidationOutcome {
     valid.push(parsed.data);
   }
 
-  return { articles: valid, rejected };
+  // Source diversity: keep only the first article per (case-insensitive) source.
+  // Subsequent ones get pushed into `rejected` so the retry layer fills the
+  // slots with articles from different publications.
+  const seenSources = new Set<string>();
+  const diverse: NewsArticle[] = [];
+  for (const article of valid) {
+    const key = article.source.trim().toLowerCase();
+    if (seenSources.has(key)) {
+      rejected.push({ article, reason: `duplicate source "${article.source}"` });
+      continue;
+    }
+    seenSources.add(key);
+    diverse.push(article);
+  }
+
+  return { articles: diverse, rejected };
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -213,15 +228,19 @@ export async function retryNewsForReplacements(args: {
   excludeTopics?: string;
   missingCount: number;
   alreadyUsedUrls: string[];
+  alreadyUsedSources?: string[];
 }): Promise<{ articles: NewsArticle[]; tokensUsed: number }> {
   const {
-    topics, customQuery, sources, excludeTopics, missingCount, alreadyUsedUrls,
+    topics, customQuery, sources, excludeTopics, missingCount, alreadyUsedUrls, alreadyUsedSources,
   } = args;
 
   if (missingCount <= 0) return { articles: [], tokensUsed: 0 };
 
   const exclude = alreadyUsedUrls.length
     ? `\nDo NOT return any of these URLs (we already have them): ${alreadyUsedUrls.join(', ')}.`
+    : '';
+  const excludeSources = alreadyUsedSources && alreadyUsedSources.length
+    ? `\nThe new article(s) MUST come from DIFFERENT publications than these (which we already have): ${alreadyUsedSources.join(', ')}.`
     : '';
 
   const prompt =
@@ -231,15 +250,21 @@ export async function retryNewsForReplacements(args: {
     (sources?.length ? ` Prefer these sources: ${sources.join(', ')}.` : '') +
     (excludeTopics ? ` Exclude any articles about: ${excludeTopics}.` : '') +
     exclude +
-    `\n\nReturn ONLY valid JSON, no markdown fences, no preface:\n` +
+    excludeSources +
+    `\n\nStrongly prefer well-known mainstream outlets: Reuters, Associated Press, BBC, The New York Times, ` +
+    `The Washington Post, The Wall Street Journal, Bloomberg, Financial Times, The Guardian, The Economist, NPR, ` +
+    `CNN, CNBC, Axios, Politico, The Verge, Ars Technica, TechCrunch, Wired, MIT Technology Review.\n` +
+    `Do NOT use small unknown blogs, content-farm aggregators, or "news network" sites with vague names.\n\n` +
+    `Return ONLY valid JSON, no markdown fences, no preface:\n` +
     `{ "articles": [ { "headline": string, "source": string, "summary": string, "url": string } ] }\n\n` +
     `Strict rules:\n` +
     `- exactly ${missingCount} article${missingCount === 1 ? '' : 's'}\n` +
     `- NO citation markers ([1], [^1], etc.) in any field\n` +
+    `- NO HTML tags (<cite>, <a>, etc.) in any field\n` +
     `- NO arrow characters (↗ ↘ → etc.) in any field\n` +
     `- summary is exactly 2 sentences\n` +
     `- url is the direct article permalink (https://...), not a homepage or search-result URL\n` +
-    `- source is the publication name only\n`;
+    `- source is the publication name only, not a URL or domain\n`;
 
   const response = await getClient().messages.create({
     model: 'claude-haiku-4-5-20251001',
@@ -329,6 +354,7 @@ export async function refineNewsSection(args: {
       topics, customQuery, sources, excludeTopics,
       missingCount: missing,
       alreadyUsedUrls: final.map((a) => a.url),
+      alreadyUsedSources: final.map((a) => a.source),
     });
     retryTokens = retry.tokensUsed;
 
@@ -338,12 +364,16 @@ export async function refineNewsSection(args: {
       console.warn(`[News] Retry URLs dropped:`, retryCheck.dead.map((d) => `${d.reason} ${d.article.url}`));
     }
 
-    // Dedup against existing urls
-    const existing = new Set(final.map((a) => a.url));
+    // Dedup against existing urls AND existing sources (diversity is a hard rule)
+    const existingUrls = new Set(final.map((a) => a.url));
+    const existingSources = new Set(final.map((a) => a.source.trim().toLowerCase()));
     for (const a of retryCheck.live) {
-      if (existing.has(a.url) || final.length >= requestedCount) continue;
+      if (existingUrls.has(a.url)) continue;
+      if (existingSources.has(a.source.trim().toLowerCase())) continue;
+      if (final.length >= requestedCount) break;
       final.push(a);
-      existing.add(a.url);
+      existingUrls.add(a.url);
+      existingSources.add(a.source.trim().toLowerCase());
     }
   }
 

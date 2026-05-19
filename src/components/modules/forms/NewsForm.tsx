@@ -5,9 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { X } from 'lucide-react';
-import { configSchema, type NewsConfig } from '@/lib/modules/news';
-import { SegmentedControl } from './FormPrimitives';
-import { getModulePoints } from '@/lib/modules/points';
+import { configSchema, type NewsConfig, FIXED_ARTICLE_COUNT } from '@/lib/modules/news';
 import { SpecificityTooltip } from '@/components/modules/SpecificityTooltip';
 
 interface Props {
@@ -24,13 +22,12 @@ export function NewsForm({ defaultValues, onSubmit, disableHints }: Props) {
       topics: (defaultValues.topics as string[] | undefined) ?? ['technology'],
       customQuery: (defaultValues.customQuery as string | undefined) ?? '',
       sources: (defaultValues.sources as string[] | undefined) ?? [],
-      articleCount: (defaultValues.articleCount as 3 | 5 | 10 | undefined) ?? 5,
+      // articleCount is no longer user-editable. We keep it in the form state
+      // so legacy DB values (5, 10) don't trip the resolver; new rows save as 3.
+      articleCount: (defaultValues.articleCount as 3 | 5 | 10 | undefined) ?? FIXED_ARTICLE_COUNT,
       excludeTopics: (defaultValues.excludeTopics as string | undefined) ?? '',
     },
   });
-
-  const articleCount = form.watch('articleCount');
-  const pointCost = getModulePoints('news', { articleCount });
 
   return (
     <form id="config-form" onSubmit={form.handleSubmit(onSubmit as (data: NewsConfig) => void)} className="space-y-5">
@@ -131,25 +128,9 @@ export function NewsForm({ defaultValues, onSubmit, disableHints }: Props) {
         )}
       />
 
-      <Controller
-        control={form.control}
-        name="articleCount"
-        render={({ field }) => (
-          <SegmentedControl
-            label="Article count"
-            value={field.value}
-            onChange={field.onChange}
-            options={[
-              { value: 3 as const, label: '3 articles — 1pt' },
-              { value: 5 as const, label: '5 articles — 2pts' },
-              { value: 10 as const, label: '10 articles — 3pts' },
-            ]}
-          />
-        )}
-      />
       <p className="text-sm text-ink-muted">
-        This module costs{' '}
-        <span className="font-medium text-brand-purple">{pointCost} {pointCost === 1 ? 'point' : 'points'}</span>
+        You get <span className="font-medium text-ink">3 articles</span> from {FIXED_ARTICLE_COUNT} different mainstream sources. Costs{' '}
+        <span className="font-medium text-brand-purple">2 credits</span>.
       </p>
     </form>
   );

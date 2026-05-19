@@ -186,7 +186,10 @@ function WeatherSection({ data, c }: { data: Record<string, unknown>; c: EmailTh
 
 function NewsSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
   if (data?.error) return <SectionErrorFallback label="News" c={c} />;
-  const articlesRaw = (data.articles as NewsArticle[] | undefined) ?? [];
+  // News is hardcoded to 3 articles. Slice as a defensive cap so legacy
+  // search-cache entries (built when articleCount was 5 or 10) don't render
+  // more than three even if the cached payload still carries them.
+  const articlesRaw = ((data.articles as NewsArticle[] | undefined) ?? []).slice(0, 3);
   // Defense in depth: strip citation/arrow artifacts at render time. Upstream
   // validation already runs but a leak here is a visible regression.
   const articles: NewsArticle[] = articlesRaw.map((a) => ({

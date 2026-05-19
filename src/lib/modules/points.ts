@@ -33,14 +33,9 @@ export function getPointLimit_ForUser(subscriptionStatus: string | null): number
   return getPointLimit(getPlanFromSubscriptionStatus(subscriptionStatus));
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function getModulePoints(moduleType: string, config: Record<string, any>): number {
-  if (moduleType === 'news') {
-    const count = (config.articleCount as number) ?? 5;
-    if (count <= 3) return 1;
-    if (count <= 5) return 2;
-    return 3;
-  }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+export function getModulePoints(moduleType: string, _config: Record<string, any>): number {
+  // News is now a flat 2 credits regardless of stored articleCount (always 3 articles).
   return MODULE_POINTS[moduleType] ?? 1;
 }
 

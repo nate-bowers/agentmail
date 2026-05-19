@@ -201,7 +201,9 @@ export async function runPipeline(
     const newsSectionIdx = generated.sections.findIndex((s) => s.type === 'news');
     if (newsSectionIdx !== -1) {
       const newsInst = claudeInstructions.find((m) => m.moduleType === 'news');
-      const requestedCount = (newsInst?.config.articleCount as number | undefined) ?? 5;
+      // News is hardcoded to 3 articles. Legacy DB rows may still carry
+      // articleCount: 5 or 10 — we ignore that value on purpose.
+      const requestedCount = 3;
       const topics = (newsInst?.config.topics as string[] | undefined) ?? [];
       const customQuery = newsInst?.config.customQuery as string | undefined;
       const sources = newsInst?.config.sources as string[] | undefined;
