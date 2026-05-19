@@ -11,6 +11,8 @@ import { generateDailyBrief } from '@/lib/email/generate';
 import { prepareBriefBeforeClaude, applyWeatherErrorSection } from '@/lib/email/briefPrep';
 import { generateUnsubscribeToken } from '@/lib/unsubscribe';
 import { getBusinessMailingAddress } from '@/lib/email/compliance';
+import { buildContextLine } from '@/lib/email/contextLine';
+import { reorderSectionsForDisplay } from '@/lib/email/reorderSections';
 import DailyBriefEmail from '@/components/email/DailyBriefEmail';
 import type { ModuleRow } from '@/types';
 
@@ -104,16 +106,18 @@ export async function GET(request: NextRequest) {
 
     const zonedNow = toZonedTime(new Date(), user.timezone || 'UTC');
     const dateLabel = format(zonedNow, 'EEEE, MMMM d, yyyy');
+    const displaySections = reorderSectionsForDisplay(generated.sections, user.id);
     const html = await render(
       DailyBriefEmail({
         userName: user.full_name ?? user.email,
         date: dateLabel,
         intro: generated.intro || undefined,
-        sections: generated.sections,
+        sections: displaySections,
         unsubscribeToken: generateUnsubscribeToken(user.id),
         theme: user.email_theme ?? 'light',
         showUpgradeCta: !user.subscription_status || user.subscription_status === 'free',
         mailingAddress: getBusinessMailingAddress(),
+        contextLine: buildContextLine(displaySections, user.timezone || 'UTC'),
       })
     );
 

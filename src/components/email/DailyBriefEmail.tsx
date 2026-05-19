@@ -19,7 +19,7 @@ import { stripCitationArtifacts } from '@/lib/email/newsValidation';
 interface WeatherLocation {
   name: string; tempF: number; condition: string; humidity: string; high: number; low: number;
 }
-interface NewsArticle { headline: string; source: string; summary: string; url?: string; }
+interface NewsArticle { headline: string; source: string; summary: string; whyItMatters?: string; url?: string; }
 interface MarketSymbol { symbol: string; price: string; change: string; changePercent: string; direction: 'up' | 'down'; }
 interface SportsResult { team: string; opponent: string; score: string; result: 'win' | 'loss' | 'draw'; nextGame?: string; }
 interface WorkoutExercise { exercise: string; sets?: string; reps?: string; duration?: string; }
@@ -43,6 +43,12 @@ export interface DailyBriefEmailProps {
   showUpgradeCta?: boolean;
   /** Physical mailing address required by CAN-SPAM. Set via BUSINESS_MAILING_ADDRESS env var on the server. */
   mailingAddress: string;
+  /**
+   * Optional one-line peek line directly under the date. Used to situate
+   * the reader in their morning rather than just on the calendar. E.g.
+   * "Clear and 77° in New York." or "Halfway through the week."
+   */
+  contextLine?: string;
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -198,10 +204,16 @@ function NewsSection({ data, c }: { data: Record<string, unknown>; c: EmailTheme
     headline: stripCitationArtifacts(a.headline) ?? a.headline,
     source: stripCitationArtifacts(a.source) ?? a.source,
     summary: stripCitationArtifacts(a.summary) ?? a.summary,
+    whyItMatters: a.whyItMatters ? stripCitationArtifacts(a.whyItMatters) : undefined,
     url: a.url,
   }));
   const editorialNote = typeof data.editorialNote === 'string' ? data.editorialNote : undefined;
-  const compact = articles.length >= 10;
+  // Build a "Continue at Reuters" / "Continue at Bloomberg" style link label
+  // from the article source. Falls back to "Continue reading" if missing.
+  const linkLabel = (source: string | undefined): string => {
+    const trimmed = (source ?? '').trim();
+    return trimmed ? `Continue at ${trimmed}` : 'Continue reading';
+  };
   return (
     <Section>
       <Text style={kickerStyle(c)}>News</Text>
@@ -209,27 +221,40 @@ function NewsSection({ data, c }: { data: Record<string, unknown>; c: EmailTheme
         <Text style={{ ...mutedStyle(c), fontFamily: SERIF_STACK, fontStyle: 'italic', fontSize: '15px', margin: '0 0 16px' }}>{editorialNote}</Text>
       )}
       {articles.map((article, i) => (
-        <Section key={i} style={{ marginBottom: i < articles.length - 1 ? (compact ? '14px' : '24px') : '0' }}>
+        <Section key={i} style={{ marginBottom: i < articles.length - 1 ? '28px' : '0' }}>
           <Text style={{ ...smallcapStyle(c), margin: '0 0 4px' }}>{article.source}</Text>
           <Text style={{
             color: c.text,
             fontFamily: SANS_STACK,
-            fontSize: compact ? '15px' : '17px',
+            fontSize: '17px',
             fontWeight: 600,
             lineHeight: '1.35',
             margin: '0 0 6px',
           }}>{article.headline}</Text>
-          <Text style={{ ...bodyStyle(c), color: c.muted, fontSize: compact ? '14px' : '15px', margin: '0 0 6px' }}>
+          <Text style={{ ...bodyStyle(c), color: c.muted, fontSize: '15px', margin: '0 0 8px' }}>
             {article.summary}
           </Text>
+          {article.whyItMatters && (
+            <Text style={{
+              ...mutedStyle(c),
+              fontFamily: SERIF_STACK,
+              fontStyle: 'italic',
+              fontSize: '14px',
+              color: c.muted,
+              margin: '0 0 10px',
+            }}>
+              Why this matters: {article.whyItMatters}
+            </Text>
+          )}
           {article.url && (
             <Link href={article.url} style={{
-              color: c.accent,
+              color: c.text,
               fontFamily: SANS_STACK,
               fontSize: '13px',
               fontWeight: 500,
-              textDecoration: 'none',
-            }}>Read more →</Link>
+              textDecoration: 'underline',
+              textUnderlineOffset: '3px',
+            }}>{linkLabel(article.source)}</Link>
           )}
         </Section>
       ))}
@@ -270,23 +295,41 @@ function MarketsSection({ data, c }: { data: Record<string, unknown>; c: EmailTh
       <Text style={kickerStyle(c)}>Markets</Text>
       {symbols.map((s, i) => (
         <Section key={s.symbol} style={{
-          marginBottom: i < symbols.length - 1 ? '10px' : '0',
-          paddingBottom: i < symbols.length - 1 ? '10px' : '0',
+          marginBottom: i < symbols.length - 1 ? '18px' : '0',
+          paddingBottom: i < symbols.length - 1 ? '18px' : '0',
           borderBottom: i < symbols.length - 1 ? `1px solid ${c.border}` : 'none',
         }}>
-          <Text style={{ ...bodyStyle(c), margin: '0' }}>
-            <span style={{ fontFamily: MONO_STACK, fontWeight: 600, letterSpacing: '0.02em' }}>{s.symbol}</span>
-            <span style={{ color: c.muted, marginLeft: '14px' }}>{s.price}</span>
-            <span style={{
-              color: s.direction === 'up' ? c.positive : c.negative,
-              marginLeft: '14px',
-              fontFamily: MONO_STACK,
-              fontSize: '13px',
-              fontWeight: 500,
-            }}>
+          {/* Ticker eyebrow, scanline-style. */}
+          <Text style={{
+            ...smallcapStyle(c),
+            fontFamily: MONO_STACK,
+            margin: '0 0 4px',
+          }}>
+            {s.symbol}
+          </Text>
+          {/* Hero: the price. Single dominant element. */}
+          <Text style={{
+            color: c.text,
+            fontFamily: SERIF_STACK,
+            fontSize: '32px',
+            fontWeight: 300,
+            lineHeight: '1.05',
+            margin: '0 0 6px',
+            letterSpacing: '-0.01em',
+          }}>
+            {s.price}
+          </Text>
+          {/* Secondary: % change with direction + absolute change. Muted. */}
+          <Text style={{
+            ...mutedStyle(c),
+            margin: '0',
+            fontFamily: MONO_STACK,
+            fontSize: '13px',
+          }}>
+            <span style={{ color: s.direction === 'up' ? c.positive : c.negative, fontWeight: 500 }}>
               {s.direction === 'up' ? '▲' : '▼'} {s.changePercent}
             </span>
-            <span style={{ color: c.muted, marginLeft: '8px', fontFamily: MONO_STACK, fontSize: '12px' }}>
+            <span style={{ marginLeft: '8px', fontSize: '12px' }}>
               ({s.change})
             </span>
           </Text>
@@ -303,15 +346,18 @@ function SportsSection({ data, c }: { data: Record<string, unknown>; c: EmailThe
     <Section>
       <Text style={kickerStyle(c)}>Sports</Text>
       {results.map((r, i) => (
-        <Section key={i} style={{ marginBottom: i < results.length - 1 ? '18px' : '0' }}>
+        <Section key={i} style={{ marginBottom: i < results.length - 1 ? '22px' : '0' }}>
+          {/* Team eyebrow. */}
           <Text style={{ ...smallcapStyle(c), margin: '0 0 4px' }}>{r.team}</Text>
+          {/* Hero: the score. Single dominant element, matches Weather/Markets. */}
           <Text style={{
             color: c.text,
             fontFamily: SERIF_STACK,
-            fontSize: '22px',
-            fontWeight: 400,
-            margin: '0 0 4px',
-            lineHeight: '1.2',
+            fontSize: '36px',
+            fontWeight: 300,
+            margin: '0 0 6px',
+            lineHeight: '1.05',
+            letterSpacing: '-0.01em',
           }}>
             {r.score}
             <span style={{
@@ -321,7 +367,7 @@ function SportsSection({ data, c }: { data: Record<string, unknown>; c: EmailThe
               letterSpacing: '0.12em',
               textTransform: 'uppercase',
               color: r.result === 'win' ? c.positive : r.result === 'loss' ? c.negative : c.muted,
-              marginLeft: '12px',
+              marginLeft: '14px',
               verticalAlign: 'middle',
             }}>
               {r.result}
@@ -406,7 +452,10 @@ function WorkoutSection({ data, c }: { data: Record<string, unknown>; c: EmailTh
 
 function MindfulnessSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
   if (data?.error) return <SectionErrorFallback label="Mindfulness" c={c} />;
-  const { prompt, style } = data as { prompt: string; style: string };
+  const { prompt } = data as { prompt: string };
+  // Sub-eyebrow removed. The "DAILY {style}" line read ambiguously
+  // (especially with stale cached values like "moderate" from an earlier
+  // schema). The "Mindfulness" kicker above already labels the section.
   return (
     <Section>
       <Text style={kickerStyle(c)}>Mindfulness</Text>
@@ -417,11 +466,10 @@ function MindfulnessSection({ data, c }: { data: Record<string, unknown>; c: Ema
         fontSize: '20px',
         fontStyle: 'italic',
         lineHeight: '1.45',
-        margin: '0 0 14px',
+        margin: '0',
       }}>
         {prompt}
       </Text>
-      <Text style={{ ...smallcapStyle(c), margin: '0' }}>Daily {style}</Text>
     </Section>
   );
 }
@@ -464,15 +512,19 @@ function CurrencySection({ data, c }: { data: Record<string, unknown>; c: EmailT
           <Text style={{ ...bodyStyle(c), margin: '0' }}>
             <span style={{ color: c.muted }}>1 {base}</span>
             <span style={{ marginLeft: '10px', fontFamily: MONO_STACK, fontWeight: 600 }}>{r.rate} {r.target}</span>
-            <span style={{
-              marginLeft: '12px',
-              color: r.direction === 'up' ? c.positive : r.direction === 'down' ? c.negative : c.muted,
-              fontFamily: MONO_STACK,
-              fontSize: '13px',
-            }}>
-              {r.direction === 'up' ? '▲' : r.direction === 'down' ? '▼' : '–'}
-              {r.change ? ` ${r.change}` : ''}
-            </span>
+            {/* Delta column is only rendered when we actually have a change
+                value. The old design always emitted a "–" placeholder for
+                flat/missing deltas, which read as a trailing punctuation bug. */}
+            {r.change && (r.direction === 'up' || r.direction === 'down') && (
+              <span style={{
+                marginLeft: '12px',
+                color: r.direction === 'up' ? c.positive : c.negative,
+                fontFamily: MONO_STACK,
+                fontSize: '13px',
+              }}>
+                {r.direction === 'up' ? '▲' : '▼'} {r.change}
+              </span>
+            )}
           </Text>
         </Section>
       ))}
@@ -800,7 +852,7 @@ function ChallengeSection({ data, c }: { data: Record<string, unknown>; c: Email
 // ─────────────────────────────────────────────────────────────
 
 export default function DailyBriefEmail({
-  userName, date, sections, unsubscribeToken, theme, showUpgradeCta, mailingAddress,
+  userName, date, sections, unsubscribeToken, theme, showUpgradeCta, mailingAddress, contextLine,
 }: DailyBriefEmailProps) {
   const firstName = userName.split(' ')[0];
   const { colors: c } = getTheme(theme ?? 'light');
@@ -836,6 +888,15 @@ export default function DailyBriefEmail({
               Good morning, {firstName}.
             </Heading>
             <Text style={{ ...mutedStyle(c), margin: '10px 0 0', fontSize: '13px' }}>{date}</Text>
+            {contextLine && (
+              <Text style={{
+                ...mutedStyle(c),
+                margin: '4px 0 0',
+                fontSize: '13px',
+              }}>
+                {contextLine}
+              </Text>
+            )}
           </Section>
 
           <DotDivider c={c} />
@@ -898,8 +959,9 @@ export default function DailyBriefEmail({
             </>
           )}
 
-          {/* Footer */}
-          <Section style={{ paddingTop: '4px' }}>
+          {/* Footer — fine-print pulled tight to the sign-off so it reads as
+              an attached coda rather than a separate section. */}
+          <Section style={{ paddingTop: '0' }}>
             <Text style={{
               ...bodyStyle(c),
               fontFamily: SERIF_STACK,
@@ -907,7 +969,7 @@ export default function DailyBriefEmail({
               fontSize: '15px',
               color: c.muted,
               textAlign: 'center',
-              margin: '0 0 16px',
+              margin: '0 0 8px',
             }}>
               Thanks for reading. Until tomorrow.
             </Text>
@@ -932,7 +994,10 @@ export default function DailyBriefEmail({
                 Terms
               </Link>
             </Text>
-            {/* CAN-SPAM: physical mailing address is required. Rendered small and muted. */}
+            {/* CAN-SPAM: physical mailing address is required. Rendered small
+                and muted. Sits between the legal links and the bottom edge,
+                close enough that everything below the sign-off reads as one
+                attached block of fine print. */}
             <Text style={{
               color: c.muted,
               fontFamily: SANS_STACK,
@@ -940,7 +1005,7 @@ export default function DailyBriefEmail({
               lineHeight: '1.6',
               letterSpacing: '0.02em',
               textAlign: 'center',
-              margin: '14px 0 0',
+              margin: '6px 0 0',
               opacity: 0.85,
             }}>
               Daily Brief Mail · {mailingAddress}

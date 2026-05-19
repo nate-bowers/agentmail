@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { z } from 'zod';
+import { stripDashesDeep } from '@/lib/email/dashStripper';
 
 // ─────────────────────────────────────────────────────────────
 // Citation / arrow artifact stripping
@@ -51,6 +52,10 @@ const articleSchema = z.object({
   headline: z.string().min(1),
   source: z.string().min(1),
   summary: z.string().min(1),
+  // whyItMatters is required for new generations but optional in the schema
+  // so legacy cached articles (built before this field existed) don't fail
+  // validation and disappear from the email.
+  whyItMatters: z.string().min(1).max(200).optional(),
   url: z.string().url().refine((u) => /^https?:\/\//.test(u), 'must be http(s)'),
 });
 
@@ -305,9 +310,13 @@ export async function retryNewsForReplacements(args: {
 
   try {
     const obj = JSON.parse(rawText.slice(first, last + 1));
+    const dashResult = stripDashesDeep(obj);
+    if (dashResult.replacements > 0) {
+      console.warn(`[News:retry] Stripped ${dashResult.replacements} dash(es) from retry output`);
+    }
     // When user has pinned sources, skip the diversity-dedup so multiple
     // articles from one outlet pass through.
-    const validation = validateNewsSection(obj, { skipSourceDedup: hasUserSources });
+    const validation = validateNewsSection(dashResult.value, { skipSourceDedup: hasUserSources });
     return { articles: validation.articles, tokensUsed };
   } catch (err) {
     console.warn('[News:retry] Retry JSON parse failed:', err instanceof Error ? err.message : err);

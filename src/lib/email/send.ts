@@ -6,6 +6,8 @@ import { adminClient } from '@/lib/supabase/admin';
 import DailyBriefEmail from '@/components/email/DailyBriefEmail';
 import { generateUnsubscribeToken } from '@/lib/unsubscribe';
 import { buildUnsubscribeHeaders, getBusinessMailingAddress } from '@/lib/email/compliance';
+import { buildContextLine } from '@/lib/email/contextLine';
+import { reorderSectionsForDisplay } from '@/lib/email/reorderSections';
 import type { GeneratedSection } from './generate';
 import type { Profile } from '@/types';
 
@@ -42,17 +44,22 @@ export async function sendDailyBrief(
     const showUpgradeCta = !subscription_status || subscription_status === 'free';
 
     const mailingAddress = getBusinessMailingAddress();
+    // Lift a rotating distinctive module to the lead position; never repeat
+    // for a given user until they cycle through all their distinctive ones.
+    const displaySections = reorderSectionsForDisplay(generated.sections, userId);
+    const contextLine = buildContextLine(displaySections, timezone || 'UTC');
 
     const renderedHTML = await render(
       DailyBriefEmail({
         userName: full_name ?? email,
         date: dateLabel,
         intro: generated.intro || undefined,
-        sections: generated.sections,
+        sections: displaySections,
         unsubscribeToken,
         theme,
         showUpgradeCta,
         mailingAddress,
+        contextLine,
       })
     );
 

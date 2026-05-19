@@ -72,16 +72,20 @@ export const newsModule: ModuleDefinition<typeof configSchema> = {
     }
 
     instruction +=
-      `\n\nEach article must include: headline (string), source (publication name only — no URL, no domain), ` +
-      `summary (exactly 2 sentences capturing why the story matters), ` +
-      `and url (the DIRECT permalink to the article page, not the publication homepage and not a search-results URL).\n\n` +
+      `\n\nEach article must include FIVE fields:\n` +
+      `- headline (string)\n` +
+      `- source (publication name only, no URL, no domain)\n` +
+      `- summary (exactly 2 sentences — and each summary MUST include at least one of: a surprising number, a tension or contradiction, or a stated implication. Never just describe what happened; tell the reader why it is worth their 10 seconds. Voice: a smart friend texting you the story, not a Reuters wire. Avoid corporate hedging like "reportedly", "is said to", "sources say" unless necessary for accuracy. Be direct.)\n` +
+      `- whyItMatters (ONE sentence, 25 words max, written in second person ("you"/"your"), explaining why THIS reader should care today. Not why it matters to the world, why it should land in their head.)\n` +
+      `- url (the DIRECT permalink to the article page, not the publication homepage and not a search-results URL)\n\n` +
       `Strict content rules for every field:\n` +
-      `(1) NO citation markers of any kind — no [1], [2], [^1], no bracketed numbers, no superscripts;\n` +
-      `(2) NO HTML tags — no <cite>, <ref>, <a>, no opening or closing angle-bracket tags of any kind;\n` +
-      `(3) NO arrow characters — no ↗ ↘ → ← ⇒ or any U+2190–U+21FF arrow glyph;\n` +
-      `(4) NO trailing reference symbols like "(Source)" or "[Reuters]";\n` +
-      `(5) The "url" field must start with https:// and point to the specific article;\n` +
-      `(6) The "source" field is the publication name only, e.g. "Reuters", not a URL.`;
+      `(1) NO em or en dashes anywhere (—, –). Use commas, semicolons, periods, or restructure.\n` +
+      `(2) NO citation markers of any kind — no [1], [2], [^1], no bracketed numbers, no superscripts;\n` +
+      `(3) NO HTML tags — no <cite>, <ref>, <a>, no opening or closing angle-bracket tags of any kind;\n` +
+      `(4) NO arrow characters — no ↗ ↘ → ← ⇒ or any U+2190–U+21FF arrow glyph;\n` +
+      `(5) NO trailing reference symbols like "(Source)" or "[Reuters]";\n` +
+      `(6) The "url" field must start with https:// and point to the specific article;\n` +
+      `(7) The "source" field is the publication name only, e.g. "Reuters", not a URL.`;
     return instruction;
   },
 };

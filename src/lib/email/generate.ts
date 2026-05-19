@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { getTheme } from '@/lib/email/themes';
+import { stripDashesDeep } from '@/lib/email/dashStripper';
 import type { ModuleSearchInstruction } from '@/types';
 
 let _client: Anthropic | null = null;
@@ -19,7 +20,7 @@ export interface GeneratedBrief {
 
 export type GeneratedSection =
   | { type: 'weather'; data: { locations: { name: string; tempF: number; condition: string; humidity: string; high: number; low: number }[] } }
-  | { type: 'news'; data: { articles: { headline: string; source: string; summary: string; url?: string }[] } }
+  | { type: 'news'; data: { articles: { headline: string; source: string; summary: string; whyItMatters?: string; url?: string }[]; editorialNote?: string } }
   | { type: 'quote'; data: { text: string; author: string } }
   | { type: 'markets'; data: { symbols: { symbol: string; price: string; change: string; changePercent: string; direction: 'up' | 'down' }[] } }
   | { type: 'sports'; data: { results: { team: string; opponent: string; score: string; result: 'win' | 'loss' | 'draw'; nextGame?: string }[]; standingsNote?: string } }
@@ -96,7 +97,7 @@ function extractJSON(raw: string): string {
 
 const SCHEMA_MAP: Record<string, string> = {
   weather: `weather: { "locations": [{ "name": string, "tempF": number, "condition": string, "humidity": string, "high": number, "low": number }] }`,
-  news: `news: { "articles": [{ "headline": string, "source": string, "summary": string, "url"?: string }] }`,
+  news: `news: { "articles": [{ "headline": string, "source": string, "summary": string, "whyItMatters": string, "url"?: string }] }`,
   quote: `quote: { "text": string, "author": string }`,
   markets: `markets: { "symbols": [{ "symbol": string, "price": string, "change": string, "changePercent": string, "direction": "up"|"down" }] }`,
   sports: `sports: { "results": [{ "team": string, "opponent": string, "score": string, "result": "win"|"loss"|"draw", "nextGame"?: string }], "standingsNote"?: string }`,
@@ -220,7 +221,12 @@ RESPOND WITH:
   ]
 }
 Exact order: ${sectionOrder}. Missing strings → "Unavailable", missing numbers → 0.
-"direction": "up"|"down"|"flat". Sports "result": "win"|"loss"|"draw".`;
+"direction": "up"|"down"|"flat". Sports "result": "win"|"loss"|"draw".
+
+HARD STYLE RULES (apply to every text field in every section):
+- Do not use em dashes (—) or en dashes (–) anywhere. Use commas, semicolons, periods, or restructure the sentence.
+- Do not use citation markers ([1], [2], <cite>, etc.).
+- Do not start sentences with "Did you know" or "Reportedly".`;
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -300,7 +306,15 @@ export async function generateDailyBrief(
 
   let parsed: GeneratedBrief;
   try {
-    parsed = decodeHtmlEntities(JSON.parse(cleaned)) as GeneratedBrief;
+    const rawParsed = decodeHtmlEntities(JSON.parse(cleaned));
+    // Em/en-dash stripper. Hard brand rule that Claude ignores about half
+    // the time. We always run the stripper and log replacements so we can
+    // tell if prompt instructions are degrading.
+    const dashResult = stripDashesDeep(rawParsed);
+    if (dashResult.replacements > 0) {
+      console.warn(`[Generate] Stripped ${dashResult.replacements} dash(es) from Claude output`);
+    }
+    parsed = dashResult.value as GeneratedBrief;
   } catch (parseErr) {
     console.error('[Generate] JSON.parse failed. Extracted slice (first 500):', cleaned.slice(0, 500));
     console.error('[Generate] JSON.parse failed. Extracted slice (last 300):', cleaned.slice(-300));
