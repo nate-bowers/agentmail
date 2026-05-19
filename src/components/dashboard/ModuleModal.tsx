@@ -145,9 +145,12 @@ export default function ModuleModal({
 
       if (res.status === 422) {
         const body = await res.json();
-        if (body?.error === 'weather_geocode_failed' && typeof body.message === 'string') {
-          // Specific geocode failure: surface inline so the user can correct
-          // their input rather than seeing a generic save error.
+        // Both weather and local_events use the geocoder; both surface their
+        // failure with a clean inline message rather than a generic form error.
+        if (
+          (body?.error === 'weather_geocode_failed' || body?.error === 'location_geocode_failed') &&
+          typeof body.message === 'string'
+        ) {
           setPointsError(body.message);
           setIsLoading(false);
           return;
@@ -365,19 +368,19 @@ export default function ModuleModal({
               {selectedType === 'sports' && <SportsForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} disableHints={isTopicLocked} />}
               {selectedType === 'word_of_day' && <WordOfDayForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               {selectedType === 'workout' && <WorkoutForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
-              {selectedType === 'mindfulness' && <MindfulnessForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
+              {selectedType === 'mindfulness' && <MindfulnessForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} disableHints={isTopicLocked} />}
               {selectedType === 'on_this_day' && <OnThisDayForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               {selectedType === 'currency' && <CurrencyForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               {selectedType === 'podcast' && <PodcastForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               {selectedType === 'fact' && <FactForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               {selectedType === 'recipe' && <RecipeForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} disableHints={isTopicLocked} />}
-              {selectedType === 'book' && <BookForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
+              {selectedType === 'book' && <BookForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} disableHints={isTopicLocked} />}
               {selectedType === 'reddit' && <RedditForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               {selectedType === 'horoscope' && <HoroscopeForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
-              {selectedType === 'language' && <LanguageForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
+              {selectedType === 'language' && <LanguageForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} disableHints={isTopicLocked} />}
               {selectedType === 'affirmation' && <AffirmationForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               {selectedType === 'ai_tech' && <AiTechForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
-              {selectedType === 'local_events' && <LocalEventsForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
+              {selectedType === 'local_events' && <LocalEventsForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} disableHints={isTopicLocked} />}
               {selectedType === 'week_history' && <WeekHistoryForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               {selectedType === 'challenge' && <ChallengeForm key={formKey} defaultValues={defaultValues} onSubmit={handleFormSubmit} />}
               </div>

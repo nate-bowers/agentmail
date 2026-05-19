@@ -93,6 +93,7 @@ export async function GET() {
       sections: generated.sections,
       theme: user.email_theme ?? 'light',
       unsubscribeToken: 'test-token',
+      mailingAddress: '[debug-no-address]',
     }));
 
     output.renderSuccess = true;

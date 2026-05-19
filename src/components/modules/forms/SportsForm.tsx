@@ -38,7 +38,7 @@ export function SportsForm({ defaultValues, onSubmit, disableHints }: Props) {
             <SpecificityTooltip
               fieldId="sports.teams"
               disabled={disableHints}
-              message="Use full team names. &lsquo;San Francisco 49ers&rsquo; beats &lsquo;Niners&rsquo;."
+              message="List specific teams and leagues you follow. &lsquo;Premier League, especially Arsenal&rsquo; beats &lsquo;soccer.&rsquo;"
             >
               <MultiInput
                 values={withEmpty}

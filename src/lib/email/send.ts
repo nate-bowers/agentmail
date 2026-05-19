@@ -5,6 +5,7 @@ import { toZonedTime } from 'date-fns-tz';
 import { adminClient } from '@/lib/supabase/admin';
 import DailyBriefEmail from '@/components/email/DailyBriefEmail';
 import { generateUnsubscribeToken } from '@/lib/unsubscribe';
+import { buildUnsubscribeHeaders, getBusinessMailingAddress } from '@/lib/email/compliance';
 import type { GeneratedSection } from './generate';
 import type { Profile } from '@/types';
 
@@ -40,6 +41,8 @@ export async function sendDailyBrief(
 
     const showUpgradeCta = !subscription_status || subscription_status === 'free';
 
+    const mailingAddress = getBusinessMailingAddress();
+
     const renderedHTML = await render(
       DailyBriefEmail({
         userName: full_name ?? email,
@@ -49,6 +52,7 @@ export async function sendDailyBrief(
         unsubscribeToken,
         theme,
         showUpgradeCta,
+        mailingAddress,
       })
     );
 
@@ -62,6 +66,8 @@ export async function sendDailyBrief(
       to: recipientEmail,
       subject,
       html: renderedHTML,
+      // RFC 8058 + Gmail bulk-sender requirements. Must be present on every outbound email.
+      headers: buildUnsubscribeHeaders(userId),
     });
 
     if (error) {

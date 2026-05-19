@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { buildSearchInstructions } from '@/lib/modules';
 import { generateDailyBrief } from '@/lib/email/generate';
 import { prepareBriefBeforeClaude, applyWeatherErrorSection } from '@/lib/email/briefPrep';
+import { getBusinessMailingAddress } from '@/lib/email/compliance';
 import DailyBriefEmail from '@/components/email/DailyBriefEmail';
 import type { ModuleRow, Profile } from '@/types';
 
@@ -55,6 +56,7 @@ export async function POST(request: Request) {
         sections: generated.sections,
         unsubscribeToken: 'preview',
         theme: emailTheme,
+        mailingAddress: getBusinessMailingAddress(),
       })
     );
 

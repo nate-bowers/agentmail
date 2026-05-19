@@ -8,8 +8,11 @@ import { z } from 'zod';
 
 const GEOCODE_BASE = 'https://geocoding-api.open-meteo.com/v1/search';
 
-// The canonical shape stored in modules.config.locations[].
-export const weatherLocationSchema = z.object({
+// The canonical geocoded-location shape used by any module that stores a
+// resolved location: weather, local_events, and future ones. Same shape,
+// same source-of-truth schema, so all modules benefit from the same
+// validation and the same Open-Meteo backend.
+export const geocodedLocationSchema = z.object({
   input: z.string().min(1).max(80),
   display_name: z.string().min(1).max(200),
   latitude: z.number().min(-90).max(90),
@@ -18,7 +21,11 @@ export const weatherLocationSchema = z.object({
   country_code: z.string().max(8).optional(),
 });
 
-export type WeatherLocationConfig = z.infer<typeof weatherLocationSchema>;
+export type GeocodedLocation = z.infer<typeof geocodedLocationSchema>;
+
+// Back-compat aliases for the weather module which uses this name elsewhere.
+export const weatherLocationSchema = geocodedLocationSchema;
+export type WeatherLocationConfig = GeocodedLocation;
 
 interface OMResult {
   name: string;
@@ -231,7 +238,37 @@ export async function normalizeWeatherLocations(
  */
 export function geocodeFailureMessage(failedInput: string): string {
   if (!failedInput) {
-    return "We couldn't read your weather location. Please re-enter it.";
+    return "We couldn't read your location. Please re-enter it.";
   }
   return `We couldn't find "${failedInput}". Try including the state or country, like "Roseville, California".`;
+}
+
+/**
+ * Single-location variant for modules that store one resolved place (e.g.
+ * local_events.city). Accepts either a freeform string or an already-
+ * geocoded object, returns the canonical geocoded form or a typed failure.
+ */
+export async function normalizeSingleLocation(
+  raw: unknown
+): Promise<
+  | { ok: true; location: GeocodedLocation }
+  | { ok: false; failedInput: string; reason: 'no_results' | 'invalid_shape' }
+> {
+  if (typeof raw === 'string') {
+    const geocoded = await geocodeLocation(raw);
+    if (!geocoded) return { ok: false, failedInput: raw, reason: 'no_results' };
+    return { ok: true, location: geocoded };
+  }
+  if (raw && typeof raw === 'object') {
+    const parsed = geocodedLocationSchema.safeParse(raw);
+    if (parsed.success) return { ok: true, location: parsed.data };
+    const inputField = (raw as { input?: unknown }).input;
+    if (typeof inputField === 'string' && inputField.trim()) {
+      const geocoded = await geocodeLocation(inputField);
+      if (!geocoded) return { ok: false, failedInput: inputField, reason: 'no_results' };
+      return { ok: true, location: geocoded };
+    }
+    return { ok: false, failedInput: inputField ? String(inputField) : '', reason: 'invalid_shape' };
+  }
+  return { ok: false, failedInput: raw == null ? '' : String(raw), reason: 'invalid_shape' };
 }

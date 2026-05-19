@@ -41,6 +41,8 @@ export interface DailyBriefEmailProps {
   unsubscribeToken: string;
   theme?: string;
   showUpgradeCta?: boolean;
+  /** Physical mailing address required by CAN-SPAM. Set via BUSINESS_MAILING_ADDRESS env var on the server. */
+  mailingAddress: string;
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -798,7 +800,7 @@ function ChallengeSection({ data, c }: { data: Record<string, unknown>; c: Email
 // ─────────────────────────────────────────────────────────────
 
 export default function DailyBriefEmail({
-  userName, date, sections, unsubscribeToken, theme, showUpgradeCta,
+  userName, date, sections, unsubscribeToken, theme, showUpgradeCta, mailingAddress,
 }: DailyBriefEmailProps) {
   const firstName = userName.split(' ')[0];
   const { colors: c } = getTheme(theme ?? 'light');
@@ -929,6 +931,19 @@ export default function DailyBriefEmail({
               <Link href="https://dailybriefmail.com/terms" style={{ color: c.muted, textDecoration: 'underline' }}>
                 Terms
               </Link>
+            </Text>
+            {/* CAN-SPAM: physical mailing address is required. Rendered small and muted. */}
+            <Text style={{
+              color: c.muted,
+              fontFamily: SANS_STACK,
+              fontSize: '11px',
+              lineHeight: '1.6',
+              letterSpacing: '0.02em',
+              textAlign: 'center',
+              margin: '14px 0 0',
+              opacity: 0.85,
+            }}>
+              Daily Brief Mail · {mailingAddress}
             </Text>
           </Section>
         </Container>

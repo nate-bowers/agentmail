@@ -6,6 +6,8 @@ import { toZonedTime } from 'date-fns-tz';
 import { createClient } from '@/lib/supabase/server';
 import { adminClient } from '@/lib/supabase/admin';
 import WelcomeTestEmail from '@/components/email/WelcomeTestEmail';
+import { generateUnsubscribeToken } from '@/lib/unsubscribe';
+import { buildUnsubscribeHeaders, getBusinessMailingAddress } from '@/lib/email/compliance';
 
 export const maxDuration = 30;
 
@@ -70,11 +72,16 @@ export async function POST() {
     const zonedNow = toZonedTime(new Date(), timezone);
     const dateLabel = format(zonedNow, 'EEEE, MMMM d, yyyy');
 
+    const unsubscribeToken = generateUnsubscribeToken(user.id);
+    const mailingAddress = getBusinessMailingAddress();
+
     const html = await render(
       WelcomeTestEmail({
         userName: profile.full_name ?? profile.email,
         date: dateLabel,
         theme: profile.email_theme ?? 'light',
+        unsubscribeToken,
+        mailingAddress,
       })
     );
 
@@ -83,6 +90,8 @@ export async function POST() {
       to: profile.email,
       subject: 'Welcome to Daily Brief Mail, please move this to your primary inbox',
       html,
+      // CAN-SPAM + Gmail bulk-sender: every outbound email gets these.
+      headers: buildUnsubscribeHeaders(user.id),
     });
 
     if (error) {

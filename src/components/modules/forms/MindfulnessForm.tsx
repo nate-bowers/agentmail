@@ -5,10 +5,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@/components/ui/label';
 import { configSchema, type MindfulnessConfig } from '@/lib/modules/mindfulness';
 import { RadioCards, OptionalTextarea } from './FormPrimitives';
+import { SpecificityTooltip } from '@/components/modules/SpecificityTooltip';
 
 interface Props {
   defaultValues: Record<string, unknown>;
   onSubmit: (data: Record<string, unknown>) => void;
+  disableHints?: boolean;
 }
 
 const MINDFULNESS_STYLES = ['reflection', 'intention', 'gratitude', 'challenge', 'custom'] as const;
@@ -20,7 +22,7 @@ function coerceMindfulnessStyle(value: unknown): MindfulnessStyle {
     : 'reflection';
 }
 
-export function MindfulnessForm({ defaultValues, onSubmit }: Props) {
+export function MindfulnessForm({ defaultValues, onSubmit, disableHints }: Props) {
   const form = useForm<MindfulnessConfig>({
     resolver: zodResolver(configSchema),
     defaultValues: {
@@ -38,20 +40,26 @@ export function MindfulnessForm({ defaultValues, onSubmit }: Props) {
         control={form.control}
         name="style"
         render={({ field }) => (
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-ink">Style</Label>
-            <RadioCards
-              value={field.value as 'reflection' | 'intention' | 'gratitude' | 'challenge' | 'custom'}
-              onChange={field.onChange}
-              options={[
-                { value: 'reflection' as const, label: 'Reflection', description: 'Examine something about yourself' },
-                { value: 'intention' as const, label: 'Intention', description: 'Set a theme for the day' },
-                { value: 'gratitude' as const, label: 'Gratitude', description: 'Surface something to appreciate' },
-                { value: 'challenge' as const, label: 'Challenge', description: 'A small action to take today' },
-                { value: 'custom' as const, label: 'Custom ✏️', description: 'Write your own theme' },
-              ]}
-            />
-          </div>
+          <SpecificityTooltip
+            fieldId="mindfulness.style"
+            disabled={disableHints}
+            message="Describe what you actually want. &lsquo;Morning breathwork for anxious days&rsquo; beats &lsquo;meditation.&rsquo;"
+          >
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-ink">Style</Label>
+              <RadioCards
+                value={field.value as 'reflection' | 'intention' | 'gratitude' | 'challenge' | 'custom'}
+                onChange={field.onChange}
+                options={[
+                  { value: 'reflection' as const, label: 'Reflection', description: 'Examine something about yourself' },
+                  { value: 'intention' as const, label: 'Intention', description: 'Set a theme for the day' },
+                  { value: 'gratitude' as const, label: 'Gratitude', description: 'Surface something to appreciate' },
+                  { value: 'challenge' as const, label: 'Challenge', description: 'A small action to take today' },
+                  { value: 'custom' as const, label: 'Custom ✏️', description: 'Write your own theme' },
+                ]}
+              />
+            </div>
+          </SpecificityTooltip>
         )}
       />
 
@@ -60,13 +68,19 @@ export function MindfulnessForm({ defaultValues, onSubmit }: Props) {
           control={form.control}
           name="theme"
           render={({ field }) => (
-            <OptionalTextarea
-              label="Your theme"
-              value={field.value ?? ''}
-              onChange={field.onChange}
-              placeholder="e.g. Focus on patience, or something related to career decisions"
-              maxLength={200}
-            />
+            <SpecificityTooltip
+              fieldId="mindfulness.theme"
+              disabled={disableHints}
+              message="The more vivid, the more useful. &lsquo;Letting go of work email after 6pm&rsquo; beats &lsquo;letting go.&rsquo;"
+            >
+              <OptionalTextarea
+                label="Your theme"
+                value={field.value ?? ''}
+                onChange={field.onChange}
+                placeholder="e.g. Focus on patience, or something related to career decisions"
+                maxLength={200}
+              />
+            </SpecificityTooltip>
           )}
         />
       )}

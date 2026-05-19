@@ -10,6 +10,7 @@ import { buildSearchInstructions } from '@/lib/modules';
 import { generateDailyBrief } from '@/lib/email/generate';
 import { prepareBriefBeforeClaude, applyWeatherErrorSection } from '@/lib/email/briefPrep';
 import { generateUnsubscribeToken } from '@/lib/unsubscribe';
+import { getBusinessMailingAddress } from '@/lib/email/compliance';
 import DailyBriefEmail from '@/components/email/DailyBriefEmail';
 import type { ModuleRow } from '@/types';
 
@@ -112,6 +113,7 @@ export async function GET(request: NextRequest) {
         unsubscribeToken: generateUnsubscribeToken(user.id),
         theme: user.email_theme ?? 'light',
         showUpgradeCta: !user.subscription_status || user.subscription_status === 'free',
+        mailingAddress: getBusinessMailingAddress(),
       })
     );
 

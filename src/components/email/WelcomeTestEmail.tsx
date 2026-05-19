@@ -5,6 +5,7 @@ import {
   Heading,
   Hr,
   Html,
+  Link,
   Preview,
   Section,
   Text,
@@ -15,6 +16,10 @@ export interface WelcomeTestEmailProps {
   userName: string;
   date: string;
   theme?: string;
+  /** Per-user unsubscribe token. Required so the footer link works for any recipient. */
+  unsubscribeToken: string;
+  /** Physical mailing address from BUSINESS_MAILING_ADDRESS env var. CAN-SPAM requirement. */
+  mailingAddress: string;
 }
 
 const fontStack = '-apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Roboto, Helvetica, Arial, sans-serif';
@@ -29,7 +34,9 @@ function mutedStyle(c: EmailThemeColors): React.CSSProperties {
   return { color: c.muted, fontSize: '13px', lineHeight: '1.5', margin: '0 0 4px' };
 }
 
-export default function WelcomeTestEmail({ userName, date, theme }: WelcomeTestEmailProps) {
+export default function WelcomeTestEmail({
+  userName, date, theme, unsubscribeToken, mailingAddress,
+}: WelcomeTestEmailProps) {
   const firstName = (userName?.split(' ')[0]) || 'there';
   const { colors: c } = getTheme(theme ?? 'light');
 
@@ -134,6 +141,25 @@ export default function WelcomeTestEmail({ userName, date, theme }: WelcomeTestE
             <Text style={{ ...mutedStyle(c), textAlign: 'center' }}>
               You are receiving this welcome test because you just signed up for Daily Brief.
               Your morning briefs will start arriving once your setup is complete.
+            </Text>
+            <Text style={{ ...mutedStyle(c), textAlign: 'center', fontSize: '12px', margin: '12px 0 0' }}>
+              <Link href={`https://dailybriefmail.com/unsubscribe?token=${unsubscribeToken}`} style={{ color: c.muted, textDecoration: 'underline' }}>
+                Unsubscribe
+              </Link>
+              {' '}·{' '}
+              <Link href="https://dailybriefmail.com/privacy" style={{ color: c.muted, textDecoration: 'underline' }}>
+                Privacy
+              </Link>
+              {' '}·{' '}
+              <Link href="https://dailybriefmail.com/terms" style={{ color: c.muted, textDecoration: 'underline' }}>
+                Terms
+              </Link>
+            </Text>
+            <Text style={{
+              color: c.muted, fontSize: '11px', lineHeight: '1.6', letterSpacing: '0.02em',
+              textAlign: 'center', margin: '10px 0 0', opacity: 0.85,
+            }}>
+              Daily Brief Mail · {mailingAddress}
             </Text>
           </Section>
         </Container>

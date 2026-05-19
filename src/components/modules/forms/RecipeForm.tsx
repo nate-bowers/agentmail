@@ -40,7 +40,7 @@ export function RecipeForm({ defaultValues, onSubmit, disableHints }: Props) {
           <SpecificityTooltip
             fieldId="recipe.cuisine"
             disabled={disableHints}
-            message="Narrow down the region. &lsquo;Sichuan&rsquo; or &lsquo;Northern Italian&rsquo; beats &lsquo;Chinese&rsquo; or &lsquo;Italian&rsquo;."
+            message="Specific beats vague. &lsquo;30-minute weeknight Thai with no fish sauce&rsquo; beats &lsquo;Asian food.&rsquo;"
           >
             <div className="space-y-2">
               <Label className="text-sm font-medium text-ink">Cuisine preference</Label>
@@ -60,30 +60,36 @@ export function RecipeForm({ defaultValues, onSubmit, disableHints }: Props) {
         render={({ field }) => {
           const selected = (field.value ?? []) as string[];
           return (
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-ink">Dietary restrictions</Label>
-              <div className="flex flex-wrap gap-2">
-                {DIETARY_OPTIONS.map((opt) => (
-                  <button
-                    key={opt}
-                    type="button"
-                    onClick={() => {
-                      const next = selected.includes(opt)
-                        ? selected.filter((s) => s !== opt)
-                        : [...selected, opt];
-                      field.onChange(next);
-                    }}
-                    className={`rounded-full px-3 py-1 text-sm transition-colors ${
-                      selected.includes(opt)
-                        ? 'bg-brand-purple text-white'
-                        : 'border border-surface-border bg-white text-ink hover:border-brand-purple'
-                    }`}
-                  >
-                    {opt}
-                  </button>
-                ))}
+            <SpecificityTooltip
+              fieldId="recipe.dietary"
+              disabled={disableHints}
+              message="Specific beats vague. Real restrictions and goals (&lsquo;gluten-free, low-sodium, high-protein&rsquo;) work better than a single label."
+            >
+              <div className="space-y-2">
+                <Label className="text-sm font-medium text-ink">Dietary restrictions</Label>
+                <div className="flex flex-wrap gap-2">
+                  {DIETARY_OPTIONS.map((opt) => (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => {
+                        const next = selected.includes(opt)
+                          ? selected.filter((s) => s !== opt)
+                          : [...selected, opt];
+                        field.onChange(next);
+                      }}
+                      className={`rounded-full px-3 py-1 text-sm transition-colors ${
+                        selected.includes(opt)
+                          ? 'bg-brand-purple text-white'
+                          : 'border border-surface-border bg-white text-ink hover:border-brand-purple'
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            </SpecificityTooltip>
           );
         }}
       />

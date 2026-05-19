@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@/components/ui/label';
 import { configSchema, type BookConfig } from '@/lib/modules/book';
 import { TagInput, RadioCards, OptionalInput } from './FormPrimitives';
+import { SpecificityTooltip } from '@/components/modules/SpecificityTooltip';
 
 const LENGTH_OPTIONS = [
   { value: 'short' as const, label: 'Short (<200p)' },
@@ -16,9 +17,10 @@ const LENGTH_OPTIONS = [
 interface Props {
   defaultValues: Record<string, unknown>;
   onSubmit: (data: Record<string, unknown>) => void;
+  disableHints?: boolean;
 }
 
-export function BookForm({ defaultValues, onSubmit }: Props) {
+export function BookForm({ defaultValues, onSubmit, disableHints }: Props) {
   const form = useForm<BookConfig>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(configSchema) as any,
@@ -38,13 +40,19 @@ export function BookForm({ defaultValues, onSubmit }: Props) {
         control={form.control}
         name="genres"
         render={({ field }) => (
-          <TagInput
-            label="Genres"
-            values={field.value ?? []}
-            onChange={field.onChange}
-            placeholder="Add a genre and press Enter"
-            max={4}
-          />
+          <SpecificityTooltip
+            fieldId="book.genres"
+            disabled={disableHints}
+            message="Be specific about what you actually read. &lsquo;Literary fiction by Latin American authors&rsquo; beats &lsquo;novels.&rsquo;"
+          >
+            <TagInput
+              label="Genres"
+              values={field.value ?? []}
+              onChange={field.onChange}
+              placeholder="Add a genre and press Enter"
+              max={4}
+            />
+          </SpecificityTooltip>
         )}
       />
       <p className="!mt-1 text-xs text-ink-faint">e.g. history, sci-fi, biography, business</p>

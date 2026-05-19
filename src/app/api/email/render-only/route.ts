@@ -6,6 +6,7 @@ import { render } from '@react-email/render';
 import { format } from 'date-fns';
 import { createClient } from '@/lib/supabase/server';
 import DailyBriefEmail from '@/components/email/DailyBriefEmail';
+import { getBusinessMailingAddress } from '@/lib/email/compliance';
 import type { GeneratedSection } from '@/lib/email/generate';
 
 export async function POST(request: NextRequest) {
@@ -38,6 +39,7 @@ export async function POST(request: NextRequest) {
         sections,
         unsubscribeToken: 'preview',
         theme,
+        mailingAddress: getBusinessMailingAddress(),
       })
     );
 

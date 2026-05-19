@@ -6,13 +6,15 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { configSchema, type LanguageConfig } from '@/lib/modules/language';
 import { RadioCards, OptionalInput } from './FormPrimitives';
+import { SpecificityTooltip } from '@/components/modules/SpecificityTooltip';
 
 interface Props {
   defaultValues: Record<string, unknown>;
   onSubmit: (data: Record<string, unknown>) => void;
+  disableHints?: boolean;
 }
 
-export function LanguageForm({ defaultValues, onSubmit }: Props) {
+export function LanguageForm({ defaultValues, onSubmit, disableHints }: Props) {
   const form = useForm<LanguageConfig>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(configSchema) as any,
@@ -29,15 +31,21 @@ export function LanguageForm({ defaultValues, onSubmit }: Props) {
         control={form.control}
         name="targetLanguage"
         render={({ field, fieldState }) => (
-          <div className="space-y-2">
-            <Label className="text-sm font-medium text-ink">Language you&rsquo;re learning</Label>
-            <Input
-              value={field.value ?? ''}
-              onChange={(e) => field.onChange(e.target.value)}
-              placeholder="e.g. Spanish, Japanese, French, Mandarin"
-            />
-            {fieldState.error && <p className="text-xs text-red-500">{fieldState.error.message}</p>}
-          </div>
+          <SpecificityTooltip
+            fieldId="language.targetLanguage"
+            disabled={disableHints}
+            message="Tell us what you&rsquo;re using it for. &lsquo;Conversational Spanish for travel&rsquo; beats &lsquo;Spanish.&rsquo;"
+          >
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-ink">Language you&rsquo;re learning</Label>
+              <Input
+                value={field.value ?? ''}
+                onChange={(e) => field.onChange(e.target.value)}
+                placeholder="e.g. Spanish, Japanese, French, Mandarin"
+              />
+              {fieldState.error && <p className="text-xs text-red-500">{fieldState.error.message}</p>}
+            </div>
+          </SpecificityTooltip>
         )}
       />
 
@@ -64,13 +72,19 @@ export function LanguageForm({ defaultValues, onSubmit }: Props) {
         control={form.control}
         name="focus"
         render={({ field }) => (
-          <OptionalInput
-            label="Vocabulary focus (optional)"
-            value={field.value ?? ''}
-            onChange={field.onChange}
-            placeholder="e.g. travel, business, food and cooking, emotions"
-            maxLength={80}
-          />
+          <SpecificityTooltip
+            fieldId="language.focus"
+            disabled={disableHints}
+            message="Concrete domains beat broad ones. &lsquo;Restaurant Spanish for ordering and asking allergens&rsquo; beats &lsquo;food.&rsquo;"
+          >
+            <OptionalInput
+              label="Vocabulary focus (optional)"
+              value={field.value ?? ''}
+              onChange={field.onChange}
+              placeholder="e.g. travel, business, food and cooking, emotions"
+              maxLength={80}
+            />
+          </SpecificityTooltip>
         )}
       />
     </form>

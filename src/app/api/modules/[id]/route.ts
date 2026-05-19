@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@/lib/supabase/server';
 import { MODULE_REGISTRY } from '@/lib/modules';
-import { normalizeWeatherLocations, geocodeFailureMessage } from '@/lib/modules/weatherGeocode';
+import { normalizeWeatherLocations, normalizeSingleLocation, geocodeFailureMessage } from '@/lib/modules/weatherGeocode';
 
 interface RouteContext {
   params: Promise<{ id: string }>;
@@ -75,6 +75,25 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
             );
           }
           configToValidate = { ...configToValidate, locations: normalized.locations };
+        }
+
+        // local_events: geocode the single city field.
+        if (existing.module_type === 'local_events') {
+          const normalized = await normalizeSingleLocation(
+            (parsed.data.config as { city?: unknown })?.city
+          );
+          if (!normalized.ok) {
+            return NextResponse.json(
+              {
+                error: 'location_geocode_failed',
+                field: 'city',
+                failedInput: normalized.failedInput,
+                message: geocodeFailureMessage(normalized.failedInput),
+              },
+              { status: 422 }
+            );
+          }
+          configToValidate = { ...configToValidate, city: normalized.location };
         }
         const configParsed = def.configSchema.safeParse(configToValidate);
         if (!configParsed.success) {

@@ -99,6 +99,12 @@ function configSummary(moduleType: string, config: Record<string, unknown>): str
     const cat = config.category as string | undefined;
     return cat ? cat.charAt(0).toUpperCase() + cat.slice(1) : '';
   }
+  if (moduleType === 'local_events') {
+    const city = config.city as string | { display_name?: string; input?: string } | undefined;
+    if (!city) return '';
+    if (typeof city === 'string') return city;
+    return city.display_name ?? city.input ?? '';
+  }
   return '';
 }
 
@@ -141,6 +147,16 @@ function SortableModuleCard({ module, onEdit, onDeleteRequest, onToggle, togglin
     return locs.some((l) => typeof l === 'string' || (l && typeof l === 'object' && typeof (l as { latitude?: unknown }).latitude !== 'number'));
   })();
 
+  // local_events: detect rows where city is still a bare string (legacy pre-
+  // geocode data) so the user can re-save and trigger geocoding.
+  const eventsNeedsResave = module.module_type === 'local_events' && (() => {
+    const city = module.config?.city as unknown;
+    if (!city) return false;
+    if (typeof city === 'string') return true;
+    if (typeof city === 'object' && typeof (city as { latitude?: unknown }).latitude !== 'number') return true;
+    return false;
+  })();
+
   return (
     <div ref={setNodeRef} style={style}>
       <div
@@ -179,6 +195,11 @@ function SortableModuleCard({ module, onEdit, onDeleteRequest, onToggle, togglin
             {weatherNeedsResave && (
               <p className="mt-1 text-xs text-amber-700">
                 We couldn&rsquo;t verify your weather location. Please re-enter it.
+              </p>
+            )}
+            {eventsNeedsResave && (
+              <p className="mt-1 text-xs text-amber-700">
+                We couldn&rsquo;t verify your events city. Please re-enter it.
               </p>
             )}
           </div>

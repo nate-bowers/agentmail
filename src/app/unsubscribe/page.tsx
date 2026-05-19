@@ -42,17 +42,13 @@ export default async function UnsubscribePage({ searchParams }: UnsubscribePageP
     );
   }
 
-  // Already unsubscribed — no confirm step needed
-  if (!profile.is_active) {
-    return (
-      <UnsubscribeResult
-        heading="Already unsubscribed."
-        body="Your account is already set to not receive emails. No further action needed."
-      />
-    );
-  }
+  // Show the confirmation step for both active and paused states. The
+  // component switches between "Pause" and "Resume" based on initiallyActive.
+  const heading = profile.is_active ? 'Manage your subscription.' : 'Your brief is paused.';
+  const subhead = profile.is_active
+    ? 'Pause, delete, or change anything else from this page.'
+    : 'You can resume at any time, or fully delete your account.';
 
-  // Show confirmation step
   return (
     <div
       className="flex min-h-screen items-center justify-center px-6"
@@ -63,15 +59,14 @@ export default async function UnsubscribePage({ searchParams }: UnsubscribePageP
           className="mb-3 text-2xl tracking-tight"
           style={{ fontFamily: 'Georgia, "Times New Roman", ui-serif, serif' }}
         >
-          Unsubscribe from Daily Brief?
+          {heading}
         </h1>
-
-        <p className="mb-2 text-sm leading-relaxed" style={{ color: '#666' }}>
-          You will stop receiving daily briefs at
+        <p className="mb-2 text-sm leading-relaxed" style={{ color: '#888' }}>
+          {subhead}
         </p>
         <p className="mb-8 text-sm font-medium">{profile.email}</p>
 
-        <UnsubscribeConfirm token={token} />
+        <UnsubscribeConfirm token={token} initiallyActive={profile.is_active} />
 
         <div className="mt-6">
           <Link
@@ -118,26 +113,3 @@ function UnsubscribeError({ heading, body }: { heading: string; body: string }) 
   );
 }
 
-function UnsubscribeResult({ heading, body }: { heading: string; body: string }) {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center px-6"
-      style={{ background: '#0a0a0a', color: '#ededed' }}
-    >
-      <div className="w-full max-w-sm text-center">
-        <h1
-          className="mb-3 text-2xl tracking-tight"
-          style={{ fontFamily: 'Georgia, "Times New Roman", ui-serif, serif' }}
-        >
-          {heading}
-        </h1>
-        <p className="mb-8 text-sm leading-relaxed" style={{ color: '#555' }}>
-          {body}
-        </p>
-        <Link href="/" className="text-xs" style={{ color: '#444' }}>
-          ← Back to Daily Brief
-        </Link>
-      </div>
-    </div>
-  );
-}

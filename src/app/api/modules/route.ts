@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { MODULE_REGISTRY } from '@/lib/modules';
 import { getModulePoints, getPointLimit_ForUser, getTotalPoints } from '@/lib/modules/points';
 import { rateLimit } from '@/lib/security/rateLimit';
-import { normalizeWeatherLocations, geocodeFailureMessage } from '@/lib/modules/weatherGeocode';
+import { normalizeWeatherLocations, normalizeSingleLocation, geocodeFailureMessage } from '@/lib/modules/weatherGeocode';
 
 const createSchema = z.object({
   module_type: z.string().min(1),
@@ -83,6 +83,26 @@ export async function POST(request: NextRequest) {
         );
       }
       configToValidate = { ...configToValidate, locations: normalized.locations };
+    }
+
+    // local_events: geocode the single city the same way weather geocodes its
+    // location array. Same shape, same error format, same UX.
+    if (module_type === 'local_events') {
+      const normalized = await normalizeSingleLocation(
+        (config as { city?: unknown })?.city
+      );
+      if (!normalized.ok) {
+        return NextResponse.json(
+          {
+            error: 'location_geocode_failed',
+            field: 'city',
+            failedInput: normalized.failedInput,
+            message: geocodeFailureMessage(normalized.failedInput),
+          },
+          { status: 422 }
+        );
+      }
+      configToValidate = { ...configToValidate, city: normalized.location };
     }
 
     const configParsed = MODULE_REGISTRY[module_type].configSchema.safeParse(configToValidate);

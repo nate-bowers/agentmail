@@ -89,6 +89,7 @@ export async function GET() {
       sections: sections as never,
       unsubscribeToken: 'preview-token',
       showUpgradeCta: true,
+      mailingAddress: 'P.O. Box 123, San Francisco, CA 94103 (DEV PREVIEW)',
     })
   );
   return new NextResponse(html, { headers: { 'content-type': 'text/html; charset=utf-8' } });

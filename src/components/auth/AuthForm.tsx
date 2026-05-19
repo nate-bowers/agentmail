@@ -207,7 +207,7 @@ export default function AuthForm({ mode, initialError }: AuthFormProps) {
           <div className="flex items-center justify-between">
             <Label htmlFor="password" className="text-sm font-medium text-ink">Password</Label>
             {!isSignup && (
-              <Link href="#" className="text-xs text-brand-purple hover:text-brand-purple-dark">
+              <Link href="/forgot-password" className="text-xs text-brand-purple hover:text-brand-purple-dark">
                 Forgot password?
               </Link>
             )}
