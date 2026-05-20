@@ -51,16 +51,18 @@ async function checkResend(): Promise<CheckResult> {
   if (!key) return { ok: false, error: 'RESEND_API_KEY not set' };
   const start = Date.now();
   try {
+    // Restricted send-only API keys can hit /domains successfully but not
+    // /api-keys. /domains is a cheap GET that returns 200 for any valid key
+    // (including send-only), making it a reliable liveness probe.
     const res = await withTimeout(
-      fetch('https://api.resend.com/api-keys', {
-        method: 'HEAD',
+      fetch('https://api.resend.com/domains', {
+        method: 'GET',
         headers: { Authorization: `Bearer ${key}` },
       }),
       PROBE_TIMEOUT_MS,
       'resend',
     );
     const latencyMs = Date.now() - start;
-    // 200 = key accepted. 401/403 = key rejected. Anything else = transport issue.
     if (res.status === 200) return { ok: true, latencyMs };
     if (res.status === 401 || res.status === 403) {
       return { ok: false, latencyMs, error: `Resend rejected API key (HTTP ${res.status})` };
