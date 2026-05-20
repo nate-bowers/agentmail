@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import { adminClient } from '@/lib/supabase/admin';
 import { buildSearchInstructions } from '@/lib/modules';
 import { generateDailyBrief } from '@/lib/email/generate';
-import { prepareBriefBeforeClaude, applyWeatherErrorSection, stripErrorAndDuplicateSections } from '@/lib/email/briefPrep';
+import { prepareBriefBeforeClaude, applyWeatherErrorSection, refineNewsInSections, stripErrorAndDuplicateSections } from '@/lib/email/briefPrep';
 import { getBusinessMailingAddress } from '@/lib/email/compliance';
 import DailyBriefEmail from '@/components/email/DailyBriefEmail';
 import type { ModuleRow, Profile } from '@/types';
@@ -69,9 +69,9 @@ export async function POST(request: Request) {
       prep.claudeInstructions,
       prep.prefetchedData,
     );
-    generated.sections = stripErrorAndDuplicateSections(
-      applyWeatherErrorSection(generated.sections, prep)
-    );
+    generated.sections = applyWeatherErrorSection(generated.sections, prep);
+    const newsRefined = await refineNewsInSections(generated.sections, moduleInstructions);
+    generated.sections = stripErrorAndDuplicateSections(newsRefined.sections);
 
     const dateLabel = format(new Date(), 'EEEE, MMMM d, yyyy');
     console.log('[generate-preview] Rendering HTML...');
@@ -113,8 +113,8 @@ export async function POST(request: Request) {
       html,
       intro: generated.intro,
       sections: generated.sections,
-      outputTokens: generated.tokensUsed,
-      totalTokens: generated.tokensUsed,
+      outputTokens: generated.tokensUsed + newsRefined.extraTokens,
+      totalTokens: generated.tokensUsed + newsRefined.extraTokens,
       generatedAt: new Date().toISOString(),
       moduleStatus,
       modulesIncluded: enabledModules.map((m) => m.module_type),

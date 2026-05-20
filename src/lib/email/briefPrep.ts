@@ -13,6 +13,7 @@
 
 import type { GeneratedSection } from './generate';
 import { prefetchModuleData } from './prefetch';
+import { refineNewsSection } from './newsValidation';
 import type { ModuleSearchInstruction } from '@/types';
 
 export interface BriefPrep {
@@ -100,6 +101,56 @@ export function applyWeatherErrorSection(
   const next = sections.slice();
   next.splice(clamped, 0, prep.weatherErrorSection);
   return next;
+}
+
+/**
+ * Refine the news section in-place using the per-article URL validation
+ * pipeline. Looks up the news instruction (topics, customQuery, sources,
+ * excludeTopics), runs refineNewsSection, and replaces the section data.
+ * Mirrors the runPipeline behavior so test-send / resend / preview routes
+ * benefit from the same URL accuracy guarantees.
+ *
+ * Returns the extra Claude tokens consumed by the refinement so the caller
+ * can roll them into its tokensUsed counter.
+ */
+export async function refineNewsInSections(
+  sections: GeneratedSection[],
+  instructions: ModuleSearchInstruction[],
+): Promise<{ sections: GeneratedSection[]; extraTokens: number }> {
+  const newsIdx = sections.findIndex((s) => s.type === 'news');
+  if (newsIdx === -1) return { sections, extraTokens: 0 };
+
+  const newsInst = instructions.find((m) => m.moduleType === 'news');
+  const requestedCount = 3;
+  const topics = (newsInst?.config.topics as string[] | undefined) ?? [];
+  const customQuery = newsInst?.config.customQuery as string | undefined;
+  const sources = newsInst?.config.sources as string[] | undefined;
+  const excludeTopics = newsInst?.config.excludeTopics as string | undefined;
+
+  try {
+    const refinement = await refineNewsSection({
+      rawSectionData: sections[newsIdx].data,
+      requestedCount,
+      topics,
+      customQuery,
+      sources,
+      excludeTopics,
+    });
+    const refinedData: { articles: typeof refinement.finalArticles; editorialNote?: string } = {
+      articles: refinement.finalArticles,
+    };
+    if (refinement.underdelivered && refinement.finalArticles.length > 0) {
+      const n = refinement.finalArticles.length;
+      refinedData.editorialNote = `We found ${n} strong stor${n === 1 ? 'y' : 'ies'} for you today.`;
+    }
+    const next = sections.slice();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (next[newsIdx] as any) = { type: 'news', data: refinedData };
+    return { sections: next, extraTokens: refinement.retryTokens };
+  } catch (err) {
+    console.error('[briefPrep] News refinement failed (non-fatal, using raw output):', err);
+    return { sections, extraTokens: 0 };
+  }
 }
 
 /**

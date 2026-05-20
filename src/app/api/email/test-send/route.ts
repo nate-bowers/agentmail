@@ -4,7 +4,7 @@ import { adminClient } from '@/lib/supabase/admin';
 import { buildSearchInstructions } from '@/lib/modules';
 import { generateDailyBrief } from '@/lib/email/generate';
 import { sendDailyBrief } from '@/lib/email/send';
-import { prepareBriefBeforeClaude, applyWeatherErrorSection, stripErrorAndDuplicateSections } from '@/lib/email/briefPrep';
+import { prepareBriefBeforeClaude, applyWeatherErrorSection, refineNewsInSections, stripErrorAndDuplicateSections } from '@/lib/email/briefPrep';
 import type { ModuleRow, Profile } from '@/types';
 
 export const maxDuration = 60;
@@ -73,9 +73,11 @@ export async function POST() {
     const moduleInstructions = buildSearchInstructions(modules as ModuleRow[]);
     const prep = await prepareBriefBeforeClaude(moduleInstructions, user.id);
     const generated = await generateDailyBrief(p, prep.claudeInstructions, prep.prefetchedData);
-    generated.sections = stripErrorAndDuplicateSections(
-      applyWeatherErrorSection(generated.sections, prep)
-    );
+    // Match the runPipeline post-Claude flow:
+    //   apply weather error → refine news (per-article URL validation) → strip errors/dupes
+    generated.sections = applyWeatherErrorSection(generated.sections, prep);
+    const newsRefined = await refineNewsInSections(generated.sections, moduleInstructions);
+    generated.sections = stripErrorAndDuplicateSections(newsRefined.sections);
 
     // Stamp test sends with a unique time tag so Gmail does not thread them
     // with each other or with the user's real daily brief.
