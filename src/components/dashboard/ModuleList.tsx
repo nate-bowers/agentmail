@@ -27,6 +27,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import ModuleModal from './ModuleModal';
 import PointsBar from './PointsBar';
+import ReorderHint from './ReorderHint';
 import { Toggle } from '@/components/ui/toggle';
 import { MODULE_REGISTRY } from '@/lib/modules';
 import { getModulePoints } from '@/lib/modules/points';
@@ -165,13 +166,18 @@ function SortableModuleCard({ module, onEdit, onDeleteRequest, onToggle, togglin
         }`}
       >
         <div className="flex items-center gap-3">
-          {/* Drag handle */}
+          {/* Drag handle. 44x44 hit target on mobile, smaller visual on desktop.
+              `touch-none` is required for dnd-kit's PointerSensor to capture
+              touch drags without the browser stealing them for scroll.
+              dnd-kit's `attributes` spread already provides role/tabindex/aria
+              so we only add the title for screen readers. */}
           <div
-            className="flex h-6 w-6 shrink-0 items-center justify-center text-ink-faint cursor-grab active:cursor-grabbing touch-none"
+            aria-label="Drag to reorder"
+            className="flex h-11 w-11 sm:h-8 sm:w-8 shrink-0 items-center justify-center text-ink-faint hover:text-brand-purple cursor-grab active:cursor-grabbing touch-none transition-colors"
             {...attributes}
             {...listeners}
           >
-            <GripVertical className="h-4 w-4" />
+            <GripVertical className="h-5 w-5 sm:h-4 sm:w-4" />
           </div>
 
           {/* Icon */}
@@ -513,22 +519,28 @@ export default function ModuleList({
 
         {/* DnD module list */}
         {modules.length > 0 && (
-          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-            <SortableContext items={modules.map((m) => m.id)} strategy={verticalListSortingStrategy}>
-              <div className="space-y-3">
-                {modules.map((module) => (
-                  <SortableModuleCard
-                    key={module.id}
-                    module={module}
-                    onEdit={openEdit}
-                    onDeleteRequest={setDeleteTarget}
-                    onToggle={handleToggle}
-                    toggling={togglingModule === module.id}
-                  />
-                ))}
-              </div>
-            </SortableContext>
-          </DndContext>
+          <>
+            {/* Discovery hint — purple-translucent banner, one-time dismiss
+                stored in localStorage. Sits directly above the first card so
+                the reorder/email-order connection is impossible to miss. */}
+            <ReorderHint />
+            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+              <SortableContext items={modules.map((m) => m.id)} strategy={verticalListSortingStrategy}>
+                <div className="space-y-3">
+                  {modules.map((module) => (
+                    <SortableModuleCard
+                      key={module.id}
+                      module={module}
+                      onEdit={openEdit}
+                      onDeleteRequest={setDeleteTarget}
+                      onToggle={handleToggle}
+                      toggling={togglingModule === module.id}
+                    />
+                  ))}
+                </div>
+              </SortableContext>
+            </DndContext>
+          </>
         )}
 
         {/* Full-width add button */}

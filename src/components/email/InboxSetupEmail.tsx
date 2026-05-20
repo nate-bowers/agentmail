@@ -142,7 +142,16 @@ export default function InboxSetupEmail({
               You are receiving this welcome test because you just signed up for Daily Brief.
               Your morning briefs will start arriving once your setup is complete.
             </Text>
-            <Text style={{ ...mutedStyle(c), textAlign: 'center', fontSize: '12px', margin: '12px 0 0' }}>
+            {/* Same "Edit your brief" affordance as the daily brief and welcome
+                emails. Subtle but consistent across every outbound surface. */}
+            <Text style={{ textAlign: 'center', fontSize: '13px', margin: '12px 0 0' }}>
+              <Link href="https://dailybriefmail.com/dashboard" style={{
+                color: c.text, textDecoration: 'underline', textUnderlineOffset: '3px',
+              }}>
+                Edit your brief
+              </Link>
+            </Text>
+            <Text style={{ ...mutedStyle(c), textAlign: 'center', fontSize: '12px', margin: '10px 0 0' }}>
               <Link href={`https://dailybriefmail.com/unsubscribe?token=${unsubscribeToken}`} style={{ color: c.muted, textDecoration: 'underline' }}>
                 Unsubscribe
               </Link>

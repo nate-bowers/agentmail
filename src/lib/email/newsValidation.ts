@@ -143,10 +143,10 @@ export function validateNewsSection(
       continue;
     }
 
-    if (isLikelyHomepageOrSearch(parsed.data.url)) {
-      rejected.push({ article: item, reason: 'url looks like a homepage or search result' });
-      continue;
-    }
+    // URL-shape checks moved to the validateAndFixArticleUrls phase. Articles
+    // here pass content validation; their URLs may or may not work. The URL
+    // phase will keep the article and either fix the URL via per-article
+    // Claude retry or drop the link entirely (preserving the article body).
 
     ARROW_RE.lastIndex = 0;
     CITATION_BRACKETS_RE.lastIndex = 0;
@@ -179,46 +179,69 @@ export function validateNewsSection(
 // URL HEAD sanity check — 3s timeout per article, run in parallel
 // ─────────────────────────────────────────────────────────────
 
+// Browser-like UA reduces bot-block rejections from major publishers.
+const FETCH_HEADERS = {
+  'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+  'Accept': 'text/html,application/xhtml+xml',
+};
+const URL_CHECK_TIMEOUT_MS = 5000;
+
+interface UrlCheckResult {
+  ok: boolean;
+  /** Final URL after redirects (or the original on failure). */
+  finalUrl: string;
+  reason?: string;
+}
+
+/**
+ * Single-URL probe: HEAD → GET fallback → resolve redirects → final-URL
+ * homepage check. Returns granular result so callers can decide whether to
+ * retry, drop, or accept.
+ */
+async function probeUrl(url: string): Promise<UrlCheckResult> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), URL_CHECK_TIMEOUT_MS);
+  try {
+    let res = await fetch(url, { method: 'HEAD', signal: controller.signal, redirect: 'follow', headers: FETCH_HEADERS });
+    if (res.status === 403 || res.status === 405 || res.status === 501) {
+      res = await fetch(url, { method: 'GET', signal: controller.signal, redirect: 'follow', headers: FETCH_HEADERS });
+    }
+    const finalUrl = res.url || url;
+    // 4xx/5xx = dead, except 401/403 which mean "URL exists but bot-blocked"
+    // (still works for a human in the email).
+    if (res.status === 401 || res.status === 403) {
+      return { ok: true, finalUrl };
+    }
+    if (res.status < 200 || res.status >= 400) {
+      return { ok: false, finalUrl, reason: `status ${res.status}` };
+    }
+    // Post-redirect homepage check. A surprising number of "article" URLs
+    // 30x straight to the publication's homepage — perfectly valid HTTP, but
+    // a worthless link in the email.
+    if (isLikelyHomepageOrSearch(finalUrl)) {
+      return { ok: false, finalUrl, reason: 'resolved to homepage / section page' };
+    }
+    return { ok: true, finalUrl };
+  } catch (err) {
+    return { ok: false, finalUrl: url, reason: err instanceof Error ? err.message : String(err) };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 export async function checkArticleUrls(
   articles: NewsArticle[]
 ): Promise<{ live: NewsArticle[]; dead: { article: NewsArticle; reason: string }[] }> {
   const live: NewsArticle[] = [];
   const dead: { article: NewsArticle; reason: string }[] = [];
 
-  // Browser-like UA reduces bot-block rejections from major publishers.
-  const headers = {
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-    'Accept': 'text/html,application/xhtml+xml',
-  };
-
   const results = await Promise.all(
-    articles.map(async (a) => {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 3000);
-      try {
-        // Try HEAD first. Some publishers reject HEAD with 403/405 — fall back to GET.
-        let res = await fetch(a.url, { method: 'HEAD', signal: controller.signal, redirect: 'follow', headers });
-        if (res.status === 403 || res.status === 405 || res.status === 501) {
-          res = await fetch(a.url, { method: 'GET', signal: controller.signal, redirect: 'follow', headers });
-        }
-        // 2xx and 3xx → URL resolves cleanly.
-        // 401/403 → URL exists but the server is auth-walled or bot-blocked. Treat as
-        //   live: the link works for the human reading the email even if our HEAD doesn't.
-        if (res.status >= 200 && res.status < 400) return { ok: true, article: a } as const;
-        if (res.status === 401 || res.status === 403) return { ok: true, article: a } as const;
-        return { ok: false, article: a, reason: `status ${res.status}` } as const;
-      } catch (err) {
-        const message = err instanceof Error ? err.message : String(err);
-        return { ok: false, article: a, reason: message } as const;
-      } finally {
-        clearTimeout(timeout);
-      }
-    })
+    articles.map(async (a) => ({ article: a, probe: await probeUrl(a.url) }))
   );
 
-  for (const r of results) {
-    if (r.ok) live.push(r.article);
-    else dead.push({ article: r.article, reason: r.reason });
+  for (const { article, probe } of results) {
+    if (probe.ok) live.push(article);
+    else dead.push({ article, reason: probe.reason ?? 'unknown' });
   }
   return { live, dead };
 }
@@ -325,6 +348,149 @@ export async function retryNewsForReplacements(args: {
 }
 
 // ─────────────────────────────────────────────────────────────
+// Per-article URL retry — Haiku call that asks for THIS article's direct
+// permalink. Used when the original URL fails HEAD/GET or resolves to a
+// homepage. Cap is one retry per bad article (controls cost).
+// ─────────────────────────────────────────────────────────────
+
+/**
+ * If true, when an article's URL still fails after the one retry, link to a
+ * Google News search for the headline. If false, drop the link entirely and
+ * render only the headline + summary + whyItMatters.
+ *
+ * Default is `false` per the product call: a missing link is better than a
+ * search-results link. Flip to `true` if I change my mind.
+ */
+const FALLBACK_TO_GOOGLE_NEWS = false;
+
+function googleNewsSearchUrl(headline: string): string {
+  return `https://news.google.com/search?q=${encodeURIComponent(headline)}`;
+}
+
+async function retryArticleUrl(args: {
+  article: NewsArticle;
+  topics: string[];
+  customQuery?: string;
+}): Promise<{ url: string | null; tokensUsed: number }> {
+  const { article, topics, customQuery } = args;
+
+  const prompt =
+    `I have a real news article but my saved URL is broken. Find the canonical, ` +
+    `direct permalink to this specific article and return ONLY that URL on a single line.\n\n` +
+    `Headline: "${article.headline}"\n` +
+    `Source: ${article.source}\n` +
+    `Summary: ${article.summary}\n` +
+    `Topics the user follows: ${topics.join(', ')}` +
+    (customQuery ? ` (focus: ${customQuery})` : '') + `.\n\n` +
+    `Rules:\n` +
+    `- Return the FULL deep link to the specific article page, never the publication homepage, section page, tag page, or a search-results URL.\n` +
+    `- The URL must start with https://.\n` +
+    `- If you cannot find the direct article link from a credible source, return the single token NONE.\n` +
+    `- Output nothing else — no preface, no quotes, no markdown.`;
+
+  let response;
+  try {
+    response = await getClient().messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 400,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      tools: [{ type: 'web_search_20250305', name: 'web_search' }] as any,
+      messages: [{ role: 'user', content: prompt }],
+    });
+  } catch (err) {
+    console.warn('[News:url-retry] Claude call failed:', err instanceof Error ? err.message : err);
+    return { url: null, tokensUsed: 0 };
+  }
+
+  const tokensUsed = response.usage?.output_tokens ?? 0;
+  const rawText = response.content
+    .filter((b): b is Anthropic.TextBlock => b.type === 'text')
+    .map((b) => b.text)
+    .join('')
+    .trim();
+
+  if (!rawText || /^NONE\b/i.test(rawText)) {
+    return { url: null, tokensUsed };
+  }
+
+  // Claude sometimes wraps the URL in markdown or quotes. Extract the first https URL.
+  const match = rawText.match(/https?:\/\/[^\s)>\]"']+/);
+  if (!match) return { url: null, tokensUsed };
+  return { url: match[0], tokensUsed };
+}
+
+export interface UrlValidationLog {
+  total: number;
+  validFirstPass: number;
+  retried: number;
+  recoveredByRetry: number;
+  finalDropped: number;
+  fellBackToSearch: number;
+  retryTokens: number;
+}
+
+/**
+ * Validate every article's URL. For each article that fails HEAD/GET or
+ * resolves to a homepage, fire one Claude retry asking for the direct URL.
+ * If the retry's URL also fails, either drop the link entirely (default) or
+ * substitute a Google News search URL based on FALLBACK_TO_GOOGLE_NEWS.
+ *
+ * Returns the same articles, with `url` either kept (validated) or removed
+ * (failed). Caller's render layer must handle missing url gracefully.
+ */
+async function validateAndFixArticleUrls(
+  articles: NewsArticle[],
+  topics: string[],
+  customQuery: string | undefined,
+): Promise<{ articles: NewsArticle[]; log: UrlValidationLog }> {
+  const log: UrlValidationLog = {
+    total: articles.length,
+    validFirstPass: 0,
+    retried: 0,
+    recoveredByRetry: 0,
+    finalDropped: 0,
+    fellBackToSearch: 0,
+    retryTokens: 0,
+  };
+
+  // First pass: probe every URL in parallel.
+  const probes = await Promise.all(
+    articles.map(async (a) => ({ article: a, probe: await probeUrl(a.url) }))
+  );
+
+  // Walk results sequentially. For first-pass failures, fire ONE per-article
+  // Claude retry. Run those retries in parallel too.
+  const retryWork = probes.map(async ({ article, probe }) => {
+    if (probe.ok) {
+      log.validFirstPass++;
+      return { ...article, url: probe.finalUrl };
+    }
+    log.retried++;
+    const { url: newUrl, tokensUsed } = await retryArticleUrl({ article, topics, customQuery });
+    log.retryTokens += tokensUsed;
+    if (newUrl) {
+      const retryProbe = await probeUrl(newUrl);
+      if (retryProbe.ok) {
+        log.recoveredByRetry++;
+        return { ...article, url: retryProbe.finalUrl };
+      }
+    }
+    // Retry didn't recover. Fall back per config.
+    if (FALLBACK_TO_GOOGLE_NEWS) {
+      log.fellBackToSearch++;
+      return { ...article, url: googleNewsSearchUrl(article.headline) };
+    }
+    log.finalDropped++;
+    // Drop the URL field but keep the article. The render layer skips the
+    // "Continue reading" link when url is empty.
+    return { ...article, url: '' };
+  });
+
+  const finalArticles = await Promise.all(retryWork);
+  return { articles: finalArticles, log };
+}
+
+// ─────────────────────────────────────────────────────────────
 // Public orchestrator — used from pipeline.ts
 // ─────────────────────────────────────────────────────────────
 
@@ -341,6 +507,8 @@ export interface NewsRefinementResult {
     after_url_check: number;
     after_retry: number;
     final: number;
+    /** Per-article URL validation metrics (new). */
+    url: UrlValidationLog;
   };
 }
 
@@ -357,52 +525,59 @@ export async function refineNewsSection(args: {
   // whitelist instead of enforcing the diversity-dedup rule.
   const hasUserSources = !!sources && sources.length > 0;
 
-  // 1. Schema + content validation
+  // 1. Schema + content validation. URL handling moves to step 2.
   const initial = validateNewsSection(rawSectionData, { skipSourceDedup: hasUserSources });
   if (initial.rejected.length) {
-    console.warn(`[News] Rejected ${initial.rejected.length} article(s) at validation:`, initial.rejected.map((r) => r.reason));
+    console.warn(`[News] Rejected ${initial.rejected.length} article(s) at content validation:`, initial.rejected.map((r) => r.reason));
   }
 
-  // 2. URL HEAD check
-  const { live, dead } = await checkArticleUrls(initial.articles);
-  if (dead.length) {
-    console.warn(`[News] Dropped ${dead.length} article(s) failing URL check:`, dead.map((d) => `${d.reason} ${d.article.url}`));
-  }
+  // 2. Per-article URL validate + fix. Each article either keeps a working
+  // URL (validated, or recovered by per-article Claude retry) or has its
+  // URL dropped (rendered without "Continue at <Pub>" link). Articles
+  // themselves are never dropped here.
+  const urlPhase = await validateAndFixArticleUrls(initial.articles, topics, customQuery);
+  let final: NewsArticle[] = urlPhase.articles;
+  let retryTokens = urlPhase.log.retryTokens;
+  let retried = urlPhase.log.retried > 0;
 
-  let final = live;
-  let retried = false;
-  let retryTokens = 0;
-
-  // 3. If short, retry once
+  // 3. Count shortfall handling. If Claude returned fewer articles than
+  // requested (after content validation rejected some), fire the batch
+  // retry to fill missing slots. Per-article URL validation also applies
+  // to the retry results.
   if (final.length < requestedCount) {
     retried = true;
     const missing = requestedCount - final.length;
-    console.log(`[News] Short by ${missing} after validation+URL check, retrying once`);
+    console.log(`[News] Short by ${missing} after content validation, batch-retrying`);
     const retry = await retryNewsForReplacements({
       topics, customQuery, sources, excludeTopics,
       missingCount: missing,
-      alreadyUsedUrls: final.map((a) => a.url),
+      alreadyUsedUrls: final.map((a) => a.url).filter(Boolean),
       alreadyUsedSources: final.map((a) => a.source),
     });
-    retryTokens = retry.tokensUsed;
+    retryTokens += retry.tokensUsed;
 
-    // URL-check the retry articles too
-    const retryCheck = await checkArticleUrls(retry.articles);
-    if (retryCheck.dead.length) {
-      console.warn(`[News] Retry URLs dropped:`, retryCheck.dead.map((d) => `${d.reason} ${d.article.url}`));
-    }
+    // Apply per-article URL validation to retry articles too.
+    const retryUrlPhase = await validateAndFixArticleUrls(retry.articles, topics, customQuery);
+    retryTokens += retryUrlPhase.log.retryTokens;
 
-    // Dedup against existing URLs. Source dedup only applies when the user
-    // has NOT pinned specific publications — when they have, multiple articles
-    // from a pinned source are legitimate.
-    const existingUrls = new Set(final.map((a) => a.url));
+    // Merge logs.
+    urlPhase.log.total += retryUrlPhase.log.total;
+    urlPhase.log.validFirstPass += retryUrlPhase.log.validFirstPass;
+    urlPhase.log.retried += retryUrlPhase.log.retried;
+    urlPhase.log.recoveredByRetry += retryUrlPhase.log.recoveredByRetry;
+    urlPhase.log.finalDropped += retryUrlPhase.log.finalDropped;
+    urlPhase.log.fellBackToSearch += retryUrlPhase.log.fellBackToSearch;
+
+    // Dedup against existing URLs / sources. URLs may be empty strings
+    // for dropped-link articles — those don't collide.
+    const existingUrls = new Set(final.map((a) => a.url).filter(Boolean));
     const existingSources = new Set(final.map((a) => a.source.trim().toLowerCase()));
-    for (const a of retryCheck.live) {
-      if (existingUrls.has(a.url)) continue;
+    for (const a of retryUrlPhase.articles) {
+      if (a.url && existingUrls.has(a.url)) continue;
       if (!hasUserSources && existingSources.has(a.source.trim().toLowerCase())) continue;
       if (final.length >= requestedCount) break;
       final.push(a);
-      existingUrls.add(a.url);
+      if (a.url) existingUrls.add(a.url);
       existingSources.add(a.source.trim().toLowerCase());
     }
   }
@@ -414,9 +589,11 @@ export async function refineNewsSection(args: {
     requested: requestedCount,
     initial_parsed: initial.articles.length,
     initial_rejected: initial.rejected.length,
-    after_url_check: live.length,
+    // after_url_check = count of articles with a working URL after the URL phase
+    after_url_check: final.filter((a) => !!a.url).length,
     after_retry: final.length,
     final: final.length,
+    url: urlPhase.log,
   };
 
   console.log('[News] Refinement result:', JSON.stringify(log));

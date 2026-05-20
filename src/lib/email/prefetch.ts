@@ -1,4 +1,5 @@
 import { getDailyCache, setDailyCache } from './dailycache';
+import { getSearchCache, setSearchCache, getSearchCacheTtlHours } from './cache';
 import { fetchWeather } from '@/lib/fetchers/weather';
 import { fetchMarkets } from '@/lib/fetchers/markets';
 import { fetchCurrency } from '@/lib/fetchers/currency';
@@ -65,13 +66,16 @@ async function fetchForInstruction(inst: ModuleSearchInstruction, userId?: strin
       }
 
       case 'markets': {
+        // Markets data moves intraday so we cache in search_cache with a
+        // 1-hour TTL (see SHORT_TTL_MODULES in cache.ts), not in daily_cache.
+        // First user of an hour pays the Finnhub call, subsequent users share.
         const symbols = inst.config.symbols as string[] | undefined;
         if (!symbols?.length) return null;
         const cacheKey = `markets:${[...symbols].sort().join(',')}`;
-        const cached = await getDailyCache(cacheKey);
+        const cached = await getSearchCache(cacheKey);
         if (cached) return cached;
         const data = await fetchMarkets(symbols);
-        if (data) await setDailyCache(cacheKey, data);
+        if (data) await setSearchCache(cacheKey, data, getSearchCacheTtlHours('markets'));
         return data;
       }
 

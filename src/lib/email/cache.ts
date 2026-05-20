@@ -3,13 +3,27 @@ import { adminClient } from '@/lib/supabase/admin';
 
 const TTL_HOURS = 12;
 const STATIC_TTL_HOURS = 24;
+// Some modules carry data that genuinely moves intraday — sports scores,
+// stock prices. They cache for cross-user dedupe within an hour but never
+// long enough to ship truly stale numbers.
+const SHORT_TTL_HOURS = 1;
 
 // Modules that benefit from cross-user caching (real-time search results).
-// Excludes modules with user-specific config (weather, sports, currency)
-// and those that don't use web_search at all.
+// Includes sports (Claude/web_search) and markets (Finnhub prefetch) with
+// the short 1-hour TTL applied at write time.
 export const CACHEABLE_MODULES = new Set([
   'news', 'reddit', 'ai_tech', 'local_events', 'week_history', 'podcast',
+  'sports', 'markets',
 ]);
+
+// Subset of CACHEABLE_MODULES that gets the short (1-hour) TTL instead of the
+// default 12 hours. Driven by intraday volatility of the underlying data.
+export const SHORT_TTL_MODULES = new Set(['sports', 'markets']);
+
+/** TTL in hours used when writing this module to search_cache. */
+export function getSearchCacheTtlHours(moduleType: string): number {
+  return SHORT_TTL_MODULES.has(moduleType) ? SHORT_TTL_HOURS : TTL_HOURS;
+}
 
 // Stateless modules whose output depends only on user config, not real-time data.
 // Safe to cache for 24 hours keyed by moduleType + config hash + date.
@@ -53,8 +67,13 @@ export async function getSearchCache(cacheKey: string): Promise<unknown | null> 
   }
 }
 
-export async function setSearchCache(cacheKey: string, data: unknown): Promise<void> {
-  const expiresAt = new Date(Date.now() + TTL_HOURS * 60 * 60 * 1000).toISOString();
+export async function setSearchCache(
+  cacheKey: string,
+  data: unknown,
+  ttlOverrideHours?: number,
+): Promise<void> {
+  const ttlHours = ttlOverrideHours ?? TTL_HOURS;
+  const expiresAt = new Date(Date.now() + ttlHours * 60 * 60 * 1000).toISOString();
   try {
     await adminClient
       .from('search_cache')

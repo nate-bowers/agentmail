@@ -973,6 +973,24 @@ export default function DailyBriefEmail({
             }}>
               Thanks for reading. Until tomorrow.
             </Text>
+            {/* Sits above the legal row in plain sans, slightly larger than
+                the all-caps utility links, so the invitation-to-customize
+                feels like an editorial sign-off rather than a fine-print link. */}
+            <Text style={{
+              color: c.text,
+              fontFamily: SANS_STACK,
+              fontSize: '13px',
+              textAlign: 'center',
+              margin: '0 0 10px',
+            }}>
+              <Link href="https://dailybriefmail.com/dashboard" style={{
+                color: c.text,
+                textDecoration: 'underline',
+                textUnderlineOffset: '3px',
+              }}>
+                Edit your brief
+              </Link>
+            </Text>
             <Text style={{
               ...mutedStyle(c),
               textAlign: 'center',

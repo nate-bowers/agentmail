@@ -5,7 +5,7 @@ import { sendDailyBrief } from '@/lib/email/send';
 import { prefetchModuleData } from '@/lib/email/prefetch';
 import { getDailyCache, setDailyCache } from '@/lib/email/dailycache';
 import {
-  CACHEABLE_MODULES, buildCacheKey, getSearchCache, setSearchCache,
+  CACHEABLE_MODULES, buildCacheKey, getSearchCache, setSearchCache, getSearchCacheTtlHours,
   STATIC_CACHEABLE_MODULES, buildStaticCacheKey, getStaticCache, setStaticCache,
 } from '@/lib/email/cache';
 import { refineNewsSection } from '@/lib/email/newsValidation';
@@ -337,9 +337,10 @@ export async function runPipeline(
       log.error('pipeline', 'ai_tech cache write failed (non-fatal)', { error: String(err) });
     }
 
-    // Write live search results to 12-hour search cache (non-fatal). Skip
-    // error payloads so a bad reddit/news/podcast run doesn't poison the
-    // cache for everyone else hitting it in the next 12 hours.
+    // Write live search results to the search cache (non-fatal). Default
+    // TTL is 12h; sports + markets get 1h via getSearchCacheTtlHours since
+    // their data moves intraday. Skip error payloads so a bad reddit/news/
+    // sports run doesn't poison the cache for everyone else.
     try {
       for (const section of generated.sections) {
         if (!CACHEABLE_MODULES.has(section.type)) continue;
@@ -351,8 +352,9 @@ export async function runPipeline(
         }
         const inst = claudeInstructions.find((m) => m.moduleType === section.type);
         if (!inst) continue;
-        await setSearchCache(buildCacheKey(section.type, inst.config), section.data);
-        log.info('pipeline', 'written to search cache', { moduleType: section.type });
+        const ttlHours = getSearchCacheTtlHours(section.type);
+        await setSearchCache(buildCacheKey(section.type, inst.config), section.data, ttlHours);
+        log.info('pipeline', 'written to search cache', { moduleType: section.type, ttlHours });
       }
     } catch (err) {
       log.error('pipeline', 'Search cache write failed (non-fatal)', { error: String(err) });
