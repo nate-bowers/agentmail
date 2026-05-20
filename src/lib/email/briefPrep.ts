@@ -28,7 +28,7 @@ export interface BriefPrep {
 
 // See pipeline.ts for the rationale. Same heuristic kept in sync here so the
 // bypass routes catch placeholder shapes too.
-const PLACEHOLDER_STRINGS = new Set(['unavailable', 'n/a', 'tbd', 'no data', '—', '–', '-', '']);
+const PLACEHOLDER_STRINGS = new Set(['unavailable', 'n/a', 'tbd', 'no data', 'no current data']);
 function countPlaceholderFields(value: unknown): number {
   if (typeof value === 'string') {
     return PLACEHOLDER_STRINGS.has(value.trim().toLowerCase()) ? 1 : 0;
@@ -46,7 +46,7 @@ function countPlaceholderFields(value: unknown): number {
 function isErrorPayload(data: unknown): boolean {
   if (!data || typeof data !== 'object') return false;
   if ((data as { error?: boolean }).error === true) return true;
-  if (countPlaceholderFields(data) >= 2) return true;
+  if (countPlaceholderFields(data) >= 3) return true;
   return false;
 }
 

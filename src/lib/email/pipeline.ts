@@ -38,7 +38,11 @@ const HISTORY_MODULES = new Set(['on_this_day', 'week_history']);
 // We never want errored payloads to:
 //   - persist to any cache (so subsequent users / sends don't inherit the failure)
 //   - render to the user (they see a section omission, not a "Data unavailable" stub)
-const PLACEHOLDER_STRINGS = new Set(['unavailable', 'n/a', 'tbd', 'no data', '—', '–', '-', '']);
+// Tight placeholder set: only obvious literal filler strings Claude reaches
+// for when it bails. Empty strings and bare dashes are intentionally NOT
+// included — they show up in legitimate content (an article with no URL,
+// a delta of "-" for a flat currency) and would false-positive the filter.
+const PLACEHOLDER_STRINGS = new Set(['unavailable', 'n/a', 'tbd', 'no data', 'no current data']);
 
 function countPlaceholderFields(value: unknown): number {
   if (typeof value === 'string') {
@@ -58,11 +62,11 @@ function countPlaceholderFields(value: unknown): number {
 function isErrorPayload(data: unknown): boolean {
   if (!data || typeof data !== 'object') return false;
   if ((data as { error?: boolean }).error === true) return true;
-  // Heuristic placeholder check: at least two primary string fields equal to
-  // a known filler value strongly implies Claude bailed and faked it. False
-  // positives are acceptable here — better to omit a sketchy section than
-  // ship "Unavailable" entries that read as cached or broken.
-  if (countPlaceholderFields(data) >= 2) return true;
+  // Heuristic placeholder check: 3+ string fields equal to a known filler
+  // value strongly implies Claude faked the section. The threshold is
+  // conservative on purpose — we only fire when the payload is obviously
+  // pattern-filled rather than partially populated.
+  if (countPlaceholderFields(data) >= 3) return true;
   return false;
 }
 
