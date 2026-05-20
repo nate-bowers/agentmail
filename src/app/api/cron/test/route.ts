@@ -8,7 +8,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { runPipeline } from '@/lib/email/pipeline';
 import { buildSearchInstructions } from '@/lib/modules';
 import { generateDailyBrief } from '@/lib/email/generate';
-import { prepareBriefBeforeClaude, applyWeatherErrorSection } from '@/lib/email/briefPrep';
+import { prepareBriefBeforeClaude, applyWeatherErrorSection, stripErrorAndDuplicateSections } from '@/lib/email/briefPrep';
 import { generateUnsubscribeToken } from '@/lib/unsubscribe';
 import { getBusinessMailingAddress } from '@/lib/email/compliance';
 import { buildContextLine } from '@/lib/email/contextLine';
@@ -102,7 +102,9 @@ export async function GET(request: NextRequest) {
       prep.claudeInstructions,
       prep.prefetchedData,
     );
-    generated.sections = applyWeatherErrorSection(generated.sections, prep);
+    generated.sections = stripErrorAndDuplicateSections(
+      applyWeatherErrorSection(generated.sections, prep)
+    );
 
     const zonedNow = toZonedTime(new Date(), user.timezone || 'UTC');
     const dateLabel = format(zonedNow, 'EEEE, MMMM d, yyyy');

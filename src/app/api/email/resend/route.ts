@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { buildSearchInstructions } from '@/lib/modules';
 import { generateDailyBrief } from '@/lib/email/generate';
 import { sendDailyBrief } from '@/lib/email/send';
-import { prepareBriefBeforeClaude, applyWeatherErrorSection } from '@/lib/email/briefPrep';
+import { prepareBriefBeforeClaude, applyWeatherErrorSection, stripErrorAndDuplicateSections } from '@/lib/email/briefPrep';
 import type { ModuleRow, Profile } from '@/types';
 
 // Minimum gap between manual resends (6 hours)
@@ -61,7 +61,9 @@ export async function POST() {
     const moduleInstructions = buildSearchInstructions(modules as ModuleRow[]);
     const prep = await prepareBriefBeforeClaude(moduleInstructions, user.id);
     const generated = await generateDailyBrief(p, prep.claudeInstructions, prep.prefetchedData);
-    generated.sections = applyWeatherErrorSection(generated.sections, prep);
+    generated.sections = stripErrorAndDuplicateSections(
+      applyWeatherErrorSection(generated.sections, prep)
+    );
 
     const result = await sendDailyBrief(p, generated);
 

@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { createClient } from '@/lib/supabase/server';
 import { buildSearchInstructions } from '@/lib/modules';
 import { generateDailyBrief } from '@/lib/email/generate';
-import { prepareBriefBeforeClaude, applyWeatherErrorSection } from '@/lib/email/briefPrep';
+import { prepareBriefBeforeClaude, applyWeatherErrorSection, stripErrorAndDuplicateSections } from '@/lib/email/briefPrep';
 import { getBusinessMailingAddress } from '@/lib/email/compliance';
 import DailyBriefEmail from '@/components/email/DailyBriefEmail';
 import type { ModuleRow, Profile } from '@/types';
@@ -45,7 +45,9 @@ export async function POST(request: Request) {
       prep.claudeInstructions,
       prep.prefetchedData,
     );
-    generated.sections = applyWeatherErrorSection(generated.sections, prep);
+    generated.sections = stripErrorAndDuplicateSections(
+      applyWeatherErrorSection(generated.sections, prep)
+    );
 
     const dateLabel = format(new Date(), 'EEEE, MMMM d, yyyy');
     const html = await render(

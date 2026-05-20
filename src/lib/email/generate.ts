@@ -195,7 +195,8 @@ ${JSON.stringify(prefetched)}`;
 
   return `OUTPUT FORMAT:
 Respond with ONLY a valid JSON object — no text before or after, no markdown fences, no comments.
-Set "intro" to "". Never omit a section; use placeholder data if real data is unavailable.
+Set "intro" to "".
+If you cannot find real, fresh content for a particular section (the web search returned nothing useful, the source is down, the query has no real results today), output that section as { "type": "<moduleType>", "data": { "error": true } } and OMIT every other field. Do NOT fabricate placeholder values like "Unavailable", "No data", "N/A", "TBD", "—", "0", empty strings, or filler entries — those make the email worse than a missing section. We would rather drop the section than mislead the reader.
 ${itemLimitsDirective}
 
 USER:

@@ -27,6 +27,45 @@ export interface PipelineResult {
 // in final schema and can be injected directly without a Claude call.
 const HISTORY_MODULES = new Set(['on_this_day', 'week_history']);
 
+// A section payload is considered "errored" when:
+//   1. Claude (or the weather guard) emits explicit `{ error: true }`, OR
+//   2. The payload is structurally valid but Claude fabricated placeholder
+//      filler (e.g. every reddit post.title === "Unavailable"). Earlier prompt
+//      versions told Claude to "use placeholder data if real data is
+//      unavailable" — we now tell it to use { error: true } instead, but old
+//      cache rows still carry the filler shape and Claude still slips occasionally.
+//
+// We never want errored payloads to:
+//   - persist to any cache (so subsequent users / sends don't inherit the failure)
+//   - render to the user (they see a section omission, not a "Data unavailable" stub)
+const PLACEHOLDER_STRINGS = new Set(['unavailable', 'n/a', 'tbd', 'no data', '—', '–', '-', '']);
+
+function countPlaceholderFields(value: unknown): number {
+  if (typeof value === 'string') {
+    return PLACEHOLDER_STRINGS.has(value.trim().toLowerCase()) ? 1 : 0;
+  }
+  if (Array.isArray(value)) {
+    return value.reduce<number>((sum, v) => sum + countPlaceholderFields(v), 0);
+  }
+  if (value !== null && typeof value === 'object') {
+    return Object.values(value as Record<string, unknown>).reduce<number>(
+      (sum, v) => sum + countPlaceholderFields(v), 0
+    );
+  }
+  return 0;
+}
+
+function isErrorPayload(data: unknown): boolean {
+  if (!data || typeof data !== 'object') return false;
+  if ((data as { error?: boolean }).error === true) return true;
+  // Heuristic placeholder check: at least two primary string fields equal to
+  // a known filler value strongly implies Claude bailed and faked it. False
+  // positives are acceptable here — better to omit a sketchy section than
+  // ship "Unavailable" entries that read as cached or broken.
+  if (countPlaceholderFields(data) >= 2) return true;
+  return false;
+}
+
 export async function runPipeline(
   user: {
     id: string;
@@ -119,9 +158,14 @@ export async function runPipeline(
       if (prefetchedData[inst.moduleType] !== undefined) continue;
       const cacheKey = buildCacheKey(inst.moduleType, inst.config);
       const cached = await getSearchCache(cacheKey);
-      if (cached) {
+      // Skip cached error payloads — they would just resurface the same
+      // "Data unavailable" stub from a prior failed run. Treating them as
+      // cache miss forces a fresh Claude attempt.
+      if (cached && !isErrorPayload(cached)) {
         prefetchedData[inst.moduleType] = cached;
         console.log(`[Pipeline] ${inst.moduleType} served from search cache`);
+      } else if (cached) {
+        console.warn(`[Pipeline] ${inst.moduleType} search-cache entry is an error payload; treating as miss`);
       }
     }
 
@@ -149,9 +193,11 @@ export async function runPipeline(
       if (resolvedSections.has(inst.moduleType)) continue;
       const cacheKey = buildStaticCacheKey(inst.moduleType, inst.config);
       const cached = await getStaticCache(cacheKey);
-      if (cached) {
+      if (cached && !isErrorPayload(cached)) {
         resolvedSections.set(inst.moduleType, cached);
         console.log(`[Pipeline] ${inst.moduleType} served from static cache`);
+      } else if (cached) {
+        console.warn(`[Pipeline] ${inst.moduleType} static-cache entry is an error payload; treating as miss`);
       }
     }
   } catch (err) {
@@ -243,24 +289,34 @@ export async function runPipeline(
       resolvedSections.set(section.type, section.data);
     }
 
-    // Write ai_tech to daily cache for subsequent users (non-fatal)
+    // Write ai_tech to daily cache for subsequent users (non-fatal). Error
+    // payloads are intentionally skipped — caching a failure would lock
+    // every user behind today's first cron's bad luck for the rest of the day.
     try {
       const aiTechSection = generated.sections.find((s) => s.type === 'ai_tech');
       const aiTechInst = claudeInstructions.find((m) => m.moduleType === 'ai_tech');
-      if (aiTechSection && aiTechInst) {
+      if (aiTechSection && aiTechInst && !isErrorPayload(aiTechSection.data)) {
         const subtopics = (aiTechInst.config.subtopics as string[] | undefined) ?? [];
         const cacheKey = `ai_tech:${[...subtopics].sort().join(',')}`;
         await setDailyCache(cacheKey, aiTechSection.data);
         console.log('[Pipeline] ai_tech result cached for subsequent users');
+      } else if (aiTechSection && isErrorPayload(aiTechSection.data)) {
+        console.warn('[Pipeline] ai_tech section is an error payload; skipping cache write');
       }
     } catch (err) {
       console.error('[Pipeline] ai_tech cache write failed (non-fatal):', err);
     }
 
-    // Write live search results to 12-hour search cache (non-fatal)
+    // Write live search results to 12-hour search cache (non-fatal). Skip
+    // error payloads so a bad reddit/news/podcast run doesn't poison the
+    // cache for everyone else hitting it in the next 12 hours.
     try {
       for (const section of generated.sections) {
         if (!CACHEABLE_MODULES.has(section.type)) continue;
+        if (isErrorPayload(section.data)) {
+          console.warn(`[Pipeline] ${section.type} is an error payload; skipping search-cache write`);
+          continue;
+        }
         const inst = claudeInstructions.find((m) => m.moduleType === section.type);
         if (!inst) continue;
         await setSearchCache(buildCacheKey(section.type, inst.config), section.data);
@@ -270,10 +326,15 @@ export async function runPipeline(
       console.error('[Pipeline] Search cache write failed (non-fatal):', err);
     }
 
-    // Write static module results to 24-hour static cache (non-fatal)
+    // Write static module results to 24-hour static cache (non-fatal). Same
+    // error-payload skip as above.
     try {
       for (const section of generated.sections) {
         if (!STATIC_CACHEABLE_MODULES.has(section.type)) continue;
+        if (isErrorPayload(section.data)) {
+          console.warn(`[Pipeline] ${section.type} is an error payload; skipping static-cache write`);
+          continue;
+        }
         const inst = claudeInstructions.find((m) => m.moduleType === section.type);
         if (!inst) continue;
         await setStaticCache(buildStaticCacheKey(section.type, inst.config), section.data);
@@ -286,12 +347,29 @@ export async function runPipeline(
     console.log('[Pipeline] Stage 3: Skipped — all modules resolved from cache');
   }
 
-  // Merge: restore original display order from moduleInstructions
+  // Merge: restore original display order from moduleInstructions.
+  // Two filters applied:
+  //   1. Dedupe by module_type. A user with two `sports` rows enabled (which
+  //      shouldn't happen but does — onboarding/migration bugs) was rendering
+  //      the same payload twice. We keep the lowest-display_order entry only.
+  //   2. Drop any section whose payload is { error: true }. Per product rule:
+  //      if a module can't be filled, omit it from the email rather than
+  //      shipping a "Data unavailable" stub that reads identical day-to-day.
+  const seenTypes = new Set<string>();
   const finalSections: GeneratedSection[] = moduleInstructions
     .map((inst) => {
+      if (seenTypes.has(inst.moduleType)) {
+        console.warn(`[Pipeline] Duplicate module ${inst.moduleType} (display_order ${inst.config?.display_order ?? '?'}) — skipping`);
+        return null;
+      }
+      seenTypes.add(inst.moduleType);
       const data = resolvedSections.get(inst.moduleType);
       if (!data) {
         console.warn(`[Pipeline] No data resolved for ${inst.moduleType} — omitting from email`);
+        return null;
+      }
+      if (isErrorPayload(data)) {
+        console.warn(`[Pipeline] ${inst.moduleType} resolved to an error payload — omitting from email`);
         return null;
       }
       return { type: inst.moduleType, data } as GeneratedSection;
