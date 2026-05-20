@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://dailybriefmail.com'),
   title: { default: 'Daily Brief', template: '%s — Daily Brief' },
   description: 'Your personalized daily email brief, curated by AI.',
+  manifest: '/site.webmanifest',
   openGraph: {
     title: 'Daily Brief',
     description: 'Your morning, curated.',

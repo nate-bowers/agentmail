@@ -6,6 +6,11 @@ const SERVER_VARS = [
   'SUPABASE_SERVICE_ROLE_KEY',
   'ANTHROPIC_API_KEY',
   'RESEND_API_KEY',
+  // RESEND_WEBHOOK_SECRET is required to verify Resend's bounce/complaint
+  // webhook, but it's intentionally NOT in this required list so the server
+  // boots even before the founder has wired the webhook in the Resend
+  // dashboard. The /api/resend/webhook route returns 500 with a clear log
+  // line if it's unset at request time.
   'STRIPE_SECRET_KEY',
   'STRIPE_WEBHOOK_SECRET',
   'STRIPE_PRO_PRICE_ID',

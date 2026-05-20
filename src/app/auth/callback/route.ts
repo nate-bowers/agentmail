@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
+import { sendWelcomeEmail } from '@/lib/email/sendWelcome';
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
@@ -29,8 +30,18 @@ export async function GET(request: NextRequest) {
       }
     );
 
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
+      // Fire-and-forget welcome email. Idempotent via welcome_email_sent
+      // flag, so re-entering this callback (e.g. after a stale code retry)
+      // does not double-send. We await briefly to surface obvious errors
+      // in the function log, but a slow Resend call should not block the
+      // redirect for OAuth users.
+      if (data.user?.id) {
+        sendWelcomeEmail(data.user.id).catch((err) => {
+          console.error('[auth/callback] sendWelcomeEmail failed:', err);
+        });
+      }
       return response;
     }
   }

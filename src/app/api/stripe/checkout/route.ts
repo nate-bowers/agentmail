@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json().catch(() => ({}));
     const planId: PlanId = body.planId ?? 'pro';
 
-    if (planId !== 'pro' && planId !== 'unlimited') {
+    if (planId !== 'pro') {
       return NextResponse.json({ error: 'Invalid plan' }, { status: 400 });
     }
 

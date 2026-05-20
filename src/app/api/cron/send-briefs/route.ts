@@ -9,6 +9,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { timingSafeEqual } from 'crypto';
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
+import { Resend } from 'resend';
 import { adminClient } from '@/lib/supabase/admin';
 import { runPipeline } from '@/lib/email/pipeline';
 import { cleanExpiredSearchCache } from '@/lib/email/cache';
@@ -30,12 +31,45 @@ function isSendTime(sendTime: string, timezone: string): boolean {
 
 type CronUser = Pick<Profile, 'id' | 'email' | 'full_name' | 'timezone' | 'send_time' | 'email_theme' | 'email_verbosity' | 'delivery_email' | 'subscription_status'>;
 
+type PipelineResult = { success: boolean; error?: string; stage?: string };
+
+type Failure = { userId: string; email: string; stage: string; error: string };
+
 function verifyCronSecret(provided: string): boolean {
   const expected = process.env.CRON_SECRET ?? '';
   try {
     return timingSafeEqual(Buffer.from(provided), Buffer.from(expected));
   } catch {
     return false;
+  }
+}
+
+// Fire-and-forget alert email. Never throws — alerting is a notification,
+// not the primary purpose of the cron, so any failure is swallowed and logged.
+async function sendFailureAlert(subject: string, body: string): Promise<void> {
+  const to = process.env.ALERT_EMAIL;
+  if (!to) {
+    console.log('[Cron] ALERT_EMAIL unset — skipping failure alert.');
+    return;
+  }
+  const key = process.env.RESEND_API_KEY;
+  if (!key) {
+    console.error('[Cron] RESEND_API_KEY unset — cannot send failure alert.');
+    return;
+  }
+  try {
+    const resend = new Resend(key);
+    const { error } = await resend.emails.send({
+      from: 'Daily Brief Ops <brief@dailybriefmail.com>',
+      to,
+      subject,
+      text: body,
+    });
+    if (error) {
+      console.error('[Cron] Alert email failed:', error);
+    }
+  } catch (err) {
+    console.error('[Cron] Alert email threw (suppressed):', err);
   }
 }
 
@@ -57,7 +91,7 @@ export async function GET(request: NextRequest) {
   console.log('[Cron] Send briefs job started at', new Date().toISOString());
 
   const matchedUsers: CronUser[] = [];
-  const results: PromiseSettledResult<{ success: boolean; error?: string; stage?: string }>[] = [];
+  const results: PromiseSettledResult<PipelineResult>[] = [];
 
   try {
     const { data: users, error: usersError } = await adminClient
@@ -112,17 +146,55 @@ export async function GET(request: NextRequest) {
   } catch (err) {
     console.error('[Cron] Fatal error:', err);
     isRunning = false;
+    // Alert on fatal error (no per-user results to report).
+    await sendFailureAlert(
+      '[Daily Brief Cron] Fatal error',
+      `Cron handler threw before any users were processed.\n\nTimestamp: ${new Date().toISOString()}\nError: ${String(err)}\n`,
+    );
     return NextResponse.json({ error: 'Cron job failed', detail: String(err) }, { status: 500 });
   } finally {
     isRunning = false;
   }
 
-  const succeeded = results.filter(
-    (r) => r.status === 'fulfilled' && r.value?.success
-  ).length;
-  const failed = results.length - succeeded;
+  // Collect failures (rejected promises + fulfilled-but-success=false).
+  const failures: Failure[] = results.flatMap((r, i) => {
+    const user = matchedUsers[i];
+    if (!user) return [];
+    if (r.status === 'rejected') {
+      return [{ userId: user.id, email: user.email, stage: 'unknown', error: String(r.reason) }];
+    }
+    if (!r.value?.success) {
+      return [{
+        userId: user.id,
+        email: user.email,
+        stage: r.value?.stage ?? 'unknown',
+        error: r.value?.error ?? 'unknown',
+      }];
+    }
+    return [];
+  });
+
+  const succeeded = results.length - failures.length;
+  const failed = failures.length;
 
   console.log('[Cron] Completed:', { attempted: results.length, succeeded, failed });
+
+  // One alert per cron run when any user failed.
+  if (failures.length > 0) {
+    const body = [
+      `Daily Brief cron completed with ${failures.length} failure(s) out of ${results.length} user(s).`,
+      `Timestamp: ${new Date().toISOString()}`,
+      '',
+      'Failures:',
+      ...failures.map(
+        (f) => `  - user_id=${f.userId} email=${f.email} stage=${f.stage}\n    error: ${f.error}`,
+      ),
+    ].join('\n');
+    await sendFailureAlert(
+      `[Daily Brief Cron] ${failures.length} failures`,
+      body,
+    );
+  }
 
   return NextResponse.json({
     timestamp: new Date().toISOString(),

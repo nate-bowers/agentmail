@@ -17,7 +17,7 @@ import {
   Bot,
   Mail,
 } from 'lucide-react';
-import { PLANS } from '@/lib/stripe/products';
+import { PLANS } from '@/lib/stripe/plans';
 
 const EASE = [0.21, 0.47, 0.32, 0.98] as const;
 
@@ -459,7 +459,7 @@ function Pricing() {
               </span>
               <div>
                 <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-brand-purple">Brief Pro</p>
-                <p className="mt-3 text-5xl font-light text-[#0D0D0F]" style={{ fontFamily: 'Georgia, ui-serif, serif' }}>${PLANS.pro.monthlyPrice}</p>
+                <p className="mt-3 text-5xl font-light text-[#0D0D0F]" style={{ fontFamily: 'Georgia, ui-serif, serif' }}>${PLANS.pro.priceMonthly}</p>
                 <p className="mt-0.5 font-mono text-[11px] text-[#bbb]">per month</p>
                 <ul className="mt-6 space-y-2.5">
                   {PLANS.pro.features.map((f) => (
@@ -513,6 +513,7 @@ function Footer() {
             { href: '/dashboard/upgrade', label: 'Pricing' },
             { href: '/terms', label: 'Terms' },
             { href: '/privacy', label: 'Privacy' },
+            { href: '/status', label: 'Status' },
           ].map(({ href, label }) => (
             <Link key={href} href={href} className="text-xs text-[#999] transition-colors hover:text-[#333]">
               {label}

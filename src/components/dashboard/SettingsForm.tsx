@@ -230,6 +230,26 @@ export default function SettingsForm({ profile, email }: SettingsFormProps) {
             </AlertDialogContent>
           </AlertDialog>
         </div>
+
+        <div className="h-px bg-red-100" />
+
+        {/* Download data */}
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-medium text-ink">Download my data</p>
+            <p className="text-xs text-ink-muted">
+              Export your profile, modules, and recent email history as a JSON file.
+            </p>
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => { window.location.href = '/api/user/export'; }}
+          >
+            Download my data
+          </Button>
+        </div>
       </section>
     </div>
   );

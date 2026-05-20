@@ -60,7 +60,7 @@ export default function ModuleModal({
   open, onOpenChange, mode, existingModule, initialModuleType,
   remainingPoints, subscriptionStatus, onSuccess,
 }: ModuleModalProps) {
-  const { isFree, isPro, isUnlimited } = usePlan(subscriptionStatus);
+  const { isFree, isPro } = usePlan(subscriptionStatus);
   const isEditing = mode === 'edit';
 
   const [step, setStep] = useState<1 | 2>(1);
@@ -237,7 +237,7 @@ export default function ModuleModal({
                   const isPopular = POPULAR_MODULE_TYPES.has(def.type);
                   const isNew = NEW_MODULE_TYPES.has(def.type);
                   const pts = getModulePoints(def.type, def.defaultConfig as Record<string, unknown>);
-                  const canAfford = isUnlimited || pts <= remainingPoints;
+                  const canAfford = pts <= remainingPoints;
 
                   return (
                     <button

@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Clock, Lock, Mail, Palette, User, Zap, BookOpen, Check, ChevronsUpDown } from 'lucide-react';
+import { Clock, Lock, Mail, Palette, User, Zap, BookOpen, Check, ChevronsUpDown, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { useDebounce } from 'use-debounce';
 import { Input } from '@/components/ui/input';
@@ -448,6 +448,15 @@ export default function DashboardClient({
   const [subscriptionStatus, setSubscriptionStatus] = useState(initialSubscriptionStatus);
   const [showUpgradeOnboarding, setShowUpgradeOnboarding] = useState(false);
 
+  // Onboarding gate state lives here so a skip-with-zero-modules path can
+  // reopen the modal from a dashboard "Finish setup" CTA without changing
+  // has_onboarded.
+  const [onboardingOpen, setOnboardingOpen] = useState(!profile.has_onboarded);
+  // Resume step from the user's last persisted onboarding_step.
+  const [onboardingInitialStep, setOnboardingInitialStep] = useState<number | undefined>(
+    profile.onboarding_step && profile.onboarding_step > 0 ? profile.onboarding_step : undefined
+  );
+
   // Determine onboarding variant once at mount from localStorage + subscription status
   const [onboardingVariant] = useState<'free' | 'pro'>(() => {
     if (typeof window === 'undefined') return 'free';
@@ -531,17 +540,19 @@ export default function DashboardClient({
     return () => { cancelled = true; };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { isFree, isPro, isUnlimited } = usePlan(subscriptionStatus);
+  const { isFree, isPro } = usePlan(subscriptionStatus);
   const { used: pointsUsed, limit: pointsLimit, percentUsed } = usePoints(modules, subscriptionStatus);
   const atLimit = pointsUsed >= pointsLimit;
 
   return (
     <>
-      {!profile.has_onboarded && (
+      {onboardingOpen && (
         <OnboardingGate
-          userId={user.id}
           variant={onboardingVariant}
           onModulesCreated={refreshModules}
+          onClose={() => setOnboardingOpen(false)}
+          initialStep={onboardingInitialStep}
+          currentModulesCount={modules.length}
         />
       )}
 
@@ -555,13 +566,35 @@ export default function DashboardClient({
       <div className="py-2 lg:grid lg:grid-cols-3 lg:gap-8 lg:items-start">
         {/* Main — 2 cols */}
         <div className="lg:col-span-2">
-          <ModuleList
-            modules={modules}
-            onModulesChange={setModules}
-            onRefresh={refreshModules}
-            refreshing={refreshing}
-            subscriptionStatus={subscriptionStatus}
-          />
+          {!profile.has_onboarded && modules.length === 0 && !onboardingOpen ? (
+            <div className="flex flex-col items-center justify-center rounded-2xl border border-surface-border bg-white py-16 text-center">
+              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-brand-purple-light">
+                <Sparkles className="h-7 w-7 text-brand-purple" />
+              </div>
+              <p className="text-base font-semibold text-ink">Your brief is paused until you add a module</p>
+              <p className="mt-1 max-w-sm text-sm text-ink-muted">
+                Finish setup to pick what goes into your daily email. It takes about two minutes.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setOnboardingInitialStep(1);
+                  setOnboardingOpen(true);
+                }}
+                className="mt-5 inline-flex items-center gap-1.5 rounded-lg bg-brand-purple px-4 py-2 text-sm font-medium text-white hover:bg-brand-purple-dark transition-colors"
+              >
+                <Sparkles className="h-4 w-4" /> Finish setup
+              </button>
+            </div>
+          ) : (
+            <ModuleList
+              modules={modules}
+              onModulesChange={setModules}
+              onRefresh={refreshModules}
+              refreshing={refreshing}
+              subscriptionStatus={subscriptionStatus}
+            />
+          )}
         </div>
 
         {/* Sidebar — 1 col */}
@@ -587,7 +620,7 @@ export default function DashboardClient({
                     Free
                   </motion.span>
                 )}
-                {isPro && !isUnlimited && (
+                {isPro && (
                   <motion.span
                     key="pro"
                     initial={{ opacity: 0, scale: 0.85 }}
@@ -597,18 +630,6 @@ export default function DashboardClient({
                     className="inline-flex items-center rounded-full bg-brand-purple px-2.5 py-0.5 text-xs font-medium text-white"
                   >
                     Pro
-                  </motion.span>
-                )}
-                {isUnlimited && (
-                  <motion.span
-                    key="unlimited"
-                    initial={{ opacity: 0, scale: 0.85 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.85 }}
-                    transition={{ duration: 0.2 }}
-                    className="inline-flex items-center rounded-full bg-gradient-to-r from-brand-purple to-indigo-500 px-2.5 py-0.5 text-xs font-medium text-white"
-                  >
-                    Unlimited
                   </motion.span>
                 )}
               </AnimatePresence>

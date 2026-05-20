@@ -2,11 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import type Stripe from 'stripe';
 import { stripe } from '@/lib/stripe/client';
 import { createAdminClient } from '@/lib/supabase/admin';
+import { log } from '@/lib/log';
 import type { PlanId } from '@/lib/stripe/plans';
 
 function getPlanIdFromPriceId(priceId: string): PlanId {
   if (priceId === process.env.STRIPE_PRO_PRICE_ID) return 'pro';
-  if (priceId === process.env.STRIPE_UNLIMITED_PRICE_ID) return 'unlimited';
   return 'free';
 }
 
@@ -14,17 +14,20 @@ export async function POST(request: NextRequest) {
   // Step 1: Read raw body and check signature header
   const body = await request.text();
   const signature = request.headers.get('stripe-signature');
-  console.log(`[webhook] step 1: raw body length ${body.length}, signature present: ${!!signature}`);
+  log.info('stripe-webhook', 'step 1: received request', {
+    bodyLength: body.length,
+    signaturePresent: !!signature,
+  });
 
   if (!signature) {
-    console.error('[webhook] Missing stripe-signature header');
+    log.error('stripe-webhook', 'Missing stripe-signature header');
     return NextResponse.json({ error: 'Missing stripe-signature header' }, { status: 400 });
   }
 
   // Step 2: Check webhook secret is configured
   const secret = process.env.STRIPE_WEBHOOK_SECRET;
   if (!secret) {
-    console.error('[webhook] STRIPE_WEBHOOK_SECRET is not set');
+    log.error('stripe-webhook', 'STRIPE_WEBHOOK_SECRET is not set');
     return NextResponse.json({ error: 'Server misconfiguration' }, { status: 500 });
   }
 
@@ -33,10 +36,10 @@ export async function POST(request: NextRequest) {
   try {
     event = stripe.webhooks.constructEvent(body, signature, secret);
   } catch (err) {
-    console.error('[webhook] Signature verification failed:', err);
+    log.error('stripe-webhook', 'Signature verification failed', { error: String(err) });
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
-  console.log(`[webhook] step 2: constructEvent succeeded, type: ${event.type}`);
+  log.info('stripe-webhook', 'step 2: constructEvent succeeded', { eventType: event.type });
 
   const admin = createAdminClient();
 
@@ -49,18 +52,21 @@ export async function POST(request: NextRequest) {
       const customerId =
         typeof session.customer === 'string' ? session.customer : session.customer?.id;
 
-      console.log(
-        `[webhook] step 3: checkout.session.completed, userId=${userId}, planId=${planId}, customerId=${customerId}`
-      );
+      log.info('stripe-webhook', 'step 3: checkout.session.completed', {
+        userId,
+        planId,
+        customerId,
+      });
 
       if (!userId) {
-        console.warn('[webhook] No user_id in session metadata — skipping (data issue, not server error)');
+        log.warn('stripe-webhook', 'No user_id in session metadata — skipping (data issue, not server error)');
         return NextResponse.json({ received: true });
       }
 
-      console.log(
-        `[webhook] step 4: update profiles set subscription_status=${planId} where id=${userId}`
-      );
+      log.info('stripe-webhook', 'step 4: updating profile subscription_status', {
+        userId,
+        planId,
+      });
       const { error } = await admin
         .from('profiles')
         .update({
@@ -71,16 +77,20 @@ export async function POST(request: NextRequest) {
 
       if (error) {
         if (error.code === '23514') {
-          console.error(
-            `[webhook] step 4 FAILED: check constraint violation — constraint: ${error.details ?? 'unknown'}, rejected value: subscription_status=${planId}`
-          );
+          log.error('stripe-webhook', 'step 4 FAILED: check constraint violation', {
+            constraint: error.details ?? 'unknown',
+            rejectedSubscriptionStatus: planId,
+          });
         } else {
-          console.error('[webhook] step 4 FAILED: DB update error:', error.message, error.code);
+          log.error('stripe-webhook', 'step 4 FAILED: DB update error', {
+            error: error.message,
+            code: error.code,
+          });
         }
         return NextResponse.json({ error: 'DB update failed' }, { status: 500 });
       }
 
-      console.log(`[webhook] step 5: success — user ${userId} is now ${planId}`);
+      log.info('stripe-webhook', 'step 5: success — user upgraded', { userId, planId });
       break;
     }
 
@@ -91,9 +101,11 @@ export async function POST(request: NextRequest) {
       const priceId = sub.items.data[0]?.price?.id ?? '';
       const planId = getPlanIdFromPriceId(priceId);
 
-      console.log(
-        `[webhook] customer.subscription.updated: customerId=${customerId}, priceId=${priceId}, planId=${planId}`
-      );
+      log.info('stripe-webhook', 'customer.subscription.updated', {
+        customerId,
+        priceId,
+        planId,
+      });
 
       const { error } = await admin
         .from('profiles')
@@ -102,11 +114,15 @@ export async function POST(request: NextRequest) {
 
       if (error) {
         if (error.code === '23514') {
-          console.error(
-            `[webhook] check constraint violation on subscription.updated — constraint: ${error.details ?? 'unknown'}, rejected value: subscription_status=${planId}`
-          );
+          log.error('stripe-webhook', 'check constraint violation on subscription.updated', {
+            constraint: error.details ?? 'unknown',
+            rejectedSubscriptionStatus: planId,
+          });
         } else {
-          console.error('[webhook] Failed to update subscription for customer', customerId, error.message);
+          log.error('stripe-webhook', 'Failed to update subscription for customer', {
+            customerId,
+            error: error.message,
+          });
         }
         return NextResponse.json({ error: 'DB update failed' }, { status: 500 });
       }
@@ -118,7 +134,7 @@ export async function POST(request: NextRequest) {
       const customerId =
         typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
 
-      console.log(`[webhook] customer.subscription.deleted: customerId=${customerId}`);
+      log.info('stripe-webhook', 'customer.subscription.deleted', { customerId });
 
       const { error } = await admin
         .from('profiles')
@@ -127,11 +143,15 @@ export async function POST(request: NextRequest) {
 
       if (error) {
         if (error.code === '23514') {
-          console.error(
-            `[webhook] check constraint violation on subscription.deleted — constraint: ${error.details ?? 'unknown'}, rejected value: subscription_status=free`
-          );
+          log.error('stripe-webhook', 'check constraint violation on subscription.deleted', {
+            constraint: error.details ?? 'unknown',
+            rejectedSubscriptionStatus: 'free',
+          });
         } else {
-          console.error('[webhook] Failed to clear subscription for customer', customerId, error.message);
+          log.error('stripe-webhook', 'Failed to clear subscription for customer', {
+            customerId,
+            error: error.message,
+          });
         }
         return NextResponse.json({ error: 'DB update failed' }, { status: 500 });
       }
@@ -139,7 +159,7 @@ export async function POST(request: NextRequest) {
     }
 
     default:
-      console.log(`[webhook] Unhandled event type: ${event.type}`);
+      log.info('stripe-webhook', 'Unhandled event type', { eventType: event.type });
       break;
   }
 

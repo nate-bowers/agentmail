@@ -1,25 +1,29 @@
 'use client';
 
-import { useState } from 'react';
 import OnboardingModal from './OnboardingModal';
 
 interface OnboardingGateProps {
-  userId: string;
   variant: 'free' | 'pro';
   onModulesCreated: () => Promise<void>;
+  onClose: () => void;
+  initialStep?: number;
+  currentModulesCount: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function OnboardingGate({ userId, variant, onModulesCreated }: OnboardingGateProps) {
-  const [open, setOpen] = useState(true);
-
-  if (!open) return null;
-
+export default function OnboardingGate({
+  variant,
+  onModulesCreated,
+  onClose,
+  initialStep,
+  currentModulesCount,
+}: OnboardingGateProps) {
   return (
     <OnboardingModal
       variant={variant}
-      onComplete={() => setOpen(false)}
+      onComplete={onClose}
       onModulesCreated={onModulesCreated}
+      initialStep={initialStep}
+      currentModulesCount={currentModulesCount}
     />
   );
 }

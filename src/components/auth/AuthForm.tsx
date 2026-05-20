@@ -66,6 +66,15 @@ export default function AuthForm({ mode, initialError }: AuthFormProps) {
             body: JSON.stringify({ full_name: fullName.trim() }),
           });
         }
+        // Fire-and-forget one-time welcome email. Idempotent server-side
+        // via the welcome_email_sent flag, so a stale-tab retry does not
+        // double-send. Awaited but with a short timeout so a slow Resend
+        // call cannot strand the user on the signup card.
+        try {
+          await fetch('/api/welcome-email', { method: 'POST' });
+        } catch (welcomeErr) {
+          console.error('[AuthForm] welcome email trigger failed:', welcomeErr);
+        }
         window.location.href = '/dashboard';
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });

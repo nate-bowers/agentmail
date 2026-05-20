@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 
 interface UpgradeButtonProps {
-  planId?: 'pro' | 'unlimited';
+  planId?: 'pro';
   label?: string;
 }
 

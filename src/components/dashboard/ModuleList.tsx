@@ -264,7 +264,7 @@ export default function ModuleList({
   const [limitDialogOpen, setLimitDialogOpen] = useState(false);
 
   const { used: pointsUsed, limit: pointsLimit, remaining, isAtLimit } = usePoints(modules, subscriptionStatus);
-  const { isFree, isPro, isUnlimited } = usePlan(subscriptionStatus);
+  const { isFree, isPro } = usePlan(subscriptionStatus);
   const recommendations = getModuleRecommendations(modules, remaining);
   const showSuggestions = !isAtLimit && modules.length > 0;
 
@@ -275,7 +275,7 @@ export default function ModuleList({
   );
 
   function openAdd() {
-    if (isAtLimit && !isUnlimited) { setLimitDialogOpen(true); return; }
+    if (isAtLimit) { setLimitDialogOpen(true); return; }
     setExistingModule(null);
     setModalInitialType(null);
     setModalMode('add');
@@ -290,7 +290,7 @@ export default function ModuleList({
   }
 
   async function handleQuickAdd(moduleType: string) {
-    if (isAtLimit && !isUnlimited) { setLimitDialogOpen(true); return; }
+    if (isAtLimit) { setLimitDialogOpen(true); return; }
     const def = MODULE_REGISTRY[moduleType];
     if (!def) return;
 
@@ -409,7 +409,7 @@ export default function ModuleList({
           <h2 className="text-lg font-semibold text-ink">Your Modules</h2>
           <Button
             size="sm"
-            variant={isAtLimit && !isUnlimited ? 'outline' : 'default'}
+            variant={isAtLimit ? 'outline' : 'default'}
             onClick={openAdd}
             className="gap-1.5 min-h-[44px] sm:min-h-0"
             disabled={refreshing}
@@ -505,6 +505,9 @@ export default function ModuleList({
             <Button className="mt-5" onClick={openAdd}>
               <Plus className="mr-1.5 h-4 w-4" /> Add your first module
             </Button>
+            <p className="mt-5 text-xs text-ink-faint">
+              Reply to your brief if there&rsquo;s a module you wish existed.
+            </p>
           </div>
         )}
 

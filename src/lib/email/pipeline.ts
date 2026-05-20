@@ -9,6 +9,7 @@ import {
   STATIC_CACHEABLE_MODULES, buildStaticCacheKey, getStaticCache, setStaticCache,
 } from '@/lib/email/cache';
 import { refineNewsSection } from '@/lib/email/newsValidation';
+import { log } from '@/lib/log';
 import type { ModuleRow, ModuleSearchInstruction, SubscriptionStatus } from '@/types';
 import type { GeneratedSection } from '@/lib/email/generate';
 
@@ -86,7 +87,7 @@ export async function runPipeline(
   const supabase = createAdminClient();
 
   // STAGE 1: Fetch modules
-  console.log(`[Pipeline] Stage 1: Fetching modules for ${user.email}`);
+  log.info('pipeline', 'Stage 1: fetching modules', { userEmail: user.email });
 
   let modules: ModuleRow[];
   try {
@@ -103,10 +104,13 @@ export async function runPipeline(
     }
 
     modules = data as ModuleRow[];
-    console.log(`[Pipeline] Found ${modules.length} modules:`, modules.map((m) => m.module_type));
+    log.info('pipeline', 'Modules found', {
+      count: modules.length,
+      moduleTypes: modules.map((m) => m.module_type),
+    });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
-    console.error('[Pipeline] Module fetch failed:', err);
+    log.error('pipeline', 'Module fetch failed', { error: String(err) });
     return { success: false, stage: 'modules', error: message, detail: String(err) };
   }
 
@@ -121,26 +125,28 @@ export async function runPipeline(
       if (!definition) return mod;
       return { ...mod, config: definition.defaultConfig };
     });
-    console.log('[Pipeline] Free plan — topic module configs reset to defaults');
+    log.info('pipeline', 'Free plan — topic module configs reset to defaults');
   }
 
   // STAGE 2: Build search instructions (preserves display_order for final merge)
-  console.log('[Pipeline] Stage 2: Building search instructions');
+  log.info('pipeline', 'Stage 2: building search instructions');
   let moduleInstructions: ModuleSearchInstruction[];
   try {
     moduleInstructions = buildSearchInstructions(modules);
     if (moduleInstructions.length === 0) {
       return { success: false, stage: 'modules', error: 'No valid module configs after parsing' };
     }
-    console.log('[Pipeline] Instructions built for:', moduleInstructions.map((m) => m.moduleType));
+    log.info('pipeline', 'Instructions built', {
+      moduleTypes: moduleInstructions.map((m) => m.moduleType),
+    });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
-    console.error('[Pipeline] Instruction build failed:', err);
+    log.error('pipeline', 'Instruction build failed', { error: String(err) });
     return { success: false, stage: 'generate', error: message, detail: String(err) };
   }
 
   // STAGE 2.5: Pre-fetch external API data + check shared/search caches
-  console.log('[Pipeline] Stage 2.5: Pre-fetching module data');
+  log.info('pipeline', 'Stage 2.5: pre-fetching module data');
   let prefetchedData: Record<string, unknown> = {};
   try {
     const aiTechInst = moduleInstructions.find((m) => m.moduleType === 'ai_tech');
@@ -150,7 +156,7 @@ export async function runPipeline(
       const cached = await getDailyCache(cacheKey);
       if (cached) {
         prefetchedData['ai_tech'] = cached;
-        console.log('[Pipeline] ai_tech served from shared cache');
+        log.info('pipeline', 'ai_tech served from shared cache');
       }
     }
 
@@ -167,15 +173,19 @@ export async function runPipeline(
       // cache miss forces a fresh Claude attempt.
       if (cached && !isErrorPayload(cached)) {
         prefetchedData[inst.moduleType] = cached;
-        console.log(`[Pipeline] ${inst.moduleType} served from search cache`);
+        log.info('pipeline', 'served from search cache', { moduleType: inst.moduleType });
       } else if (cached) {
-        console.warn(`[Pipeline] ${inst.moduleType} search-cache entry is an error payload; treating as miss`);
+        log.warn('pipeline', 'search-cache entry is an error payload; treating as miss', {
+          moduleType: inst.moduleType,
+        });
       }
     }
 
-    console.log('[Pipeline] Pre-fetched:', Object.keys(prefetchedData).length > 0 ? Object.keys(prefetchedData) : 'none');
+    log.info('pipeline', 'pre-fetched modules', {
+      modules: Object.keys(prefetchedData).length > 0 ? Object.keys(prefetchedData) : 'none',
+    });
   } catch (err) {
-    console.error('[Pipeline] Prefetch failed (non-fatal, continuing):', err);
+    log.error('pipeline', 'Prefetch failed (non-fatal, continuing)', { error: String(err) });
   }
 
   // STAGE 2.6: Build resolved sections map — everything we can provide without a Claude call.
@@ -199,13 +209,15 @@ export async function runPipeline(
       const cached = await getStaticCache(cacheKey);
       if (cached && !isErrorPayload(cached)) {
         resolvedSections.set(inst.moduleType, cached);
-        console.log(`[Pipeline] ${inst.moduleType} served from static cache`);
+        log.info('pipeline', 'served from static cache', { moduleType: inst.moduleType });
       } else if (cached) {
-        console.warn(`[Pipeline] ${inst.moduleType} static-cache entry is an error payload; treating as miss`);
+        log.warn('pipeline', 'static-cache entry is an error payload; treating as miss', {
+          moduleType: inst.moduleType,
+        });
       }
     }
   } catch (err) {
-    console.error('[Pipeline] Static cache check failed (non-fatal):', err);
+    log.error('pipeline', 'Static cache check failed (non-fatal)', { error: String(err) });
   }
 
   // Weather is NEVER routed through Claude. If prefetch couldn't fill it
@@ -213,7 +225,7 @@ export async function runPipeline(
   // fallback so the email stays useful and the rest of the brief still ships.
   const weatherInst = moduleInstructions.find((i) => i.moduleType === 'weather');
   if (weatherInst && !resolvedSections.has('weather')) {
-    console.warn('[Pipeline] weather prefetch missing — emitting error fallback');
+    log.warn('pipeline', 'weather prefetch missing — emitting error fallback');
     resolvedSections.set('weather', { error: true });
   }
 
@@ -225,24 +237,31 @@ export async function runPipeline(
     if (HISTORY_MODULES.has(moduleType)) claudePrefetchedData[moduleType] = data;
   }
 
-  console.log(`[Pipeline] Cache hit: ${resolvedSections.size}/${moduleInstructions.length} modules`);
+  log.info('pipeline', 'Cache hit summary', {
+    cacheHits: resolvedSections.size,
+    totalModules: moduleInstructions.length,
+  });
   if (claudeInstructions.length > 0) {
-    console.log('[Pipeline] Claude cache misses:', claudeInstructions.map((i) => i.moduleType));
+    log.info('pipeline', 'Claude cache misses', {
+      moduleTypes: claudeInstructions.map((i) => i.moduleType),
+    });
   }
 
   // STAGE 3: Generate via Claude — only cache-miss modules
   let tokensUsed = 0;
   if (claudeInstructions.length > 0) {
-    console.log('[Pipeline] Stage 3: Calling Claude API');
+    log.info('pipeline', 'Stage 3: calling Claude API');
     let generated;
     try {
       generated = await generateDailyBrief(user, claudeInstructions, claudePrefetchedData);
       tokensUsed = generated.tokensUsed;
-      console.log('[Pipeline] Generation successful. Tokens used:', tokensUsed);
-      console.log('[Pipeline] Sections generated:', generated.sections?.map((s) => s.type));
+      log.info('pipeline', 'Generation successful', {
+        tokensUsed,
+        sections: generated.sections?.map((s) => s.type),
+      });
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
-      console.error('[Pipeline] Claude generation failed:', err);
+      log.error('pipeline', 'Claude generation failed', { error: String(err) });
       return { success: false, stage: 'generate', error: message, detail: String(err) };
     }
 
@@ -259,7 +278,7 @@ export async function runPipeline(
       const sources = newsInst?.config.sources as string[] | undefined;
       const excludeTopics = newsInst?.config.excludeTopics as string | undefined;
 
-      console.log(`[Pipeline] News refinement starting — requested ${requestedCount} articles`);
+      log.info('pipeline', 'News refinement starting', { requestedCount });
       try {
         const refinement = await refineNewsSection({
           rawSectionData: generated.sections[newsSectionIdx].data,
@@ -282,9 +301,16 @@ export async function runPipeline(
         (generated.sections[newsSectionIdx] as any).data = refinedData;
         tokensUsed += refinement.retryTokens;
 
-        console.log(`[Pipeline] News refinement done — retried=${refinement.retried} final=${refinement.finalArticles.length}/${requestedCount} extraTokens=${refinement.retryTokens}`);
+        log.info('pipeline', 'News refinement done', {
+          retried: refinement.retried,
+          finalCount: refinement.finalArticles.length,
+          requestedCount,
+          extraTokens: refinement.retryTokens,
+        });
       } catch (err) {
-        console.error('[Pipeline] News refinement failed (non-fatal, using raw output):', err);
+        log.error('pipeline', 'News refinement failed (non-fatal, using raw output)', {
+          error: String(err),
+        });
       }
     }
 
@@ -303,12 +329,12 @@ export async function runPipeline(
         const subtopics = (aiTechInst.config.subtopics as string[] | undefined) ?? [];
         const cacheKey = `ai_tech:${[...subtopics].sort().join(',')}`;
         await setDailyCache(cacheKey, aiTechSection.data);
-        console.log('[Pipeline] ai_tech result cached for subsequent users');
+        log.info('pipeline', 'ai_tech result cached for subsequent users');
       } else if (aiTechSection && isErrorPayload(aiTechSection.data)) {
-        console.warn('[Pipeline] ai_tech section is an error payload; skipping cache write');
+        log.warn('pipeline', 'ai_tech section is an error payload; skipping cache write');
       }
     } catch (err) {
-      console.error('[Pipeline] ai_tech cache write failed (non-fatal):', err);
+      log.error('pipeline', 'ai_tech cache write failed (non-fatal)', { error: String(err) });
     }
 
     // Write live search results to 12-hour search cache (non-fatal). Skip
@@ -318,16 +344,18 @@ export async function runPipeline(
       for (const section of generated.sections) {
         if (!CACHEABLE_MODULES.has(section.type)) continue;
         if (isErrorPayload(section.data)) {
-          console.warn(`[Pipeline] ${section.type} is an error payload; skipping search-cache write`);
+          log.warn('pipeline', 'section is an error payload; skipping search-cache write', {
+            moduleType: section.type,
+          });
           continue;
         }
         const inst = claudeInstructions.find((m) => m.moduleType === section.type);
         if (!inst) continue;
         await setSearchCache(buildCacheKey(section.type, inst.config), section.data);
-        console.log(`[Pipeline] ${section.type} written to search cache`);
+        log.info('pipeline', 'written to search cache', { moduleType: section.type });
       }
     } catch (err) {
-      console.error('[Pipeline] Search cache write failed (non-fatal):', err);
+      log.error('pipeline', 'Search cache write failed (non-fatal)', { error: String(err) });
     }
 
     // Write static module results to 24-hour static cache (non-fatal). Same
@@ -336,19 +364,21 @@ export async function runPipeline(
       for (const section of generated.sections) {
         if (!STATIC_CACHEABLE_MODULES.has(section.type)) continue;
         if (isErrorPayload(section.data)) {
-          console.warn(`[Pipeline] ${section.type} is an error payload; skipping static-cache write`);
+          log.warn('pipeline', 'section is an error payload; skipping static-cache write', {
+            moduleType: section.type,
+          });
           continue;
         }
         const inst = claudeInstructions.find((m) => m.moduleType === section.type);
         if (!inst) continue;
         await setStaticCache(buildStaticCacheKey(section.type, inst.config), section.data);
-        console.log(`[Pipeline] ${section.type} written to static cache`);
+        log.info('pipeline', 'written to static cache', { moduleType: section.type });
       }
     } catch (err) {
-      console.error('[Pipeline] Static cache write failed (non-fatal):', err);
+      log.error('pipeline', 'Static cache write failed (non-fatal)', { error: String(err) });
     }
   } else {
-    console.log('[Pipeline] Stage 3: Skipped — all modules resolved from cache');
+    log.info('pipeline', 'Stage 3: skipped — all modules resolved from cache');
   }
 
   // Merge: restore original display order from moduleInstructions.
@@ -363,17 +393,24 @@ export async function runPipeline(
   const finalSections: GeneratedSection[] = moduleInstructions
     .map((inst) => {
       if (seenTypes.has(inst.moduleType)) {
-        console.warn(`[Pipeline] Duplicate module ${inst.moduleType} (display_order ${inst.config?.display_order ?? '?'}) — skipping`);
+        log.warn('pipeline', 'Duplicate module — skipping', {
+          moduleType: inst.moduleType,
+          displayOrder: inst.config?.display_order ?? null,
+        });
         return null;
       }
       seenTypes.add(inst.moduleType);
       const data = resolvedSections.get(inst.moduleType);
       if (!data) {
-        console.warn(`[Pipeline] No data resolved for ${inst.moduleType} — omitting from email`);
+        log.warn('pipeline', 'No data resolved — omitting from email', {
+          moduleType: inst.moduleType,
+        });
         return null;
       }
       if (isErrorPayload(data)) {
-        console.warn(`[Pipeline] ${inst.moduleType} resolved to an error payload — omitting from email`);
+        log.warn('pipeline', 'resolved to an error payload — omitting from email', {
+          moduleType: inst.moduleType,
+        });
         return null;
       }
       return { type: inst.moduleType, data } as GeneratedSection;
@@ -385,14 +422,14 @@ export async function runPipeline(
   }
 
   // STAGE 4: Send email
-  console.log('[Pipeline] Stage 4: Sending via Resend');
+  log.info('pipeline', 'Stage 4: sending via Resend');
   let sendResult;
   try {
     sendResult = await sendDailyBrief(user, { sections: finalSections, tokensUsed }, options);
-    console.log('[Pipeline] Send result:', sendResult);
+    log.info('pipeline', 'Send result', { sendResult });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
-    console.error('[Pipeline] Send failed:', err);
+    log.error('pipeline', 'Send failed', { error: String(err) });
     return { success: false, stage: 'send', error: message, detail: String(err) };
   }
 

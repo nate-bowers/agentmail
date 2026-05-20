@@ -1,3 +1,5 @@
+import { withSentryConfig } from '@sentry/nextjs';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   compress: true,
@@ -59,4 +61,12 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+// Wrap with Sentry. Source-map upload + route instrumentation happens here.
+// Founder TODO: replace `org` and `project` placeholders with your Sentry org
+// slug and project name once the Sentry project is created. The wrapper still
+// works without them, but source maps won't be uploaded.
+export default withSentryConfig(nextConfig, {
+  silent: true,
+  org: 'your-sentry-org-slug',
+  project: 'your-sentry-project-slug',
+});

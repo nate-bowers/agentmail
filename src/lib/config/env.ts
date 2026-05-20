@@ -19,6 +19,7 @@ const envSchema = z.object({
 
   // Email
   RESEND_API_KEY: z.string().min(1),
+  RESEND_WEBHOOK_SECRET: z.string().min(1),
 
   // Stripe
   STRIPE_SECRET_KEY: z.string().min(1),
@@ -32,6 +33,16 @@ const envSchema = z.object({
   // Internal secrets
   CRON_SECRET: z.string().min(32),
   UNSUBSCRIBE_SECRET: z.string().min(32),
+
+  // Optional ops alerting — if unset, no alert email is sent on cron failures.
+  ALERT_EMAIL: z.string().email().optional(),
+
+  // Optional third-party APIs (code falls back gracefully when missing).
+  // Finnhub: live market quotes; falls back to Claude web_search when unset.
+  FINNHUB_API_KEY: z.string().min(1).optional(),
+
+  // Observability (optional — Sentry SDK no-ops when DSN is unset).
+  NEXT_PUBLIC_SENTRY_DSN: z.string().url().optional(),
 });
 
 type Env = z.infer<typeof envSchema>;

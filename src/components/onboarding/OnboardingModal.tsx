@@ -988,10 +988,40 @@ export interface OnboardingModalProps {
   onComplete: () => void;
   onModulesCreated: () => Promise<void>;
   variant: 'free' | 'pro';
+  initialStep?: number;
+  currentModulesCount: number;
 }
 
-export default function OnboardingModal({ onComplete, onModulesCreated, variant }: OnboardingModalProps) {
-  const [step, setStep] = useState(0);
+// Fire-and-forget — never throws, never surfaces a toast. Worst case the user
+// re-steps once on the next session.
+function persistOnboardingStep(step: number) {
+  void fetch('/api/user/settings', {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ onboarding_step: step }),
+  }).catch(() => null);
+}
+
+export default function OnboardingModal({
+  onComplete,
+  onModulesCreated,
+  variant,
+  initialStep,
+  currentModulesCount,
+}: OnboardingModalProps) {
+  // Step counts include the new "Inbox setup" step.
+  // Free: Welcome → Pick → Inbox → Finish
+  // Pro:  Welcome → Pick → Configure → Inbox → Delivery+Stripe
+  const totalSteps = variant === 'pro' ? 5 : 4;
+
+  // Resume from a persisted step only if it points to a real intermediate step.
+  // 0 (Welcome) and >= totalSteps both fall back to 0.
+  const resumeStep =
+    typeof initialStep === 'number' && initialStep > 0 && initialStep < totalSteps
+      ? initialStep
+      : 0;
+
+  const [step, setStepState] = useState(resumeStep);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [moduleConfigs, setModuleConfigs] = useState<Record<string, Record<string, unknown>>>({});
   const [weatherCity, setWeatherCity] = useState('');
@@ -999,10 +1029,11 @@ export default function OnboardingModal({ onComplete, onModulesCreated, variant 
   const [savingMessage, setSavingMessage] = useState(SAVING_MESSAGES[0]);
   const [saveError, setSaveError] = useState<string | null>(null);
 
-  // Step counts include the new "Inbox setup" step.
-  // Free: Welcome → Pick → Inbox → Finish
-  // Pro:  Welcome → Pick → Configure → Inbox → Delivery+Stripe
-  const totalSteps = variant === 'pro' ? 5 : 4;
+  // Wraps setStep with a fire-and-forget PATCH so a closed tab resumes here.
+  function setStep(next: number) {
+    setStepState(next);
+    persistOnboardingStep(next);
+  }
 
   // Cycle saving messages while saving
   useEffect(() => {
@@ -1025,10 +1056,17 @@ export default function OnboardingModal({ onComplete, onModulesCreated, variant 
   }
 
   async function handleSkip() {
+    // If the user has zero modules, do not flip `has_onboarded`. The gate
+    // re-opens on next session, and the dashboard surfaces a "Finish setup"
+    // empty state so they can return. We still close the modal client-side.
+    if (currentModulesCount === 0) {
+      onComplete();
+      return;
+    }
     await fetch('/api/user/settings', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ has_onboarded: true }),
+      body: JSON.stringify({ has_onboarded: true, onboarding_step: 0 }),
     }).catch(() => null);
     onComplete();
   }
@@ -1061,8 +1099,11 @@ export default function OnboardingModal({ onComplete, onModulesCreated, variant 
         }
       }
 
-      // Save settings
-      const settingsPayload: Record<string, unknown> = { has_onboarded: true };
+      // Save settings — reset onboarding_step to 0 so a re-onboarding starts clean.
+      const settingsPayload: Record<string, unknown> = {
+        has_onboarded: true,
+        onboarding_step: 0,
+      };
       if (sendTime) settingsPayload.send_time = sendTime;
       if (timezone) settingsPayload.timezone = timezone;
 

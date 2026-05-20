@@ -206,6 +206,12 @@ function DashboardNav({ email, isPro }: { email: string; isPro?: boolean }) {
               )}
             </AnimatePresence>
 
+            <a
+              href="mailto:hello@dailybriefmail.com?subject=Daily%20Brief%20feedback"
+              className="hidden text-sm text-ink-muted transition-colors hover:text-ink lg:inline"
+            >
+              Feedback
+            </a>
             <span className="hidden text-xs text-ink-faint lg:block">{email}</span>
             <div className="hidden h-4 w-px bg-surface-border lg:block" />
             <Button

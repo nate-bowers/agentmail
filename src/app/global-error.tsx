@@ -1,11 +1,27 @@
 'use client';
 
+// Next.js 14 global error boundary. Receives `error` and `reset` and must
+// render its own <html>/<body>. We forward the error to Sentry on mount
+// so uncaught render errors in the root layout get tracked. The capture is
+// gated on NEXT_PUBLIC_SENTRY_DSN — when unset, the SDK no-ops and we skip
+// the call entirely so local dev / preview don't ship events to nowhere.
+
+import { useEffect } from 'react';
+import * as Sentry from '@sentry/nextjs';
+
 export default function GlobalError({
+  error,
   reset,
 }: {
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
+      Sentry.captureException(error);
+    }
+  }, [error]);
+
   return (
     <html lang="en">
       <body

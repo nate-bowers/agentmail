@@ -1,4 +1,4 @@
-export type PlanId = 'free' | 'pro' | 'unlimited';
+export type PlanId = 'free' | 'pro';
 
 export interface Plan {
   id: PlanId;
@@ -36,21 +36,6 @@ export const PLANS: Record<PlanId, Plan> = {
       'Daily email brief',
     ],
   },
-  unlimited: {
-    id: 'unlimited',
-    label: 'Brief Unlimited',
-    priceMonthly: 19,
-    pointLimit: 999,
-    stripePriceEnvVar: 'STRIPE_UNLIMITED_PRICE_ID',
-    features: [
-      'Unlimited module credits',
-      'All current and future modules',
-      'Priority delivery',
-      'All themes',
-      'Early access to new features',
-      'Daily email brief',
-    ],
-  },
 };
 
 export function getPriceId(planId: PlanId): string {
@@ -62,8 +47,8 @@ export function getPriceId(planId: PlanId): string {
 export function getPlanFromSubscriptionStatus(status: string | null): PlanId {
   switch (status) {
     case 'pro': return 'pro';
-    case 'active': return 'pro'; // legacy — pre-migration rows stored 'active'
-    case 'unlimited': return 'unlimited';
+    case 'active': return 'pro'; // legacy: pre-migration rows stored 'active'
+    case 'unlimited': return 'pro'; // legacy: stale rows from half-scaffolded tier collapse to pro
     default: return 'free';
   }
 }

@@ -14,20 +14,12 @@ interface PointsBarProps {
 }
 
 export default function PointsBar({ modules, subscriptionStatus, refreshing }: PointsBarProps) {
-  const { isFree, isPro, isUnlimited, pointLimit } = usePlan(subscriptionStatus);
+  const { isFree, isPro, pointLimit } = usePlan(subscriptionStatus);
 
   const totalPoints = modules.reduce(
     (sum, m) => sum + getModulePoints(m.module_type, m.config ?? {}),
     0
   );
-
-  if (isUnlimited) {
-    return (
-      <div className="text-sm text-ink-muted">
-        {totalPoints} credits used (unlimited)
-      </div>
-    );
-  }
 
   const limit = pointLimit;
   const pct = Math.min((totalPoints / limit) * 100, 100);

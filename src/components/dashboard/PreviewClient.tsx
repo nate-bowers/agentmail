@@ -463,7 +463,7 @@ export default function PreviewClient({
                 <span className="h-3 w-3 rounded-full bg-yellow-400" />
                 <span className="h-3 w-3 rounded-full bg-green-400" />
               </div>
-              <p className="text-xs text-ink-muted">From: Daily Brief &lt;noreply@dailybriefmail.com&gt;</p>
+              <p className="text-xs text-ink-muted">From: Daily Brief &lt;brief@dailybriefmail.com&gt;</p>
               <p className="text-xs text-ink-muted">To: {userEmail}</p>
               <p className="text-xs text-ink-muted">Subject: Your Brief — {today}</p>
             </div>

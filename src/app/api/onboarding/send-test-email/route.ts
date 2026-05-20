@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
 import { createClient } from '@/lib/supabase/server';
 import { adminClient } from '@/lib/supabase/admin';
-import WelcomeTestEmail from '@/components/email/WelcomeTestEmail';
+import InboxSetupEmail from '@/components/email/InboxSetupEmail';
 import { generateUnsubscribeToken } from '@/lib/unsubscribe';
 import { buildUnsubscribeHeaders, getBusinessMailingAddress } from '@/lib/email/compliance';
 
@@ -76,7 +76,7 @@ export async function POST() {
     const mailingAddress = getBusinessMailingAddress();
 
     const html = await render(
-      WelcomeTestEmail({
+      InboxSetupEmail({
         userName: profile.full_name ?? profile.email,
         date: dateLabel,
         theme: profile.email_theme ?? 'light',

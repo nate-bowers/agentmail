@@ -20,7 +20,7 @@ export default async function DashboardLayout({
     .single();
 
   const planId = getPlanFromSubscriptionStatus(profile?.subscription_status ?? null);
-  const isPro = planId === 'pro' || planId === 'unlimited';
+  const isPro = planId === 'pro';
 
   return (
     <div

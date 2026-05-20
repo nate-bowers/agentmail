@@ -12,7 +12,7 @@ import {
 } from '@react-email/components';
 import { getTheme, type EmailThemeColors } from '@/lib/email/themes';
 
-export interface WelcomeTestEmailProps {
+export interface InboxSetupEmailProps {
   userName: string;
   date: string;
   theme?: string;
@@ -34,9 +34,9 @@ function mutedStyle(c: EmailThemeColors): React.CSSProperties {
   return { color: c.muted, fontSize: '13px', lineHeight: '1.5', margin: '0 0 4px' };
 }
 
-export default function WelcomeTestEmail({
+export default function InboxSetupEmail({
   userName, date, theme, unsubscribeToken, mailingAddress,
-}: WelcomeTestEmailProps) {
+}: InboxSetupEmailProps) {
   const firstName = (userName?.split(' ')[0]) || 'there';
   const { colors: c } = getTheme(theme ?? 'light');
 
@@ -100,7 +100,7 @@ export default function WelcomeTestEmail({
               written for your day. Thanks for letting us into your inbox.
             </Text>
             <Text style={{ ...mutedStyle(c), margin: '8px 0 0' }}>
-              — The Daily Brief team
+              The Daily Brief team
             </Text>
           </Section>
 
@@ -131,7 +131,7 @@ export default function WelcomeTestEmail({
               <Text style={{ ...mutedStyle(c), margin: '0', fontStyle: 'italic' }}>
                 &ldquo;The unexamined life is not worth living.&rdquo;
               </Text>
-              <Text style={{ ...mutedStyle(c), margin: '0' }}>— Socrates</Text>
+              <Text style={{ ...mutedStyle(c), margin: '0' }}>Socrates</Text>
             </Section>
           </Section>
 
