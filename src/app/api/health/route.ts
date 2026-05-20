@@ -63,9 +63,12 @@ async function checkResend(): Promise<CheckResult> {
       'resend',
     );
     const latencyMs = Date.now() - start;
-    if (res.status === 200) return { ok: true, latencyMs };
-    if (res.status === 401 || res.status === 403) {
-      return { ok: false, latencyMs, error: `Resend rejected API key (HTTP ${res.status})` };
+    // 200 = full key with read permissions. 401/403 = restricted send-only
+    // key (our production setup) — still reachable, still able to send.
+    // We accept both as "service responding" since the goal is liveness, not
+    // permission enumeration. 4xx beyond auth or any 5xx = real problem.
+    if (res.status === 200 || res.status === 401 || res.status === 403) {
+      return { ok: true, latencyMs };
     }
     return { ok: false, latencyMs, error: `Unexpected Resend status ${res.status}` };
   } catch (err) {
