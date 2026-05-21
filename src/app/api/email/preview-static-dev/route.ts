@@ -82,6 +82,12 @@ const sections = [
 ];
 
 export async function GET() {
+  // Belt-and-suspenders prod guard. This route should never have shipped to
+  // production, but if it slipped through the deploy, 404 instead of leaking
+  // a rendered email template.
+  if (process.env.VERCEL_ENV === 'production') {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  }
   const html = await render(
     DailyBriefEmail({
       userName: 'Nate',

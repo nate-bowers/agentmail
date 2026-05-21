@@ -89,11 +89,20 @@ function checkAnthropicKey(): CheckResult {
   return { ok: true };
 }
 
-export async function GET() {
+import type { NextRequest } from 'next/server';
+
+function stripDetail(c: CheckResult): CheckResult {
+  // Raw error text from Supabase/Resend can include internal hostnames,
+  // connection strings, or rate-limit hints. Public probes get the boolean
+  // result and latency only; full detail is reserved for callers that
+  // supply HEALTH_DEBUG_TOKEN.
+  return { ok: c.ok, latencyMs: c.latencyMs };
+}
+
+export async function GET(request: NextRequest) {
   const [supabase, resend] = await Promise.all([checkSupabase(), checkResend()]);
   const anthropic_key = checkAnthropicKey();
 
-  const checks = { supabase, resend, anthropic_key };
   const allOk = supabase.ok && resend.ok && anthropic_key.ok;
   // Supabase is the authoritative critical dep — without it nothing works.
   const supabaseDown = !supabase.ok;
@@ -105,6 +114,20 @@ export async function GET() {
       : 'degraded';
 
   const httpStatus = status === 'down' ? 503 : 200;
+
+  // Authorized callers (set HEALTH_DEBUG_TOKEN env + pass ?token=...) get
+  // full error detail. Everyone else gets the redacted shape.
+  const debugToken = process.env.HEALTH_DEBUG_TOKEN;
+  const providedToken = request.nextUrl.searchParams.get('token');
+  const isAuthorized = !!debugToken && providedToken === debugToken;
+
+  const checks = isAuthorized
+    ? { supabase, resend, anthropic_key }
+    : {
+        supabase: stripDetail(supabase),
+        resend: stripDetail(resend),
+        anthropic_key: stripDetail(anthropic_key),
+      };
 
   return NextResponse.json(
     { status, checks, timestamp: new Date().toISOString() },

@@ -47,7 +47,11 @@ async function readToken(request: NextRequest): Promise<{ token: string | null; 
     return { token: urlToken, action: 'unsubscribe' };
   }
 
-  // JSON body (our confirmation page).
+  // JSON body (our confirmation page). Note: `delete` is intentionally NOT
+  // accepted on this token-only path. A leaked unsubscribe token must never
+  // be able to hard-delete the account; deletion is gated behind the
+  // authenticated /dashboard/settings flow. Token-only callers can only
+  // toggle is_active.
   if (contentType.includes('application/json')) {
     let parsed: Record<string, unknown> = {};
     try {
@@ -59,7 +63,7 @@ async function readToken(request: NextRequest): Promise<{ token: string | null; 
     const rawAction = typeof parsed.action === 'string' ? parsed.action : 'unsubscribe';
     let action: Action = 'unsubscribe';
     if (rawAction === 'resubscribe') action = 'resubscribe';
-    else if (rawAction === 'delete') action = 'delete';
+    // `delete` is deliberately ignored here.
     return { token: urlToken ?? bodyToken, action };
   }
 

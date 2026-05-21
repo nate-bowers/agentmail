@@ -2,10 +2,27 @@ import { createServerClient } from '@supabase/ssr';
 import { NextRequest, NextResponse } from 'next/server';
 import { sendWelcomeEmail } from '@/lib/email/sendWelcome';
 
+/**
+ * Sanitize the `next` redirect param so it can't be used to bounce users off
+ * to another host. Only same-origin relative paths beginning with a single
+ * slash are allowed; everything else falls back to /dashboard.
+ *
+ * Rejects:
+ *   - protocol-relative URLs ("//evil.com/foo")
+ *   - backslash tricks ("/\\evil.com/foo")
+ *   - anything that doesn't start with "/"
+ */
+function safeNext(raw: string | null): string {
+  if (!raw) return '/dashboard';
+  if (!raw.startsWith('/')) return '/dashboard';
+  if (raw.startsWith('//') || raw.startsWith('/\\')) return '/dashboard';
+  return raw;
+}
+
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get('code');
-  const next = searchParams.get('next') ?? '/dashboard';
+  const next = safeNext(searchParams.get('next'));
 
   if (code) {
     // Build the redirect response first so we can attach cookies directly to it.
