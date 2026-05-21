@@ -310,7 +310,7 @@ export default function AuthForm({ mode, initialError }: AuthFormProps) {
 
           {proSelected && (
             <p className="text-center text-xs text-brand-purple">
-              ✓ Pro plan selected — finish signing up above to continue.
+              ✓ Pro plan selected. Finish signing up above to continue.
             </p>
           )}
         </>

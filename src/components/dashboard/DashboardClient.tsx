@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Clock, Lock, Mail, Palette, User, Zap, BookOpen, Check, ChevronsUpDown, Sparkles } from 'lucide-react';
+import { Clock, Lock, Mail, Palette, User, Zap, AlignLeft, BookOpen, Check, ChevronsUpDown, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 import { useDebounce } from 'use-debounce';
 import { Input } from '@/components/ui/input';
@@ -401,6 +401,21 @@ function EmailStyleCard({ profile }: { profile: Profile }) {
             <Tooltip>
               <TooltipTrigger asChild>
                 <button
+                  onClick={() => handleVerbosityChange('medium')}
+                  className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-all ${
+                    verbosity === 'medium'
+                      ? 'border-brand-purple bg-brand-purple-light text-brand-purple'
+                      : 'border-surface-border text-ink hover:border-brand-purple/50'
+                  }`}
+                >
+                  <AlignLeft className="h-3 w-3" /> Standard
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>Balanced, the default</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
                   onClick={() => handleVerbosityChange('wordy')}
                   className={`flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-all ${
                     verbosity === 'wordy'
@@ -512,7 +527,6 @@ export default function DashboardClient({
           });
           if (!res.ok) continue;
           const data = await res.json();
-          console.log(`[Poll] Attempt ${i + 1}: status = ${data.subscription_status}`);
           if (data.subscription_status === 'pro' || data.subscription_status === 'unlimited') {
             if (cancelled) return;
             setSubscriptionStatus(data.subscription_status);
@@ -522,8 +536,8 @@ export default function DashboardClient({
             window.history.replaceState({}, '', '/dashboard');
             return;
           }
-        } catch (err) {
-          console.error(`[Poll] Attempt ${i + 1} failed:`, err);
+        } catch {
+          // swallow — next attempt will retry
         }
       }
 

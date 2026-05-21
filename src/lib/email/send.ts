@@ -37,7 +37,7 @@ export async function sendDailyBrief(
     const zonedNow = toZonedTime(new Date(), timezone || 'UTC');
     // subjectSuffix is used by test/preview routes to break Gmail's same-subject
     // thread folding (otherwise repeated test sends collapse under "Show trimmed content").
-    const baseSubject = `Your Brief — ${format(zonedNow, 'EEEE, MMMM d')}`;
+    const baseSubject = `Your Brief: ${format(zonedNow, 'EEEE, MMMM d')}`;
     const subject = options?.subjectSuffix ? `${baseSubject} ${options.subjectSuffix}` : baseSubject;
     const dateLabel = format(zonedNow, 'EEEE, MMMM d, yyyy');
     const unsubscribeToken = generateUnsubscribeToken(userId);

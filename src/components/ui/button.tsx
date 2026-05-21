@@ -16,10 +16,13 @@ const buttonVariants = cva(
         link: 'text-primary underline-offset-4 hover:underline',
       },
       size: {
-        default: 'h-9 px-4 py-2',
-        sm: 'h-8 rounded-md px-3 text-xs',
-        lg: 'h-10 rounded-md px-8',
-        icon: 'h-9 w-9',
+        // Bumped to h-11 (44px) on mobile to clear the WCAG / Apple HIG tap
+        // target floor; reverts to h-9 (36px) on md+ where mouse precision
+        // takes over. Sizes that callers explicitly pick stay as they were.
+        default: 'h-11 px-4 py-2 md:h-9',
+        sm: 'h-9 rounded-md px-3 text-xs md:h-8',
+        lg: 'h-11 rounded-md px-8 md:h-10',
+        icon: 'h-11 w-11 md:h-9 md:w-9',
       },
     },
     defaultVariants: {

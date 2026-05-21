@@ -15,7 +15,7 @@ const sections = [
   {
     id: 'data-collected',
     title: '2. Data We Collect',
-    content: `We collect the following information:\n\n• Account data: your email address, name, and authentication credentials (passwords are hashed by Supabase Auth — we never store plain-text passwords).\n\n• Configuration data: your module preferences, locations, topics, and other settings you provide when customizing your brief.\n\n• Usage data: email send logs and delivery status.\n\n• Payment data: subscription and billing status. All payment processing is handled by Stripe. We never see, store, or process your card details.`,
+    content: `We collect the following information:\n\n• Account data: your email address, name, and authentication credentials (passwords are hashed by Supabase Auth; we never store plain-text passwords).\n\n• Configuration data: your module preferences, locations, topics, and other settings you provide when customizing your brief.\n\n• Usage data: email send logs and delivery status.\n\n• Payment data: subscription and billing status. All payment processing is handled by Stripe. We never see, store, or process your card details.`,
   },
   {
     id: 'how-we-use',

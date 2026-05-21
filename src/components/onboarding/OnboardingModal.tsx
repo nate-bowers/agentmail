@@ -281,7 +281,7 @@ function StepPickModulesFree({
             {pointsUsed} / {FREE_TIER_POINTS} credits selected
           </span>
           {pointsUsed >= FREE_TIER_POINTS && (
-            <span className="text-xs text-ink-muted">Max reached — upgrade for more</span>
+            <span className="text-xs text-ink-muted">Max reached. Upgrade for more.</span>
           )}
         </div>
         <div className="h-2 w-full overflow-hidden rounded-full bg-surface-border">
@@ -792,7 +792,7 @@ function StepDeliveryAndStripe({
 
       {/* Pro card */}
       <div className="rounded-2xl bg-brand-purple p-5 text-white">
-        <p className="font-semibold text-lg">Brief Pro — $9/month</p>
+        <p className="font-semibold text-lg">Brief Pro · $9/month</p>
         <ul className="mt-3 space-y-1.5">
           {['12 module credits', 'All 22 modules', 'Custom delivery time', 'Cancel anytime'].map((f) => (
             <li key={f} className="flex items-center gap-2 text-sm text-white/90">
@@ -1186,9 +1186,25 @@ export default function OnboardingModal({
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-white overflow-y-auto">
-      {/* Progress */}
+      {/* Progress + persistent close. The close button is required for any
+          user who lands on step 2+ (where the per-step "Skip" affordance is
+          buried inside the step content). Tap target stays at the 44px floor. */}
       <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-surface-border px-6 py-4">
-        <ProgressDots current={step} total={totalSteps} />
+        <div className="flex items-center justify-between gap-3">
+          <ProgressDots current={step} total={totalSteps} />
+          <button
+            type="button"
+            onClick={handleSkip}
+            aria-label="Close setup"
+            title="Close setup. You can finish anytime from your dashboard."
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-ink-muted hover:text-ink hover:bg-surface-muted transition-colors"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* Content */}

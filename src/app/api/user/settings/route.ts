@@ -77,6 +77,12 @@ export async function DELETE() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
+    // Sign the user out *before* deleting them so the session cookie is
+    // invalidated and revoked. Otherwise the cookie remains technically valid
+    // until the next page nav fails an RLS check — a small window where the
+    // user's just-deleted session is still server-trusted.
+    await supabase.auth.signOut();
+
     const { error } = await adminClient.auth.admin.deleteUser(user.id);
     if (error) { console.error('[user/settings]', error.message); return NextResponse.json({ error: 'Internal server error' }, { status: 500 }); }
     return NextResponse.json({ success: true });

@@ -34,7 +34,7 @@ export default function UpgradeButton({ planId = 'pro', label }: UpgradeButtonPr
 
   return (
     <Button size="lg" className="w-full" onClick={handleClick} disabled={loading}>
-      {loading ? 'Opening Stripe checkout…' : (label ?? 'Upgrade to Brief Pro — $9/month')}
+      {loading ? 'Opening Stripe checkout…' : (label ?? 'Upgrade to Brief Pro · $9/month')}
     </Button>
   );
 }

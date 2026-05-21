@@ -38,6 +38,11 @@ export default function SettingsForm({ profile, email }: SettingsFormProps) {
   const [isPausing, setIsPausing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isOpeningPortal, setIsOpeningPortal] = useState(false);
+  // Typed confirmation for the destructive delete flow. The user must
+  // re-type their full email address before the confirm button enables.
+  // This prevents single-misclick account loss.
+  const [deleteConfirm, setDeleteConfirm] = useState('');
+  const deleteConfirmed = deleteConfirm.trim().toLowerCase() === email.toLowerCase();
 
   const isPro = getPlanFromSubscriptionStatus(profile.subscription_status) !== 'free';
 
@@ -203,7 +208,7 @@ export default function SettingsForm({ profile, email }: SettingsFormProps) {
               Permanently delete your account, all modules, and email history.
             </p>
           </div>
-          <AlertDialog>
+          <AlertDialog onOpenChange={(open) => { if (!open) setDeleteConfirm(''); }}>
             <AlertDialogTrigger asChild>
               <Button variant="destructive" size="sm">
                 Delete account
@@ -217,12 +222,25 @@ export default function SettingsForm({ profile, email }: SettingsFormProps) {
                   This action cannot be undone.
                 </AlertDialogDescription>
               </AlertDialogHeader>
+              <div className="mt-2 space-y-2">
+                <Label htmlFor="delete-confirm" className="text-xs text-ink-muted">
+                  Type your email <span className="font-mono">{email}</span> to confirm:
+                </Label>
+                <Input
+                  id="delete-confirm"
+                  type="email"
+                  autoComplete="off"
+                  value={deleteConfirm}
+                  onChange={(e) => setDeleteConfirm(e.target.value)}
+                  placeholder={email}
+                />
+              </div>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                 <AlertDialogAction
                   className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                   onClick={handleDeleteAccount}
-                  disabled={isDeleting}
+                  disabled={isDeleting || !deleteConfirmed}
                 >
                   {isDeleting ? 'Deleting…' : 'Yes, delete my account'}
                 </AlertDialogAction>

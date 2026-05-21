@@ -559,7 +559,7 @@ export default function ModuleList({
               onClick={() => toast('Remove a module to free up credits.')}
               className="flex h-14 w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-surface-border text-ink-muted"
             >
-              <span className="text-sm font-medium">12-credit limit reached — remove a module to add another</span>
+              <span className="text-sm font-medium">12-credit limit reached. Remove a module to add another.</span>
             </button>
           ) : (
             <button

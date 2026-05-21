@@ -4,7 +4,7 @@ import SettingsForm from '@/components/dashboard/SettingsForm';
 import PageShell from '@/components/layout/PageShell';
 
 export const metadata = {
-  title: 'Settings — Daily Brief',
+  title: 'Settings · Daily Brief',
   description: 'Manage your Daily Brief account, delivery schedule, and subscription.',
 };
 

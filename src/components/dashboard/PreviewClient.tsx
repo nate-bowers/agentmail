@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { AlertCircle, RefreshCw, Send, Zap, BookOpen } from 'lucide-react';
+import { AlertCircle, RefreshCw, Send, Zap, AlignLeft, BookOpen } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
@@ -269,6 +269,22 @@ export default function PreviewClient({
                   <TooltipTrigger asChild>
                     <button
                       type="button"
+                      onClick={() => setVerbosity('medium')}
+                      className={`flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-medium transition-all ${
+                        verbosity === 'medium'
+                          ? 'border-brand-purple bg-brand-purple-light text-brand-purple'
+                          : 'border-surface-border bg-white text-ink hover:border-brand-purple/50'
+                      }`}
+                    >
+                      <AlignLeft className="h-3.5 w-3.5" /> Standard
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>Balanced — the default</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      type="button"
                       onClick={() => setVerbosity('wordy')}
                       className={`flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-medium transition-all ${
                         verbosity === 'wordy'
@@ -314,7 +330,7 @@ export default function PreviewClient({
                 Regenerate preview
               </Button>
               <p className="text-xs text-ink-muted text-center">
-                {atLimit ? 'Limit reached — resets tomorrow' : `${remaining} of ${DAILY_LIMIT} remaining today`}
+                {atLimit ? 'Limit reached. Resets tomorrow.' : `${remaining} of ${DAILY_LIMIT} remaining today`}
               </p>
             </div>
           )}
@@ -418,7 +434,7 @@ export default function PreviewClient({
             <p className="mt-1 text-sm text-ink-muted">Generating calls the AI and takes 15–30 seconds.</p>
             <Button className="mt-5" onClick={() => generate()} disabled={atLimit}>Generate preview</Button>
             {atLimit && (
-              <p className="mt-2 text-xs text-ink-muted">Daily limit reached — resets tomorrow</p>
+              <p className="mt-2 text-xs text-ink-muted">Daily limit reached. Resets tomorrow.</p>
             )}
           </div>
         )}
@@ -465,7 +481,7 @@ export default function PreviewClient({
               </div>
               <p className="text-xs text-ink-muted">From: Daily Brief &lt;brief@dailybriefmail.com&gt;</p>
               <p className="text-xs text-ink-muted">To: {userEmail}</p>
-              <p className="text-xs text-ink-muted">Subject: Your Brief — {today}</p>
+              <p className="text-xs text-ink-muted">Subject: Your Brief: {today}</p>
             </div>
             <div className="overflow-y-auto max-h-[700px]">
               <div className="mx-auto max-w-[600px]" dangerouslySetInnerHTML={{ __html: previewData.html }} />

@@ -104,14 +104,14 @@ export default function ProOnboardingModal({ open, onClose, modules, initialSend
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ send_time: sendTime }),
         });
-        if (!res.ok) toast.error('Could not save send time — you can update it in Settings.');
+        if (!res.ok) toast.error('Could not save send time. You can update it in Settings.');
       } else if (currentStep === 'news' && newsMod) {
         const res = await fetch(`/api/modules/${newsMod.id}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ config: { ...newsMod.config, topics: newsTopics } }),
         });
-        if (!res.ok) toast.error('Could not save news topics — you can update them in the module settings.');
+        if (!res.ok) toast.error('Could not save news topics. You can update them in the module settings.');
       } else if (currentStep === 'ai_tech' && aiMod) {
         const res = await fetch(`/api/modules/${aiMod.id}`, {
           method: 'PATCH',
@@ -142,7 +142,7 @@ export default function ProOnboardingModal({ open, onClose, modules, initialSend
         if (!res.ok) toast.error('Could not save city.');
       }
     } catch {
-      toast.error('Something went wrong — you can update this in your settings.');
+      toast.error('Something went wrong. You can update this in your settings.');
     } finally {
       setSaving(false);
     }
@@ -188,9 +188,9 @@ export default function ProOnboardingModal({ open, onClose, modules, initialSend
               </div>
               <ul className="space-y-2.5">
                 {[
-                  ['⏰', 'Custom send time — get your brief when it suits you'],
-                  ['📰', 'Personalized topics — pick exactly what you want to read'],
-                  ['✨', '12 module credits — build the brief that fits your life'],
+                  ['⏰', 'Custom send time, delivered when it suits you'],
+                  ['📰', 'Personalized topics, pick exactly what you want to read'],
+                  ['✨', '12 module credits to build the brief that fits your life'],
                 ].map(([emoji, text]) => (
                   <li key={text as string} className="flex items-start gap-3 text-sm text-ink">
                     <span className="shrink-0">{emoji}</span>

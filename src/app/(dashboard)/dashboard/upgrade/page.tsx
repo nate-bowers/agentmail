@@ -200,7 +200,7 @@ export default async function UpgradePage() {
 
           <ul className="space-y-2">
             {[
-              '12 module credits — 4x more than free',
+              '12 module credits, 4x more than free',
               'All current and future modules',
               'Priority email delivery',
               'Cancel anytime, no questions asked',

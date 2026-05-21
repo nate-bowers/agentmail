@@ -213,7 +213,7 @@ export default function ModuleModal({
                     onClick={() => { window.location.href = '/dashboard/upgrade'; }}
                     className="shrink-0 bg-white text-brand-purple text-xs font-semibold rounded-lg px-3 py-1.5 hover:bg-white/90 transition-colors whitespace-nowrap"
                   >
-                    Upgrade — $9/mo
+                    Upgrade · $9/mo
                   </button>
                 </div>
               )}
