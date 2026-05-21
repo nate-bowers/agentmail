@@ -203,7 +203,7 @@ export default async function StatusPage() {
             fallbackTone={overall}
           />
           <ServiceRow
-            name="AI (Anthropic)"
+            name="Content Generation"
             check={checks?.anthropic_key}
             fallbackTone={overall}
           />

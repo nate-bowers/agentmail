@@ -504,7 +504,7 @@ function Footer() {
       <div className="mx-auto flex max-w-2xl flex-col gap-8 md:flex-row md:items-start md:justify-between">
         <div>
           <p className="text-sm font-medium text-[#0D0D0F]">Daily Brief</p>
-          <p className="mt-1 font-mono text-[11px] text-[#bbb]">2025. All rights reserved.</p>
+          <p className="mt-1 font-mono text-[11px] text-[#bbb]">2026. All rights reserved.</p>
         </div>
         <nav className="flex flex-wrap gap-x-6 gap-y-2">
           {[

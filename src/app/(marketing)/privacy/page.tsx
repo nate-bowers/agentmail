@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import TopNav from '@/components/layout/TopNav';
 
-const LAST_UPDATED = 'May 13, 2025';
+const LAST_UPDATED = 'May 21, 2026';
 
 const sections = [
   {
@@ -23,9 +23,9 @@ const sections = [
     content: `We use your data to:\n\n• Generate and deliver your personalized daily email brief.\n\n• Manage your account and subscription.\n\n• Improve the reliability and quality of the service.\n\nWe do not sell your data to third parties. We do not share your module configuration or personal details with advertisers.`,
   },
   {
-    id: 'ai-processing',
-    title: '4. AI Processing',
-    content: `Your module configuration (preferences such as topics, locations, and interests) is sent to Anthropic's Claude API to generate your email brief. Anthropic's privacy policy applies to that processing. We send only what is necessary to generate your brief — your preferences, not your identity. We do not send your name or email address to Anthropic.`,
+    id: 'third-party-processing',
+    title: '4. Third-Party Service Providers',
+    content: `We rely on a small set of trusted third-party service providers to operate Daily Brief, including providers for content generation, email delivery (Resend), and payment processing (Stripe). We share only the minimum information necessary with each provider. For content generation we send your preferences and configuration (such as topics, locations, and interests), and we do not share your name or email address. Each provider's own privacy policy governs their handling of any data shared with them.`,
   },
   {
     id: 'email-delivery',
@@ -45,7 +45,7 @@ const sections = [
   {
     id: 'your-rights',
     title: '8. Your Rights',
-    content: `You may request a copy of the personal data we hold about you, ask us to correct inaccuracies, or delete your account at any time from your dashboard settings. For data requests, contact us at: [add support email before launch].`,
+    content: `You may request a copy of the personal data we hold about you, ask us to correct inaccuracies, or delete your account at any time from your dashboard settings. For data requests, contact us at: support@dailybriefmail.com.`,
   },
   {
     id: 'security',
@@ -65,7 +65,7 @@ const sections = [
   {
     id: 'contact',
     title: '12. Contact',
-    content: `For privacy-related questions or data requests, please contact us at: [add support email before launch]`,
+    content: `For privacy-related questions or data requests, please contact us at: support@dailybriefmail.com.`,
   },
 ];
 
@@ -89,13 +89,6 @@ export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-white antialiased">
       <TopNav variant="marketing" />
-
-      {/* Warning banner */}
-      <div className="border-b border-amber-200 bg-amber-50 px-6 py-3">
-        <p className="mx-auto max-w-3xl text-sm text-amber-800">
-          <strong>⚠️ Legal Review Required:</strong> This document was drafted with AI assistance and has not been reviewed by a lawyer. Have it reviewed by a qualified attorney before collecting payments or launching publicly.
-        </p>
-      </div>
 
       <main className="mx-auto max-w-3xl px-6 py-16">
         {/* Header */}
