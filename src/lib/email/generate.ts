@@ -323,5 +323,20 @@ export async function generateDailyBrief(
     throw new Error('[Generate] Claude response was not valid JSON. See server logs for the raw response.');
   }
 
+  // Sanity check: Claude must return one section per requested module. If it
+  // hit max_tokens partway through, the outer JSON braces can still balance
+  // (a nested object closes the outer one) and we'd silently ship a half-brief.
+  // Catching this surfaces truncation as a real failure rather than a silent
+  // missing-module incident.
+  const expected = moduleInstructions.length;
+  const got = Array.isArray(parsed.sections) ? parsed.sections.length : 0;
+  if (got < expected) {
+    console.error(`[Generate] Section count mismatch: expected ${expected}, got ${got}.`,
+      `Likely truncation. Output tokens: ${outputTokens} / max ${maxTokens}.`);
+    throw new Error(
+      `[Generate] Claude returned ${got} of ${expected} sections — output likely truncated.`,
+    );
+  }
+
   return { intro: parsed.intro, sections: parsed.sections, tokensUsed };
 }

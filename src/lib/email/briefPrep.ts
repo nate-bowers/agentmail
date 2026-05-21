@@ -45,7 +45,11 @@ function countPlaceholderFields(value: unknown): number {
   return 0;
 }
 function isErrorPayload(data: unknown): boolean {
-  if (!data || typeof data !== 'object') return false;
+  // null / undefined / primitive payloads are broken — strip them. The
+  // section-renderer code paths assume an object and would otherwise crash
+  // on `.map` of a missing array, taking the whole email render with them.
+  if (data === null || data === undefined) return true;
+  if (typeof data !== 'object') return true;
   if ((data as { error?: boolean }).error === true) return true;
   if (countPlaceholderFields(data) >= 3) return true;
   return false;

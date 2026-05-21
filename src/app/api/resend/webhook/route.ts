@@ -72,19 +72,26 @@ async function deactivateByEmail(
   const lowered = recipient.toLowerCase();
 
   // A profile can receive at either profiles.email (the auth email) or
-  // profiles.delivery_email (a user-chosen alternate). Match either.
-  const { data: rows, error } = await admin
-    .from('profiles')
-    .select('id, email, delivery_email, is_active')
-    .or(`email.eq.${lowered},delivery_email.eq.${lowered}`)
-    .limit(1);
+  // profiles.delivery_email (a user-chosen alternate). Two separate queries
+  // are used instead of an `.or()` filter because the `.or()` form
+  // string-interpolates the recipient into a PostgREST expression, which
+  // breaks (or worse, gets manipulated) on emails containing commas or
+  // parens.
+  const [byEmail, byDeliveryEmail] = await Promise.all([
+    admin.from('profiles').select('id, email, delivery_email, is_active').eq('email', lowered).limit(1),
+    admin.from('profiles').select('id, email, delivery_email, is_active').eq('delivery_email', lowered).limit(1),
+  ]);
 
-  if (error) {
-    console.error(`[resend-webhook] profile lookup failed for ${lowered}: ${error.message}`);
+  if (byEmail.error) {
+    console.error(`[resend-webhook] profile lookup (email) failed for ${lowered}: ${byEmail.error.message}`);
+    return { matched: false };
+  }
+  if (byDeliveryEmail.error) {
+    console.error(`[resend-webhook] profile lookup (delivery_email) failed for ${lowered}: ${byDeliveryEmail.error.message}`);
     return { matched: false };
   }
 
-  const profile = rows?.[0];
+  const profile = byEmail.data?.[0] ?? byDeliveryEmail.data?.[0];
   if (!profile) {
     console.warn(
       `[resend-webhook] ${reason} for ${lowered} but no matching profile (detail: ${detail})`,
@@ -167,11 +174,18 @@ export async function POST(request: NextRequest) {
 
   if (type === 'email.bounced') {
     const data = event.data as ResendBounceData;
-    const detail = isHardBounce(data)
-      ? `hard bounce (${data.bounce?.subType ?? data.bounce?.type ?? 'unknown'})`
-      : `soft/other bounce (${data.bounce?.type ?? 'unknown'})`;
-    // We deactivate on any bounce. Soft bounces that repeat would otherwise
-    // accumulate retry attempts each day; we stop the loop on first signal.
+    if (!isHardBounce(data)) {
+      // Soft bounces are transient (full mailbox, greylist, throttling). One
+      // welcome-email soft bounce should NOT permanently disable a paying
+      // subscriber. We log and move on; if the underlying problem persists
+      // it will eventually surface as a hard bounce.
+      const subType = data.bounce?.subType ?? data.bounce?.type ?? 'unknown';
+      console.log(
+        `[resend-webhook] soft bounce for ${recipient} (${subType}) — not deactivating`,
+      );
+      return NextResponse.json({ ok: true });
+    }
+    const detail = `hard bounce (${data.bounce?.subType ?? data.bounce?.type ?? 'unknown'})`;
     await deactivateByEmail(recipient, 'bounced', detail);
     return NextResponse.json({ ok: true });
   }

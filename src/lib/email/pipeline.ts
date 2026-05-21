@@ -61,7 +61,11 @@ function countPlaceholderFields(value: unknown): number {
 }
 
 function isErrorPayload(data: unknown): boolean {
-  if (!data || typeof data !== 'object') return false;
+  // null / undefined / primitive payloads are broken — strip them. Section
+  // renderers assume an object shape and would crash on `.map` of a missing
+  // array, taking the entire email render with them.
+  if (data === null || data === undefined) return true;
+  if (typeof data !== 'object') return true;
   if ((data as { error?: boolean }).error === true) return true;
   // Heuristic placeholder check: 3+ string fields equal to a known filler
   // value strongly implies Claude faked the section. The threshold is

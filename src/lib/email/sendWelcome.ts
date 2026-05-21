@@ -89,9 +89,18 @@ export async function sendWelcomeEmail(userId: string): Promise<SendWelcomeResul
     });
 
     if (error) {
-      console.error('[sendWelcomeEmail] Resend error:', error);
-      // Leave welcome_email_sent flipped to avoid double-sends on retry;
-      // a missed welcome is recoverable, a duplicate is not.
+      console.error('[sendWelcomeEmail] Resend error — reverting welcome_email_sent flag:', error);
+      // Resend returned an explicit error (not a thrown exception) — the
+      // send definitively did NOT happen. Safe to revert the CAS claim so
+      // a subsequent retry can fire. The thrown-exception path below leaves
+      // the flag set, since we can't tell whether the send actually went out.
+      const { error: revertError } = await adminClient
+        .from('profiles')
+        .update({ welcome_email_sent: false })
+        .eq('id', userId);
+      if (revertError) {
+        console.error('[sendWelcomeEmail] Failed to revert welcome_email_sent:', revertError.message);
+      }
       return { sent: false, error: error.message ?? 'send_failed' };
     }
 

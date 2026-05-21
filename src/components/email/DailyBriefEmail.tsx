@@ -154,7 +154,8 @@ function SectionErrorFallback({ label, c }: { label: string; c: EmailThemeColors
 
 function WeatherSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
   if (data?.error) return <SectionErrorFallback label="Weather" c={c} />;
-  const locations = data.locations as WeatherLocation[];
+  const locations = (data.locations as WeatherLocation[] | undefined) ?? [];
+  if (locations.length === 0) return <SectionErrorFallback label="Weather" c={c} />;
   return (
     <Section>
       <Text style={kickerStyle(c)}>Weather</Text>
@@ -289,7 +290,8 @@ function QuoteSection({ data, c }: { data: Record<string, unknown>; c: EmailThem
 
 function MarketsSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
   if (data?.error) return <SectionErrorFallback label="Markets" c={c} />;
-  const symbols = data.symbols as MarketSymbol[];
+  const symbols = (data.symbols as MarketSymbol[] | undefined) ?? [];
+  if (symbols.length === 0) return <SectionErrorFallback label="Markets" c={c} />;
   return (
     <Section>
       <Text style={kickerStyle(c)}>Markets</Text>
@@ -341,7 +343,9 @@ function MarketsSection({ data, c }: { data: Record<string, unknown>; c: EmailTh
 
 function SportsSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
   if (data?.error) return <SectionErrorFallback label="Sports" c={c} />;
-  const { results, standingsNote } = data as { results: SportsResult[]; standingsNote?: string };
+  const { results: resultsRaw, standingsNote } = data as { results?: SportsResult[]; standingsNote?: string };
+  const results = resultsRaw ?? [];
+  if (results.length === 0) return <SectionErrorFallback label="Sports" c={c} />;
   return (
     <Section>
       <Text style={kickerStyle(c)}>Sports</Text>
@@ -424,12 +428,15 @@ function WordOfDaySection({ data, c }: { data: Record<string, unknown>; c: Email
 
 function WorkoutSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
   if (data?.error) return <SectionErrorFallback label="Workout" c={c} />;
-  const { intro, warmup, circuit, cooldown } = data as {
-    intro: string;
-    warmup: { exercise: string; duration: string }[];
-    circuit: WorkoutExercise[];
-    cooldown: string;
+  const { intro, warmup: warmupRaw, circuit: circuitRaw, cooldown } = data as {
+    intro?: string;
+    warmup?: { exercise: string; duration: string }[];
+    circuit?: WorkoutExercise[];
+    cooldown?: string;
   };
+  const warmup = warmupRaw ?? [];
+  const circuit = circuitRaw ?? [];
+  if (warmup.length === 0 && circuit.length === 0) return <SectionErrorFallback label="Workout" c={c} />;
   return (
     <Section>
       <Text style={kickerStyle(c)}>Daily Workout</Text>
@@ -499,7 +506,9 @@ function OnThisDaySection({ data, c }: { data: Record<string, unknown>; c: Email
 
 function CurrencySection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
   if (data?.error) return <SectionErrorFallback label="Currency" c={c} />;
-  const { base, rates } = data as { base: string; rates: CurrencyRate[] };
+  const { base, rates: ratesRaw } = data as { base?: string; rates?: CurrencyRate[] };
+  const rates = ratesRaw ?? [];
+  if (!base || rates.length === 0) return <SectionErrorFallback label="Currency" c={c} />;
   return (
     <Section>
       <Text style={kickerStyle(c)}>Currency</Text>
@@ -583,10 +592,13 @@ function FactSection({ data, c }: { data: Record<string, unknown>; c: EmailTheme
 
 function RecipeSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
   if (data?.error) return <SectionErrorFallback label="Recipe" c={c} />;
-  const { name, description, prepTime, cookTime, servings, ingredients, steps } = data as {
-    name: string; description: string; prepTime: string; cookTime: string; servings: string;
-    ingredients: string[]; steps: string[];
+  const { name, description, prepTime, cookTime, servings, ingredients: ingredientsRaw, steps: stepsRaw } = data as {
+    name?: string; description?: string; prepTime?: string; cookTime?: string; servings?: string;
+    ingredients?: string[]; steps?: string[];
   };
+  const ingredients = ingredientsRaw ?? [];
+  const steps = stepsRaw ?? [];
+  if (!name || ingredients.length === 0 || steps.length === 0) return <SectionErrorFallback label="Recipe" c={c} />;
   return (
     <Section>
       <Text style={kickerStyle(c)}>Recipe of the Day</Text>
@@ -649,7 +661,8 @@ function BookSection({ data, c }: { data: Record<string, unknown>; c: EmailTheme
 
 function RedditSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
   if (data?.error) return <SectionErrorFallback label="Reddit" c={c} />;
-  const posts = data.posts as RedditPost[];
+  const posts = (data.posts as RedditPost[] | undefined) ?? [];
+  if (posts.length === 0) return <SectionErrorFallback label="Reddit" c={c} />;
   return (
     <Section>
       <Text style={kickerStyle(c)}>Reddit Digest</Text>
@@ -751,7 +764,8 @@ function AffirmationSection({ data, c }: { data: Record<string, unknown>; c: Ema
 
 function AiTechSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
   if (data?.error) return <SectionErrorFallback label="AI & Tech" c={c} />;
-  const stories = data.stories as AiTechStory[];
+  const stories = (data.stories as AiTechStory[] | undefined) ?? [];
+  if (stories.length === 0) return <SectionErrorFallback label="AI & Tech" c={c} />;
   return (
     <Section>
       <Text style={kickerStyle(c)}>AI &amp; Tech</Text>
@@ -772,7 +786,9 @@ function AiTechSection({ data, c }: { data: Record<string, unknown>; c: EmailThe
 
 function LocalEventsSection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
   if (data?.error) return <SectionErrorFallback label="Local Events" c={c} />;
-  const { city, events } = data as { city: string; events: LocalEvent[] };
+  const { city, events: eventsRaw } = data as { city?: string; events?: LocalEvent[] };
+  const events = eventsRaw ?? [];
+  if (!city || events.length === 0) return <SectionErrorFallback label="Local Events" c={c} />;
   return (
     <Section>
       <Text style={kickerStyle(c)}>Local Events · {city}</Text>
@@ -797,7 +813,8 @@ function LocalEventsSection({ data, c }: { data: Record<string, unknown>; c: Ema
 
 function WeekHistorySection({ data, c }: { data: Record<string, unknown>; c: EmailThemeColors }) {
   if (data?.error) return <SectionErrorFallback label="This Week in History" c={c} />;
-  const events = data.events as WeekHistoryEvent[];
+  const events = (data.events as WeekHistoryEvent[] | undefined) ?? [];
+  if (events.length === 0) return <SectionErrorFallback label="This Week in History" c={c} />;
   return (
     <Section>
       <Text style={kickerStyle(c)}>This Week in History</Text>
