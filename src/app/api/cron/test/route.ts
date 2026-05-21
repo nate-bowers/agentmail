@@ -1,6 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
+import { timingSafeEqual } from 'crypto';
 import { render } from '@react-email/render';
 import { format } from 'date-fns';
 import { toZonedTime } from 'date-fns-tz';
@@ -16,15 +17,31 @@ import { reorderSectionsForDisplay } from '@/lib/email/reorderSections';
 import DailyBriefEmail from '@/components/email/DailyBriefEmail';
 import type { ModuleRow } from '@/types';
 
-// CRON_SECRET-gated diagnostic endpoint.
+// CRON_SECRET-gated diagnostic endpoint. Disabled entirely in production —
+// this route can dump rendered emails and shape internal data, so it should
+// only be reachable from preview / dev deployments.
 //
 // Query params:
 //   ?userId=<uuid>   target a specific user (otherwise picks first eligible)
 //   ?email=<email>   target by account email
 //   ?to=<email>      override the recipient address (sandbox testing)
+
+function verifyCronSecret(provided: string): boolean {
+  const expected = process.env.CRON_SECRET ?? '';
+  try {
+    return timingSafeEqual(Buffer.from(provided), Buffer.from(expected));
+  } catch {
+    return false;
+  }
+}
+
 export async function GET(request: NextRequest) {
+  if (process.env.VERCEL_ENV === 'production') {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  }
   const authHeader = request.headers.get('authorization');
-  if (!authHeader || authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  const token = authHeader?.replace('Bearer ', '') ?? '';
+  if (!verifyCronSecret(token)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

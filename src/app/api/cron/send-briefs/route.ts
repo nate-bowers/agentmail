@@ -1,9 +1,14 @@
 // Triggered daily by Vercel Cron (see vercel.json).
 // Vercel passes Authorization: Bearer <CRON_SECRET> automatically.
 //
-// In-memory lock prevents overlapping runs within the same serverless
-// instance. The "already sent in the last hour" DB check acts as the
-// authoritative deduplication guard across instances.
+// Cross-instance idempotency: the DB check below skips any user with a
+// successful email_log entry for *today in their local timezone*. This means
+// re-running the cron (catch-up pass, manual retry, etc.) at any point on
+// the same day is safe — only users without a brief today get one.
+//
+// The in-memory `isRunning` lock is best-effort only (per Vercel instance).
+// It avoids two runs piling onto the same instance but is *not* the
+// authoritative dedupe — that's the DB check.
 
 import { NextRequest, NextResponse } from 'next/server';
 import { timingSafeEqual } from 'crypto';
@@ -108,8 +113,6 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
-
     for (const user of users as CronUser[]) {
       // FREE PLAN: override send_time to 07:00 — free users always get email at 7am local.
       // Paid users use their configured send_time. DB value is never modified.
@@ -123,12 +126,29 @@ export async function GET(request: NextRequest) {
       // if (!isSendTime(effectiveSendTime, user.timezone)) continue;
       void effectiveSendTime; // referenced above when isSendTime is re-enabled
 
+      // Skip users who already received a successful brief today *in their
+      // own timezone*. Computed as the UTC instant of 00:00 local time. This
+      // is the cross-instance dedupe — safe under retries and catch-up runs.
+      const tz = user.timezone || 'UTC';
+      const localNow = toZonedTime(new Date(), tz);
+      const localMidnight = new Date(
+        localNow.getFullYear(),
+        localNow.getMonth(),
+        localNow.getDate(),
+        0, 0, 0, 0,
+      );
+      // toZonedTime returns local-clock values stored in a Date object; we
+      // built localMidnight in those same coordinates. Converting back to a
+      // true UTC instant means walking it forward by the user's offset.
+      const tzOffsetMs = localNow.getTime() - new Date().getTime();
+      const startOfTodayUtc = new Date(localMidnight.getTime() - tzOffsetMs).toISOString();
+
       const { count } = await adminClient
         .from('email_logs')
         .select('id', { count: 'exact', head: true })
         .eq('user_id', user.id)
         .eq('status', 'success')
-        .gte('sent_at', oneHourAgo);
+        .gte('sent_at', startOfTodayUtc);
 
       if (count && count > 0) continue;
 
@@ -151,7 +171,7 @@ export async function GET(request: NextRequest) {
       '[Daily Brief Cron] Fatal error',
       `Cron handler threw before any users were processed.\n\nTimestamp: ${new Date().toISOString()}\nError: ${String(err)}\n`,
     );
-    return NextResponse.json({ error: 'Cron job failed', detail: String(err) }, { status: 500 });
+    return NextResponse.json({ error: 'Cron job failed' }, { status: 500 });
   } finally {
     isRunning = false;
   }
@@ -196,16 +216,13 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  // Response intentionally omits per-user emails and error detail. Anyone
+  // holding CRON_SECRET (cron service, accidentally-leaked logs) gets only
+  // aggregate counts; full failure detail lives in the alert email + logs.
   return NextResponse.json({
     timestamp: new Date().toISOString(),
     attempted: results.length,
     succeeded,
     failed,
-    details: results.map((r, i) => ({
-      user: matchedUsers[i]?.email,
-      success: r.status === 'fulfilled' ? r.value?.success : false,
-      error: r.status === 'rejected' ? String(r.reason) : r.value?.error,
-      stage: r.status === 'fulfilled' ? r.value?.stage : 'unknown',
-    })),
   });
 }
