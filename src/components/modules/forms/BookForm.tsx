@@ -4,8 +4,10 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@/components/ui/label';
 import { configSchema, type BookConfig } from '@/lib/modules/book';
-import { TagInput, RadioCards, OptionalInput } from './FormPrimitives';
+import { RadioCards, OptionalInput } from './FormPrimitives';
 import { SpecificityTooltip } from '@/components/modules/SpecificityTooltip';
+import { PresetChipPicker } from '@/components/modules/PresetChipPicker';
+import { BOOK_GENRE_PRESETS } from '@/lib/modules/presets';
 
 const LENGTH_OPTIONS = [
   { value: 'short' as const, label: 'Short (<200p)' },
@@ -43,19 +45,24 @@ export function BookForm({ defaultValues, onSubmit, disableHints }: Props) {
           <SpecificityTooltip
             fieldId="book.genres"
             disabled={disableHints}
-            message="Be specific about what you actually read. &lsquo;Literary fiction by Latin American authors&rsquo; beats &lsquo;novels.&rsquo;"
+            message="Pick a few — or type your own. &lsquo;Latin American magical realism&rsquo; works as well as &lsquo;fiction.&rsquo;"
           >
-            <TagInput
-              label="Genres"
-              values={field.value ?? []}
-              onChange={field.onChange}
-              placeholder="Add a genre and press Enter"
-              max={4}
-            />
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-ink">
+                Genres <span className="font-normal text-ink-faint">(pick up to 4)</span>
+              </Label>
+              <PresetChipPicker
+                presets={BOOK_GENRE_PRESETS}
+                value={(field.value as string[] | undefined) ?? []}
+                onChange={field.onChange}
+                max={4}
+                customPlaceholder="Add a genre…"
+                normalize={(v) => v.trim().toLowerCase()}
+              />
+            </div>
           </SpecificityTooltip>
         )}
       />
-      <p className="!mt-1 text-xs text-ink-faint">e.g. history, sci-fi, biography, business</p>
 
       <Controller
         control={form.control}
@@ -88,10 +95,10 @@ export function BookForm({ defaultValues, onSubmit, disableHints }: Props) {
                   key={opt.value}
                   type="button"
                   onClick={() => field.onChange(opt.value)}
-                  className={`rounded-full px-3 py-1 text-sm transition-colors ${
+                  className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
                     field.value === opt.value
                       ? 'bg-brand-purple text-white'
-                      : 'border border-surface-border bg-white text-ink hover:border-brand-purple'
+                      : 'border border-surface-border bg-white text-ink hover:border-brand-purple hover:bg-brand-purple-light'
                   }`}
                 >
                   {opt.label}

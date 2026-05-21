@@ -3,10 +3,11 @@
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
 import { configSchema, type LanguageConfig } from '@/lib/modules/language';
 import { RadioCards, OptionalInput } from './FormPrimitives';
 import { SpecificityTooltip } from '@/components/modules/SpecificityTooltip';
+import { PresetChipPicker } from '@/components/modules/PresetChipPicker';
+import { LANGUAGE_PRESETS } from '@/lib/modules/presets';
 
 interface Props {
   defaultValues: Record<string, unknown>;
@@ -34,14 +35,16 @@ export function LanguageForm({ defaultValues, onSubmit, disableHints }: Props) {
           <SpecificityTooltip
             fieldId="language.targetLanguage"
             disabled={disableHints}
-            message="Tell us what you&rsquo;re using it for. &lsquo;Conversational Spanish for travel&rsquo; beats &lsquo;Spanish.&rsquo;"
+            message="Pick one — or type your own. Less common languages still work great."
           >
             <div className="space-y-2">
               <Label className="text-sm font-medium text-ink">Language you&rsquo;re learning</Label>
-              <Input
-                value={field.value ?? ''}
-                onChange={(e) => field.onChange(e.target.value)}
-                placeholder="e.g. Spanish, Japanese, French, Mandarin"
+              <PresetChipPicker
+                presets={LANGUAGE_PRESETS}
+                value={field.value ? [field.value as string] : ['Spanish']}
+                onChange={(next) => field.onChange(next[0] ?? 'Spanish')}
+                singleSelect
+                customPlaceholder="Add another language…"
               />
               {fieldState.error && <p className="text-xs text-red-500">{fieldState.error.message}</p>}
             </div>

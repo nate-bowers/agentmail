@@ -6,8 +6,8 @@ import { Label } from '@/components/ui/label';
 import { configSchema, type SportsConfig } from '@/lib/modules/sports';
 import { MultiInput, OptionalTextarea } from './FormPrimitives';
 import { SpecificityTooltip } from '@/components/modules/SpecificityTooltip';
-
-const LEAGUE_OPTIONS = ['NBA', 'NFL', 'MLB', 'NHL', 'EPL', 'La Liga', 'F1'];
+import { PresetChipPicker } from '@/components/modules/PresetChipPicker';
+import { SPORTS_LEAGUE_PRESETS } from '@/lib/modules/presets';
 
 interface Props {
   defaultValues: Record<string, unknown>;
@@ -30,6 +30,26 @@ export function SportsForm({ defaultValues, onSubmit, disableHints }: Props) {
     <form id="config-form" onSubmit={form.handleSubmit(onSubmit as (data: SportsConfig) => void)} className="space-y-5">
       <Controller
         control={form.control}
+        name="leagues"
+        render={({ field, fieldState }) => (
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-ink">
+              Leagues <span className="font-normal text-ink-faint">(pick up to 3)</span>
+            </Label>
+            <PresetChipPicker
+              presets={SPORTS_LEAGUE_PRESETS}
+              value={(field.value as string[]) ?? []}
+              onChange={field.onChange}
+              max={3}
+              customPlaceholder="Add a league…"
+            />
+            {fieldState.error && <p className="text-xs text-red-500">{fieldState.error.message}</p>}
+          </div>
+        )}
+      />
+
+      <Controller
+        control={form.control}
         name="teams"
         render={({ field }) => {
           const teams = (field.value ?? []) as string[];
@@ -38,7 +58,7 @@ export function SportsForm({ defaultValues, onSubmit, disableHints }: Props) {
             <SpecificityTooltip
               fieldId="sports.teams"
               disabled={disableHints}
-              message="List specific teams and leagues you follow. &lsquo;Premier League, especially Arsenal&rsquo; beats &lsquo;soccer.&rsquo;"
+              message="Optional. List teams you actually follow — &lsquo;Lakers, 49ers, Arsenal&rsquo; beats &lsquo;basketball&rsquo;."
             >
               <MultiInput
                 values={withEmpty}
@@ -48,41 +68,6 @@ export function SportsForm({ defaultValues, onSubmit, disableHints }: Props) {
                 label="Teams (optional)"
               />
             </SpecificityTooltip>
-          );
-        }}
-      />
-
-      <Controller
-        control={form.control}
-        name="leagues"
-        render={({ field, fieldState }) => {
-          const leagues = (field.value ?? []) as string[];
-          return (
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-ink">Leagues <span className="font-normal text-ink-faint">(max 3)</span></Label>
-              <div className="flex flex-wrap gap-2">
-                {LEAGUE_OPTIONS.map((lg) => (
-                  <button
-                    key={lg}
-                    type="button"
-                    onClick={() => {
-                      const next = leagues.includes(lg)
-                        ? leagues.filter((l) => l !== lg)
-                        : leagues.length < 3 ? [...leagues, lg] : leagues;
-                      field.onChange(next);
-                    }}
-                    className={`rounded-full px-3 py-1 text-sm transition-colors ${
-                      leagues.includes(lg)
-                        ? 'bg-brand-purple text-white'
-                        : 'border border-surface-border bg-white text-ink hover:border-brand-purple'
-                    }`}
-                  >
-                    {lg}
-                  </button>
-                ))}
-              </div>
-              {fieldState.error && <p className="text-xs text-red-500">{fieldState.error.message}</p>}
-            </div>
           );
         }}
       />

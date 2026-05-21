@@ -4,7 +4,9 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@/components/ui/label';
 import { configSchema, type MarketsConfig } from '@/lib/modules/markets';
-import { MultiInput, Toggle } from './FormPrimitives';
+import { Toggle } from './FormPrimitives';
+import { PresetChipPicker } from '@/components/modules/PresetChipPicker';
+import { MARKETS_SYMBOL_PRESETS } from '@/lib/modules/presets';
 
 interface Props {
   defaultValues: Record<string, unknown>;
@@ -26,22 +28,25 @@ export function MarketsForm({ defaultValues, onSubmit }: Props) {
       <Controller
         control={form.control}
         name="symbols"
-        render={({ field, fieldState }) => {
-          const symbols = field.value as string[];
-          return (
-            <div className="space-y-3">
-              <Label className="text-sm font-medium text-ink">Symbols</Label>
-              <MultiInput
-                values={symbols}
-                onChange={field.onChange}
-                placeholder="e.g. NVDA, BTC-USD"
-                max={10}
-                uppercase
-              />
-              {fieldState.error && <p className="text-xs text-red-500">{fieldState.error.message}</p>}
-            </div>
-          );
-        }}
+        render={({ field, fieldState }) => (
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-ink">
+              Symbols <span className="font-normal text-ink-faint">(pick up to 10)</span>
+            </Label>
+            <PresetChipPicker
+              presets={MARKETS_SYMBOL_PRESETS}
+              value={(field.value as string[]) ?? []}
+              onChange={field.onChange}
+              max={10}
+              customPlaceholder="Add a ticker (e.g. BRK.B, IWM)…"
+              // Tickers are always uppercase, and Markets schema also runs
+              // toUpperCase at parse time, so normalizing here keeps the UI
+              // consistent with what gets saved.
+              normalize={(v) => v.trim().toUpperCase()}
+            />
+            {fieldState.error && <p className="text-xs text-red-500">{fieldState.error.message}</p>}
+          </div>
+        )}
       />
 
       <Controller

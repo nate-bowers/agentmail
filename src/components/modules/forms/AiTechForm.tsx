@@ -6,11 +6,8 @@ import { Info } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { configSchema, type AiTechConfig } from '@/lib/modules/aitech';
 import { RadioCards, OptionalInput } from './FormPrimitives';
-
-const SUBTOPIC_OPTIONS = [
-  'AI Models', 'Startups', 'Policy & Regulation', 'Hardware',
-  'Open Source', 'Big Tech', 'Crypto & Web3', 'Robotics',
-];
+import { PresetChipPicker } from '@/components/modules/PresetChipPicker';
+import { AITECH_SUBTOPIC_PRESETS } from '@/lib/modules/presets';
 
 interface Props {
   defaultValues: Record<string, unknown>;
@@ -22,7 +19,7 @@ export function AiTechForm({ defaultValues, onSubmit }: Props) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(configSchema) as any,
     defaultValues: {
-      subtopics: (defaultValues.subtopics as string[] | undefined) ?? ['AI Models', 'Startups'],
+      subtopics: (defaultValues.subtopics as string[] | undefined) ?? ['AI models', 'startups'],
       depth: (defaultValues.depth as 'headlines' | 'analysis' | undefined) ?? 'headlines',
       customFocus: (defaultValues.customFocus as string | undefined) ?? '',
     },
@@ -38,36 +35,21 @@ export function AiTechForm({ defaultValues, onSubmit }: Props) {
       <Controller
         control={form.control}
         name="subtopics"
-        render={({ field, fieldState }) => {
-          const selected = (field.value ?? []) as string[];
-          return (
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-ink">Subtopics <span className="font-normal text-ink-faint">(max 4)</span></Label>
-              <div className="flex flex-wrap gap-2">
-                {SUBTOPIC_OPTIONS.map((opt) => (
-                  <button
-                    key={opt}
-                    type="button"
-                    onClick={() => {
-                      const next = selected.includes(opt)
-                        ? selected.filter((s) => s !== opt)
-                        : selected.length < 4 ? [...selected, opt] : selected;
-                      field.onChange(next);
-                    }}
-                    className={`rounded-full px-3 py-1 text-sm transition-colors ${
-                      selected.includes(opt)
-                        ? 'bg-brand-purple text-white'
-                        : 'border border-surface-border bg-white text-ink hover:border-brand-purple'
-                    }`}
-                  >
-                    {opt}
-                  </button>
-                ))}
-              </div>
-              {fieldState.error && <p className="text-xs text-red-500">{fieldState.error.message}</p>}
-            </div>
-          );
-        }}
+        render={({ field, fieldState }) => (
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-ink">
+              Subtopics <span className="font-normal text-ink-faint">(pick up to 4)</span>
+            </Label>
+            <PresetChipPicker
+              presets={AITECH_SUBTOPIC_PRESETS}
+              value={(field.value as string[]) ?? []}
+              onChange={field.onChange}
+              max={4}
+              customPlaceholder="Add a subtopic…"
+            />
+            {fieldState.error && <p className="text-xs text-red-500">{fieldState.error.message}</p>}
+          </div>
+        )}
       />
 
       <Controller

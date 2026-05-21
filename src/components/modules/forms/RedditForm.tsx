@@ -4,7 +4,9 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@/components/ui/label';
 import { configSchema, type RedditConfig } from '@/lib/modules/reddit';
-import { MultiInput, SegmentedControl, RadioCards } from './FormPrimitives';
+import { SegmentedControl, RadioCards } from './FormPrimitives';
+import { PresetChipPicker } from '@/components/modules/PresetChipPicker';
+import { REDDIT_SUBREDDIT_PRESETS } from '@/lib/modules/presets';
 
 interface Props {
   defaultValues: Record<string, unknown>;
@@ -27,23 +29,22 @@ export function RedditForm({ defaultValues, onSubmit }: Props) {
       <Controller
         control={form.control}
         name="subreddits"
-        render={({ field, fieldState }) => {
-          const subs = field.value as string[];
-          const withEmpty = subs.length === 0 ? [''] : subs;
-          return (
-            <div className="space-y-1">
-              <MultiInput
-                values={withEmpty}
-                onChange={(v) => field.onChange(v.filter(Boolean))}
-                placeholder="e.g. MachineLearning"
-                max={5}
-                label="Subreddits"
-              />
-              <p className="text-xs text-ink-faint">Enter subreddit names without the r/ prefix</p>
-              {fieldState.error && <p className="text-xs text-red-500">{fieldState.error.message}</p>}
-            </div>
-          );
-        }}
+        render={({ field, fieldState }) => (
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-ink">
+              Subreddits <span className="font-normal text-ink-faint">(pick up to 5)</span>
+            </Label>
+            <PresetChipPicker
+              presets={REDDIT_SUBREDDIT_PRESETS}
+              value={(field.value as string[]) ?? []}
+              onChange={field.onChange}
+              max={5}
+              customPlaceholder="Add a subreddit (without r/)…"
+              normalize={(v) => v.trim().replace(/^r\//i, '')}
+            />
+            {fieldState.error && <p className="text-xs text-red-500">{fieldState.error.message}</p>}
+          </div>
+        )}
       />
 
       <Controller

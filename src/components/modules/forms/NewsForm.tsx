@@ -4,9 +4,10 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { X } from 'lucide-react';
 import { configSchema, type NewsConfig, FIXED_ARTICLE_COUNT } from '@/lib/modules/news';
 import { SpecificityTooltip } from '@/components/modules/SpecificityTooltip';
+import { PresetChipPicker } from '@/components/modules/PresetChipPicker';
+import { NEWS_TOPIC_PRESETS, NEWS_SOURCE_PRESETS } from '@/lib/modules/presets';
 
 interface Props {
   defaultValues: Record<string, unknown>;
@@ -34,33 +35,28 @@ export function NewsForm({ defaultValues, onSubmit, disableHints }: Props) {
       <Controller
         control={form.control}
         name="topics"
-        render={({ field, fieldState }) => {
-          const topics = field.value as string[];
-          return (
-            <SpecificityTooltip
-              fieldId="news.topics"
-              disabled={disableHints}
-              message="The more detail you give, the sharper your brief gets. &lsquo;AI chip supply chain&rsquo; beats &lsquo;tech&rsquo;."
-            >
-              <div className="space-y-2">
-                <Label className="text-sm font-medium text-ink">Topics</Label>
-                <div className="flex min-h-[44px] flex-wrap gap-1.5 rounded-lg border border-surface-border bg-white px-3 py-2">
-                  {topics.map((topic) => (
-                    <span key={topic} className="inline-flex items-center gap-1 rounded-full bg-brand-purple-light px-2.5 py-0.5 text-xs font-medium text-brand-purple">
-                      {topic}
-                      <button type="button" onClick={() => field.onChange(topics.filter((t) => t !== topic))}><X className="h-3 w-3" /></button>
-                    </span>
-                  ))}
-                  {topics.length < 5 && (
-                    <TopicInput onAdd={(t) => { if (!topics.includes(t)) field.onChange([...topics, t]); }} />
-                  )}
-                </div>
-                <p className="text-xs text-ink-faint">Press Enter to add. Max 5 topics.</p>
-                {fieldState.error && <p className="text-xs text-red-500">{fieldState.error.message}</p>}
-              </div>
-            </SpecificityTooltip>
-          );
-        }}
+        render={({ field, fieldState }) => (
+          <SpecificityTooltip
+            fieldId="news.topics"
+            disabled={disableHints}
+            message="Pick from the list or type your own. Niche works: &lsquo;AI chip supply chain&rsquo; beats &lsquo;tech&rsquo;."
+          >
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-ink">
+                Topics <span className="font-normal text-ink-faint">(pick up to 5)</span>
+              </Label>
+              <PresetChipPicker
+                presets={NEWS_TOPIC_PRESETS}
+                value={(field.value as string[]) ?? []}
+                onChange={field.onChange}
+                max={5}
+                customPlaceholder="Add your own topic…"
+                normalize={(v) => v.trim().toLowerCase()}
+              />
+              {fieldState.error && <p className="text-xs text-red-500">{fieldState.error.message}</p>}
+            </div>
+          </SpecificityTooltip>
+        )}
       />
 
       <Controller
@@ -92,25 +88,23 @@ export function NewsForm({ defaultValues, onSubmit, disableHints }: Props) {
       <Controller
         control={form.control}
         name="sources"
-        render={({ field }) => {
-          const sources = (field.value ?? []) as string[];
-          return (
-            <div className="space-y-2">
-              <Label className="text-sm font-medium text-ink">Preferred sources <span className="font-normal text-ink-faint">(optional, max 3)</span></Label>
-              <div className="flex min-h-[44px] flex-wrap gap-1.5 rounded-lg border border-surface-border bg-white px-3 py-2">
-                {sources.map((src) => (
-                  <span key={src} className="inline-flex items-center gap-1 rounded-full bg-brand-purple-light px-2.5 py-0.5 text-xs font-medium text-brand-purple">
-                    {src}
-                    <button type="button" onClick={() => field.onChange(sources.filter((s) => s !== src))}><X className="h-3 w-3" /></button>
-                  </span>
-                ))}
-                {sources.length < 3 && (
-                  <TopicInput onAdd={(s) => { if (!sources.includes(s)) field.onChange([...sources, s]); }} placeholder="e.g. Reuters, The Verge" />
-                )}
-              </div>
-            </div>
-          );
-        }}
+        render={({ field }) => (
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-ink">
+              Preferred sources <span className="font-normal text-ink-faint">(optional, max 3)</span>
+            </Label>
+            <PresetChipPicker
+              presets={NEWS_SOURCE_PRESETS}
+              value={(field.value as string[] | undefined) ?? []}
+              onChange={field.onChange}
+              max={3}
+              customPlaceholder="Add a specific publication…"
+            />
+            <p className="text-xs text-ink-faint">
+              Pinning sources turns this into a hard whitelist. Leave empty for a mix of mainstream outlets.
+            </p>
+          </div>
+        )}
       />
 
       <Controller
@@ -133,25 +127,5 @@ export function NewsForm({ defaultValues, onSubmit, disableHints }: Props) {
         <span className="font-medium text-brand-purple">2 credits</span>.
       </p>
     </form>
-  );
-}
-
-function TopicInput({ onAdd, placeholder }: { onAdd: (t: string) => void; placeholder?: string }) {
-  return (
-    <input
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ',') {
-          e.preventDefault();
-          const val = (e.target as HTMLInputElement).value.trim().toLowerCase();
-          if (val) { onAdd(val); (e.target as HTMLInputElement).value = ''; }
-        }
-      }}
-      onBlur={(e) => {
-        const val = e.target.value.trim().toLowerCase();
-        if (val) { onAdd(val); e.target.value = ''; }
-      }}
-      placeholder={placeholder ?? 'Type a topic and press Enter…'}
-      className="min-w-[120px] flex-1 bg-transparent text-sm outline-none placeholder:text-ink-faint"
-    />
   );
 }

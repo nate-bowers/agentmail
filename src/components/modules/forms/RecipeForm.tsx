@@ -3,14 +3,11 @@
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
 import { configSchema, type RecipeConfig } from '@/lib/modules/recipe';
 import { SegmentedControl, RadioCards, OptionalTextarea } from './FormPrimitives';
 import { SpecificityTooltip } from '@/components/modules/SpecificityTooltip';
-
-const DIETARY_OPTIONS = [
-  'Vegetarian', 'Vegan', 'Gluten-free', 'Dairy-free', 'Keto', 'Halal', 'Kosher',
-];
+import { PresetChipPicker } from '@/components/modules/PresetChipPicker';
+import { RECIPE_CUISINE_PRESETS, DIETARY_PRESETS } from '@/lib/modules/presets';
 
 interface Props {
   defaultValues: Record<string, unknown>;
@@ -40,14 +37,20 @@ export function RecipeForm({ defaultValues, onSubmit, disableHints }: Props) {
           <SpecificityTooltip
             fieldId="recipe.cuisine"
             disabled={disableHints}
-            message="Specific beats vague. &lsquo;30-minute weeknight Thai with no fish sauce&rsquo; beats &lsquo;Asian food.&rsquo;"
+            message="Pick one — or type your own. &lsquo;Sichuan&rsquo; works just as well as &lsquo;Chinese.&rsquo;"
           >
             <div className="space-y-2">
-              <Label className="text-sm font-medium text-ink">Cuisine preference</Label>
-              <Input
-                value={field.value ?? ''}
-                onChange={(e) => field.onChange(e.target.value)}
-                placeholder="e.g. Italian, Japanese, Mexican, any"
+              <Label className="text-sm font-medium text-ink">Cuisine</Label>
+              {/* Single-select chip picker. The DB column stores a single
+                  string; PresetChipPicker enforces single-select via the
+                  singleSelect prop, and Other still works. */}
+              <PresetChipPicker
+                presets={RECIPE_CUISINE_PRESETS}
+                value={field.value ? [field.value as string] : ['any']}
+                onChange={(next) => field.onChange(next[0] ?? 'any')}
+                singleSelect
+                customPlaceholder="Add another cuisine…"
+                normalize={(v) => v.trim().toLowerCase()}
               />
             </div>
           </SpecificityTooltip>
@@ -57,41 +60,27 @@ export function RecipeForm({ defaultValues, onSubmit, disableHints }: Props) {
       <Controller
         control={form.control}
         name="dietary"
-        render={({ field }) => {
-          const selected = (field.value ?? []) as string[];
-          return (
-            <SpecificityTooltip
-              fieldId="recipe.dietary"
-              disabled={disableHints}
-              message="Specific beats vague. Real restrictions and goals (&lsquo;gluten-free, low-sodium, high-protein&rsquo;) work better than a single label."
-            >
-              <div className="space-y-2">
-                <Label className="text-sm font-medium text-ink">Dietary restrictions</Label>
-                <div className="flex flex-wrap gap-2">
-                  {DIETARY_OPTIONS.map((opt) => (
-                    <button
-                      key={opt}
-                      type="button"
-                      onClick={() => {
-                        const next = selected.includes(opt)
-                          ? selected.filter((s) => s !== opt)
-                          : [...selected, opt];
-                        field.onChange(next);
-                      }}
-                      className={`rounded-full px-3 py-1 text-sm transition-colors ${
-                        selected.includes(opt)
-                          ? 'bg-brand-purple text-white'
-                          : 'border border-surface-border bg-white text-ink hover:border-brand-purple'
-                      }`}
-                    >
-                      {opt}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </SpecificityTooltip>
-          );
-        }}
+        render={({ field }) => (
+          <SpecificityTooltip
+            fieldId="recipe.dietary"
+            disabled={disableHints}
+            message="Stack as many as apply. Real restrictions (&lsquo;gluten-free, low-sodium, high-protein&rsquo;) work better than a single label."
+          >
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-ink">
+                Dietary restrictions <span className="font-normal text-ink-faint">(optional, max 5)</span>
+              </Label>
+              <PresetChipPicker
+                presets={DIETARY_PRESETS}
+                value={(field.value as string[] | undefined) ?? []}
+                onChange={field.onChange}
+                max={5}
+                customPlaceholder="Add another restriction…"
+                normalize={(v) => v.trim().toLowerCase()}
+              />
+            </div>
+          </SpecificityTooltip>
+        )}
       />
 
       <Controller

@@ -4,7 +4,9 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@/components/ui/label';
 import { configSchema, type PodcastConfig } from '@/lib/modules/podcast';
-import { TagInput, RadioCards, OptionalInput } from './FormPrimitives';
+import { RadioCards, OptionalInput } from './FormPrimitives';
+import { PresetChipPicker } from '@/components/modules/PresetChipPicker';
+import { PODCAST_INTEREST_PRESETS } from '@/lib/modules/presets';
 
 interface Props {
   defaultValues: Record<string, unknown>;
@@ -28,15 +30,19 @@ export function PodcastForm({ defaultValues, onSubmit }: Props) {
         control={form.control}
         name="interests"
         render={({ field, fieldState }) => (
-          <div>
-            <TagInput
-              values={field.value as string[]}
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-ink">
+              Interests <span className="font-normal text-ink-faint">(pick up to 4)</span>
+            </Label>
+            <PresetChipPicker
+              presets={PODCAST_INTEREST_PRESETS}
+              value={(field.value as string[]) ?? []}
               onChange={field.onChange}
-              placeholder="Type an interest and press Enter…"
               max={4}
-              label="Interests"
+              customPlaceholder="Add an interest…"
+              normalize={(v) => v.trim().toLowerCase()}
             />
-            {fieldState.error && <p className="mt-1 text-xs text-red-500">{fieldState.error.message}</p>}
+            {fieldState.error && <p className="text-xs text-red-500">{fieldState.error.message}</p>}
           </div>
         )}
       />

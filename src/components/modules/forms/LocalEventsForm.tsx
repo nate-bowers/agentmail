@@ -7,16 +7,8 @@ import { Input } from '@/components/ui/input';
 import { configSchema, type EventsConfig } from '@/lib/modules/events';
 import { RadioCards, OptionalInput } from './FormPrimitives';
 import { SpecificityTooltip } from '@/components/modules/SpecificityTooltip';
-
-const CATEGORY_OPTIONS = [
-  { value: 'music', label: 'Music 🎵' },
-  { value: 'food & drink', label: 'Food & Drink 🍷' },
-  { value: 'outdoor', label: 'Outdoor 🌿' },
-  { value: 'art & culture', label: 'Art & Culture 🎨' },
-  { value: 'sports', label: 'Sports 🏅' },
-  { value: 'networking', label: 'Networking 💼' },
-  { value: 'family', label: 'Family 👨‍👩‍👧' },
-];
+import { PresetChipPicker } from '@/components/modules/PresetChipPicker';
+import { LOCAL_EVENTS_CATEGORY_PRESETS } from '@/lib/modules/presets';
 
 interface Props {
   defaultValues: Record<string, unknown>;
@@ -71,42 +63,28 @@ export function LocalEventsForm({ defaultValues, onSubmit, disableHints }: Props
       <Controller
         control={form.control}
         name="categories"
-        render={({ field, fieldState }) => {
-          const selected = (field.value ?? []) as string[];
-          return (
-            <SpecificityTooltip
-              fieldId="local_events.categories"
-              disabled={disableHints}
-              message="Specific interests get specific events. &lsquo;Live jazz, indie film, food pop-ups&rsquo; beats &lsquo;things to do.&rsquo;"
-            >
-              <div className="space-y-2">
-                <Label className="text-sm font-medium text-ink">Categories</Label>
-                <div className="flex flex-wrap gap-2">
-                  {CATEGORY_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      onClick={() => {
-                        const next = selected.includes(opt.value)
-                          ? selected.filter((s) => s !== opt.value)
-                          : [...selected, opt.value];
-                        field.onChange(next);
-                      }}
-                      className={`rounded-full px-3 py-1 text-sm transition-colors ${
-                        selected.includes(opt.value)
-                          ? 'bg-brand-purple text-white'
-                          : 'border border-surface-border bg-white text-ink hover:border-brand-purple'
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-                {fieldState.error && <p className="text-xs text-red-500">{fieldState.error.message}</p>}
-              </div>
-            </SpecificityTooltip>
-          );
-        }}
+        render={({ field, fieldState }) => (
+          <SpecificityTooltip
+            fieldId="local_events.categories"
+            disabled={disableHints}
+            message="Specific interests get specific events. &lsquo;Live jazz, indie film, food pop-ups&rsquo; beats &lsquo;things to do.&rsquo;"
+          >
+            <div className="space-y-2">
+              <Label className="text-sm font-medium text-ink">
+                Categories <span className="font-normal text-ink-faint">(pick up to 5)</span>
+              </Label>
+              <PresetChipPicker
+                presets={LOCAL_EVENTS_CATEGORY_PRESETS}
+                value={(field.value as string[] | undefined) ?? []}
+                onChange={field.onChange}
+                max={5}
+                customPlaceholder="Add a category…"
+                normalize={(v) => v.trim().toLowerCase()}
+              />
+              {fieldState.error && <p className="text-xs text-red-500">{fieldState.error.message}</p>}
+            </div>
+          </SpecificityTooltip>
+        )}
       />
 
       <Controller
