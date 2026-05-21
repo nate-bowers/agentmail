@@ -1197,7 +1197,7 @@ export default function OnboardingModal({
             onClick={handleSkip}
             aria-label="Close setup"
             title="Close setup. You can finish anytime from your dashboard."
-            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-ink-muted hover:text-ink hover:bg-surface-muted transition-colors"
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-ink-muted hover:text-ink hover:bg-surface-secondary transition-colors"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <line x1="18" y1="6" x2="6" y2="18" />

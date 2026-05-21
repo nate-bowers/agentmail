@@ -85,6 +85,30 @@ export default function ResetPasswordForm() {
     );
   }
 
+  // Skeleton while the session check resolves — previously the full form
+  // rendered with only the button disabled, which flashed for users on slow
+  // networks and read as "fully usable, then mysteriously locked".
+  if (hasSession === null) {
+    return (
+      <div
+        role="status"
+        aria-label="Verifying reset link"
+        className="rounded-2xl border border-surface-border bg-white p-8 shadow-sm space-y-4 max-w-md w-full"
+      >
+        <div className="h-6 w-44 animate-pulse rounded bg-surface-secondary" />
+        <div className="h-4 w-56 animate-pulse rounded bg-surface-secondary" />
+        <div className="space-y-2">
+          <div className="h-3 w-24 animate-pulse rounded bg-surface-secondary" />
+          <div className="h-11 w-full animate-pulse rounded-md bg-surface-secondary md:h-9" />
+        </div>
+        <div className="space-y-2">
+          <div className="h-3 w-20 animate-pulse rounded bg-surface-secondary" />
+          <div className="h-11 w-full animate-pulse rounded-md bg-surface-secondary md:h-9" />
+        </div>
+      </div>
+    );
+  }
+
   // Expired or missing recovery session.
   if (hasSession === false) {
     return (
@@ -147,7 +171,7 @@ export default function ResetPasswordForm() {
           </div>
         )}
 
-        <Button type="submit" className="w-full" disabled={loading || hasSession === null}>
+        <Button type="submit" className="w-full" disabled={loading}>
           {loading ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
