@@ -100,6 +100,7 @@ export default function TermsPage() {
         {/* Footer nav */}
         <div className="mt-16 flex gap-4 border-t border-gray-100 pt-8 text-sm text-[#999]">
           <Link href="/" className="hover:text-[#333] transition-colors">← Back to home</Link>
+          <Link href="/help" className="hover:text-[#333] transition-colors">Help</Link>
           <Link href="/privacy" className="hover:text-[#333] transition-colors">Privacy Policy</Link>
         </div>
       </main>

@@ -511,6 +511,7 @@ function Footer() {
             { href: '/login', label: 'Sign in' },
             { href: '/signup', label: 'Get started' },
             { href: '/dashboard/upgrade', label: 'Pricing' },
+            { href: '/help', label: 'Help' },
             { href: '/terms', label: 'Terms' },
             { href: '/privacy', label: 'Privacy' },
             { href: '/status', label: 'Status' },
