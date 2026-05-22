@@ -6,6 +6,7 @@ import { buildSearchInstructions } from '@/lib/modules';
 import { generateDailyBrief } from '@/lib/email/generate';
 import { prepareBriefBeforeClaude, applyWeatherErrorSection, refineNewsInSections, stripErrorAndDuplicateSections } from '@/lib/email/briefPrep';
 import { getBusinessMailingAddress } from '@/lib/email/compliance';
+import { rateLimit } from '@/lib/security/rateLimit';
 import DailyBriefEmail from '@/components/email/DailyBriefEmail';
 import type { ModuleRow, Profile } from '@/types';
 
@@ -14,6 +15,22 @@ export async function POST(request: Request) {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+    // 10 previews per hour per user. Each preview burns Claude tokens, so
+    // an unauthenticated abuse path here would be very expensive.
+    const limit = await rateLimit(`preview_html:${user.id}`, 10, 60 * 60 * 1000);
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: 'rate_limited', message: 'Too many previews. Try again later.' },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': new Date(limit.resetAt).toISOString(),
+          },
+        },
+      );
+    }
 
     const body = await request.json().catch(() => ({}));
     const themeOverride = body?.theme as string | undefined;

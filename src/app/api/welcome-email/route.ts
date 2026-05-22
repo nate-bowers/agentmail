@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { sendWelcomeEmail } from '@/lib/email/sendWelcome';
+import { rateLimit } from '@/lib/security/rateLimit';
 
 // One-time welcome email triggered at signup. Idempotent: re-firing the
 // trigger on an already-welcomed profile observes `welcome_email_sent`
@@ -20,6 +21,17 @@ export async function POST() {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+    // 5 calls per hour per user is more than enough. The idempotency flag
+    // protects against double-sends; this protects against someone
+    // hammering the route after the flag flips.
+    const limit = await rateLimit(`welcome_email:${user.id}`, 5, 60 * 60 * 1000);
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: 'rate_limited' },
+        { status: 429 },
+      );
+    }
 
     const result = await sendWelcomeEmail(user.id);
 

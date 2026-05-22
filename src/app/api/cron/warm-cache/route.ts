@@ -10,6 +10,7 @@ import { getDailyCache, setDailyCache } from '@/lib/email/dailycache';
 import { fetchHistoryEvents } from '@/lib/fetchers/history';
 import { generateDailyBrief } from '@/lib/email/generate';
 import { buildSearchInstructions } from '@/lib/modules';
+import { adminClient } from '@/lib/supabase/admin';
 import type { ModuleRow } from '@/types';
 
 const DEFAULT_AI_TECH_SUBTOPICS = ['AI Models', 'Open Source', 'Big Tech', 'Startups'];
@@ -82,6 +83,19 @@ export async function GET(request: NextRequest) {
     }
   } catch (err) {
     results.ai_tech = `error: ${err}`;
+  }
+
+  // Sweep expired rate-limit rows. Cheap and bounded — Postgres function
+  // does the delete in a single statement. Errors here are non-fatal.
+  try {
+    const { data: purged, error } = await adminClient.rpc('purge_expired_rate_limits');
+    if (error) {
+      results.rate_limits = `purge error: ${error.message}`;
+    } else {
+      results.rate_limits = `purged ${purged ?? 0} expired row(s)`;
+    }
+  } catch (err) {
+    results.rate_limits = `purge threw: ${err}`;
   }
 
   console.log('[WarmCache] Done:', results);

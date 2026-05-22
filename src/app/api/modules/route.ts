@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const limit = rateLimit(`create_module:${user.id}`, 20, 60 * 60 * 1000);
+    const limit = await rateLimit(`create_module:${user.id}`, 20, 60 * 60 * 1000);
     if (!limit.allowed) {
       return NextResponse.json({ error: 'Too many requests.' }, { status: 429 });
     }

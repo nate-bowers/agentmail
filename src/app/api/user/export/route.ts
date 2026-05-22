@@ -12,7 +12,7 @@ export async function GET() {
   }
 
   // 5 requests per hour per user
-  const limit = rateLimit(`data_export:${user.id}`, 5, 60 * 60 * 1000);
+  const limit = await rateLimit(`data_export:${user.id}`, 5, 60 * 60 * 1000);
   if (!limit.allowed) {
     return NextResponse.json(
       { error: 'Too many export requests. Try again later.' },

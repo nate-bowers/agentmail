@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
   const email = parsed.data.email.trim().toLowerCase();
 
   // Per-email cap: 3 reset attempts per hour. Protects against spam and abuse.
-  const emailLimit = rateLimit(`forgot-password:email:${email}`, 3, 60 * 60 * 1000);
+  const emailLimit = await rateLimit(`forgot-password:email:${email}`, 3, 60 * 60 * 1000);
   if (!emailLimit.allowed) {
     // Stay generic even on rate-limit (don't tell the caller their email is being targeted).
     return NextResponse.json(GENERIC_RESPONSE);
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim()
     ?? request.headers.get('x-real-ip')
     ?? 'unknown';
-  const ipLimit = rateLimit(`forgot-password:ip:${ip}`, 10, 60 * 60 * 1000);
+  const ipLimit = await rateLimit(`forgot-password:ip:${ip}`, 10, 60 * 60 * 1000);
   if (!ipLimit.allowed) {
     return NextResponse.json(GENERIC_RESPONSE);
   }

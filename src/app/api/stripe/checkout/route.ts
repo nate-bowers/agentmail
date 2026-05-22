@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     }
     console.log('[Checkout] User:', user.id);
 
-    const limit = rateLimit(`checkout:${user.id}`, 5, 60 * 60 * 1000);
+    const limit = await rateLimit(`checkout:${user.id}`, 5, 60 * 60 * 1000);
     if (!limit.allowed) {
       return NextResponse.json(
         { error: 'Too many checkout attempts. Try again later.' },
