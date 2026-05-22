@@ -3,6 +3,7 @@ import type Stripe from 'stripe';
 import { stripe } from '@/lib/stripe/client';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { log } from '@/lib/log';
+import { trimModulesToFreeTier } from '@/lib/modules/trimToFreeTier';
 import type { PlanId } from '@/lib/stripe/plans';
 
 function getPlanIdFromPriceId(priceId: string): PlanId {
@@ -123,10 +124,12 @@ export async function POST(request: NextRequest) {
         effectivePlan,
       });
 
-      const { error } = await admin
+      const { data: updated, error } = await admin
         .from('profiles')
         .update({ subscription_status: effectivePlan })
-        .eq('stripe_customer_id', customerId);
+        .eq('stripe_customer_id', customerId)
+        .select('id')
+        .maybeSingle();
 
       if (error) {
         if (error.code === '23514') {
@@ -141,6 +144,17 @@ export async function POST(request: NextRequest) {
           });
         }
         return NextResponse.json({ error: 'DB update failed' }, { status: 500 });
+      }
+
+      // When the effective plan is free, trim the user's modules to the
+      // free-tier credit budget. Otherwise re-upgrades + re-cancels would
+      // leave a user with 12 modules on the free plan dashboard.
+      if (effectivePlan === 'free' && updated?.id) {
+        const trim = await trimModulesToFreeTier(updated.id);
+        log.info('stripe-webhook', 'trimmed modules to free tier on downgrade', {
+          userId: updated.id,
+          ...trim,
+        });
       }
       break;
     }
@@ -186,10 +200,12 @@ export async function POST(request: NextRequest) {
 
       log.info('stripe-webhook', 'customer.subscription.deleted', { customerId });
 
-      const { error } = await admin
+      const { data: updated, error } = await admin
         .from('profiles')
         .update({ subscription_status: 'free' })
-        .eq('stripe_customer_id', customerId);
+        .eq('stripe_customer_id', customerId)
+        .select('id')
+        .maybeSingle();
 
       if (error) {
         if (error.code === '23514') {
@@ -204,6 +220,14 @@ export async function POST(request: NextRequest) {
           });
         }
         return NextResponse.json({ error: 'DB update failed' }, { status: 500 });
+      }
+
+      if (updated?.id) {
+        const trim = await trimModulesToFreeTier(updated.id);
+        log.info('stripe-webhook', 'trimmed modules to free tier on cancellation', {
+          userId: updated.id,
+          ...trim,
+        });
       }
       break;
     }
