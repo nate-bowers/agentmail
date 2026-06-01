@@ -137,6 +137,33 @@ const NO_SEARCH_MODULES = new Set([
 ]);
 
 // ─────────────────────────────────────────────────────────────
+// Stable system prompt — cached across all users via Anthropic
+// prompt caching. Everything here is identical request-to-request.
+// ─────────────────────────────────────────────────────────────
+
+const SYSTEM_PROMPT = `You are a generation engine for a personalized daily email brief. You receive a list of sections to produce and return a single JSON object containing those sections.
+
+OUTPUT FORMAT:
+Respond with ONLY a valid JSON object — no text before or after, no markdown fences, no comments.
+Set "intro" to "".
+If you cannot find real, fresh content for a particular section (the web search returned nothing useful, the source is down, the query has no real results today), output that section as { "type": "<moduleType>", "data": { "error": true } } and OMIT every other field. Do NOT fabricate placeholder values like "Unavailable", "No data", "N/A", "TBD", "0", empty strings, or filler entries — those make the email worse than a missing section. We would rather drop the section than mislead the reader.
+
+SEARCH RULES:
+LIVE — run one web_search. Run a second only if the first returned nothing useful.
+STATIC — do not search; generate from training knowledge.
+
+SCHEMA REFERENCE (the user message specifies which of these to actually include):
+${Object.values(SCHEMA_MAP).join('\n')}
+
+OUTPUT RULES:
+"direction" fields take "up", "down", or "flat". Sports "result" takes "win", "loss", or "draw". Missing strings default to "Unavailable", missing numbers to 0.
+
+HARD STYLE RULES (apply to every text field in every section):
+- Do not use em dashes or en dashes anywhere. Use commas, semicolons, periods, or restructure the sentence.
+- Do not use citation markers ([1], [2], <cite>, etc.).
+- Do not start sentences with "Did you know" or "Reportedly".`;
+
+// ─────────────────────────────────────────────────────────────
 // Prompt builder
 // ─────────────────────────────────────────────────────────────
 
@@ -193,25 +220,16 @@ ${JSON.stringify(prefetched)}`;
     })
     .join('\n\n');
 
-  return `OUTPUT FORMAT:
-Respond with ONLY a valid JSON object — no text before or after, no markdown fences, no comments.
-Set "intro" to "".
-If you cannot find real, fresh content for a particular section (the web search returned nothing useful, the source is down, the query has no real results today), output that section as { "type": "<moduleType>", "data": { "error": true } } and OMIT every other field. Do NOT fabricate placeholder values like "Unavailable", "No data", "N/A", "TBD", "—", "0", empty strings, or filler entries — those make the email worse than a missing section. We would rather drop the section than mislead the reader.
-${itemLimitsDirective}
-
-USER:
+  return `USER:
 Name: ${firstName}
 Date: ${date}
 Style: ${verbosityDirective}${commentaryDirective ? ` ${commentaryDirective}` : ''}
-
-SEARCH RULES:
-✓ LIVE — run one web_search. Run a second only if the first returned nothing useful.
-⚠ STATIC — do not search; generate from training knowledge.
+${itemLimitsDirective}
 
 SECTIONS:
 ${instructionBlock}
 
-SCHEMA (sections: ${sectionOrder}):
+ACTIVE SCHEMA (sections: ${sectionOrder}):
 ${buildSchemaDescription(instructions)}
 
 RESPOND WITH:
@@ -221,13 +239,7 @@ RESPOND WITH:
     ${instructions.map((m) => `{ "type": "${m.moduleType}", "data": { ... } }`).join(',\n    ')}
   ]
 }
-Exact order: ${sectionOrder}. Missing strings → "Unavailable", missing numbers → 0.
-"direction": "up"|"down"|"flat". Sports "result": "win"|"loss"|"draw".
-
-HARD STYLE RULES (apply to every text field in every section):
-- Do not use em dashes (—) or en dashes (–) anywhere. Use commas, semicolons, periods, or restructure the sentence.
-- Do not use citation markers ([1], [2], <cite>, etc.).
-- Do not start sentences with "Did you know" or "Reportedly".`;
+Exact order: ${sectionOrder}.`;
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -281,15 +293,28 @@ export async function generateDailyBrief(
   const response = await getClient().messages.create({
     model: 'claude-haiku-4-5-20251001',
     max_tokens: maxTokens,
+    system: [
+      {
+        type: 'text',
+        text: SYSTEM_PROMPT,
+        cache_control: { type: 'ephemeral' },
+      },
+    ],
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     tools: [{ type: 'web_search_20250305', name: 'web_search' }] as any,
     messages: [{ role: 'user', content: prompt }],
   });
 
-  const inputTokens = response.usage?.input_tokens ?? 0;
-  const outputTokens = response.usage?.output_tokens ?? 0;
+  const usage = response.usage as (typeof response.usage) & {
+    cache_creation_input_tokens?: number;
+    cache_read_input_tokens?: number;
+  };
+  const inputTokens = usage?.input_tokens ?? 0;
+  const outputTokens = usage?.output_tokens ?? 0;
+  const cacheRead = usage?.cache_read_input_tokens ?? 0;
+  const cacheWrite = usage?.cache_creation_input_tokens ?? 0;
   const tokensUsed = outputTokens;
-  console.log(`[Generate] Done for ${user.email} | tokens: ${inputTokens} in / ${outputTokens} out`);
+  console.log(`[Generate] Done for ${user.email} | tokens: ${inputTokens} in / ${outputTokens} out | cache: ${cacheRead} read / ${cacheWrite} write`);
 
   const rawText = response.content
     .filter((block): block is Anthropic.TextBlock => block.type === 'text')
