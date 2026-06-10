@@ -24,6 +24,11 @@ export const maxDuration = 60;
 
 let isRunning = false;
 
+// PAUSE SWITCH — defaults to paused. To resume, either:
+//   (a) set env var SEND_BRIEFS_PAUSED=false in Vercel (no redeploy needed for next cron run), or
+//   (b) flip this default to 'false' and redeploy.
+const PAUSED_DEFAULT = 'true';
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars -- re-enable on Pro plan (see TODO below)
 function isSendTime(sendTime: string, timezone: string): boolean {
   try {
@@ -84,6 +89,13 @@ export async function GET(request: NextRequest) {
   const token = authHeader?.replace('Bearer ', '') ?? '';
   if (!verifyCronSecret(token)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  // PAUSED — email sending temporarily disabled. See PAUSED_DEFAULT above to resume.
+  const paused = (process.env.SEND_BRIEFS_PAUSED ?? PAUSED_DEFAULT) !== 'false';
+  if (paused) {
+    console.log('[Cron] Send-briefs paused — early return.');
+    return NextResponse.json({ paused: true, timestamp: new Date().toISOString() });
   }
 
   // Rate limit
