@@ -4,7 +4,7 @@
 
 **The morning newspaper, rebuilt for you.**
 
-A daily email that you design. Pick what you want to read about — weather, markets, AI news, a workout, a stoic quote — and an AI researches it fresh every morning and delivers a single, beautifully formatted email to your inbox.
+A daily email that you design. Pick what you want to read about (weather, markets, AI news, a workout, a stoic quote), and an AI researches it fresh every morning and sends it to your inbox.
 
 ### [→ dailybriefmail.com](https://dailybriefmail.com)
 
@@ -14,13 +14,13 @@ A daily email that you design. Pick what you want to read about — weather, mar
 
 ## What it is
 
-Daily Brief is a build-your-own newsletter. You don't subscribe to someone else's editorial taste — you subscribe to your own.
+Daily Brief is a build-your-own newsletter. Instead of subscribing to someone else's editorial taste, you subscribe to your own.
 
-You assemble your brief from a library of modules. Each morning at the time you choose, an AI agent goes out to the live web, gathers the information for each module, writes it in your preferred tone and length, and emails it to you. No app to open. No feed to scroll. Just one email, in your inbox, before your coffee.
+You assemble your brief from a library of modules. Each morning at the time you choose, an AI agent goes out to the live web, gathers the information for each module, writes it in your preferred tone and length, and emails it to you. No app to open, no feed to scroll, just one email in your inbox before your coffee.
 
 ## Why it exists
 
-Most "AI newsletters" are scheduled blasts written for an average reader. This one is generated *per user, per day* — your weather is your zip code's weather, your news is filtered to the topics you care about, your markets watchlist is the tickers you own. The brief is yours.
+Most AI newsletters are scheduled blasts written for an average reader. This one is generated *per user, per day*. Your weather is your zip code's weather, your news is filtered to the topics you care about, your markets watchlist is the tickers you actually own.
 
 ## What you can put in it
 
@@ -45,18 +45,16 @@ Free plan: 3 modules. Pro plan ($9/mo): up to 12 modules, plus richer module opt
 ## How it works
 
 1. **Sign up** at [dailybriefmail.com](https://dailybriefmail.com)
-2. **Build your brief** — pick modules from the dashboard, configure each one (your city, your topics, your tickers)
-3. **Pick a send time** — any time, any timezone
-4. **Preview it** — send a test email to yourself anytime
-5. **Wait for morning** — the brief lands in your inbox
-
-That's the whole product.
+2. **Build your brief**: pick modules from the dashboard, configure each one (your city, your topics, your tickers)
+3. **Pick a send time**: any time, any timezone
+4. **Preview it**: send a test email to yourself anytime
+5. **Wait for morning**: the brief lands in your inbox
 
 ## Under the hood
 
-The interesting bit is how the email gets written. Every morning, a cron job picks up users due for delivery, loads each user's module configuration, and assembles a single prompt for Claude that describes — in natural language — exactly what to search for. Claude runs live web searches inside the API call, gathers real-time information, and returns a structured JSON response. The JSON is rendered into a clean, inline-styled HTML email and shipped through Resend.
+Every morning, a cron job picks up users due for delivery, loads each user's module configuration, and assembles a single prompt for Claude that describes (in natural language) exactly what to search for. Claude runs live web searches inside the API call, gathers real-time information, and returns a structured JSON response. The JSON is rendered into a clean, inline-styled HTML email and shipped through Resend.
 
-The whole flow — from cron trigger to delivered email — runs in under a minute per user.
+The whole flow, from cron trigger to delivered email, runs in under a minute per user.
 
 ## Architecture
 
@@ -172,7 +170,7 @@ Database schema lives in `supabase/migrations/`. Run them in order against a fre
 
 ## Adding a new module
 
-The architecture is designed for this — each module is a single file that declares its config schema, a points cost, a natural-language search instruction, and an email renderer. Step-by-step checklist in [`ARCHITECTURE.md`](./ARCHITECTURE.md#part-8-how-to-add-a-new-module-checklist).
+The architecture is designed for this. Each module is a single file that declares its config schema, a points cost, a natural-language search instruction, and an email renderer. Step-by-step checklist in [`ARCHITECTURE.md`](./ARCHITECTURE.md#part-8-how-to-add-a-new-module-checklist).
 
 ## Project layout
 
@@ -196,11 +194,11 @@ supabase/migrations/        # database schema
 
 ## Status
 
-Live in production at [dailybriefmail.com](https://dailybriefmail.com). Sending real briefs to real users.
+Live in production at [dailybriefmail.com](https://dailybriefmail.com).
 
 ## License
 
-Private project — not currently open for contributions.
+Private project, not currently open for contributions.
 
 ---
 
