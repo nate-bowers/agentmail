@@ -58,6 +58,89 @@ The interesting bit is how the email gets written. Every morning, a cron job pic
 
 The whole flow — from cron trigger to delivered email — runs in under a minute per user.
 
+## Architecture
+
+How the pieces fit together:
+
+```mermaid
+flowchart LR
+    User([You])
+
+    subgraph Vercel["Next.js on Vercel"]
+        UI[Dashboard<br/>Builder UI]
+        API[API Routes<br/>modules · stripe · auth]
+        Cron[Daily Cron<br/>send-briefs]
+    end
+
+    subgraph Supabase["Supabase"]
+        DB[(Postgres<br/>profiles · modules<br/>email_logs)]
+        Auth[Auth]
+    end
+
+    Claude[["Anthropic Claude<br/>Sonnet 4.6<br/>+ web_search tool"]]
+    Web[("Live Web<br/>news · weather · markets")]
+    Resend[Resend]
+    Stripe[Stripe<br/>$9/mo Pro]
+    Inbox([Your Inbox])
+
+    User -->|configure modules| UI
+    UI <--> API
+    API <--> DB
+    User <--> Auth
+    API <--> Stripe
+    Cron -->|read users + modules| DB
+    Cron -->|prompt + tools| Claude
+    Claude <-->|live searches| Web
+    Cron -->|inline-styled HTML| Resend
+    Resend --> Inbox
+    Cron -->|log result| DB
+
+    classDef vercel fill:#0b0b0b,stroke:#0b0b0b,color:#fff
+    classDef supabase fill:#e6f4ea,stroke:#3ecf8e,color:#0a3d2c
+    classDef ai fill:#f4e8ff,stroke:#7c3aed,color:#3b0764
+    classDef external fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef edge fill:#eef2ff,stroke:#4f46e5,color:#1e1b4b
+
+    class UI,API,Cron vercel
+    class DB,Auth supabase
+    class Claude ai
+    class Web,Resend,Stripe external
+    class User,Inbox edge
+```
+
+## What happens each morning
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Cron as Vercel Cron
+    participant API as /api/cron/send-briefs
+    participant DB as Supabase
+    participant Claude as Claude + web_search
+    participant Resend
+    participant Inbox as Your Inbox
+
+    Cron->>API: GET (Bearer CRON_SECRET)
+    API->>DB: select active users + modules
+    DB-->>API: user rows + module configs
+
+    loop for each user due to send
+        API->>API: skip if already sent today (dedupe)
+        API->>API: assemble prompt from module configs
+        API->>Claude: messages.create with web_search tool
+        Claude->>Claude: run multiple live web searches
+        Claude-->>API: structured JSON (one section per module)
+        API->>API: render React Email -> inline-styled HTML
+        API->>Resend: send email
+        Resend-->>Inbox: deliver
+        API->>DB: insert into email_logs
+    end
+
+    API-->>Cron: aggregate counts (attempted / succeeded / failed)
+```
+
+Steps 4 through 11 run in parallel across users via `Promise.allSettled`, so one user's failed search never blocks anyone else's brief.
+
 ## Stack
 
 - **Next.js 14** (App Router) + **TypeScript** + **Tailwind** + **shadcn/ui**
